@@ -13,6 +13,8 @@
 #import "NSObject+JsON.h"
 #import "NSData+Crypto.h"
 
+#import "MKMImmortals.h"
+
 @interface MingKeMingTests : XCTestCase
 
 @end
@@ -125,6 +127,20 @@
     NSLog(@"ID: %@", ID);
     
     NSAssert([meta matchID:ID], @"error");
+    
+}
+
+- (void)testAccount {
+    
+    MKMImmortals *immortals = [[MKMImmortals alloc] init];
+    MKMFacebook().userDelegate = immortals;
+    
+    MKMID *ID = [MKMID IDWithID:MKM_MONKEY_KING_ID];
+    MKMUser *user = MKMUserWithID(ID);
+    
+    NSLog(@"%@ => %@", ID, user);
+    NSLog(@"SK: %@", user.privateKey);
+    NSAssert([user.publicKey isMatch:user.privateKey], @"error");
     
 }
 
