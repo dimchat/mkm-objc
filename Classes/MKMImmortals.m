@@ -46,7 +46,7 @@
     return self;
 }
 
-- (MKMUser *)_loadBuiltInAccount:(NSString *)filename {
+- (MKMRegisterInfo *)_loadBuiltInAccount:(NSString *)filename {
     NSBundle *bundle = [NSBundle bundleForClass:[self class]];//[NSBundle mainBundle];
     NSString *path = [bundle pathForResource:filename ofType:@"plist"];
     NSFileManager *fm = [NSFileManager defaultManager];
@@ -91,18 +91,25 @@
         SK = nil;
     }
     
-    // create user & contact
+    // create contact & user
+    MKMContact *contact = [[MKMContact alloc] initWithID:ID publicKey:meta.key];
+    [_contactTable setObject:contact forKey:ID.address];
+    
     MKMUser *user = [[MKMUser alloc] initWithID:ID publicKey:meta.key];
     user.privateKey = SK;
     [_userTable setObject:user forKey:ID.address];
     
-    MKMContact *contact = [[MKMContact alloc] initWithID:ID publicKey:meta.key];
-    [_contactTable setObject:contact forKey:ID.address];
-    
 //#if DEBUG
 //    [[DKDClient sharedInstance] addUser:user];
 //#endif
-    return user;
+    
+    MKMRegisterInfo *info = [[MKMRegisterInfo alloc] init];
+    info.privateKey = SK;
+    info.publicKey = SK.publicKey;
+    info.meta = meta;
+    info.ID = ID;
+    info.user = user;
+    return info;
 }
 
 #pragma mark - Delegates
