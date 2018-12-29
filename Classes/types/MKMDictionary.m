@@ -79,9 +79,9 @@
     return [_storeDictionary objectEnumerator];
 }
 
-//@end
-//
-//@implementation MKMDictionary (Mutable)
+@end
+
+@implementation MKMDictionary (Mutable)
 
 - (instancetype)initWithCapacity:(NSUInteger)numItems {
     if (self = [self init]) {

@@ -36,9 +36,9 @@ NS_DESIGNATED_INITIALIZER;
 - (NSEnumerator *)keyEnumerator;
 - (NSEnumerator *)objectEnumerator;
 
-//@end
-//
-//@interface MKMDictionary (Mutable)
+@end
+
+@interface MKMDictionary (Mutable)
 
 - (instancetype)initWithCapacity:(NSUInteger)numItems
 /* NS_DESIGNATED_INITIALIZER */;
