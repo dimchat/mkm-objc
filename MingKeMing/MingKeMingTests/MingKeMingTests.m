@@ -138,7 +138,7 @@
     MKMID *ID = [MKMID IDWithID:MKM_MONKEY_KING_ID];
     MKMUser *user = MKMUserWithID(ID);
     
-    NSLog(@"%@ => %@", ID, user);
+    NSLog(@"user: %@", user);
     NSLog(@"SK: %@", user.privateKey);
     NSAssert([user.publicKey isMatch:user.privateKey], @"error");
     
