@@ -12,6 +12,7 @@
 
 #import "NSObject+JsON.h"
 #import "NSData+Crypto.h"
+#import "NSString+Crypto.h"
 
 #import "MKMImmortals.h"
 
@@ -73,15 +74,37 @@
     NSString *string = @"moky";
     NSData *data = [string data];
     
-    MKMSymmetricKey *key = [[MKMSymmetricKey alloc] init];
-    NSLog(@"key: %@", key);
+    MKMSymmetricKey *key;
     
-    NSData *CT = [key encrypt:data];
-    NSData *dec = [key decrypt:CT];
+    NSData *CT;
+    NSData *dec;
+    
+    NSString *keyInfo = @"{\"algorithm\": \"AES\", \"data\": \"C2+xGizLL1G1+z9QLPYNdp/bPP/seDvNw45SXPAvQqk=\", \"iv\": \"SxPwi6u4+ZLXLdAFJezvSQ==\"}";
+    
+    // 1
+    key = [[MKMSymmetricKey alloc] initWithJSONString:keyInfo];
+    CT = [key encrypt:data];
+    dec = [key decrypt:CT];
+    NSLog(@"key: %@", key);
     NSLog(@"%@ -> %@ -> %@", string, [CT base64Encode], [dec UTF8String]);
     NSAssert([dec isEqual:data], @"en/decrypt error");
     
-    NSLog(@"key: %@", key);
+    string = @"XX5qfromb3R078VVK7LwVA==";
+    CT = [string base64Decode];
+    dec = [key decrypt:CT];
+    NSLog(@"%@ -> %@", string, [dec UTF8String]);
+    dec = [key decrypt:CT];
+    NSLog(@"%@ -> %@", string, [dec UTF8String]);
+
+    
+//    // 2
+//    key = [[MKMSymmetricKey alloc] init];
+//    NSLog(@"key: %@", key);
+//    CT = [key encrypt:data];
+//    NSLog(@"key: %@", key);
+//    dec = [key decrypt:CT];
+//    NSLog(@"%@ -> %@ -> %@", string, [CT base64Encode], [dec UTF8String]);
+//    NSAssert([dec isEqual:data], @"en/decrypt error");
     
 }
 
@@ -135,12 +158,32 @@
     MKMImmortals *immortals = [[MKMImmortals alloc] init];
     MKMFacebook().userDelegate = immortals;
     
-    MKMID *ID = [MKMID IDWithID:MKM_MONKEY_KING_ID];
+    MKMID *ID = [MKMID IDWithID:MKM_IMMORTAL_HULK_ID];
     MKMUser *user = MKMUserWithID(ID);
     
     NSLog(@"user: %@", user);
     NSLog(@"SK: %@", user.privateKey);
     NSAssert([user.publicKey isMatch:user.privateKey], @"error");
+    
+    NSString *string;
+    NSData *data;
+    string = @"WH/wAcu+HfpaLq+vRblNnYufkyjTm4FgYyzW3wBDeRtXs1TeDmRxKVu7"
+    "nQI/sdIALGLXrY+O5mlRfhU8f8TuIBilZUlX/eIUpL4uSDYKVLaRG9pO"
+    "crCHKevjUpId9x/8KBEiMIL5LB0Vo7sKrvrqosCnIgNfHbXMKvMzwcqZ"
+    "EU8=";
+    data = [string base64Decode];
+    data = [user.privateKey decrypt:data];
+    string = [data UTF8String];
+    NSLog(@"RSA decrypt: %@", string);
+    
+    MKMSymmetricKey *pw;
+    pw = [[MKMSymmetricKey alloc] initWithJSONString:string];
+    
+    string = @"9cjCKG99ULCCxbL2mkc/MgF1saeRqJaCc+S12+HCqmsuF7TWK61EwTQWZSKskUeF";
+    data = [string base64Decode];
+    data = [pw decrypt:data];
+    string = [data UTF8String];
+    NSLog(@"AES decrypt: %@", string);
     
 }
 

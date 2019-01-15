@@ -13,12 +13,18 @@
 
 #import "MKMAESKey.h"
 
+static inline NSData *random_data(NSUInteger size) {
+    unsigned char *buf = malloc(size * sizeof(unsigned char));
+    arc4random_buf(buf, size);
+    return [[NSData alloc] initWithBytesNoCopy:buf length:size freeWhenDone:YES];
+}
+
 @interface MKMAESKey ()
 
 @property (strong, nonatomic) NSData *data;
 
 @property (nonatomic) NSUInteger keySize;
-//@property (strong, nonatomic) NSString *initializeVector;
+@property (strong, nonatomic) NSData *initializationVector;
 
 @end
 
@@ -34,7 +40,7 @@
         _data = nil;
         
         _keySize = 0;
-        //_initializeVector = nil;
+        _initializationVector = nil;
     }
     
     return self;
@@ -45,7 +51,7 @@
     if (key) {
         key.data = _data;
         key.keySize = _keySize;
-        //key.initializeVector = _initializeVector;
+        key.initializationVector = _initializationVector;
     }
     return key;
 }
@@ -62,12 +68,21 @@
         }
         
         // random password
-        unsigned char buf[32];
-        arc4random_buf(buf, sizeof(buf));
-        _data = [[NSData alloc] initWithBytes:buf length:sizeof(buf)];
-        
+        NSUInteger size = kCCKeySizeAES256;
+        NSNumber *keySize = [_storeDictionary objectForKey:@"keySize"];
+        if (keySize) {
+            size = [keySize unsignedIntegerValue];
+        }
+        _data = random_data(size);
         PW = [_data base64Encode];
         [_storeDictionary setObject:PW forKey:@"data"];
+        
+        // random initialization vector
+        NSUInteger blockSize = kCCBlockSizeAES128;
+        _initializationVector = random_data(blockSize);
+        NSString *IV = [_initializationVector base64Encode];
+        [_storeDictionary setObject:IV forKey:@"iv"];
+        
         break;
     }
     return _data;
@@ -93,20 +108,16 @@
     return _keySize;
 }
 
-//- (NSString *)initializeVector {
-//    if (!_initializeVector) {
-//        NSString *iv = [_storeDictionary objectForKey:@"initializeVector"];
-//        if (!iv) {
-//            iv = [_storeDictionary objectForKey:@"initVector"];
-//            if (!iv) {
-//                iv = [_storeDictionary objectForKey:@"iv"];
-//                //NSAssert(iv, @"iv error: %@", _storeDictionary);
-//            }
-//        }
-//        _initializeVector = iv;
-//    }
-//    return _initializeVector;
-//}
+- (NSData *)initializationVector {
+    if (!_initializationVector) {
+        NSString *iv = [_storeDictionary objectForKey:@"iv"];
+        if (!iv) {
+            iv = [_storeDictionary objectForKey:@"initializationVector"];
+        }
+        _initializationVector = [iv base64Decode];
+    }
+    return _initializationVector;
+}
 
 #pragma mark - Protocol
 
@@ -117,7 +128,8 @@
     
     // AES encrypt algorithm
     if (self.keySize == kCCKeySizeAES256) {
-        ciphertext = [plaintext AES256EncryptWithKey:self.data];
+        ciphertext = [plaintext AES256EncryptWithKey:self.data
+                                initializationVector:self.initializationVector];
     }
     
     return ciphertext;
@@ -130,7 +142,8 @@
     
     // AES decrypt algorithm
     if (self.keySize == kCCKeySizeAES256) {
-        plaintext = [ciphertext AES256DecryptWithKey:self.data];
+        plaintext = [ciphertext AES256DecryptWithKey:self.data
+                                initializationVector:self.initializationVector];
     }
     
     return plaintext;

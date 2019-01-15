@@ -111,7 +111,8 @@
 
 @implementation NSData (AES)
 
-- (NSData *)AES256EncryptWithKey:(const NSData *)key {
+- (NSData *)AES256EncryptWithKey:(const NSData *)key
+            initializationVector:(nullable const NSData *)iv {
     // 'key' should be 32 bytes for AES256, will be null-padded otherwise
     char keyPtr[kCCKeySizeAES256+1]; // room for terminator (unused)
     bzero(keyPtr, sizeof(keyPtr)); // fill with zeroes (for padding)
@@ -131,7 +132,7 @@
     size_t numBytesEncrypted = 0;
     CCCryptorStatus cryptStatus = CCCrypt(kCCEncrypt, kCCAlgorithmAES128, kCCOptionPKCS7Padding,
                                           keyPtr, kCCKeySizeAES256,
-                                          NULL /* initialization vector (optional) */,
+                                          [iv bytes], /* initialization vector (optional) */
                                           [self bytes], dataLength, /* input */
                                           buffer, bufferSize, /* output */
                                           &numBytesEncrypted);
@@ -144,7 +145,8 @@
     return [[NSData alloc] initWithBytesNoCopy:buffer length:numBytesEncrypted];
 }
 
-- (NSData *)AES256DecryptWithKey:(const NSData *)key {
+- (NSData *)AES256DecryptWithKey:(const NSData *)key
+            initializationVector:(nullable const NSData *)iv {
     // 'key' should be 32 bytes for AES256, will be null-padded otherwise
     char keyPtr[kCCKeySizeAES256+1]; // room for terminator (unused)
     bzero(keyPtr, sizeof(keyPtr)); // fill with zeroes (for padding)
@@ -164,7 +166,7 @@
     size_t numBytesDecrypted = 0;
     CCCryptorStatus cryptStatus = CCCrypt(kCCDecrypt, kCCAlgorithmAES128, kCCOptionPKCS7Padding,
                                           keyPtr, kCCKeySizeAES256,
-                                          NULL /* initialization vector (optional) */,
+                                          [iv bytes], /* initialization vector (optional) */
                                           [self bytes], dataLength, /* input */
                                           buffer, bufferSize, /* output */
                                           &numBytesDecrypted);
