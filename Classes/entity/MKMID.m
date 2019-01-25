@@ -122,6 +122,10 @@ static inline void parse_id_string(const NSString *string, MKMID *ID) {
     return YES;
 }
 
+- (NSString *)description {
+    return _storeString;
+}
+
 - (NSString *)name {
     if (!_name && !_address && !_terminal && _valid == NO) {
         parse_id_string(_storeString, self);

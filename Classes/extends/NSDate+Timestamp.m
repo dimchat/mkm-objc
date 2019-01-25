@@ -16,6 +16,6 @@ NSNumber *NSNumberFromDate(const NSDate *date) {
 
 NSDate *NSDateFromNumber(const NSNumber *timestamp) {
     NSTimeInterval ti = [timestamp doubleValue];
-    assert(ti > 1);
+    //assert(ti > 1);
     return [[NSDate alloc] initWithTimeIntervalSince1970:ti];
 }

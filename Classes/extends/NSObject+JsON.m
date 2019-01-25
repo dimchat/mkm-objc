@@ -43,8 +43,16 @@
 @implementation NSData (Convert)
 
 - (NSString *)UTF8String {
-    return [[NSString alloc] initWithData:self
-                                 encoding:NSUTF8StringEncoding];
+    const unsigned char * bytes = self.bytes;
+    NSUInteger length = self.length;
+    while (length > 0) {
+        if (bytes[length-1] == 0) {
+            --length;
+        } else {
+            break;
+        }
+    }
+    return [[NSString alloc] initWithBytes:bytes length:length encoding:NSUTF8StringEncoding];
 }
 
 @end
