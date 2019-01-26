@@ -16,6 +16,16 @@
 
 #import "MKMImmortals.h"
 
+static inline NSString *search_number(UInt32 code) {
+    NSMutableString *number;
+    number = [[NSMutableString alloc] initWithFormat:@"%010u", (unsigned int)code];;
+    if ([number length] == 10) {
+        [number insertString:@"-" atIndex:6];
+        [number insertString:@"-" atIndex:3];
+    }
+    return number;
+}
+
 @interface MingKeMingTests : XCTestCase
 
 @end
@@ -185,6 +195,61 @@
     string = [data UTF8String];
     NSLog(@"AES decrypt: %@", string);
     
+}
+
+- (void)testRegister {
+    MKMPrivateKey *SK;
+    MKMPublicKey *PK;
+    
+    NSString *name = @"moky";
+    MKMNetworkType network = MKMNetwork_Main;
+    NSUInteger suffix = 9527;
+    
+    NSData *data = [name data];
+    
+    NSData *CT;
+    MKMAddress *addr;
+    UInt32 number;
+    NSUInteger count;
+    
+    NSDate *time1, *time2;
+    time1 = [[NSDate alloc] init];
+    
+    for (count = 0; count < NSUIntegerMax; ++count) {
+        
+        SK = [[MKMPrivateKey alloc] init];
+        PK = SK.publicKey;
+        
+        CT = [SK sign:data];
+        
+        addr = [[MKMAddress alloc] initWithFingerprint:CT
+                                               network:network
+                                               version:MKMAddressDefaultVersion];
+        
+        number = addr.code;
+        if (count % 100 == 0) {
+            NSLog(@"[%lu] address: %@, number: %@", count, addr, search_number(number));
+        }
+        
+        if (number % 10000 != suffix) {
+            continue;
+        }
+        
+        MKMMeta *meta = [[MKMMeta alloc] initWithSeed:name
+                                            publicKey:PK
+                                          fingerprint:CT
+                                              version:MKMAddressDefaultVersion];
+        
+        MKMID *ID = [meta buildIDWithNetworkID:network];
+
+        NSLog(@"[%lu] address: %@, number: %@", count, addr, search_number(number));
+        NSLog(@"GOT IT -> ID: %@, meta: %@, SK: %@", ID, meta, SK);
+        break;
+    }
+    
+    time2 = [[NSDate alloc] init];
+    NSTimeInterval ti = [time2 timeIntervalSinceDate:time1];
+    NSLog(@"count: %lu, time: %lu, speed: %f", count, (unsigned long)ti, count/ti);
 }
 
 @end
