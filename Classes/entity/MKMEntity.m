@@ -6,6 +6,8 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
+#import "NSObject+JsON.h"
+
 #import "MKMID.h"
 
 #import "MKMProfile.h"
@@ -58,7 +60,7 @@
                            @"ID"   : self.ID,
                            @"name" : self.name,
                            };
-    return [info debugDescription];
+    return [info jsonString];
 }
 
 - (MKMNetworkType)type {

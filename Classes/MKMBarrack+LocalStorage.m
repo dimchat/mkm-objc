@@ -74,7 +74,7 @@ static inline BOOL file_exists(NSString *path) {
         return NO;
     }
     NSString *path = full_filepath(ID, @"meta.plist");
-    NSAssert(!file_exists(path), @"no need to update meta file");
+    //NSAssert(!file_exists(path), @"no need to update meta file");
     return [meta writeToBinaryFile:path];
 }
 
