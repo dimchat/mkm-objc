@@ -150,7 +150,8 @@
         NSData *privateKeyData = NSDataFromSecKeyRef(_privateKeyRef);
         if (privateKeyData) {
             _privateContent = [privateKeyData base64Encode];
-            [_storeDictionary setObject:_privateContent forKey:@"data"];
+            NSString *pem = NSStringFromRSAPrivateKeyContent(_privateContent);
+            [_storeDictionary setObject:pem forKey:@"data"];
         } else {
             NSAssert(false, @"error");
         }
@@ -171,7 +172,8 @@
         NSRange range = [data rangeOfString:@"PUBLIC KEY"];
         if (range.location != NSNotFound) {
             // get public key from data string
-            return RSAPublicKeyContentFromNSString(data);
+            NSString *content = RSAPublicKeyContentFromNSString(data);
+            return NSStringFromRSAPublicKeyContent(content);
         }
     }
     
@@ -180,7 +182,8 @@
         // get public key content from private key
         SecKeyRef publicKeyRef = SecKeyCopyPublicKey(privateKeyRef);
         NSData *publicKeyData = NSDataFromSecKeyRef(publicKeyRef);
-        return [publicKeyData base64Encode];
+        NSString *content = [publicKeyData base64Encode];
+        return NSStringFromRSAPublicKeyContent(content);
     }
     
     NSAssert(false, @"failed to get public content");

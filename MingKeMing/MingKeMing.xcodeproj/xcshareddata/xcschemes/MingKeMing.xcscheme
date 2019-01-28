@@ -37,6 +37,11 @@
                BlueprintName = "MingKeMingTests"
                ReferencedContainer = "container:MingKeMing.xcodeproj">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "MingKeMingTests/testRegister">
+               </Test>
+            </SkippedTests>
          </TestableReference>
       </Testables>
       <MacroExpansion>

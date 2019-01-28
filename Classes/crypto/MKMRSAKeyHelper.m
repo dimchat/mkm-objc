@@ -82,3 +82,37 @@ NSString *RSAPublicKeyContentFromNSString(const NSString *content) {
 NSString *RSAPrivateKeyContentFromNSString(const NSString *content) {
     return RSAKeyContentFromNSString(content, @"PRIVATE");
 }
+
+NSString *NSStringFromRSAPublicKeyContent(const NSString *content) {
+    NSMutableString *mString = [[NSMutableString alloc] init];
+    [mString appendString:@"-----BEGIN PUBLIC KEY-----\n"];
+    NSUInteger pos1, pos2, len = content.length;
+    NSString *substr;
+    for (pos1 = 0, pos2 = 64; pos1 < len; pos1 = pos2, pos2 += 64) {
+        if (pos2 > len) {
+            pos2 = len;
+        }
+        substr = [content substringWithRange:NSMakeRange(pos1, pos2 - pos1)];
+        [mString appendString:substr];
+        [mString appendString:@"\n"];
+    }
+    [mString appendString:@"-----END PUBLIC KEY-----\n"];
+    return mString;
+}
+
+NSString *NSStringFromRSAPrivateKeyContent(const NSString *content) {
+    NSMutableString *mString = [[NSMutableString alloc] init];
+    [mString appendString:@"-----BEGIN RSA PRIVATE KEY-----\n"];
+    NSUInteger pos1, pos2, len = content.length;
+    NSString *substr;
+    for (pos1 = 0, pos2 = 64; pos1 < len; pos1 = pos2, pos2 += 64) {
+        if (pos2 > len) {
+            pos2 = len;
+        }
+        substr = [content substringWithRange:NSMakeRange(pos1, pos2 - pos1)];
+        [mString appendString:substr];
+        [mString appendString:@"\n"];
+    }
+    [mString appendString:@"-----END RSA PRIVATE KEY-----\n"];
+    return mString;
+}

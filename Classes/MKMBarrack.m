@@ -391,10 +391,11 @@ SingletonImplementations(MKMBarrack, sharedInstance)
         // 2.2. load from local storage
         meta = [self loadMetaForEntityID:ID];
     }
-    NSAssert(meta, @"failed to get meta for ID: %@", ID);
     
     // 3. store in memory cache
-    [self setMeta:meta forID:ID];
+    if (meta) {
+        [self setMeta:meta forID:ID];
+    }
     
     return meta;
 }

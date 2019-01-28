@@ -18,4 +18,7 @@ NSData *NSDataFromSecKeyRef(SecKeyRef keyRef);
 NSString *RSAPublicKeyContentFromNSString(const NSString *content);
 NSString *RSAPrivateKeyContentFromNSString(const NSString *content);
 
+NSString *NSStringFromRSAPublicKeyContent(const NSString *content);
+NSString *NSStringFromRSAPrivateKeyContent(const NSString *content);
+
 NS_ASSUME_NONNULL_END
