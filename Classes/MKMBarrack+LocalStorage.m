@@ -36,7 +36,6 @@ static NSString *s_directory = nil;
 
 // "Documents/.mkm/{address}/meta.plist"
 - (NSString *)_pathWithID:(const MKMID *)ID filename:(NSString *)name {
-    // base directory: Documents/.mkm/{address}
     NSString *dir = self.directory;
     dir = [dir stringByAppendingPathComponent:ID.address];
     
@@ -71,6 +70,11 @@ static NSString *s_directory = nil;
         return NO;
     }
     NSString *path = [self _pathWithID:ID filename:@"meta.plist"];
+    NSFileManager *fm = [NSFileManager defaultManager];
+    if ([fm fileExistsAtPath:path]) {
+        NSLog(@"meta file already exists: %@, IGNORE!", path);
+        return YES;
+    }
     return [meta writeToBinaryFile:path];
 }
 
