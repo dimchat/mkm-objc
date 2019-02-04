@@ -97,12 +97,18 @@
 }
 
 - (NSString *)name {
+    NSString *value = [_storeDictionary objectForKey:@"name"];
+    if (value) {
+        return value;
+    }
     NSArray *array = [_storeDictionary objectForKey:@"names"];
     return [array firstObject];
 }
 
 - (void)setName:(NSString *)name {
-    [self setArrayValue:name forKey:@"names"];
+    if (name) {
+        [self setArrayValue:name forKey:@"names"];
+    }
 }
 
 @end
@@ -174,12 +180,21 @@
 }
 
 - (NSString *)avatar {
+    NSString *value = [_storeDictionary objectForKey:@"avatar"];
+    if (value) {
+        return value;
+    }
     NSArray *array = [_storeDictionary objectForKey:@"photos"];
     return array.firstObject;
 }
 
 - (void)setAvatar:(NSString *)avatar {
-    [self setArrayValue:avatar forKey:@"photos"];
+    //[self setArrayValue:avatar forKey:@"photos"];
+    if (avatar) {
+        [_storeDictionary setObject:avatar forKey:@"avatar"];
+    } else {
+        [_storeDictionary removeObjectForKey:@"avatar"];
+    }
 }
 
 - (NSString *)biography {
