@@ -34,10 +34,11 @@
 }
 
 - (instancetype)initWithID:(const MKMID *)ID {
-    NSAssert(MKMNetwork_IsPerson(ID.type), @"profile ID error");
+    NSAssert(MKMNetwork_IsCommunicator(ID.type), @"profile ID error");
     if (self = [self init]) {
         // account ID
         if (ID.isValid) {
+            [_storeDictionary setObject:ID forKey:@"ID"];
             _ID = [ID copy];
         }
         

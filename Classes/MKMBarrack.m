@@ -143,8 +143,11 @@ SingletonImplementations(MKMBarrack, sharedInstance)
 
 - (void)setMeta:(MKMMeta *)meta forID:(const MKMID *)ID {
     if (meta) {
-        NSAssert([meta matchID:ID], @"meta error: %@, ID = %@", meta, ID);
-        [_metaTable setObject:meta forKey:ID.address];
+        if ([meta matchID:ID]) {
+            [_metaTable setObject:meta forKey:ID.address];
+        } else {
+            NSAssert(false, @"meta error: %@, ID = %@", meta, ID);
+        }
     } else {
         [_metaTable removeObjectForKey:ID.address];
     }
@@ -154,34 +157,33 @@ SingletonImplementations(MKMBarrack, sharedInstance)
 
 - (MKMAccount *)accountWithID:(const MKMID *)ID {
     NSAssert(MKMNetwork_IsCommunicator(ID.type), @"account ID error");
-    MKMAccount *account = [_accountTable objectForKey:ID.address];
-    while (!account) {
-        // search user table
-        account = [_userTable objectForKey:ID.address];
-        if (account) {
-            break;
-        }
-        
-        // create by delegate
-        NSAssert(_accountDelegate, @"account delegate not set");
-        account = [_accountDelegate accountWithID:ID];
-        if (account) {
-            [self addAccount:account];
-            break;
-        }
-        
-        // create directly if we can find public key
+    MKMAccount *account;
+    
+    // (a) get from account cache
+    account = [_accountTable objectForKey:ID.address];
+    if (account) {
+        return account;
+    }
+    // (b) get from user cache
+    account = [_userTable objectForKey:ID.address];
+    if (account) {
+        return account;
+    }
+    
+    // (c) get from account delegate
+    NSAssert(_accountDelegate, @"account delegate not set");
+    account = [_accountDelegate accountWithID:ID];
+    if (!account) {
+        // (d) create directly if we can find public key
         MKMPublicKey *PK = MKMPublicKeyForID(ID);
         if (PK) {
             account = [[MKMAccount alloc] initWithID:ID publicKey:PK];
         } else {
-            NSAssert(false, @"PK not found for account: %@", ID);
-            break;
+            NSLog(@"failed to get account with ID: %@", ID);
         }
-        
-        [self addAccount:account];
-        break;
     }
+    
+    [self addAccount:account];
     return account;
 }
 
@@ -203,34 +205,39 @@ SingletonImplementations(MKMBarrack, sharedInstance)
 
 - (MKMUser *)userWithID:(const MKMID *)ID {
     NSAssert(MKMNetwork_IsPerson(ID.type), @"user ID error");
-    MKMUser *user = [_userTable objectForKey:ID.address];
-    while (!user) {
-        // create by delegate
-        NSAssert(_userDelegate, @"user delegate not set");
-        user = [_userDelegate userWithID:ID];
-        if (user) {
-            [self addUser:user];
-            break;
+    MKMUser *user;
+    
+    // (a) get from user cache
+    user = [_userTable objectForKey:ID.address];
+    if (user) {
+        return user;
+    }
+    
+    // (b) get from user delegate
+    NSAssert(_userDelegate, @"user delegate not set");
+    user = [_userDelegate userWithID:ID];
+    if (!user) {
+        // (c) create directly if we can find public key
+        MKMPrivateKey *SK = [MKMPrivateKey loadKeyWithIdentifier:ID.address];
+        MKMPublicKey *PK = SK.publicKey;
+        if (!PK) {
+            NSLog(@"failed to get public key for %@ from private key, try meta.key", ID);
+            PK = MKMPublicKeyForID(ID);
         }
-        
-        // create directly if we can find public key
-        MKMPublicKey *PK = MKMPublicKeyForID(ID);
         if (PK) {
             user = [[MKMUser alloc] initWithID:ID publicKey:PK];
+            user.privateKey = SK;
+            // add contacts
+            NSInteger count = [self numberOfContactsInUser:user];
+            for (NSInteger index = 0; index < count; ++index) {
+                [user addContact:[self user:user contactAtIndex:index]];
+            }
         } else {
-            NSAssert(false, @"failed to get PK for user: %@", ID);
-            break;
+            NSLog(@"failed to get user with ID: %@", ID);
         }
-        
-        // add contacts
-        NSInteger count = [self numberOfContactsInUser:user];
-        for (NSInteger index = 0; index < count; ++index) {
-            [user addContact:[self user:user contactAtIndex:index]];
-        }
-        
-        [self addUser:user];
-        break;
     }
+    
+    [self addUser:user];
     return user;
 }
 
@@ -276,51 +283,49 @@ SingletonImplementations(MKMBarrack, sharedInstance)
 
 - (MKMGroup *)groupWithID:(const MKMID *)ID {
     NSAssert(MKMNetwork_IsGroup(ID.type), @"group ID error");
-    MKMGroup *group = [_groupTable objectForKey:ID.address];
-    while (!group) {
-        // create by delegate
-        NSAssert(_groupDelegate, @"group delegate not set");
-        group = [_groupDelegate groupWithID:ID];
-        if (group) {
-            [self addGroup:group];
-            break;
-        }
-        
-        // get founder of this group
+    MKMGroup *group;
+    
+    // (a) get from group cache
+    group = [_groupTable objectForKey:ID.address];
+    if (group) {
+        return group;
+    }
+    
+    // (b) get from group delegate
+    NSAssert(_groupDelegate, @"group delegate not set");
+    group = [_groupDelegate groupWithID:ID];
+    if (!group) {
+        // (c) create directly if we can find founder
         MKMID *founder = [self founderForGroupID:ID];
-        if (!founder) {
-            NSAssert(false, @"founder not found for group: %@", ID);
-            break;
-        }
-        
-        // create it
-        if (ID.type == MKMNetwork_Polylogue) {
-            group = [[MKMPolylogue alloc] initWithID:ID founderID:founder];
-        } else if (ID.type == MKMNetwork_Chatroom) {
-            group = [[MKMChatroom alloc] initWithID:ID founderID:founder];
-        } else {
-            NSAssert(false, @"group ID type not supported yet");
-        }
-        // set owner
-        group.owner = [self ownerForGroupID:ID];
-        // add members
-        NSInteger count = [self numberOfMembersInGroup:group];
-        NSInteger index;
-        for (index = 0; index < count; ++index) {
-            [group addMember:[self group:group memberAtIndex:index]];
-        }
-        // add admins
-        if (ID.type == MKMNetwork_Chatroom) {
-            MKMChatroom *chatroom = (MKMChatroom *)group;
-            count = [self numberOfAdminsInChatroom:chatroom];
+        if (founder) {
+            // create it
+            if (ID.type == MKMNetwork_Polylogue) {
+                group = [[MKMPolylogue alloc] initWithID:ID founderID:founder];
+            } else if (ID.type == MKMNetwork_Chatroom) {
+                group = [[MKMChatroom alloc] initWithID:ID founderID:founder];
+            } else {
+                NSAssert(false, @"group ID type not support: %d", ID.type);
+            }
+            // set owner
+            group.owner = [self ownerForGroupID:ID];
+            // add members
+            NSInteger count = [self numberOfMembersInGroup:group];
+            NSInteger index;
             for (index = 0; index < count; ++index) {
-                [chatroom addAdmin:[self chatroom:chatroom adminAtIndex:index]];
+                [group addMember:[self group:group memberAtIndex:index]];
+            }
+            // add admins
+            if (ID.type == MKMNetwork_Chatroom) {
+                MKMChatroom *chatroom = (MKMChatroom *)group;
+                count = [self numberOfAdminsInChatroom:chatroom];
+                for (index = 0; index < count; ++index) {
+                    [chatroom addAdmin:[self chatroom:chatroom adminAtIndex:index]];
+                }
             }
         }
-        
-        [self addGroup:group];
-        break;
     }
+    
+    [self addGroup:group];
     return group;
 }
 
@@ -330,30 +335,31 @@ SingletonImplementations(MKMBarrack, sharedInstance)
     NSAssert(MKMNetwork_IsCommunicator(ID.type), @"member ID error");
     NSAssert(MKMNetwork_IsGroup(gID.type), @"group ID error");
     MemberTableM *table = [_groupMemberTable objectForKey:gID.address];
-    MKMMember *member = [table objectForKey:ID.address];
-    while (!member) {
-        // create by delegate
-        NSAssert(_memberDelegate, @"member delegate not set");
-        member = [_memberDelegate memberWithID:ID groupID:gID];
-        if (member) {
-            [self addMember:member];
-            break;
-        }
-        
-        // create directly if we can find public key
+    MKMMember *member;
+    
+    // (a) get from group member cache
+    member = [table objectForKey:ID.address];
+    if (member) {
+        return member;
+    }
+    
+    // (b) get from group member delegate
+    NSAssert(_memberDelegate, @"member delegate not set");
+    member = [_memberDelegate memberWithID:ID groupID:gID];
+    if (!member) {
+        // (c) create directly if we can find public key
         MKMPublicKey *PK = MKMPublicKeyForID(ID);
         if (PK) {
             member = [[MKMMember alloc] initWithGroupID:gID
                                               accountID:ID
                                               publicKey:PK];
         } else {
-            NSAssert(false, @"PK not found for member: %@", ID);
+            NSLog(@"failed to get member with ID: %@, group ID: %@", ID, gID);
         }
-        
-        [self addMember:member];
-        break;
     }
+    
     NSAssert(!member || [member.groupID isEqual:gID], @"error: %@", member);
+    [self addMember:member];
     return member;
 }
                      
@@ -376,27 +382,21 @@ SingletonImplementations(MKMBarrack, sharedInstance)
 - (MKMMeta *)metaForEntityID:(const MKMID *)ID {
     MKMMeta *meta;
     
-    // 1. search in memory cache
+    // (a) get from meta cache
     meta = [_metaTable objectForKey:ID.address];
     if (meta) {
-        NSAssert([meta matchID:ID], @"meta not match ID: %@", ID);
         return meta;
     }
     
-    // 2. check data source
-    if (_entityDataSource) {
-        // 2.1. query from the network
-        meta = [_entityDataSource metaForEntityID:ID];
-    } else {
-        // 2.2. load from local storage
+    // (b) get from entity data source
+    NSAssert(_entityDataSource, @"entity data source not set");
+    meta = [_entityDataSource metaForEntityID:ID];
+    if (!meta) {
+        // (c) get from local storage
         meta = [self loadMetaForEntityID:ID];
     }
     
-    // 3. store in memory cache
-    if (meta) {
-        [self setMeta:meta forID:ID];
-    }
-    
+    [self setMeta:meta forID:ID];
     return meta;
 }
 
