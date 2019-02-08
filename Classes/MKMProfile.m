@@ -116,40 +116,7 @@
 
 #pragma mark - Account profile
 
-@implementation MKMAccountProfile
-
-+ (instancetype)profileWithProfile:(id)profile {
-    if ([profile isKindOfClass:[MKMAccountProfile class]]) {
-        return profile;
-    } else if ([profile isKindOfClass:[NSDictionary class]]) {
-        return [[self alloc] initWithDictionary:profile];
-    } else if ([profile isKindOfClass:[NSString class]]) {
-        return [[self alloc] initWithJSONString:profile];
-    } else {
-        NSAssert(!profile, @"unexpected profile: %@", profile);
-        return nil;
-    }
-}
-
-- (void)setObject:(id)anObject forKey:(const NSString *)aKey {
-    if ([aKey isEqualToString:@"name"]) {
-        [self setName:anObject];
-    } else if ([aKey isEqualToString:@"avatar"]) {
-        [self setAvatar:anObject];
-    } else {
-        [_storeDictionary setObject:anObject forKey:aKey];
-    }
-}
-
-- (id)objectForKey:(const NSString *)aKey {
-    if ([aKey isEqualToString:@"name"]) {
-        return self.name;
-    } else if ([aKey isEqualToString:@"avatar"]) {
-        return self.avatar;
-    } else {
-        return [_storeDictionary objectForKey:aKey];
-    }
-}
+@implementation MKMProfile (Account)
 
 - (MKMGender)gender {
     NSString *sex = [_storeDictionary objectForKey:@"gender"];
@@ -223,40 +190,7 @@
 
 #pragma mark - Group profile
 
-@implementation MKMGroupProfile
-
-+ (instancetype)profileWithProfile:(id)profile {
-    if ([profile isKindOfClass:[MKMGroupProfile class]]) {
-        return profile;
-    } else if ([profile isKindOfClass:[NSDictionary class]]) {
-        return [[self alloc] initWithDictionary:profile];
-    } else if ([profile isKindOfClass:[NSString class]]) {
-        return [[self alloc] initWithJSONString:profile];
-    } else {
-        NSAssert(!profile, @"unexpected profile: %@", profile);
-        return nil;
-    }
-}
-
-- (void)setObject:(id)anObject forKey:(const NSString *)aKey {
-    if ([aKey isEqualToString:@"name"]) {
-        [self setName:anObject];
-    } else if ([aKey isEqualToString:@"logo"]) {
-        [self setLogo:anObject];
-    } else {
-        [_storeDictionary setObject:anObject forKey:aKey];
-    }
-}
-
-- (id)objectForKey:(const NSString *)aKey {
-    if ([aKey isEqualToString:@"name"]) {
-        return self.name;
-    } else if ([aKey isEqualToString:@"logo"]) {
-        return self.logo;
-    } else {
-        return [_storeDictionary objectForKey:aKey];
-    }
-}
+@implementation MKMProfile (Group)
 
 - (NSString *)logo {
     NSArray *array = [_storeDictionary objectForKey:@"photos"];

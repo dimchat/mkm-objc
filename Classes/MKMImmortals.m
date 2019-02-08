@@ -70,8 +70,8 @@
     }
     
     // profile
-    MKMAccountProfile *profile = [dict objectForKey:@"profile"];
-    profile = [MKMAccountProfile profileWithProfile:profile];
+    MKMProfile *profile = [dict objectForKey:@"profile"];
+    profile = [MKMProfile profileWithProfile:profile];
     if (profile) {
         [_profileTable setObject:profile forKey:ID.address];
     } else {

@@ -49,16 +49,14 @@ typedef NS_ENUM(SInt32, MKMGender) {
 
 @end
 
-#pragma mark - Account profile
+#pragma mark Account profile
 
-@interface MKMAccountProfile : MKMProfile
+@interface MKMProfile (Account)
 
 @property (nonatomic) MKMGender gender;
 @property (strong, nonatomic) NSString *avatar; // URL
 
 @property (strong, nonatomic) NSString *biography; // 0~280 bytes
-
-+ (instancetype)profileWithProfile:(id)profile;
 
 // -title
 // -birthday
@@ -69,9 +67,9 @@ typedef NS_ENUM(SInt32, MKMGender) {
 
 @end
 
-#pragma mark - Group Profile
+#pragma mark Group Profile
 
-@interface MKMGroupProfile : MKMProfile
+@interface MKMProfile (Group)
 
 @property (strong, nonatomic) NSString *logo; // URL
 
