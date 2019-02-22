@@ -79,6 +79,20 @@ static inline NSString *search_number(UInt32 code) {
     
 }
 
+- (void)testEncode {
+    
+    NSString *string = @"moky";
+    NSData *data = [string data];
+    
+    NSString *enc;
+    
+    // base58(moky) = 3oF5MJ
+    enc = [data base58Encode];
+    NSLog(@"base58(%@) = %@", string, enc);
+    
+    NSAssert([enc isEqualToString:@"3oF5MJ"], @"base 58 encode error");
+}
+
 - (void)testSymmetric {
     
     NSString *string = @"moky";

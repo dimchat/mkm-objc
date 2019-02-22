@@ -6,6 +6,8 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
+#import "NSObject+JsON.h"
+
 #import "MKMPublicKey.h"
 #import "MKMPrivateKey.h"
 
@@ -41,6 +43,14 @@
     return user;
 }
 
+- (NSString *)debugDescription {
+    NSString *desc = [super debugDescription];
+    NSDictionary *dict = [[desc data] jsonDictionary];
+    NSMutableDictionary *info = [dict mutableCopy];
+    [info setObject:@(_contacts.count) forKey:@"contacts"];
+    return [info jsonString];
+}
+
 - (MKMPrivateKey *)privateKey {
     if (!_privateKey) {
         // try to load private key from the keychain
@@ -50,12 +60,13 @@
     return _privateKey;
 }
 
-- (BOOL)addContact:(MKMID *)ID {
-    if ([_contacts containsObject:ID]) {
-        // already exists
-        return NO;
-    }
-    if (!_contacts) {
+- (BOOL)addContact:(const MKMID *)ID {
+    if (_contacts) {
+        if ([_contacts containsObject:ID]) {
+            // already exists
+            return NO;
+        }
+    } else {
         _contacts = [[MKMContactListM alloc] init];
     }
     // add it
