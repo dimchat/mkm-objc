@@ -21,8 +21,6 @@ static inline NSData *random_data(NSUInteger size) {
 
 @interface MKMAESKey ()
 
-@property (strong, nonatomic) NSData *data;
-
 @property (nonatomic) NSUInteger keySize;
 @property (strong, nonatomic) NSData *initializationVector;
 
@@ -49,7 +47,6 @@ static inline NSData *random_data(NSUInteger size) {
 - (id)copyWithZone:(NSZone *)zone {
     MKMAESKey *key = [super copyWithZone:zone];
     if (key) {
-        key.data = _data;
         key.keySize = _keySize;
         key.initializationVector = _initializationVector;
     }

@@ -65,6 +65,13 @@
     return key;
 }
 
+- (NSData *)data {
+    if (!_data) {
+        _data = [self.publicContent base64Decode];
+    }
+    return _data;
+}
+
 - (NSUInteger)keySizeInBits {
     while (_keySizeInBits == 0) {
         if (_publicKeyRef || self.publicContent) {

@@ -10,7 +10,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-#define MKMAddressDefaultVersion 0x01
+#define MKMAddressAlgorithm_BTC    0x01
+#define MKMAddressDefaultAlgorithm MKMAddressAlgorithm_BTC
 
 /**
  *  @enum MKMNetworkID
@@ -66,7 +67,7 @@ NS_ASSUME_NONNULL_BEGIN
  *      (All above are just some advices to help choosing numbers :P)
  */
 typedef NS_ENUM(UInt8, MKMNetworkID) {
-    // Network_BTCMain = 0x00, // 0000 0000
+    MKMNetwork_BTCMain = 0x00, // 0000 0000
     // Network_BTCTest = 0x6f, // 0110 1111
     
     /**
@@ -108,9 +109,11 @@ typedef NS_ENUM(UInt8, MKMNetworkID) {
 };
 typedef UInt8 MKMNetworkType;
 
-#define MKMNetwork_IsCommunicator(network) ((network) & MKMNetwork_Main)
+#define MKMNetwork_IsCommunicator(network) (((network) & MKMNetwork_Main) || \
+                                            ((network) == MKMNetwork_BTCMain))
 
-#define MKMNetwork_IsPerson(network)       ((network) == MKMNetwork_Main)
+#define MKMNetwork_IsPerson(network)       (((network) == MKMNetwork_Main) || \
+                                            ((network) == MKMNetwork_BTCMain))
 #define MKMNetwork_IsGroup(network)        ((network) & MKMNetwork_Group)
 
 #define MKMNetwork_IsStation(network)      ((network) == MKMNetwork_Station)
@@ -155,12 +158,20 @@ typedef UInt8 MKMNetworkType;
 
  @param CT - fingerprint = sign(seed, PK)
  @param type - network ID
- @param metaVersion - algorithm version
+ @param version - algorithm version
  @return Address object
  */
 - (instancetype)initWithFingerprint:(const NSData *)CT
                             network:(MKMNetworkType)type
-                            version:(NSUInteger)metaVersion;
+                          algorithm:(NSUInteger)version;
+- (instancetype)initWithFingerprint:(const NSData *)CT
+                            network:(MKMNetworkType)type;
+
+- (instancetype)initWithKeyData:(const NSData *)CT
+                        network:(MKMNetworkType)type
+                      algorithm:(NSUInteger)version;
+- (instancetype)initWithKeyData:(const NSData *)CT
+                        network:(MKMNetworkType)type;
 
 @end
 

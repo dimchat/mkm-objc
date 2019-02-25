@@ -39,7 +39,8 @@
     // create meta
     info.meta = [[MKMMeta alloc] initWithSeed:seed
                                    privateKey:info.privateKey
-                                    publicKey:info.publicKey];
+                                    publicKey:info.publicKey
+                                      version:MKMMetaVersion_MKM];
     
     // build ID
     info.ID = [info.meta buildIDWithNetworkID:MKMNetwork_Main];

@@ -33,6 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *      keyInfo format: {
  *          algorithm: "AES",
+ *          data     : "{BASE64_ENCODE}",
  *          ...
  *      }
  */

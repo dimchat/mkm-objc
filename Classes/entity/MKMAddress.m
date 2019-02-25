@@ -99,12 +99,11 @@ static inline void parse_address(const NSString *string, MKMAddress *address) {
 
 - (instancetype)initWithFingerprint:(const NSData *)CT
                             network:(MKMNetworkType)type
-                            version:(NSUInteger)metaVersion {
-    NSAssert(metaVersion == MKMAddressDefaultVersion, @"version error");
+                          algorithm:(NSUInteger)version {
     NSString *string = nil;
     UInt32 code = 0;
     BOOL valid = NO;
-    if (metaVersion == 0x01) {
+    if (version == MKMAddressAlgorithm_BTC) {
         /**
          *  BTC address algorithm:
          *      digest     = ripemd160(sha256(fingerprint));
@@ -126,6 +125,8 @@ static inline void parse_address(const NSString *string, MKMAddress *address) {
         string = [data base58Encode];
         
         valid = YES;
+    } else {
+        NSAssert(false, @"unsupported version: %lu", (unsigned long)version);
     }
     
     if (self = [super initWithString:string]) {
@@ -134,6 +135,28 @@ static inline void parse_address(const NSString *string, MKMAddress *address) {
         _valid = valid;
     }
     return self;
+}
+
+- (instancetype)initWithFingerprint:(const NSData *)CT
+                            network:(MKMNetworkType)type {
+    return [self initWithFingerprint:CT
+                             network:type
+                           algorithm:MKMAddressDefaultAlgorithm];
+}
+
+- (instancetype)initWithKeyData:(const NSData *)CT
+                        network:(MKMNetworkType)type
+                      algorithm:(NSUInteger)version {
+    return [self initWithFingerprint:CT
+                             network:type
+                           algorithm:version];
+}
+
+- (instancetype)initWithKeyData:(const NSData *)CT
+                        network:(MKMNetworkType)type {
+    return [self initWithFingerprint:CT
+                             network:type
+                           algorithm:MKMAddressDefaultAlgorithm];
 }
 
 - (id)copyWithZone:(NSZone *)zone {

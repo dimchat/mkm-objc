@@ -26,6 +26,24 @@ static inline NSString *search_number(UInt32 code) {
     return number;
 }
 
+static inline void print_id(MKMID *ID) {
+    NSMutableDictionary *mDict = [[NSMutableDictionary alloc] init];
+    [mDict setObject:@(ID.type) forKey:@"type"];
+    [mDict setObject:@(ID.number) forKey:@"number"];
+    [mDict setObject:@(ID.valid) forKey:@"valid"];
+    
+    if (ID.name) {
+        [mDict setObject:ID.name forKey:@"name"];
+    }
+    if (ID.address) {
+        [mDict setObject:ID.address forKey:@"address"];
+    }
+    if (ID.terminal) {
+        [mDict setObject:ID.terminal forKey:@"terminal"];
+    }
+    NSLog(@"ID(%@): %@", ID, mDict);
+}
+
 @interface MingKeMingTests : XCTestCase
 
 @end
@@ -166,15 +184,36 @@ static inline NSString *search_number(UInt32 code) {
     
     MKMMeta *meta = [[MKMMeta alloc] initWithSeed:name
                                        privateKey:SK
-                                        publicKey:PK];
+                                        publicKey:PK
+                                          version:MKMMetaVersion_MKM];
     
     MKMID *ID = [meta buildIDWithNetworkID:MKMNetwork_Main];
     
     NSLog(@"meta: %@", meta);
-    NSLog(@"ID: %@", ID);
+    print_id(ID);
     
     NSAssert([meta matchID:ID], @"error");
     
+}
+
+- (void)testMeta2 {
+    MKMPrivateKey *SK = [[MKMPrivateKey alloc] init];
+    MKMPublicKey *PK = SK.publicKey;
+    
+    MKMMeta *meta = [[MKMMeta alloc] initWithSeed:nil
+                                        publicKey:PK
+                                      fingerprint:nil
+                                          version:MKMMetaVersion_BTC];
+    MKMID *ID = [meta buildIDWithNetworkID:MKMNetwork_BTCMain];
+    
+    NSLog(@"meta: %@", meta);
+    print_id(ID);
+    
+    NSAssert([meta matchID:ID], @"error");
+    
+    NSString *satoshi = @"1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa";
+    MKMID *ID2 = [MKMID IDWithID:satoshi];
+    print_id(ID2);
 }
 
 - (void)testAccount {
@@ -236,9 +275,7 @@ static inline NSString *search_number(UInt32 code) {
         
         CT = [SK sign:data];
         
-        addr = [[MKMAddress alloc] initWithFingerprint:CT
-                                               network:network
-                                               version:MKMAddressDefaultVersion];
+        addr = [[MKMAddress alloc] initWithFingerprint:CT network:network];
         
         number = addr.code;
         if (count % 100 == 0) {
@@ -252,7 +289,7 @@ static inline NSString *search_number(UInt32 code) {
         MKMMeta *meta = [[MKMMeta alloc] initWithSeed:name
                                             publicKey:PK
                                           fingerprint:CT
-                                              version:MKMAddressDefaultVersion];
+                                              version:MKMMetaDefaultVersion];
         
         MKMID *ID = [meta buildIDWithNetworkID:network];
 

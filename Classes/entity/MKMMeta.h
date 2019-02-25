@@ -12,6 +12,29 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ *  @enum MKMMetaVersion
+ *
+ *  @abstract Defined for algorithm that generating address.
+ *
+ *  @discussion Generate & check ID/Address
+ *
+ *      MKMMetaVersion_MKM give a seed string first, and sign this seed to get
+ *      fingerprint; after that, use the fingerprint to generate address.
+ *      This will get a firmly relationship between (username, address & key).
+ *
+ *      MKMMetaVersion_BTC use the key data to generate address directly.
+ *      This can build a BTC address for the entity ID (no username).
+ *
+ *      MKMMetaVersion_ExBTC use the key data to generate address directly, and
+ *      sign the seed to get fingerprint (just for binding username & key).
+ *      This can build a BTC address, and bind a username to the entity ID.
+ */
+#define MKMMetaVersion_MKM    0x01
+#define MKMMetaVersion_BTC    0x02
+#define MKMMetaVersion_ExBTC  0x03
+#define MKMMetaDefaultVersion MKMMetaVersion_MKM
+
 @class MKMPublicKey;
 @class MKMPrivateKey;
 
@@ -37,9 +60,11 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MKMMeta : MKMDictionary
 
 /**
- *  Algorithm version
+ *  Meta algorithm version
  *
- *      0x01 - address algorithm like BitCoin
+ *      0x01 - username@address
+ *      0x02 - btc_address
+ *      0x03 - username@btc_address
  */
 @property (readonly, nonatomic) NSUInteger version;
 
@@ -48,7 +73,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *      Username / Group-X
  */
-@property (readonly, strong, nonatomic) NSString *seed;
+@property (readonly, strong, nonatomic, nullable) NSString *seed;
 
 /**
  *  Public key
@@ -63,7 +88,7 @@ NS_ASSUME_NONNULL_BEGIN
  *      Build: fingerprint = sign(seed, privateKey)
  *      Check: verify(seed, fingerprint, publicKey)
  */
-@property (readonly, strong, nonatomic) NSData *fingerprint;
+@property (readonly, strong, nonatomic, nullable) NSData *fingerprint;
 
 @property (readonly, nonatomic, getter=isValid) BOOL valid;
 
@@ -74,10 +99,10 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype)initWithDictionary:(NSDictionary *)dict;
 
-- (instancetype)initWithSeed:(const NSString *)name
+- (instancetype)initWithSeed:(nullable const NSString *)name
                    publicKey:(const MKMPublicKey *)PK
-                 fingerprint:(const NSData *)CT
-                     version:(NSUInteger)version;
+                 fingerprint:(nullable const NSData *)CT
+                     version:(NSUInteger)metaVersion;
 
 /**
  Generate fingerprint, initialize meta data
@@ -89,7 +114,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype)initWithSeed:(const NSString *)name
                   privateKey:(const MKMPrivateKey *)SK
-                   publicKey:(nullable const MKMPublicKey *)PK;
+                   publicKey:(nullable const MKMPublicKey *)PK
+                     version:(NSUInteger)metaVersion;
+
+/**
+ *  For BTC address
+ */
+- (instancetype)initWithPublicKey:(const MKMPublicKey *)PK;
 
 #pragma mark - ID & address
 

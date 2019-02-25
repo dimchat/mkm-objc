@@ -85,6 +85,7 @@
     MKMCryptographyKey *key = [super copyWithZone:zone];
     if (key) {
         key.algorithm = _algorithm;
+        key.data = _data;
     }
     return key;
 }
@@ -99,6 +100,10 @@
         NSAssert(_algorithm, @"key info error: %@", _storeDictionary);
     }
     return _algorithm;
+}
+
+- (void)setData:(NSData *)data {
+    _data = data;
 }
 
 @end

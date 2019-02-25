@@ -29,11 +29,12 @@ static inline void parse_id_string(const NSString *string, MKMID *ID) {
     }
     
     pair = [string componentsSeparatedByString:@"@"];
-    assert(pair.count == 2);
-    
-    // get name
-    ID.name = [pair firstObject];
-    assert(ID.name.length > 0);
+    if (pair.count > 1) {
+        assert(pair.count == 2);
+        // get name
+        ID.name = [pair firstObject];
+        assert(ID.name.length > 0);
+    }
     
     // get address
     NSString *addr = [pair lastObject];
@@ -42,7 +43,7 @@ static inline void parse_id_string(const NSString *string, MKMID *ID) {
     assert(ID.address.isValid);
     
     // isValid
-    ID.valid = (ID.name.length > 0 && ID.address.isValid);
+    ID.valid = ID.address.isValid;
 }
 
 @implementation MKMID
@@ -71,26 +72,31 @@ static inline void parse_id_string(const NSString *string, MKMID *ID) {
 
 - (instancetype)initWithName:(const NSString *)seed
                      address:(const MKMAddress *)addr {
-    NSString *res = nil;
-    self = [self initWithName:seed address:addr terminal:res];
-    return self;
+    return [self initWithName:seed address:addr terminal:nil];
 }
 
-- (instancetype)initWithName:(const NSString *)seed
+- (instancetype)initWithAddress:(const MKMAddress *)addr {
+    return [self initWithName:nil address:addr terminal:nil];
+}
+
+- (instancetype)initWithName:(nullable const NSString *)seed
                      address:(const MKMAddress *)addr
-                    terminal:(const NSString *)res {
+                    terminal:(nullable const NSString *)res {
     NSString *string;
-    if (res) {
-        string = [NSString stringWithFormat:@"%@@%@/%@", seed, addr, res];
-    } else {
+    if (seed) {
         string = [NSString stringWithFormat:@"%@@%@", seed, addr];
+    } else {
+        string = [NSString stringWithFormat:@"%@", addr];
+    }
+    if (res) {
+        string = [string stringByAppendingFormat:@"/%@", res];
     }
     
     if (self = [super initWithString:string]) {
         _name = [seed copy];
         _address = [addr copy];
         _terminal = [res copy];
-        _valid = (seed.length > 0 && addr.isValid);
+        _valid = addr.isValid;
     }
     return self;
 }

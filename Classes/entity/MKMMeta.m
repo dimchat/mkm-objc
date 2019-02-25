@@ -21,9 +21,9 @@
 
 @property (nonatomic) NSUInteger version;
 
-@property (strong, nonatomic) NSString *seed;
+@property (strong, nonatomic, nullable) NSString *seed;
 @property (strong, nonatomic) MKMPublicKey *key;
-@property (strong, nonatomic) NSData *fingerprint;
+@property (strong, nonatomic, nullable) NSData *fingerprint;
 
 @property (nonatomic, getter=isValid) BOOL valid;
 
@@ -56,22 +56,39 @@
     return self;
 }
 
-- (instancetype)initWithSeed:(const NSString *)name
+- (instancetype)initWithSeed:(nullable const NSString *)name
                    publicKey:(const MKMPublicKey *)PK
-                 fingerprint:(const NSData *)CT
-                     version:(NSUInteger)ver {
-    NSAssert(ver == MKMAddressDefaultVersion, @"unknown version");
-    NSDictionary *dict = @{@"version"    :@(ver),
-                           @"seed"       :name,
-                           @"key"        :PK,
-                           @"fingerprint":[CT base64Encode],
-                           };
+                 fingerprint:(nullable const NSData *)CT
+                     version:(NSUInteger)metaVersion {
+    NSDictionary *dict;
+    if (metaVersion == MKMMetaVersion_MKM ||
+        metaVersion == MKMMetaVersion_ExBTC) {
+        dict = @{@"version"    :@(metaVersion),
+                 @"seed"       :name,
+                 @"key"        :PK,
+                 @"fingerprint":[CT base64Encode],
+                 };
+    } else if (metaVersion == MKMMetaVersion_BTC) {
+        NSAssert(!name && !CT, @"parameters error");
+        dict = @{@"version"    :@(metaVersion),
+                 @"key"        :PK,
+                 };
+    } else {
+        NSAssert(false, @"unsupported meta version: %lu", (unsigned long)metaVersion);
+    }
     if (self = [super initWithDictionary:dict]) {
-        _version = ver;
+        _version = metaVersion;
         _seed = [_storeDictionary objectForKey:@"seed"];
         _key = [_storeDictionary objectForKey:@"key"];
         _fingerprint = [CT copy];
-        _valid = [PK verify:[name data] withSignature:CT];
+        if (metaVersion == MKMMetaVersion_MKM ||
+            metaVersion == MKMMetaVersion_ExBTC) {
+            _valid = [PK verify:[name data] withSignature:CT];
+        } else if (metaVersion == MKMMetaVersion_BTC) {
+            _valid = YES;
+        } else {
+            _valid = NO;
+        }
         NSAssert(_valid, @"meta invalid");
     }
     return self;
@@ -79,18 +96,25 @@
 
 - (instancetype)initWithSeed:(const NSString *)name
                   privateKey:(const MKMPrivateKey *)SK
-                   publicKey:(nullable const MKMPublicKey *)PK {
+                   publicKey:(nullable const MKMPublicKey *)PK
+                     version:(NSUInteger)metaVersion {
     if (PK) {
         NSAssert([PK isMatch:SK], @"PK must match SK");
     } else {
         PK = [SK publicKey];
     }
     NSData *CT = [SK sign:[name data]];
-    self = [self initWithSeed:name
+    return [self initWithSeed:name
                     publicKey:PK
                   fingerprint:CT
-                      version:MKMAddressDefaultVersion];
-    return self;
+                      version:metaVersion];
+}
+
+- (instancetype)initWithPublicKey:(const MKMPublicKey *)PK {
+    return [self initWithSeed:nil
+                    publicKey:PK
+                  fingerprint:nil
+                      version:MKMMetaVersion_BTC];
 }
 
 - (id)copyWithZone:(NSZone *)zone {
@@ -109,7 +133,6 @@
     if (_version == 0) {
         NSNumber *ver = [_storeDictionary objectForKey:@"version"];
         _version = [ver unsignedIntegerValue];
-        NSAssert(_version == MKMAddressDefaultVersion, @"error");
     }
     return _version;
 }
@@ -117,7 +140,6 @@
 - (NSString *)seed {
     if (!_seed) {
         _seed = [_storeDictionary objectForKey:@"seed"];
-        NSAssert(_seed.length > 0, @"error");
         // check valid
         if (_key && _fingerprint) {
             _valid = [_key verify:[_seed data] withSignature:_fingerprint];
@@ -143,7 +165,6 @@
     if (!_fingerprint) {
         NSString *CT = [_storeDictionary objectForKey:@"fingerprint"];
         _fingerprint = [CT base64Decode];
-        NSAssert(_fingerprint.length > 0, @"error");
         // check valid
         if (_seed && _key) {
             _valid = [_key verify:[_seed data] withSignature:_fingerprint];
@@ -154,13 +175,41 @@
 
 - (BOOL)isValid {
     if (!_valid) {
-        if (self.version != MKMAddressDefaultVersion) {
-            NSAssert(false, @"version error");
-            return NO;
-        }
-        if (!self.seed || !self.key || !self.fingerprint) {
-            NSAssert(false, @"meta error");
-            return NO;
+        switch (self.version) {
+            case MKMMetaVersion_MKM: {
+                if (!self.seed || !self.key || !self.fingerprint) {
+                    NSAssert(false, @"meta error");
+                    return NO;
+                } else {
+                    _valid = YES;
+                }
+            }
+                break;
+                
+            case MKMMetaVersion_BTC: {
+                if (!self.key) {
+                    NSAssert(false, @"meta error");
+                    return NO;
+                } else {
+                    _valid = YES;
+                }
+            }
+                break;
+                
+            case MKMMetaVersion_ExBTC: {
+                if (!self.seed || !self.key || !self.fingerprint) {
+                    NSAssert(false, @"meta error");
+                    return NO;
+                } else {
+                    _valid = YES;
+                }
+            }
+                break;
+                
+            default:
+                NSAssert(false, @"meta error");
+                return NO;
+                break;
         }
         //NSAssert(_valid, @"meta invalid");
     }
@@ -171,10 +220,8 @@
 
 - (BOOL)matchID:(const MKMID *)ID {
     NSAssert(ID.isValid, @"Invalid ID");
-    if (![self matchAddress:ID.address]) {
-        return NO;
-    }
-    return [self.seed isEqualToString:ID.name];
+    MKMID *str = [self buildIDWithNetworkID:ID.type];
+    return [ID isEqualToString:str];
 }
 
 // check: address == btc_address(network, CT)
@@ -190,7 +237,20 @@
         NSAssert(false, @"failed to build ID");
         return nil;
     }
-    return [[MKMID alloc] initWithName:self.seed address:addr];
+    switch (self.version) {
+        case MKMMetaVersion_MKM:
+        case MKMMetaVersion_ExBTC:
+            return [[MKMID alloc] initWithName:self.seed address:addr];
+            
+        case MKMMetaVersion_BTC:
+            NSAssert(self.seed.length == 0, @"meta version error");
+            return [[MKMID alloc] initWithAddress:addr];
+            
+        default:
+            break;
+    }
+    NSAssert(false, @"meta version error");
+    return nil;
 }
 
 - (MKMAddress *)buildAddressWithNetworkID:(MKMNetworkType)type {
@@ -198,9 +258,22 @@
         NSAssert(false, @"meta not valid");
         return nil;
     }
-    return [[MKMAddress alloc] initWithFingerprint:self.fingerprint
-                                           network:type
-                                           version:self.version];
+    switch (self.version) {
+        case MKMMetaVersion_MKM:
+            return [[MKMAddress alloc] initWithFingerprint:self.fingerprint
+                                                   network:type];
+            
+        case MKMMetaVersion_BTC:
+        case MKMMetaVersion_ExBTC:
+            NSAssert(type == MKMNetwork_BTCMain, @"address type error");
+            return [[MKMAddress alloc] initWithKeyData:self.key.data
+                                               network:type];
+            
+        default:
+            break;
+    }
+    NSAssert(false, @"meta version error");
+    return nil;
 }
 
 @end

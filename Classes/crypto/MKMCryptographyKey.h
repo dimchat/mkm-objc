@@ -15,12 +15,18 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *      keyInfo format: {
  *          algorithm: "RSA", // ECC, AES, ...
+ *          data     : "{BASE64_ENCODE}",
  *          ...
  *      }
  */
-@interface MKMCryptographyKey : MKMDictionary
+@interface MKMCryptographyKey : MKMDictionary {
+    
+    NSString *_algorithm;
+    NSData *_data;
+}
 
 @property (readonly, strong, nonatomic) NSString *algorithm;
+@property (readonly, strong, nonatomic) NSData *data;
 
 + (instancetype)keyWithKey:(id)key;
 

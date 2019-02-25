@@ -48,6 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *      keyInfo format: {
  *          algorithm: "RSA", // ECC, ...
+ *          data     : "{BASE64_ENCODE}",
  *          ...
  *      }
  */

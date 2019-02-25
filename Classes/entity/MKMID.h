@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface MKMID : MKMString
 
-@property (readonly, strong, nonatomic) NSString *name;
+@property (readonly, strong, nonatomic, nullable) NSString *name;
 @property (readonly, strong, nonatomic) MKMAddress *address;
 
 @property (readonly, nonatomic) MKMNetworkType type; // Network ID
@@ -53,6 +53,11 @@ NS_ASSUME_NONNULL_BEGIN
                      address:(const MKMAddress *)addr;
 
 /**
+ For BTC address
+ */
+- (instancetype)initWithAddress:(const MKMAddress *)addr;
+
+/**
  Initialize an ID with username, address & terminal
 
  @param seed - username
@@ -60,9 +65,9 @@ NS_ASSUME_NONNULL_BEGIN
  @param res - resource point where the user logged in
  @return ID object
  */
-- (instancetype)initWithName:(const NSString *)seed
+- (instancetype)initWithName:(nullable const NSString *)seed
                      address:(const MKMAddress *)addr
-                    terminal:(const NSString *)res;
+                    terminal:(nullable const NSString *)res;
 
 /**
  ID without terminal
