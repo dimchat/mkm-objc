@@ -118,7 +118,11 @@ static inline void parse_id_string(const NSString *string, MKMID *ID) {
         return NO;
     }
     // name
-    if (![self.name isEqualToString:ID.name]) {
+    if (self.name) {
+        if (![_name isEqualToString:ID.name]) {
+            return NO;
+        }
+    } else if (ID.name) {
         return NO;
     }
     // address

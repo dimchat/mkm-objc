@@ -111,6 +111,17 @@ static inline void print_id(MKMID *ID) {
     NSAssert([enc isEqualToString:@"3oF5MJ"], @"base 58 encode error");
 }
 
+- (void)testKeys {
+    NSDictionary *key = @{@"algorithm": @"RSA",
+                          @"data": @"-----BEGIN PUBLIC KEY-----\nMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDr2zVbMu4zFOdimKVD4DlW0Uol\nEtUocA9QESbKVdv8sjFY29JROrXNGHW0uD1cyGSLJyKVuDu7PnvgcUILeSpV+TEn\nNrMN5KSSTeWyOmh5n8NI5WqT3qpCk5vNMa4e/4/Yuh/Hy4d3KOmFO0cVa29e0GmV\nDHkGqw6f7uykdGVnNwIDAQAB\n-----END PUBLIC KEY-----"};
+    MKMPublicKey *PK = [MKMPublicKey keyWithKey:key];
+    NSLog(@"PK: %@", PK);
+    NSString *data = [PK.data base64Encode];
+    NSLog(@"PK.data: %@", data);
+    
+    NSAssert([data isEqualToString:@"MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDr2zVbMu4zFOdimKVD4DlW0UolEtUocA9QESbKVdv8sjFY29JROrXNGHW0uD1cyGSLJyKVuDu7PnvgcUILeSpV+TEnNrMN5KSSTeWyOmh5n8NI5WqT3qpCk5vNMa4e/4/Yuh/Hy4d3KOmFO0cVa29e0GmVDHkGqw6f7uykdGVnNwIDAQAB"], @"data error");
+}
+
 - (void)testSymmetric {
     
     NSString *string = @"moky";
