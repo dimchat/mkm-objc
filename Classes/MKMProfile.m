@@ -12,12 +12,6 @@
 
 #import "MKMProfile.h"
 
-@interface MKMProfile ()
-
-@property (strong, nonatomic) MKMID *ID;
-
-@end
-
 @implementation MKMProfile
 
 + (instancetype)profileWithProfile:(id)profile {
@@ -35,30 +29,14 @@
 
 - (instancetype)initWithID:(const MKMID *)ID {
     NSAssert(MKMNetwork_IsCommunicator(ID.type), @"profile ID error");
-    if (self = [self init]) {
-        // account ID
-        if (ID.isValid) {
-            [_storeDictionary setObject:ID forKey:@"ID"];
-            _ID = [ID copy];
-        }
-        
-        _publicFields = [[NSMutableArray alloc] init];
-        _protectedFields = [[NSMutableArray alloc] init];
-        _privateFields = [[NSMutableArray alloc] init];
-    }
-    return self;
+    NSDictionary *dict = @{
+                           @"ID": ID,
+                           };
+    return [self initWithDictionary:dict];
 }
 
 - (instancetype)initWithDictionary:(NSDictionary *)dict {
     if (self = [super initWithDictionary:dict]) {
-        dict = _storeDictionary;
-        // account ID
-        MKMID *ID = [dict objectForKey:@"ID"];
-        ID = [MKMID IDWithID:ID];
-        if (ID.isValid) {
-            _ID = ID;
-        }
-        
         _publicFields = [[NSMutableArray alloc] init];
         _protectedFields = [[NSMutableArray alloc] init];
         _privateFields = [[NSMutableArray alloc] init];
@@ -95,6 +73,10 @@
         [mArray addObject:value];
         [_storeDictionary setObject:mArray forKey:arrName];
     }
+}
+
+- (MKMID *)ID {
+    return [MKMID IDWithID:[_storeDictionary objectForKey:@"ID"]];
 }
 
 - (NSString *)name {
