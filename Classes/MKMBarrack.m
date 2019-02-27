@@ -105,9 +105,7 @@ SingletonImplementations(MKMBarrack, sharedInstance)
     if ([account isKindOfClass:[MKMUser class]]) {
         // add to user table
         [self addUser:(MKMUser *)account];
-        return;
-    }
-    if (account.ID.isValid) {
+    } else if (account.ID.isValid) {
         [_accountTable setObject:account forKey:account.ID.address];
     }
 }
@@ -150,6 +148,39 @@ SingletonImplementations(MKMBarrack, sharedInstance)
         }
     } else {
         [_metaTable removeObjectForKey:ID.address];
+    }
+}
+
+- (void)setProfile:(MKMProfile *)profile forID:(const MKMID *)ID {
+    if (MKMNetwork_IsGroup(ID.type)) {
+        // update group profile
+        MKMGroup *group = [_groupTable objectForKey:ID.address];
+        if (group) {
+            // update name
+            NSString *name = profile.name;
+            if (name) {
+                group.name = name;
+            }
+            // update logo
+        }
+    } else if (MKMNetwork_IsCommunicator(ID.type)) {
+        // update account profile
+        MKMAccount *account = [_userTable objectForKey:ID.address];
+        if (!account) {
+            account = [_accountTable objectForKey:ID.address];
+        }
+        if (account) {
+            // update name
+            NSString *name = profile.name;
+            if (name) {
+                account.name = name;
+            }
+            // update gender
+            // update avatar
+            // update biography
+        }
+        
+        // TODO: update member profile
     }
 }
 

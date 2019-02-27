@@ -69,6 +69,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)setMeta:(MKMMeta *)meta forID:(const MKMID *)ID;
 
+// update profile for each exists account
+- (void)setProfile:(MKMProfile *)profile forID:(const MKMID *)ID;
+
 /**
  Call it when receive 'UIApplicationDidReceiveMemoryWarningNotification',
  this will remove 50% of unused objects from the cache
