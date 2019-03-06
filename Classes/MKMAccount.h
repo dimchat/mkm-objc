@@ -20,32 +20,28 @@ typedef NS_ENUM(SInt32, MKMAccountStatus) {
 
 @interface MKMAccount : MKMEntity {
     
-    // public key
-    MKMPublicKey *_publicKey;
-    
-    // account status (parse history to update)
     MKMAccountStatus _status;
 }
 
+@property (readonly, nonatomic) MKMAccountStatus status;
+
 @property (readonly, strong, nonatomic) MKMPublicKey *publicKey;
-
-@property (nonatomic) MKMAccountStatus status;
-
-- (instancetype)initWithID:(const MKMID *)ID
-                 publicKey:(const MKMPublicKey *)PK
-NS_DESIGNATED_INITIALIZER;
 
 @end
 
 #pragma mark - Account Delegate
 
+@protocol MKMAccountDataSource <MKMEntityDataSource>
+
+@optional
+- (MKMAccountStatus)statusOfAccount:(const MKMAccount *)account;
+
+@end
+
 @protocol MKMAccountDelegate <NSObject>
 
 /**
  Account factory
- 
- @param ID - account ID
- @return Account
  */
 - (MKMAccount *)accountWithID:(const MKMID *)ID;
 

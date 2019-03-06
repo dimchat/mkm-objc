@@ -52,7 +52,7 @@ static NSString *s_directory = nil;
     return [dir stringByAppendingPathComponent:name];
 }
 
-- (MKMMeta *)loadMetaForEntityID:(const MKMID *)ID {
+- (MKMMeta *)loadMetaForID:(const MKMID *)ID {
     MKMMeta *meta = nil;
     NSString *path = [self _pathWithID:ID filename:@"meta.plist"];
     NSFileManager *fm = [NSFileManager defaultManager];

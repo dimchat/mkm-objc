@@ -95,7 +95,8 @@
         [op isEqualToString:@"create"]) {
         // status: Initialized -> Registered
         if (account.status == MKMAccountStatusInitialized) {
-            account.status = MKMAccountStatusRegistered;
+            // TODO: update account status
+            //account.status = MKMAccountStatusRegistered;
         }
     } else if ([op isEqualToString:@"suicide"] ||
                [op isEqualToString:@"destroy"]) {
@@ -107,7 +108,8 @@
         }
         // status: Registered -> Dead
         //if (account.status == MKMAccountStatusRegistered) {
-            account.status = MKMAccountStatusDead;
+            // TODO: update account status
+            //account.status = MKMAccountStatusDead;
         //}
     }
 }

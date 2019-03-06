@@ -17,28 +17,16 @@
 
 @property (strong, nonatomic) MKMID *founder;
 
-@property (strong, nonatomic) NSMutableArray<const MKMID *> *members;
-
 @end
 
 @implementation MKMGroup
 
-- (instancetype)initWithID:(const MKMID *)ID {
-    MKMID *founderID = nil;
-    self = [self initWithID:ID founderID:founderID];
-    return self;
-}
-
 /* designated initializer */
-- (instancetype)initWithID:(const MKMID *)ID
-                 founderID:(const MKMID *)founderID {
+- (instancetype)initWithID:(const MKMID *)ID {
     NSAssert(MKMNetwork_IsGroup(ID.type), @"group ID error");
-    NSAssert(MKMNetwork_IsPerson(founderID.type), @"founder ID error");
     if (self = [super initWithID:ID]) {
-        _founder = [founderID copy];
-        _owner = nil;
         // lazy
-        _members = nil;
+        _founder = nil;
     }
     
     return self;
@@ -48,44 +36,57 @@
     MKMGroup *social = [super copyWithZone:zone];
     if (social) {
         social.founder = _founder;
-        social.owner = _owner;
-        social.members = _members;
     }
     return social;
 }
 
-- (BOOL)isFounder:(const MKMID *)ID {
-    NSAssert(MKMNetwork_IsPerson(ID.type), @"founder ID error");
-    NSAssert(_founder, @"founder not set yet");
-    return [_founder isEqual:ID];
-}
-
-- (BOOL)isOwner:(const MKMID *)ID {
-    NSAssert(MKMNetwork_IsPerson(ID.type), @"owner ID error");
-    NSAssert(_owner, @"owner not set yet");
-    return [_owner isEqual:ID];
-}
-
-- (void)addMember:(const MKMID *)ID {
-    NSAssert(MKMNetwork_IsCommunicator(ID.type), @"member ID error");
-    if ([self hasMember:ID]) {
-        // don't add same member twice
-        return;
+- (MKMID *)founder {
+    if (!_founder) {
+        NSAssert(_dataSource, @"group data source not set yet");
+        _founder = [_dataSource founderOfGroup:self];
     }
-    if (!_members) {
-        _members = [[NSMutableArray alloc] init];
+    return _founder;
+}
+
+- (MKMID *)owner {
+    MKMID *ID = nil;
+    if ([_dataSource respondsToSelector:@selector(ownerOfGroup:)]) {
+        ID = [_dataSource ownerOfGroup:self];
     }
-    [_members addObject:ID];
+    return ID;
 }
 
-- (void)removeMember:(const MKMID *)ID {
-    NSAssert([self hasMember:ID], @"no such member found");
-    [_members removeObject:ID];
+- (NSArray<const MKMID *> *)members {
+    NSInteger count = [_dataSource numberOfMembersInGroup:self];
+    if (count <= 0) {
+        return nil;
+    }
+    NSMutableArray<const MKMID *> *list;
+    list = [[NSMutableArray alloc] initWithCapacity:count];
+    MKMID *ID;
+    while (--count >= 0) {
+        ID = [_dataSource group:self memberAtIndex:count];
+        [list addObject:ID];
+    }
+    return list;
 }
 
-- (BOOL)hasMember:(const MKMID *)ID {
-    NSAssert(MKMNetwork_IsCommunicator(ID.type), @"member ID error");
-    return [_members containsObject:ID];
+- (BOOL)existsMember:(const MKMID *)ID {
+    if ([self.owner isEqual:ID]) {
+        return YES;
+    }
+    NSInteger count = [_dataSource numberOfMembersInGroup:self];
+    if (count <= 0) {
+        return NO;
+    }
+    MKMID *member;
+    while (--count >= 0) {
+        member = [_dataSource group:self memberAtIndex:count];
+        if ([ID isEqual:member]) {
+            return YES;
+        }
+    }
+    return NO;
 }
 
 @end

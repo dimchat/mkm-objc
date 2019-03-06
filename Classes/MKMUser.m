@@ -17,19 +17,17 @@
 
 @interface MKMUser ()
 
-@property (strong, nonatomic) MKMContactListM *contacts;
+@property (strong, nonatomic) MKMPrivateKey *privateKey;
 
 @end
 
 @implementation MKMUser
 
 /* designated initializer */
-- (instancetype)initWithID:(const MKMID *)ID
-                 publicKey:(const MKMPublicKey *)PK {
-    if (self = [super initWithID:ID publicKey:PK]) {
+- (instancetype)initWithID:(const MKMID *)ID {
+    if (self = [super initWithID:ID]) {
         // lazy
         _privateKey = nil;
-        _contacts = nil;
     }
     return self;
 }
@@ -38,7 +36,6 @@
     MKMUser *user = [super copyWithZone:zone];
     if (user) {
         user.privateKey = _privateKey;
-        user.contacts = _contacts;
     }
     return user;
 }
@@ -47,40 +44,51 @@
     NSString *desc = [super debugDescription];
     NSDictionary *dict = [[desc data] jsonDictionary];
     NSMutableDictionary *info = [dict mutableCopy];
-    [info setObject:@(_contacts.count) forKey:@"contacts"];
+    [info setObject:@(self.contacts.count) forKey:@"contacts"];
     return [info jsonString];
 }
 
 - (MKMPrivateKey *)privateKey {
     if (!_privateKey) {
         // try to load private key from the keychain
-        _privateKey = [MKMPrivateKey loadKeyWithIdentifier:_ID.address];
+        MKMPrivateKey *SK = [MKMPrivateKey loadKeyWithIdentifier:_ID.address];
+        if ([self.publicKey isMatch:SK]) {
+            _privateKey = SK;
+        } else {
+            NSAssert(false, @"keys not match");
+        }
     }
-    NSAssert([_publicKey isMatch:_privateKey], @"keys not match");
     return _privateKey;
 }
 
-- (BOOL)addContact:(const MKMID *)ID {
-    if (_contacts) {
-        if ([_contacts containsObject:ID]) {
-            // already exists
-            return NO;
-        }
-    } else {
-        _contacts = [[MKMContactListM alloc] init];
+- (NSArray<const MKMID *> *)contacts {
+    NSInteger count = [_dataSource numberOfContactsInUser:self];
+    if (count <= 0) {
+        return nil;
     }
-    // add it
-    [_contacts addObject:ID];
-    return YES;
+    NSMutableArray<const MKMID *> *list;
+    list = [[NSMutableArray alloc] initWithCapacity:count];
+    MKMID *ID;
+    while (--count >= 0) {
+        ID = [_dataSource user:self contactAtIndex:count];
+        [list addObject:ID];
+    }
+    return list;
 }
 
-- (BOOL)containsContact:(const MKMID *)ID {
-    return [_contacts containsObject:ID];
-}
-
-- (void)removeContact:(const MKMID *)ID {
-    NSAssert([self containsContact:ID], @"contact not found");
-    [_contacts removeObject:ID];
+- (BOOL)existsContact:(const MKMID *)contact {
+    NSInteger count = [_dataSource numberOfContactsInUser:self];
+    if (count <= 0) {
+        return NO;
+    }
+    MKMID *ID;
+    while (--count >= 0) {
+        ID = [_dataSource user:self contactAtIndex:count];
+        if ([ID isEqual:contact]) {
+            return YES;
+        }
+    }
+    return NO;
 }
 
 @end

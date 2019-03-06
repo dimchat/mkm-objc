@@ -96,7 +96,6 @@ typedef UInt8 MKMMemberRole;
 
 - (instancetype)initWithGroupID:(const MKMID *)groupID
                       accountID:(const MKMID *)ID
-                      publicKey:(const MKMPublicKey *)PK
 NS_DESIGNATED_INITIALIZER;
 
 @end
@@ -107,10 +106,6 @@ NS_DESIGNATED_INITIALIZER;
 
 /**
  Member factory
-
- @param ID - account ID
- @param gID - group ID
- @return member
  */
 - (MKMMember *)memberWithID:(const MKMID *)ID groupID:(const MKMID *)gID;
 

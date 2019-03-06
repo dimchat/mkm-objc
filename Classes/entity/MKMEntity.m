@@ -29,7 +29,6 @@
     NSAssert([ID isValid], @"Invalid ID");
     if (self = [super init]) {
         _ID = [ID copy];
-        _name = nil; // lazy
     }
     
     return self;
@@ -39,7 +38,7 @@
     MKMEntity *entity = [[self class] allocWithZone:zone];
     entity = [entity initWithID:_ID];
     if (entity) {
-        entity.name = _name;
+        self.dataSource = _dataSource;
     }
     return entity;
 }
@@ -70,18 +69,21 @@
     return _ID.number;
 }
 
+- (MKMMeta *)meta {
+    NSAssert(_dataSource, @"entity data source not set yet");
+    return [_dataSource metaForEntity:self];
+}
+
 - (NSString *)name {
-    if (_name) {
-        return _name;
-    }
-    // profile.name
-    MKMProfile *profile = MKMProfileForID(_ID);
-    NSString *nick = profile.name;
-    if (nick) {
+    NSString *nick = [_dataSource nameOfEntity:self];
+    if (nick.length > 0) {
         return nick;
     }
-    // ID.name
-    return _ID.name;
+    nick = _ID.name;
+    if (nick.length > 0) {
+        return nick;
+    }
+    return _ID.address; // BTC Address
 }
 
 @end

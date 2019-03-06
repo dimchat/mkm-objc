@@ -13,35 +13,43 @@ NS_ASSUME_NONNULL_BEGIN
 @class MKMID;
 @class MKMMeta;
 
+@protocol MKMEntityDataSource;
+
 @interface MKMEntity : NSObject <NSCopying> {
     
     // convenience for instance accessing
     MKMID *_ID;
-    NSString *_name;
+    
+    __weak __kindof id<MKMEntityDataSource> _dataSource;
 }
 
-@property (readonly, strong, nonatomic) MKMID *ID;   // name@address
+@property (readonly, copy, nonatomic) MKMID *ID;     // name@address
 
 @property (readonly, nonatomic) MKMNetworkType type; // Network ID
 @property (readonly, nonatomic) UInt32 number;       // search number
 
-@property (strong, nonatomic) NSString *name;        // name or seed
+@property (readonly, strong, nonatomic) MKMMeta *meta;  // meta for entity
+@property (readonly, strong, nonatomic) NSString *name; // name or seed
+
+@property (weak, nonatomic) __kindof id<MKMEntityDataSource> dataSource;
 
 - (instancetype)initWithID:(const MKMID *)ID NS_DESIGNATED_INITIALIZER;
 
 @end
 
-#pragma mark - Entity Delegate
+#pragma mark - Entity Data Source
 
 @protocol MKMEntityDataSource <NSObject>
 
 /**
- Get meta to create entity
-
- @param ID - entity ID
- @return meta data(dictionary)
+ Get meta for entity
  */
-- (MKMMeta *)metaForEntityID:(const MKMID *)ID;
+- (MKMMeta *)metaForEntity:(const MKMEntity *)entity;
+
+/**
+ Get entity name
+ */
+- (NSString *)nameOfEntity:(const MKMEntity *)entity;
 
 @end
 

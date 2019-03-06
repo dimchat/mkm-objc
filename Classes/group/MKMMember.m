@@ -18,21 +18,19 @@
 
 @implementation MKMMember
 
-- (instancetype)initWithID:(const MKMID *)ID
-                 publicKey:(const MKMPublicKey *)PK {
+- (instancetype)initWithID:(const MKMID *)ID {
     //NSAssert(false, @"DON'T call me");
     MKMID *groupID = nil;
-    self = [self initWithGroupID:groupID accountID:ID publicKey:PK];
+    self = [self initWithGroupID:groupID accountID:ID];
     return self;
 }
 
 /* designated initializer */
 - (instancetype)initWithGroupID:(const MKMID *)groupID
-                      accountID:(const MKMID *)ID
-                      publicKey:(const MKMPublicKey *)PK {
+                      accountID:(const MKMID *)ID {
     NSAssert(MKMNetwork_IsCommunicator(ID.type), @"member ID error");
     NSAssert(!groupID || MKMNetwork_IsGroup(groupID.type), @"group ID error");
-    if (self = [super initWithID:ID publicKey:PK]) {
+    if (self = [super initWithID:ID]) {
         _groupID = [groupID copy];
         _role = MKMMember_Member;
     }
@@ -55,9 +53,8 @@
 @implementation MKMFounder
 
 - (instancetype)initWithGroupID:(const MKMID *)groupID
-                      accountID:(const MKMID *)ID
-                      publicKey:(const MKMPublicKey *)PK {
-    if (self = [super initWithGroupID:groupID accountID:ID publicKey:PK]) {
+                      accountID:(const MKMID *)ID {
+    if (self = [super initWithGroupID:groupID accountID:ID]) {
         _role = MKMMember_Founder;
     }
     return self;
@@ -68,9 +65,8 @@
 @implementation MKMOwner
 
 - (instancetype)initWithGroupID:(const MKMID *)groupID
-                      accountID:(const MKMID *)ID
-                      publicKey:(const MKMPublicKey *)PK {
-    if (self = [super initWithGroupID:groupID accountID:ID publicKey:PK]) {
+                      accountID:(const MKMID *)ID {
+    if (self = [super initWithGroupID:groupID accountID:ID]) {
         _role = MKMMember_Owner;
     }
     return self;
@@ -81,9 +77,8 @@
 @implementation MKMAdmin
 
 - (instancetype)initWithGroupID:(const MKMID *)groupID
-                      accountID:(const MKMID *)ID
-                      publicKey:(const MKMPublicKey *)PK {
-    if (self = [super initWithGroupID:groupID accountID:ID publicKey:PK]) {
+                      accountID:(const MKMID *)ID {
+    if (self = [super initWithGroupID:groupID accountID:ID]) {
         _role = MKMMember_Admin;
     }
     return self;

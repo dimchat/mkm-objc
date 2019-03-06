@@ -90,8 +90,8 @@
     }
     
     // create user
-    MKMUser *user = [[MKMUser alloc] initWithID:ID publicKey:meta.key];
-    user.privateKey = SK;
+    MKMUser *user = [[MKMUser alloc] initWithID:ID];
+    //user.privateKey = SK;
     [_userTable setObject:user forKey:ID.address];
     
 //#if DEBUG
@@ -109,6 +109,22 @@
 
 #pragma mark - Delegates
 
+- (MKMMeta *)metaForID:(const MKMID *)ID {
+    NSAssert([ID isValid], @"ID invalid");
+    return [_metaTable objectForKey:ID.address];
+}
+
+- (MKMMeta *)metaForEntity:(const MKMEntity *)entity {
+    MKMID *ID = entity.ID;
+    NSAssert([ID isValid], @"entity ID invalid");
+    return [_metaTable objectForKey:ID.address];
+}
+
+- (NSString *)nameOfEntity:(const MKMEntity *)entity {
+    MKMProfile *profile = [self profileForID:entity.ID];
+    return profile.name;
+}
+
 - (MKMAccount *)accountWithID:(const MKMID *)ID {
     if (MKMNetwork_IsPerson(ID.type)) {
         return [self userWithID:ID];
@@ -124,9 +140,12 @@
     return [_userTable objectForKey:ID.address];
 }
 
-- (MKMMeta *)metaForEntityID:(const MKMID *)ID {
-    NSAssert([ID isValid], @"entity ID invalid");
-    return [_metaTable objectForKey:ID.address];
+- (void)user:(const MKMUser *)user addContact:(const MKMID *)contact {
+    NSLog(@"user %@ add contact %@", user, contact);
+}
+
+- (void)user:(const MKMUser *)user removeContact:(const MKMID *)contact {
+    NSLog(@"user %@ remove contact %@", user, contact);
 }
 
 - (MKMProfile *)profileForID:(const MKMID *)ID {

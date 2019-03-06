@@ -11,9 +11,8 @@
 @implementation MKMContact
 
 /* designated initializer */
-- (instancetype)initWithID:(const MKMID *)ID
-                 publicKey:(const MKMPublicKey *)PK {
-    if (self = [super initWithID:ID publicKey:PK]) {
+- (instancetype)initWithID:(const MKMID *)ID {
+    if (self = [super initWithID:ID]) {
         //
     }
     return self;

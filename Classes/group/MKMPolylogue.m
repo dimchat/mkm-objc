@@ -13,10 +13,9 @@
 @implementation MKMPolylogue
 
 /* designated initializer */
-- (instancetype)initWithID:(const MKMID *)ID
-                 founderID:(const MKMID *)founderID {
+- (instancetype)initWithID:(const MKMID *)ID {
     NSAssert(ID.type == MKMNetwork_Polylogue, @"ID error");
-    if (self = [super initWithID:ID founderID:founderID]) {
+    if (self = [super initWithID:ID]) {
         //
     }
     return self;

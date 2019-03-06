@@ -30,7 +30,7 @@
     NSAssert([entity isKindOfClass:[MKMChatroom class]], @"error");
     MKMChatroom *chatroom = (MKMChatroom *)entity;
     
-    BOOL isOwner = [chatroom isOwner:recorder];
+    BOOL isOwner = [chatroom.owner isEqual:recorder];
     if (isOwner) {
         return YES;
     }
@@ -60,8 +60,8 @@
     MKMChatroom *chatroom = (MKMChatroom *)entity;
     
     //BOOL isFounder = [chatroom isFounder:ID];
-    BOOL isOwner = [chatroom isOwner:commander];
-    BOOL isAdmin = [chatroom isAdmin:commander];
+    BOOL isOwner = [chatroom.owner isEqual:commander];
+    BOOL isAdmin = [chatroom existsAdmin:commander];
     //BOOL isMember = isOwner || isAdmin || [chatroom hasMember:ID];
     
     const NSString *op = operation.command;
@@ -118,7 +118,7 @@
     
     const NSString *op = operation.command;
     if ([op isEqualToString:@"hire"]) {
-        NSAssert([chatroom isOwner:commander], @"permission denied");
+        NSAssert([chatroom.owner isEqual:commander], @"permission denied");
         // hire admin
         MKMID *admin = [operation objectForKey:@"admin"];
         if (!admin) {
@@ -126,10 +126,11 @@
         }
         if (admin) {
             admin = [MKMID IDWithID:admin];
-            [chatroom addAdmin:admin];
+            // TODO: hire admin
+            //[chatroom addAdmin:admin];
         }
     } else if ([op isEqualToString:@"fire"]) {
-        NSAssert([chatroom isOwner:commander], @"permission denied");
+        NSAssert([chatroom.owner isEqual:commander], @"permission denied");
         // fire admin
         MKMID *admin = [operation objectForKey:@"admin"];
         if (!admin) {
@@ -137,12 +138,13 @@
         }
         if (admin) {
             admin = [MKMID IDWithID:admin];
-            [chatroom removeAdmin:admin];
+            // TODO: fire admin
+            //[chatroom removeAdmin:admin];
         }
     } else if ([op isEqualToString:@"resign"]) {
-        NSAssert([chatroom isAdmin:commander], @"history error");
-        // resign admin
-        [chatroom removeAdmin:commander];
+        NSAssert([chatroom existsAdmin:commander], @"history error");
+        // TODO: resign admin
+        //[chatroom removeAdmin:commander];
     }
 }
 

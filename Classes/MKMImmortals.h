@@ -6,8 +6,6 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-//#import "MKMUser.h"
-//#import "MKMProfile.h"
 #import "MingKeMing.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -18,9 +16,10 @@ NS_ASSUME_NONNULL_BEGIN
  *      1. Immortal Hulk
  *      2. Monkey King
  */
-@interface MKMImmortals : NSObject <MKMAccountDelegate,
-                                    MKMUserDelegate,
+@interface MKMImmortals : NSObject <MKMMetaDataSource,
                                     MKMEntityDataSource,
+                                    MKMAccountDelegate,
+                                    MKMUserDelegate,
                                     MKMProfileDataSource>
 
 @end

@@ -134,4 +134,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+#pragma mark - Meta Data Source
+
+@protocol MKMMetaDataSource <NSObject>
+
+/**
+ Get meta for ID
+ */
+- (MKMMeta *)metaForID:(const MKMID *)ID;
+
+@end
+
 NS_ASSUME_NONNULL_END

@@ -6,6 +6,7 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
+#import "MKMMeta.h"
 #import "MKMEntity.h"
 #import "MKMAccount.h"
 
@@ -25,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 #define MKMGroupWithID(ID)       [MKMFacebook() groupWithID:(ID)]
 #define MKMMemberWithID(ID, gID) [MKMFacebook() memberWithID:(ID) groupID:(gID)]
 
-#define MKMMetaForID(ID)         [MKMFacebook() metaForEntityID:(ID)]
+#define MKMMetaForID(ID)         [MKMFacebook() metaForID:(ID)]
 #define MKMPublicKeyForID(ID)    MKMMetaForID(ID).key
 #define MKMProfileForID(ID)      [MKMFacebook() profileForID:(ID)]
 
@@ -35,7 +36,9 @@ NS_ASSUME_NONNULL_BEGIN
  *      1st, get instance here to avoid create same instance,
  *      2nd, if they were updated, we can refresh them immediately here
  */
-@interface MKMBarrack : NSObject <MKMAccountDelegate,
+@interface MKMBarrack : NSObject <MKMMetaDataSource,
+                                  MKMEntityDataSource,
+                                  MKMAccountDelegate,
                                   MKMUserDataSource,
                                   MKMUserDelegate,
                                   //-
@@ -44,9 +47,10 @@ NS_ASSUME_NONNULL_BEGIN
                                   MKMMemberDelegate,
                                   MKMChatroomDataSource,
                                   //-
-                                  MKMEntityDataSource,
                                   MKMProfileDataSource>
 
+@property (weak, nonatomic) id<MKMMetaDataSource> metaDataSource;
+@property (weak, nonatomic) id<MKMEntityDataSource> entityDataSource;
 @property (weak, nonatomic) id<MKMAccountDelegate> accountDelegate;
 @property (weak, nonatomic) id<MKMUserDataSource> userDataSource;
 @property (weak, nonatomic) id<MKMUserDelegate> userDelegate;
@@ -56,7 +60,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) id<MKMMemberDelegate> memberDelegate;
 @property (weak, nonatomic) id<MKMChatroomDataSource> chatroomDataSource;
 
-@property (weak, nonatomic) id<MKMEntityDataSource> entityDataSource;
 @property (weak, nonatomic) id<MKMProfileDataSource> profileDataSource;
 
 + (instancetype)sharedInstance;
@@ -68,9 +71,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)addMember:(MKMMember *)member;
 
 - (void)setMeta:(MKMMeta *)meta forID:(const MKMID *)ID;
-
-// update profile for each exists account
-- (void)setProfile:(MKMProfile *)profile forID:(const MKMID *)ID;
 
 /**
  Call it when receive 'UIApplicationDidReceiveMemoryWarningNotification',

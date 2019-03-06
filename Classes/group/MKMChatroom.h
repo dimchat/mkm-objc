@@ -10,19 +10,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NSMutableArray<const MKMID *> MKMAdminListM;
-typedef NSArray<const MKMID *> MKMAdminList;
+@interface MKMChatroom : MKMGroup
 
-@interface MKMChatroom : MKMGroup {
-    
-    MKMAdminListM *_administrators;
-}
+@property (readonly, strong, nonatomic) NSArray<const MKMID *> *admins;
 
-@property (readonly, strong, nonatomic) MKMAdminList *administrators;
-
-- (void)addAdmin:(const MKMID *)ID;
-- (void)removeAdmin:(const MKMID *)ID;
-- (BOOL)isAdmin:(const MKMID *)ID;
+- (BOOL)existsAdmin:(const MKMID *)ID;
 
 // -hire(admin, owner)
 // -fire(admin, owner)
@@ -32,22 +24,15 @@ typedef NSArray<const MKMID *> MKMAdminList;
 
 #pragma mark - Chatroom Delegate
 
-@protocol MKMChatroomDataSource <NSObject>
+@protocol MKMChatroomDataSource <MKMGroupDataSource>
 
 /**
  Get admins count
-
- @param grp - chatroom
- @return count
  */
 - (NSInteger)numberOfAdminsInChatroom:(const MKMChatroom *)grp;
 
 /**
  Get admin at index
-
- @param grp - chatroom
- @param index - index
- @return adminID
  */
 - (MKMID *)chatroom:(const MKMChatroom *)grp adminAtIndex:(NSInteger)index;
 

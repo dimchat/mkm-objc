@@ -16,26 +16,16 @@
 
 @interface MKMAccount ()
 
-@property (strong, nonatomic) MKMPublicKey *publicKey;
+@property (readwrite, nonatomic) MKMAccountStatus status;
 
 @end
 
 @implementation MKMAccount
 
-- (instancetype)initWithID:(const MKMID *)ID {
-    MKMPublicKey *PK = MKMPublicKeyForID(ID);
-    self = [self initWithID:ID publicKey:PK];
-    return self;
-}
-
 /* designated initializer */
-- (instancetype)initWithID:(const MKMID *)ID
-                 publicKey:(const MKMPublicKey *)PK {
+- (instancetype)initWithID:(const MKMID *)ID {
     NSAssert(MKMNetwork_IsCommunicator(ID.type), @"account ID error");
     if (self = [super initWithID:ID]) {
-        // public key
-        _publicKey = [PK copy];
-        
         // account status
         _status = MKMAccountStatusInitialized;
     }
@@ -45,10 +35,22 @@
 - (id)copyWithZone:(NSZone *)zone {
     MKMAccount *account = [super copyWithZone:zone];
     if (account) {
-        account.publicKey = _publicKey;
         account.status = _status;
     }
     return account;
+}
+
+- (MKMAccountStatus)status {
+    if (_status == MKMAccountStatusInitialized) {
+        if ([_dataSource respondsToSelector:@selector(statusOfAccount:)]) {
+            _status = [_dataSource statusOfAccount:self];
+        }
+    }
+    return _status;
+}
+
+- (MKMPublicKey *)publicKey {
+    return self.meta.key;
 }
 
 @end

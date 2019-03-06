@@ -46,9 +46,8 @@
     info.ID = [info.meta buildIDWithNetworkID:MKMNetwork_Main];
     
     // create user with ID & meta
-    info.user = [[self alloc] initWithID:info.ID
-                               publicKey:info.meta.key];
-    info.user.privateKey = info.privateKey;
+    info.user = [[self alloc] initWithID:info.ID];
+    //info.user.privateKey = info.privateKey;
     
     return info;
 }
@@ -172,6 +171,18 @@
         [_storeDictionary setObject:ID forKey:@"ID"];
     } else {
         [_storeDictionary removeObjectForKey:@"ID"];
+    }
+}
+
+- (NSString *)nickname {
+    return [_storeDictionary objectForKey:@"nickname"];
+}
+
+- (void)setNickname:(NSString *)nickname {
+    if (nickname) {
+        [_storeDictionary setObject:nickname forKey:@"nickname"];
+    } else {
+        [_storeDictionary removeObjectForKey:@"nickname"];
     }
 }
 

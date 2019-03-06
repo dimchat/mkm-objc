@@ -81,9 +81,6 @@ typedef NS_ENUM(SInt32, MKMGender) {
 
 /**
  Get profile for entity
- 
- @param ID - entity ID
- @return profile data(dictionary)
  */
 - (MKMProfile *)profileForID:(const MKMID *)ID;
 

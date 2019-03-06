@@ -57,6 +57,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) MKMUser *user;
 
+@property (strong, nonatomic) NSString *nickname;
+
 @end
 
 NS_ASSUME_NONNULL_END

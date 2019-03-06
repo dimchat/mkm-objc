@@ -84,8 +84,8 @@
         }
     }
     
-    BOOL isOwner = [social isOwner:recorder];
-    BOOL isMember = [social hasMember:recorder];
+    BOOL isOwner = [social.owner isEqual:recorder];
+    BOOL isMember = [social existsMember:recorder];
     
     // 1. owner
     if (isOwner) {
@@ -132,8 +132,8 @@
     NSAssert([entity isKindOfClass:[MKMGroup class]], @"error");
     MKMGroup *social = (MKMGroup *)entity;
     
-    BOOL isOwner = [social isOwner:commander];
-    BOOL isMember = isOwner || [social hasMember:commander];
+    BOOL isOwner = [social.owner isEqual:commander];
+    BOOL isMember = [social existsMember:commander];
     
     const NSString *op = operation.command;
     // first record
@@ -224,18 +224,20 @@
         MKMID *owner = [operation objectForKey:@"owner"];
         if (owner) {
             owner = [MKMID IDWithID:owner];
-            social.owner = owner;
+            // TODO: set owner
+            //social.owner = owner;
         } else {
-            // founder is the first owner as default
-            social.owner = founder;
+            // TODO: founder is the first owner as default
+            //social.owner = founder;
         }
     } else if ([op isEqualToString:@"abdicate"]) {
-        NSAssert([social isOwner:commander], @"permission denied");
+        NSAssert([social.owner isEqual:commander], @"permission denied");
         // abdicate the ownership
         MKMID *owner = [operation objectForKey:@"owner"];
         if (owner) {
             owner = [MKMID IDWithID:owner];
-            social.owner = owner;
+            // TODO: change owner
+            //social.owner = owner;
         }
     } else if ([op isEqualToString:@"invite"]) {
         // invite user to member
@@ -245,27 +247,30 @@
         }
         if (user) {
             user = [MKMID IDWithID:user];
-            [social addMember:user];
+            // TODO: invite
+            //[social addMember:user];
         }
     } else if ([op isEqualToString:@"expel"]) {
         // expel member
         MKMID *member = [operation objectForKey:@"member"];
         if (member) {
             member = [MKMID IDWithID:member];
-            [social removeMember:member];
+            // TODO: expel
+            //[social removeMember:member];
         }
     } else if ([op isEqualToString:@"join"]) {
-        // join
-        [social addMember:commander];
+        // TODO: join
+        //[social addMember:commander];
     } else if ([op isEqualToString:@"quit"]) {
-        // quit
-        [social removeMember:commander];
+        // TODO: quit
+        //[social removeMember:commander];
     } else if ([op isEqualToString:@"name"] ||
                [op isEqualToString:@"setName"]) {
         // set name
         NSString *name = [operation objectForKey:@"name"];
         if (name) {
-            social.name = name;
+            // TODO: set name
+            //social.name = name;
         }
     }
 }

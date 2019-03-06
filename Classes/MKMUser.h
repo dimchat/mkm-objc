@@ -13,54 +13,51 @@ NS_ASSUME_NONNULL_BEGIN
 @class MKMPrivateKey;
 @class MKMContact;
 
-typedef NSMutableArray<const MKMID *> MKMContactListM;
-typedef NSArray<const MKMID *> MKMContactList;
+@interface MKMUser : MKMAccount {
+    
+    MKMPrivateKey *_privateKey;
+}
 
-@interface MKMUser : MKMAccount
+@property (readonly, strong, nonatomic) MKMPrivateKey *privateKey;
 
-@property (strong, nonatomic) MKMPrivateKey *privateKey;
+@property (readonly, strong, nonatomic) NSArray<const MKMID *> *contacts;
 
-@property (readonly, strong, nonatomic) MKMContactList *contacts;
-
-// contacts
-- (BOOL)addContact:(const MKMID *)ID;
-- (BOOL)containsContact:(const MKMID *)ID;
-- (void)removeContact:(const MKMID *)ID;
+- (BOOL)existsContact:(const MKMID *)contact;
 
 @end
 
 #pragma mark - User Delegate
 
-@protocol MKMUserDataSource <NSObject>
+@protocol MKMUserDataSource <MKMAccountDataSource>
 
 /**
  Get contacts count
-
- @param user - user
- @return count
  */
 - (NSInteger)numberOfContactsInUser:(const MKMUser *)user;
 
 /**
- Get contact ID with index
-
- @param user - user
- @param index - contact index
- @return contact ID
+ Get contact ID at index
  */
 - (MKMID *)user:(const MKMUser *)user contactAtIndex:(NSInteger)index;
 
 @end
 
-@protocol MKMUserDelegate <NSObject>
+@protocol MKMUserDelegate <MKMAccountDelegate>
 
 /**
  User factory
-
- @param ID - user ID
- @return user
  */
 - (MKMUser *)userWithID:(const MKMID *)ID;
+
+/**
+ Add contact for user
+ */
+- (void)user:(const MKMUser *)user addContact:(const MKMID *)contact;
+
+/**
+ Remove contact of user
+ */
+- (void)user:(const MKMUser *)user removeContact:(const MKMID *)contact;
 
 @end
 

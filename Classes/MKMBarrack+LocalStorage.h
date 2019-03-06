@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) NSString *directory;
 
 // default "Documents/.mkm/{address}/meta.plist"
-- (MKMMeta *)loadMetaForEntityID:(const MKMID *)ID;
+- (MKMMeta *)loadMetaForID:(const MKMID *)ID;
 
 // default "Documents/.mkm/{address}/meta.plist"
 - (BOOL)saveMeta:(const MKMMeta *)meta forEntityID:(const MKMID *)ID;
