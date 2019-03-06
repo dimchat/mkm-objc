@@ -62,7 +62,7 @@
     //BOOL isFounder = [chatroom isFounder:ID];
     BOOL isOwner = [chatroom isOwner:commander];
     BOOL isAdmin = [chatroom isAdmin:commander];
-    //BOOL isMember = isOwner || isAdmin || [chatroom isMember:ID];
+    //BOOL isMember = isOwner || isAdmin || [chatroom hasMember:ID];
     
     const NSString *op = operation.command;
     if ([op isEqualToString:@"name"] ||

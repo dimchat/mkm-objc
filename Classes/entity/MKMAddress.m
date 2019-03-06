@@ -170,7 +170,6 @@ static inline void parse_address(const NSString *string, MKMAddress *address) {
 }
 
 - (BOOL)isEqual:(id)object {
-    NSAssert([object isKindOfClass:[NSString class]], @"error");
     return [_storeString isEqualToString:object];
 }
 

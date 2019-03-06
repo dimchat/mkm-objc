@@ -46,7 +46,6 @@
 
 - (BOOL)isEqual:(id)object {
     MKMEntity *entity = (MKMEntity *)object;
-    NSAssert([entity.ID isValid], @"Invalid ID");
     return [entity.ID isEqual:_ID];
 }
 

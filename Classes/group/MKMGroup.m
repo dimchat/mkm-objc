@@ -68,7 +68,7 @@
 
 - (void)addMember:(const MKMID *)ID {
     NSAssert(MKMNetwork_IsCommunicator(ID.type), @"member ID error");
-    if ([self isMember:ID]) {
+    if ([self hasMember:ID]) {
         // don't add same member twice
         return;
     }
@@ -79,11 +79,11 @@
 }
 
 - (void)removeMember:(const MKMID *)ID {
-    NSAssert([self isMember:ID], @"no such member found");
+    NSAssert([self hasMember:ID], @"no such member found");
     [_members removeObject:ID];
 }
 
-- (BOOL)isMember:(const MKMID *)ID {
+- (BOOL)hasMember:(const MKMID *)ID {
     NSAssert(MKMNetwork_IsCommunicator(ID.type), @"member ID error");
     return [_members containsObject:ID];
 }

@@ -34,7 +34,7 @@ NS_DESIGNATED_INITIALIZER;
 
 - (void)addMember:(const MKMID *)ID;
 - (void)removeMember:(const MKMID *)ID;
-- (BOOL)isMember:(const MKMID *)ID;
+- (BOOL)hasMember:(const MKMID *)ID;
 
 // +create(founder)
 // -setName(name)

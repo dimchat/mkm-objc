@@ -55,7 +55,7 @@
         // don't add the same admin twice
         return;
     }
-    if (![self isMember:ID]) {
+    if (![self hasMember:ID]) {
         NSAssert(false, @"should be a member first");
         [self addMember:ID];
     }
@@ -72,7 +72,7 @@
 
 - (BOOL)isAdmin:(const MKMID *)ID {
     if ([_administrators containsObject:ID]) {
-        NSAssert([self isMember:ID], @"should be a member too");
+        NSAssert([self hasMember:ID], @"should be a member too");
         return YES;
     } else {
         return NO;

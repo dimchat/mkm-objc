@@ -85,7 +85,7 @@
     }
     
     BOOL isOwner = [social isOwner:recorder];
-    BOOL isMember = [social isMember:recorder];
+    BOOL isMember = [social hasMember:recorder];
     
     // 1. owner
     if (isOwner) {
@@ -133,7 +133,7 @@
     MKMGroup *social = (MKMGroup *)entity;
     
     BOOL isOwner = [social isOwner:commander];
-    BOOL isMember = isOwner || [social isMember:commander];
+    BOOL isMember = isOwner || [social hasMember:commander];
     
     const NSString *op = operation.command;
     // first record
