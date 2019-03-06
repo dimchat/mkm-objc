@@ -38,7 +38,7 @@
     MKMEntity *entity = [[self class] allocWithZone:zone];
     entity = [entity initWithID:_ID];
     if (entity) {
-        self.dataSource = _dataSource;
+        entity.dataSource = _dataSource;
     }
     return entity;
 }
@@ -75,6 +75,7 @@
 }
 
 - (NSString *)name {
+    NSAssert(_dataSource, @"entity data source not set yet");
     NSString *nick = [_dataSource nameOfEntity:self];
     if (nick.length > 0) {
         return nick;
