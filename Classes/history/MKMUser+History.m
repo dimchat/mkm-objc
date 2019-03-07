@@ -47,6 +47,7 @@
     
     // create user with ID & meta
     info.user = [[self alloc] initWithID:info.ID];
+    info.user.dataSource = [MKMBarrack sharedInstance];
     //info.user.privateKey = info.privateKey;
     
     return info;

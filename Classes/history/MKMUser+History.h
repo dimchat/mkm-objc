@@ -47,6 +47,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark -
 
+@class MKMProfile;
+
 @interface MKMRegisterInfo : MKMDictionary
 
 @property (strong, nonatomic) MKMPrivateKey *privateKey;
@@ -57,7 +59,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) MKMUser *user;
 
-@property (strong, nonatomic) NSString *nickname;
+@property (strong, nonatomic, nullable) MKMProfile *profile;
 
 @end
 
