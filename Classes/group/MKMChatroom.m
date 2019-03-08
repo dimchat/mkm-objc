@@ -20,7 +20,7 @@
     if (count <= 0) {
         return NO;
     }
-    MKMID *admin;
+    const MKMID *admin;
     while (--count >= 0) {
         admin = [_dataSource chatroom:self adminAtIndex:count];
         if ([ID isEqual:admin]) {

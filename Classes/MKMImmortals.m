@@ -21,7 +21,7 @@
 
 @interface MKMImmortals () {
     
-    NSMutableDictionary<const MKMAddress *, MKMMeta *> *_metaTable;
+    NSMutableDictionary<const MKMAddress *, const MKMMeta *> *_metaTable;
     NSMutableDictionary<const MKMAddress *, MKMProfile *> *_profileTable;
     
     NSMutableDictionary<const MKMAddress *, MKMUser *> *_userTable;
@@ -44,13 +44,13 @@
     return self;
 }
 
-- (MKMRegisterInfo *)_loadBuiltInAccount:(NSString *)filename {
+- (void)_loadBuiltInAccount:(NSString *)filename {
     NSBundle *bundle = [NSBundle bundleForClass:[self class]];//[NSBundle mainBundle];
     NSString *path = [bundle pathForResource:filename ofType:@"plist"];
     NSFileManager *fm = [NSFileManager defaultManager];
     if (![fm fileExistsAtPath:path]) {
         NSAssert(false, @"file not exists: %@", path);
-        return nil;
+        return ;
     }
     NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:path];
     
@@ -97,25 +97,17 @@
 //#if DEBUG
 //    [[DKDClient sharedInstance] addUser:user];
 //#endif
-    
-    MKMRegisterInfo *info = [[MKMRegisterInfo alloc] init];
-    info.privateKey = SK;
-    info.publicKey = SK.publicKey;
-    info.meta = meta;
-    info.ID = ID;
-    info.user = user;
-    return info;
 }
 
 #pragma mark - Delegates
 
-- (MKMMeta *)metaForID:(const MKMID *)ID {
+- (const MKMMeta *)metaForID:(const MKMID *)ID {
     NSAssert([ID isValid], @"ID invalid");
     return [_metaTable objectForKey:ID.address];
 }
 
-- (MKMMeta *)metaForEntity:(const MKMEntity *)entity {
-    MKMID *ID = entity.ID;
+- (const MKMMeta *)metaForEntity:(const MKMEntity *)entity {
+    const MKMID *ID = entity.ID;
     NSAssert([ID isValid], @"entity ID invalid");
     return [_metaTable objectForKey:ID.address];
 }

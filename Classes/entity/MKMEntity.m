@@ -69,7 +69,7 @@
     return _ID.number;
 }
 
-- (MKMMeta *)meta {
+- (const MKMMeta *)meta {
     NSAssert(_dataSource, @"entity data source not set yet");
     return [_dataSource metaForEntity:self];
 }
@@ -84,7 +84,7 @@
     if (nick.length > 0) {
         return nick;
     }
-    return _ID.address; // BTC Address
+    return (NSString *)_ID.address; // BTC Address
 }
 
 @end

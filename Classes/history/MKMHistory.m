@@ -14,7 +14,7 @@
 
 @interface MKMHistory ()
 
-@property (strong, nonatomic) MKMID *ID;
+@property (strong, nonatomic) const MKMID *ID;
 
 @property (strong, nonatomic) NSMutableArray *blocks;
 
@@ -61,7 +61,7 @@
     return history;
 }
 
-- (MKMID *)ID {
+- (const MKMID *)ID {
     if (!_ID) {
         MKMID *ID = [_storeDictionary objectForKey:@"ID"];
         _ID = [MKMID IDWithID:ID];

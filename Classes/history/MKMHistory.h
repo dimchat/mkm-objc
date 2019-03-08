@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface MKMHistory : MKMDictionary
 
-@property (readonly, strong, nonatomic) MKMID *ID;
+@property (readonly, strong, nonatomic) const MKMID *ID;
 
 @property (readonly, strong, nonatomic) NSArray *blocks; // records
 

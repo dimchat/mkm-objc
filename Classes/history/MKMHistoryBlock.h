@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly, strong, nonatomic) NSArray *transactions; // events
 @property (readonly, strong, nonatomic) NSData *merkleRoot;
 @property (readonly, strong, nonatomic) NSData *signature;
-@property (readonly, strong, nonatomic, nullable) MKMID *recorder;
+@property (readonly, strong, nonatomic, nullable) const MKMID *recorder;
 
 + (instancetype)blockWithBlock:(id)record;
 

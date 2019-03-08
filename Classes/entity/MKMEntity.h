@@ -18,17 +18,17 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MKMEntity : NSObject <NSCopying> {
     
     // convenience for instance accessing
-    MKMID *_ID;
+    const MKMID *_ID;
     
     __weak __kindof id<MKMEntityDataSource> _dataSource;
 }
 
-@property (readonly, copy, nonatomic) MKMID *ID;     // name@address
+@property (readonly, copy, nonatomic) const MKMID *ID;     // name@address
 
 @property (readonly, nonatomic) MKMNetworkType type; // Network ID
 @property (readonly, nonatomic) UInt32 number;       // search number
 
-@property (readonly, strong, nonatomic) MKMMeta *meta;  // meta for entity
+@property (readonly, strong, nonatomic) const MKMMeta *meta;  // meta for entity
 @property (readonly, strong, nonatomic) NSString *name; // name or seed
 
 @property (weak, nonatomic) __kindof id<MKMEntityDataSource> dataSource;
@@ -44,7 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Get meta for entity
  */
-- (MKMMeta *)metaForEntity:(const MKMEntity *)entity;
+- (const MKMMeta *)metaForEntity:(const MKMEntity *)entity;
 
 /**
  Get entity name

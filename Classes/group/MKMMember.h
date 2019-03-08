@@ -86,12 +86,12 @@ typedef UInt8 MKMMemberRole;
 
 @interface MKMMember : MKMAccount {
     
-    MKMID *_groupID;
+    const MKMID *_groupID;
     
     MKMMemberRole _role;
 }
 
-@property (readonly, strong, nonatomic) MKMID *groupID;
+@property (readonly, strong, nonatomic) const MKMID *groupID;
 @property (nonatomic) MKMMemberRole role;
 
 - (instancetype)initWithGroupID:(const MKMID *)groupID

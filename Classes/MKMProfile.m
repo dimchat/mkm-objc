@@ -75,7 +75,7 @@
     }
 }
 
-- (MKMID *)ID {
+- (const MKMID *)ID {
     return [MKMID IDWithID:[_storeDictionary objectForKey:@"ID"]];
 }
 

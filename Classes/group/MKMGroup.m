@@ -15,7 +15,7 @@
 
 @interface MKMGroup ()
 
-@property (strong, nonatomic) MKMID *founder;
+@property (strong, nonatomic) const MKMID *founder;
 
 @end
 
@@ -40,7 +40,7 @@
     return social;
 }
 
-- (MKMID *)founder {
+- (const MKMID *)founder {
     if (!_founder) {
         NSAssert(_dataSource, @"group data source not set yet");
         _founder = [_dataSource founderOfGroup:self];
@@ -48,8 +48,8 @@
     return _founder;
 }
 
-- (MKMID *)owner {
-    MKMID *ID = nil;
+- (const MKMID *)owner {
+    const MKMID *ID = nil;
     if ([_dataSource respondsToSelector:@selector(ownerOfGroup:)]) {
         ID = [_dataSource ownerOfGroup:self];
     }
@@ -63,7 +63,7 @@
     }
     NSMutableArray<const MKMID *> *list;
     list = [[NSMutableArray alloc] initWithCapacity:count];
-    MKMID *ID;
+    const MKMID *ID;
     while (--count >= 0) {
         ID = [_dataSource group:self memberAtIndex:count];
         [list addObject:ID];
@@ -79,7 +79,7 @@
     if (count <= 0) {
         return NO;
     }
-    MKMID *member;
+    const MKMID *member;
     while (--count >= 0) {
         member = [_dataSource group:self memberAtIndex:count];
         if ([ID isEqual:member]) {

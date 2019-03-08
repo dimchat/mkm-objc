@@ -23,7 +23,7 @@ typedef NS_ENUM(SInt32, MKMGender) {
 
 @interface MKMProfile : MKMDictionary
 
-@property (readonly, strong, nonatomic) MKMID *ID;
+@property (readonly, strong, nonatomic) const MKMID *ID;
 
 @property (strong, nonatomic) NSString *name;
 

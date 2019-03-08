@@ -220,19 +220,19 @@
 
 - (BOOL)matchID:(const MKMID *)ID {
     NSAssert(ID.isValid, @"Invalid ID");
-    MKMID *str = [self buildIDWithNetworkID:ID.type];
-    return [ID isEqualToString:str];
+    const MKMID *str = [self buildIDWithNetworkID:ID.type];
+    return [ID isEqual:str];
 }
 
 // check: address == btc_address(network, CT)
 - (BOOL)matchAddress:(const MKMAddress *)address {
     NSAssert(address.isValid, @"Invalid address");
-    MKMAddress *addr = [self buildAddressWithNetworkID:address.network];
-    return [address isEqualToString:addr];
+    const MKMAddress *addr = [self buildAddressWithNetworkID:address.network];
+    return [address isEqual:addr];
 }
 
-- (MKMID *)buildIDWithNetworkID:(MKMNetworkType)type {
-    MKMAddress *addr = [self buildAddressWithNetworkID:type];
+- (const MKMID *)buildIDWithNetworkID:(MKMNetworkType)type {
+    const MKMAddress *addr = [self buildAddressWithNetworkID:type];
     if (!addr) {
         NSAssert(false, @"failed to build ID");
         return nil;
@@ -253,7 +253,7 @@
     return nil;
 }
 
-- (MKMAddress *)buildAddressWithNetworkID:(MKMNetworkType)type {
+- (const MKMAddress *)buildAddressWithNetworkID:(MKMNetworkType)type {
     if (!self.isValid) {
         NSAssert(false, @"meta not valid");
         return nil;

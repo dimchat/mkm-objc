@@ -44,7 +44,7 @@ static inline NSMutableArray *json_array(const NSArray *events) {
 @property (strong, nonatomic) NSMutableArray *transactions;
 @property (strong, nonatomic) NSData *merkleRoot;
 @property (strong, nonatomic) NSData *signature;
-@property (strong, nonatomic, nullable) MKMID *recorder;
+@property (strong, nonatomic, nullable) const MKMID *recorder;
 
 @end
 
@@ -180,7 +180,7 @@ static inline NSMutableArray *json_array(const NSArray *events) {
     return _signature;
 }
 
-- (MKMID *)recorder {
+- (const MKMID *)recorder {
     if (!_recorder) {
         MKMID *ID = [_storeDictionary objectForKey:@"recorder"];
         _recorder = [MKMID IDWithID:ID];

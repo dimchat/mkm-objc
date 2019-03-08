@@ -38,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Get contact ID at index
  */
-- (MKMID *)user:(const MKMUser *)user contactAtIndex:(NSInteger)index;
+- (const MKMID *)user:(const MKMUser *)user contactAtIndex:(NSInteger)index;
 
 @end
 

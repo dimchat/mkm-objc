@@ -26,7 +26,7 @@
 
 @interface MKMGroup (Hacking)
 
-@property (strong, nonatomic) MKMID *founder;
+@property (strong, nonatomic) const MKMID *founder;
 
 @end
 
@@ -141,7 +141,7 @@
         if ([op isEqualToString:@"found"] ||
             [op isEqualToString:@"create"]) {
             // only founder
-            MKMMeta *meta = MKMMetaForID(social.ID);
+            const MKMMeta *meta = MKMMetaForID(social.ID);
             MKMPublicKey *PK = MKMPublicKeyForID(commander);
             if (![meta.key isEqual:PK]) {
                 NSAssert(false, @"only founder can create");

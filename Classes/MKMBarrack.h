@@ -70,7 +70,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)addGroup:(MKMGroup *)group;
 - (void)addMember:(MKMMember *)member;
 
-- (void)setMeta:(MKMMeta *)meta forID:(const MKMID *)ID;
+- (BOOL)setMeta:(const MKMMeta *)meta forID:(const MKMID *)ID;
 
 /**
  Call it when receive 'UIApplicationDidReceiveMemoryWarningNotification',

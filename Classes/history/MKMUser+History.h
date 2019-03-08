@@ -10,22 +10,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class MKMRegisterInfo;
 @class MKMHistoryBlock;
 
 @interface MKMUser (History)
-
-/**
- Create a new account
- 
- @param seed - username
- @param SK - private key
- @param PK - public key, it will get from SK if empty
- @return RegisterInfo
- */
-+ (MKMRegisterInfo *)registerWithName:(const NSString *)seed
-                           privateKey:(const MKMPrivateKey *)SK
-                            publicKey:(nullable const MKMPublicKey *)PK;
 
 /**
  Create register record for the account
@@ -42,24 +29,6 @@ NS_ASSUME_NONNULL_BEGIN
  @return HistoryBlock
  */
 - (MKMHistoryBlock *)suicideWithMessage:(nullable const NSString *)lastWords;
-
-@end
-
-#pragma mark -
-
-@class MKMProfile;
-
-@interface MKMRegisterInfo : MKMDictionary
-
-@property (strong, nonatomic) MKMPrivateKey *privateKey;
-@property (strong, nonatomic) MKMPublicKey *publicKey;
-
-@property (strong, nonatomic) MKMMeta *meta;
-@property (strong, nonatomic) MKMID *ID;
-
-@property (strong, nonatomic) MKMUser *user;
-
-@property (strong, nonatomic, nullable) MKMProfile *profile;
 
 @end
 

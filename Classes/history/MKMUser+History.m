@@ -26,33 +26,6 @@
 
 @implementation MKMUser (History)
 
-+ (MKMRegisterInfo *)registerWithName:(const NSString *)seed
-                           privateKey:(const MKMPrivateKey *)SK
-                            publicKey:(nullable const MKMPublicKey *)PK {
-    NSAssert([seed length] > 0, @"seed error");
-    NSAssert(!PK || [PK isMatch:SK], @"PK must match SK");
-    
-    MKMRegisterInfo *info = [[MKMRegisterInfo alloc] init];
-    info.privateKey = [SK copy];
-    info.publicKey = [PK copy];
-    
-    // create meta
-    info.meta = [[MKMMeta alloc] initWithSeed:seed
-                                   privateKey:info.privateKey
-                                    publicKey:info.publicKey
-                                      version:MKMMetaVersion_MKM];
-    
-    // build ID
-    info.ID = [info.meta buildIDWithNetworkID:MKMNetwork_Main];
-    
-    // create user with ID & meta
-    info.user = [[self alloc] initWithID:info.ID];
-    info.user.dataSource = [MKMBarrack sharedInstance];
-    //info.user.privateKey = info.privateKey;
-    
-    return info;
-}
-
 - (MKMHistoryBlock *)registerWithMessage:(nullable const NSString *)hello {
     NSAssert(self.privateKey, @"private key not set");
     
@@ -115,76 +88,6 @@
     [record signWithPrivateKey:self.privateKey];
     
     return record;
-}
-
-@end
-
-#pragma mark -
-
-@implementation MKMRegisterInfo
-
-- (MKMPrivateKey *)privateKey {
-    MKMPrivateKey *SK = [_storeDictionary objectForKey:@"privateKey"];
-    return [MKMPrivateKey keyWithKey:SK];
-}
-
-- (void)setPrivateKey:(MKMPrivateKey *)privateKey {
-    if (privateKey) {
-        [_storeDictionary setObject:privateKey forKey:@"privateKey"];
-    } else {
-        [_storeDictionary removeObjectForKey:@"privateKey"];
-    }
-}
-
-- (MKMPublicKey *)publicKey {
-    MKMPublicKey *PK = [_storeDictionary objectForKey:@"publicKey"];
-    return [MKMPublicKey keyWithKey:PK];
-}
-
-- (void)setPublicKey:(MKMPublicKey *)publicKey {
-    if (publicKey) {
-        [_storeDictionary setObject:publicKey forKey:@"publicKey"];
-    } else {
-        [_storeDictionary removeObjectForKey:@"publicKey"];
-    }
-}
-
-- (MKMMeta *)meta {
-    MKMMeta *info = [_storeDictionary objectForKey:@"meta"];
-    return [MKMMeta metaWithMeta:info];
-}
-
-- (void)setMeta:(MKMMeta *)meta {
-    if (meta) {
-        [_storeDictionary setObject:meta forKey:@"meta"];
-    } else {
-        [_storeDictionary removeObjectForKey:@"meta"];
-    }
-}
-
-- (MKMID *)ID {
-    MKMID *identity = [_storeDictionary objectForKey:@"ID"];
-    return [MKMID IDWithID:identity];
-}
-
-- (void)setID:(MKMID *)ID {
-    if (ID) {
-        [_storeDictionary setObject:ID forKey:@"ID"];
-    } else {
-        [_storeDictionary removeObjectForKey:@"ID"];
-    }
-}
-
-- (NSString *)nickname {
-    return [_storeDictionary objectForKey:@"nickname"];
-}
-
-- (void)setNickname:(NSString *)nickname {
-    if (nickname) {
-        [_storeDictionary setObject:nickname forKey:@"nickname"];
-    } else {
-        [_storeDictionary removeObjectForKey:@"nickname"];
-    }
 }
 
 @end

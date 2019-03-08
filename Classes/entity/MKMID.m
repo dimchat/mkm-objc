@@ -11,7 +11,7 @@
 @interface MKMID ()
 
 @property (strong, nonatomic, nonnull) NSString *name;
-@property (strong, nonatomic, nonnull) MKMAddress *address;
+@property (strong, nonatomic, nonnull) const MKMAddress *address;
 
 @property (strong, nonatomic, nullable) NSString *terminal;
 
@@ -140,7 +140,7 @@ static inline void parse_id_string(const NSString *string, MKMID *ID) {
     return _name;
 }
 
-- (MKMAddress *)address {
+- (const MKMAddress *)address {
     if (!_name && !_address && !_terminal && _valid == NO) {
         parse_id_string(_storeString, self);
     }

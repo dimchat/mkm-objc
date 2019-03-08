@@ -12,11 +12,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MKMGroup : MKMEntity {
     
-    MKMID *_founder;
+    const MKMID *_founder;
 }
 
-@property (readonly, strong, nonatomic) MKMID *founder;
-@property (readonly, strong, nonatomic) MKMID *owner;
+@property (readonly, strong, nonatomic) const MKMID *founder;
+@property (readonly, strong, nonatomic) const MKMID *owner;
 
 @property (readonly, strong, nonatomic) NSArray<const MKMID *> *members;
 
@@ -44,18 +44,18 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Get member at index
  */
-- (MKMID *)group:(const MKMGroup *)group memberAtIndex:(NSInteger)index;
+- (const MKMID *)group:(const MKMGroup *)group memberAtIndex:(NSInteger)index;
 
 /**
  Get group founder
  */
-- (MKMID *)founderOfGroup:(const MKMGroup *)group;
+- (const MKMID *)founderOfGroup:(const MKMGroup *)group;
 
 /**
  Get group owner
  */
 @optional
-- (MKMID *)ownerOfGroup:(const MKMGroup *)group;
+- (const MKMID *)ownerOfGroup:(const MKMGroup *)group;
 
 @end
 

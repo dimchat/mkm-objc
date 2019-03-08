@@ -34,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Get admin at index
  */
-- (MKMID *)chatroom:(const MKMChatroom *)grp adminAtIndex:(NSInteger)index;
+- (const MKMID *)chatroom:(const MKMChatroom *)grp adminAtIndex:(NSInteger)index;
 
 @end
 

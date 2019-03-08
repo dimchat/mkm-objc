@@ -185,7 +185,7 @@ SingletonImplementations(MKMConsensus, sharedInstance)
     }
     
     // 2. get recorder
-    MKMID *recorder = record.recorder;
+    const MKMID *recorder = record.recorder;
     if (recorder) {
         recorder = [MKMID IDWithID:recorder];
     } else {
@@ -208,7 +208,7 @@ SingletonImplementations(MKMConsensus, sharedInstance)
     
     // 4. execute all events in this record
     MKMHistoryOperation *op;
-    MKMID *commander;
+    const MKMID *commander;
     for (id item in record.transactions) {
         // 4.1. get event.commander
         event = [MKMHistoryTransaction transactionWithTransaction:item];

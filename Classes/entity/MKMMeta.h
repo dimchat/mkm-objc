@@ -129,8 +129,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)matchID:(const MKMID *)ID;
 - (BOOL)matchAddress:(const MKMAddress *)address;
 
-- (MKMID *)buildIDWithNetworkID:(MKMNetworkType)type;
-- (MKMAddress *)buildAddressWithNetworkID:(MKMNetworkType)type;
+- (const MKMID *)buildIDWithNetworkID:(MKMNetworkType)type;
+- (const MKMAddress *)buildAddressWithNetworkID:(MKMNetworkType)type;
 
 @end
 
@@ -141,7 +141,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Get meta for ID
  */
-- (MKMMeta *)metaForID:(const MKMID *)ID;
+- (const MKMMeta *)metaForID:(const MKMID *)ID;
 
 @end
 

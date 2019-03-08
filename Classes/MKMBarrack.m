@@ -32,7 +32,7 @@ typedef NSMutableDictionary<const MKMAddress *, MKMGroup *> GroupTableM;
 typedef NSMutableDictionary<const MKMAddress *, MKMMember *> MemberTableM;
 typedef NSMutableDictionary<const MKMAddress *, MemberTableM *> GroupMemberTableM;
 
-typedef NSMutableDictionary<const MKMAddress *, MKMMeta *> MetaTableM;
+typedef NSMutableDictionary<const MKMAddress *, const MKMMeta *> MetaTableM;
 
 @interface MKMBarrack () {
     
@@ -118,7 +118,7 @@ SingletonImplementations(MKMBarrack, sharedInstance)
         if (user.dataSource == nil) {
             user.dataSource = self;
         }
-        MKMAddress *key = user.ID.address;
+        const MKMAddress *key = user.ID.address;
         [_userTable setObject:user forKey:key];
         // erase from account table
         if ([_accountTable objectForKey:key]) {
@@ -137,7 +137,7 @@ SingletonImplementations(MKMBarrack, sharedInstance)
 }
 
 - (void)addMember:(MKMMember *)member {
-    MKMID *groupID = member.groupID;
+    const MKMID *groupID = member.groupID;
     if (groupID.isValid && member.ID.isValid) {
         if (member.dataSource == nil) {
             member.dataSource = self;
@@ -153,22 +153,20 @@ SingletonImplementations(MKMBarrack, sharedInstance)
     }
 }
 
-- (void)setMeta:(MKMMeta *)meta forID:(const MKMID *)ID {
-    if (meta) {
-        if ([meta matchID:ID]) {
-            [_metaTable setObject:meta forKey:ID.address];
-        } else {
-            NSAssert(false, @"meta error: %@, ID = %@", meta, ID);
-        }
+- (BOOL)setMeta:(const MKMMeta *)meta forID:(const MKMID *)ID {
+    if ([meta matchID:ID]) {
+        [_metaTable setObject:meta forKey:ID.address];
+        return YES;
     } else {
-        [_metaTable removeObjectForKey:ID.address];
+        NSAssert(false, @"meta error: %@, ID = %@", meta, ID);
+        return NO;
     }
 }
 
 #pragma mark - MKMMetaDataSource
 
-- (MKMMeta *)metaForID:(const MKMID *)ID {
-    MKMMeta *meta;
+- (const MKMMeta *)metaForID:(const MKMID *)ID {
+    const MKMMeta *meta;
     
     // (a) get from meta cache
     meta = [_metaTable objectForKey:ID.address];
@@ -197,9 +195,9 @@ SingletonImplementations(MKMBarrack, sharedInstance)
 
 #pragma mark - MKMEntityDataSource
 
-- (MKMMeta *)metaForEntity:(const MKMEntity *)entity {
-    MKMMeta *meta;
-    MKMID *ID = entity.ID;
+- (const MKMMeta *)metaForEntity:(const MKMEntity *)entity {
+    const MKMMeta *meta;
+    const MKMID *ID = entity.ID;
     
     // (a) get from meta cache
     meta = [_metaTable objectForKey:ID.address];
@@ -285,7 +283,7 @@ SingletonImplementations(MKMBarrack, sharedInstance)
     return [_userDataSource numberOfContactsInUser:user];
 }
 
-- (MKMID *)user:(const MKMUser *)user contactAtIndex:(NSInteger)index {
+- (const MKMID *)user:(const MKMUser *)user contactAtIndex:(NSInteger)index {
     NSAssert(MKMNetwork_IsPerson(user.type), @"user error: %@", user);
     NSAssert(_userDataSource, @"user data source not set");
     return [_userDataSource user:user contactAtIndex:index];
@@ -333,13 +331,13 @@ SingletonImplementations(MKMBarrack, sharedInstance)
 
 #pragma mark MKMGroupDataSource
 
-- (MKMID *)founderOfGroup:(const MKMGroup *)group {
+- (const MKMID *)founderOfGroup:(const MKMGroup *)group {
     NSAssert(MKMNetwork_IsGroup(group.ID.type), @"group error: %@", group);
     NSAssert(_groupDataSource, @"group data source not set");
     return [_groupDataSource founderOfGroup:group];
 }
 
-- (MKMID *)ownerOfGroup:(const MKMGroup *)group {
+- (const MKMID *)ownerOfGroup:(const MKMGroup *)group {
     NSAssert(MKMNetwork_IsGroup(group.ID.type), @"group error: %@", group);
     NSAssert(_groupDataSource, @"group data source not set");
     return [_groupDataSource ownerOfGroup:group];
@@ -351,7 +349,7 @@ SingletonImplementations(MKMBarrack, sharedInstance)
     return [_groupDataSource numberOfMembersInGroup:group];
 }
 
-- (MKMID *)group:(const MKMGroup *)group memberAtIndex:(NSInteger)index {
+- (const MKMID *)group:(const MKMGroup *)group memberAtIndex:(NSInteger)index {
     NSAssert(MKMNetwork_IsGroup(group.ID.type), @"group error: %@", group);
     NSAssert(_groupDataSource, @"group data source not set");
     return [_groupDataSource group:group memberAtIndex:index];
@@ -425,7 +423,7 @@ SingletonImplementations(MKMBarrack, sharedInstance)
     return [_chatroomDataSource numberOfAdminsInChatroom:grp];
 }
 
-- (MKMID *)chatroom:(const MKMChatroom *)grp adminAtIndex:(NSInteger)index {
+- (const MKMID *)chatroom:(const MKMChatroom *)grp adminAtIndex:(NSInteger)index {
     NSAssert(grp.ID.type == MKMNetwork_Chatroom, @"not a chatroom: %@", grp);
     NSAssert(_chatroomDataSource, @"chatroom data source not set");
     return [_chatroomDataSource chatroom:grp adminAtIndex:index];

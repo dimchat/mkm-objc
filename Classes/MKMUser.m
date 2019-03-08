@@ -51,11 +51,12 @@
 - (MKMPrivateKey *)privateKey {
     if (!_privateKey) {
         // try to load private key from the keychain
+        MKMPublicKey *PK = self.publicKey;
         MKMPrivateKey *SK = [MKMPrivateKey loadKeyWithIdentifier:_ID.address];
-        if ([self.publicKey isMatch:SK]) {
+        if ([PK isMatch:SK]) {
             _privateKey = SK;
         } else {
-            NSAssert(false, @"keys not match");
+            NSAssert(false, @"keys not match: %@\n -> %@", PK, SK);
         }
     }
     return _privateKey;
@@ -68,7 +69,7 @@
     }
     NSMutableArray<const MKMID *> *list;
     list = [[NSMutableArray alloc] initWithCapacity:count];
-    MKMID *ID;
+    const MKMID *ID;
     while (--count >= 0) {
         ID = [_dataSource user:self contactAtIndex:count];
         [list addObject:ID];
@@ -81,7 +82,7 @@
     if (count <= 0) {
         return NO;
     }
-    MKMID *ID;
+    const MKMID *ID;
     while (--count >= 0) {
         ID = [_dataSource user:self contactAtIndex:count];
         if ([ID isEqual:contact]) {

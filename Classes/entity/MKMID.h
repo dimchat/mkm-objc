@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MKMID : MKMString
 
 @property (readonly, strong, nonatomic, nullable) NSString *name;
-@property (readonly, strong, nonatomic) MKMAddress *address;
+@property (readonly, strong, nonatomic) const MKMAddress *address;
 
 @property (readonly, nonatomic) MKMNetworkType type; // Network ID
 @property (readonly, nonatomic) UInt32 number;       // search number

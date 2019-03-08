@@ -37,7 +37,7 @@ static NSString *s_directory = nil;
 // "Documents/.mkm/{address}/meta.plist"
 - (NSString *)_pathWithID:(const MKMID *)ID filename:(NSString *)name {
     NSString *dir = self.directory;
-    dir = [dir stringByAppendingPathComponent:ID.address];
+    dir = [dir stringByAppendingPathComponent:(NSString *)ID.address];
     
     // check base directory exists
     NSFileManager *fm = [NSFileManager defaultManager];
@@ -52,8 +52,8 @@ static NSString *s_directory = nil;
     return [dir stringByAppendingPathComponent:name];
 }
 
-- (MKMMeta *)loadMetaForID:(const MKMID *)ID {
-    MKMMeta *meta = nil;
+- (const MKMMeta *)loadMetaForID:(const MKMID *)ID {
+    const MKMMeta *meta = nil;
     NSString *path = [self _pathWithID:ID filename:@"meta.plist"];
     NSFileManager *fm = [NSFileManager defaultManager];
     if ([fm fileExistsAtPath:path]) {
@@ -65,10 +65,11 @@ static NSString *s_directory = nil;
 }
 
 - (BOOL)saveMeta:(const MKMMeta *)meta forEntityID:(const MKMID *)ID {
-    if (![meta matchID:ID]) {
-        NSAssert(!meta, @"meta error: %@, ID = %@", meta, ID);
+    if (![self setMeta:meta forID:ID]) {
+        // meta not match ID
         return NO;
     }
+    
     NSString *path = [self _pathWithID:ID filename:@"meta.plist"];
     NSFileManager *fm = [NSFileManager defaultManager];
     if ([fm fileExistsAtPath:path]) {

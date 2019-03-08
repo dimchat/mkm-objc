@@ -21,7 +21,7 @@ typedef NSMutableDictionary<const MKMAddress *, NSString *> MKMConfirmTableM;
 
 @property (strong, nonatomic) MKMHistoryOperation *operation;
 
-@property (strong, nonatomic) MKMID *commander;
+@property (strong, nonatomic) const MKMID *commander;
 @property (strong, nonatomic) NSData *signature;
 
 @property (strong, nonatomic) MKMConfirmTableM *confirmations;
@@ -104,7 +104,7 @@ typedef NSMutableDictionary<const MKMAddress *, NSString *> MKMConfirmTableM;
     return _operation;
 }
 
-- (MKMID *)commander {
+- (const MKMID *)commander {
     if (!_commander) {
         id ID = [_storeDictionary objectForKey:@"commander"];
         _commander = [MKMID IDWithID:ID];

@@ -12,7 +12,7 @@
 
 @interface MKMMember ()
 
-@property (strong, nonatomic) MKMID *groupID;
+@property (strong, nonatomic) const MKMID *groupID;
 
 @end
 

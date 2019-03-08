@@ -31,7 +31,7 @@ typedef NSDictionary<const MKMAddress *, NSString *> MKMConfirmTable;
 
 @property (readonly, strong, nonatomic) MKMHistoryOperation *operation;
 
-@property (readonly, strong, nonatomic) MKMID *commander;
+@property (readonly, strong, nonatomic) const MKMID *commander;
 @property (readonly, strong, nonatomic) NSData *signature;
 
 /**
