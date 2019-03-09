@@ -60,6 +60,9 @@
 }
 
 - (BOOL)isEqual:(id)object {
+    if (![object isKindOfClass:[NSDictionary class]]) {
+        return NO;
+    }
     return [_storeDictionary isEqualToDictionary:object];
 }
 

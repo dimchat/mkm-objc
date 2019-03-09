@@ -28,7 +28,7 @@
 }
 
 - (instancetype)initWithID:(const MKMID *)ID {
-    NSAssert(MKMNetwork_IsCommunicator(ID.type), @"profile ID error");
+    NSAssert(ID.isValid, @"profile ID error");
     NSDictionary *dict = @{
                            @"ID": ID,
                            };
@@ -52,13 +52,7 @@
             // already exists at the first place
             return;
         }
-        if (![mArray isKindOfClass:[NSMutableArray class]]) {
-            NSAssert([mArray isKindOfClass:[NSArray class]],
-                     @"unexpected array: %@", mArray);
-            // mutable it
-            mArray = [mArray mutableCopy];
-            [_storeDictionary setObject:mArray forKey:arrName];
-        }
+        mArray = [mArray mutableCopy];
         if (index == NSNotFound) {
             // add to first
             [mArray insertObject:value atIndex:0];
@@ -71,8 +65,8 @@
         // array not exists yet
         mArray = [[NSMutableArray alloc] initWithCapacity:1];
         [mArray addObject:value];
-        [_storeDictionary setObject:mArray forKey:arrName];
     }
+    [_storeDictionary setObject:mArray forKey:arrName];
 }
 
 - (const MKMID *)ID {
