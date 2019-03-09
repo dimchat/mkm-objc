@@ -124,6 +124,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype)initWithPublicKey:(const MKMPublicKey *)PK;
 
+- (BOOL)matchPublicKey:(const MKMPublicKey *)PK;
+
 #pragma mark - ID & address
 
 - (BOOL)matchID:(const MKMID *)ID;

@@ -216,6 +216,13 @@
     return _valid;
 }
 
+- (BOOL)matchPublicKey:(const MKMPublicKey *)PK {
+    if (self.version == MKMMetaVersion_BTC) {
+        return [PK.data isEqual:self.key.data];
+    }
+    return [PK verify:[self.seed data] withSignature:self.fingerprint];
+}
+
 #pragma mark - ID & address
 
 - (BOOL)matchID:(const MKMID *)ID {
