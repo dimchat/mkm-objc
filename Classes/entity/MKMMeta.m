@@ -150,9 +150,20 @@
 
 - (MKMPublicKey *)key {
     if (!_key) {
-        id key = [_storeDictionary objectForKey:@"key"];
-        _key = [MKMPublicKey keyWithKey:key];
+        NSDictionary *dict = [_storeDictionary objectForKey:@"key"];
+        _key = [MKMPublicKey keyWithKey:dict];
+        
         NSAssert([_key isKindOfClass:[MKMPublicKey class]], @"error");
+        if (_key != dict) {
+            if (_key) {
+                // replace the key object
+                [_storeDictionary setObject:_key forKey:@"key"];
+            } else {
+                NSAssert(false, @"key error: %@", dict);
+                //[_storeDictionary removeObjectForKey:@"key"];
+            }
+        }
+        
         // check valid
         if (_seed && _fingerprint) {
             _valid = [_key verify:[_seed data] withSignature:_fingerprint];

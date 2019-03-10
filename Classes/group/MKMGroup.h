@@ -66,6 +66,16 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (MKMGroup *)groupWithID:(const MKMID *)ID;
 
+/**
+ Add member to group
+ */
+- (BOOL)group:(const MKMGroup *)group addMember:(const MKMID *)member;
+
+/**
+ Remove contact of user
+ */
+- (BOOL)group:(const MKMGroup *)group removeMember:(const MKMID *)member;
+
 @end
 
 NS_ASSUME_NONNULL_END

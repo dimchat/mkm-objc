@@ -70,7 +70,18 @@
 }
 
 - (const MKMID *)ID {
-    return [MKMID IDWithID:[_storeDictionary objectForKey:@"ID"]];
+    NSString *str = [_storeDictionary objectForKey:@"ID"];
+    MKMID *_ID = [MKMID IDWithID:str];
+    if (_ID != str) {
+        if (_ID) {
+            // replace the ID object
+            [_storeDictionary setObject:_ID forKey:@"ID"];
+        } else {
+            NSAssert(false, @"ID error: %@", str);
+            //[_storeDictionary removeObjectForKey:@"ID"];
+        }
+    }
+    return _ID;
 }
 
 - (NSString *)name {

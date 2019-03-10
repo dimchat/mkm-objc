@@ -315,14 +315,14 @@ SingletonImplementations(MKMBarrack, sharedInstance)
     return user;
 }
 
-- (void)user:(const MKMUser *)user addContact:(const MKMID *)contact {
+- (BOOL)user:(const MKMUser *)user addContact:(const MKMID *)contact {
     NSAssert(MKMNetwork_IsPerson(user.type), @"user error: %@", user);
     NSAssert(MKMNetwork_IsPerson(contact.type), @"contact error: %@", contact);
     NSAssert(_userDelegate, @"user delegate not set");
     return [_userDelegate user:user addContact:contact];
 }
 
-- (void)user:(const MKMUser *)user removeContact:(const MKMID *)contact {
+- (BOOL)user:(const MKMUser *)user removeContact:(const MKMID *)contact {
     NSAssert(MKMNetwork_IsPerson(user.type), @"user error: %@", user);
     NSAssert(MKMNetwork_IsPerson(contact.type), @"contact error: %@", contact);
     NSAssert(_userDelegate, @"user delegate not set");
@@ -385,6 +385,20 @@ SingletonImplementations(MKMBarrack, sharedInstance)
     }
     [self addGroup:group];
     return group;
+}
+
+- (BOOL)group:(const MKMGroup *)group addMember:(const MKMID *)member {
+    NSAssert(MKMNetwork_IsGroup(group.ID.type), @"group error: %@", group);
+    NSAssert(MKMNetwork_IsCommunicator(member.type), @"member error: %@", member);
+    NSAssert(_groupDelegate, @"group delegate not set");
+    return [_groupDelegate group:group addMember:member];
+}
+
+- (BOOL)group:(const MKMGroup *)group removeMember:(const MKMID *)member {
+    NSAssert(MKMNetwork_IsGroup(group.ID.type), @"group error: %@", group);
+    NSAssert(MKMNetwork_IsCommunicator(member.type), @"member error: %@", member);
+    NSAssert(_groupDelegate, @"group delegate not set");
+    return [_groupDelegate group:group removeMember:member];
 }
 
 #pragma mark MKMMemberDelegate

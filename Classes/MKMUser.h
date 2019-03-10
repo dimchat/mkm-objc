@@ -52,12 +52,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Add contact for user
  */
-- (void)user:(const MKMUser *)user addContact:(const MKMID *)contact;
+- (BOOL)user:(const MKMUser *)user addContact:(const MKMID *)contact;
 
 /**
  Remove contact of user
  */
-- (void)user:(const MKMUser *)user removeContact:(const MKMID *)contact;
+- (BOOL)user:(const MKMUser *)user removeContact:(const MKMID *)contact;
 
 @end
 

@@ -132,12 +132,26 @@
     return [_userTable objectForKey:ID.address];
 }
 
-- (void)user:(const MKMUser *)user addContact:(const MKMID *)contact {
+- (BOOL)user:(const MKMUser *)user addContact:(const MKMID *)contact {
     NSLog(@"user %@ add contact %@", user, contact);
+    if ([_userTable.allKeys containsObject:user.ID.address]) {
+        // TODO: add contact for immortal user
+        //...
+        return YES;
+    } else {
+        return NO;
+    }
 }
 
-- (void)user:(const MKMUser *)user removeContact:(const MKMID *)contact {
+- (BOOL)user:(const MKMUser *)user removeContact:(const MKMID *)contact {
     NSLog(@"user %@ remove contact %@", user, contact);
+    if ([_userTable.allKeys containsObject:user.ID.address]) {
+        // TODO: remove contact for immortal user
+        //...
+        return YES;
+    } else {
+        return NO;
+    }
 }
 
 - (MKMProfile *)profileForID:(const MKMID *)ID {
