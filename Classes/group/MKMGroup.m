@@ -66,8 +66,8 @@
     NSMutableArray<const MKMID *> *list;
     list = [[NSMutableArray alloc] initWithCapacity:count];
     const MKMID *ID;
-    while (--count >= 0) {
-        ID = [_dataSource group:self memberAtIndex:count];
+    for (NSInteger index = 0; index < count; ++index) {
+        ID = [_dataSource group:self memberAtIndex:index];
         [list addObject:ID];
     }
     return list;

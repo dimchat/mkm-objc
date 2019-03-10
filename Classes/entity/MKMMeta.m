@@ -243,7 +243,7 @@
 #pragma mark - ID & address
 
 - (BOOL)matchID:(const MKMID *)ID {
-    NSAssert(ID.isValid, @"Invalid ID");
+    NSAssert(ID.isValid, @"Invalid ID: %@", ID);
     const MKMID *str = [self buildIDWithNetworkID:ID.type];
     return [ID isEqual:str];
 }

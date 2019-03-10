@@ -26,7 +26,7 @@
 
 /* designated initializer */
 - (instancetype)initWithID:(const MKMID *)ID {
-    NSAssert([ID isValid], @"Invalid ID");
+    NSAssert([ID isValid], @"Invalid entity ID: %@", ID);
     if (self = [super init]) {
         _ID = [ID copy];
     }

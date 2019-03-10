@@ -94,8 +94,11 @@
 }
 
 - (void)setName:(NSString *)name {
+    //[self setArrayValue:name forKey:@"names"];
     if (name) {
-        [self setArrayValue:name forKey:@"names"];
+        [_storeDictionary setObject:name forKey:@"name"];
+    } else {
+        [_storeDictionary removeObjectForKey:@"name"];
     }
 }
 
@@ -144,7 +147,6 @@
 }
 
 - (void)setAvatar:(NSString *)avatar {
-    //[self setArrayValue:avatar forKey:@"photos"];
     if (avatar) {
         [_storeDictionary setObject:avatar forKey:@"avatar"];
     } else {
@@ -180,12 +182,20 @@
 @implementation MKMProfile (Group)
 
 - (NSString *)logo {
+    NSString *value = [_storeDictionary objectForKey:@"logo"];
+    if (value) {
+        return value;
+    }
     NSArray *array = [_storeDictionary objectForKey:@"photos"];
     return array.firstObject;
 }
 
 - (void)setLogo:(NSString *)logo {
-    [self setArrayValue:logo forKey:@"photos"];
+    if (logo) {
+        [_storeDictionary setObject:logo forKey:@"logo"];
+    } else {
+        [_storeDictionary removeObjectForKey:@"logo"];
+    }
 }
 
 @end
