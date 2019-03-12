@@ -19,14 +19,6 @@
     return self;
 }
 
-- (instancetype)initWithJSONString:(const NSString *)json
-                         publicKey:(const MKMPublicKey *)PK {
-    if (self = [self initWithJSONString:json]) {
-        NSAssert([PK isMatch:self], @"PK not match SK");
-    }
-    return self;
-}
-
 /* designated initializer */
 - (instancetype)initWithDictionary:(NSDictionary *)keyInfo {
     if ([self isMemberOfClass:[MKMPrivateKey class]]) {
@@ -37,8 +29,8 @@
         } else if ([algorithm isEqualToString:ACAlgorithmECC]) {
             self = [[MKMECCPrivateKey alloc] initWithDictionary:keyInfo];
         } else {
+            NSAssert(false, @"algorithm not support: %@", algorithm);
             self = nil;
-            NSAssert(self, @"algorithm not support: %@", algorithm);
         }
     } else if (self = [super initWithDictionary:keyInfo]) {
         //
@@ -47,13 +39,17 @@
     return self;
 }
 
-- (BOOL)isEqual:(const MKMPrivateKey *)aKey {
+- (BOOL)isEqual:(id)object {
     // 1. if the two key has the same content, return YES
-    if ([super isEqual:aKey]) {
+    if ([super isEqual:object]) {
         return YES;
     }
-    // 2. try to verify by public key
-    return [aKey.publicKey isMatch:self];
+    if ([object isKindOfClass:[MKMPrivateKey class]]) {
+        // 2. try to verify by public key
+        return [self.publicKey isMatch:(MKMPrivateKey *)object];
+    } else {
+        return NO;
+    }
 }
 
 - (MKMPublicKey *)publicKey {

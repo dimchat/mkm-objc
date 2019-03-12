@@ -28,7 +28,7 @@
 }
 
 - (instancetype)initWithID:(const MKMID *)ID {
-    NSAssert(ID.isValid, @"profile ID error");
+    NSAssert(ID.isValid, @"profile ID error: %@", ID);
     NSDictionary *dict = @{
                            @"ID": ID,
                            };

@@ -34,7 +34,7 @@
 /* designated initializer */
 - (instancetype)initWithDictionary:(NSDictionary *)keyInfo {
     if (self = [super initWithDictionary:keyInfo]) {
-        NSAssert([self.algorithm isEqualToString:ACAlgorithmRSA], @"algorithm error");
+        NSAssert([self.algorithm isEqualToString:ACAlgorithmRSA], @"algorithm error: %@", keyInfo);
         
         // lazy
         _keySizeInBits = 0;
@@ -131,8 +131,7 @@
         }
         
         // 2. generate key pairs
-        //[self generateKeys];
-        NSAssert(!_publicKey, @"error");
+        NSAssert(!_publicKey, @"public key should not be set yet");
         
         // 2.1. key size
         NSUInteger keySizeInBits = self.keySizeInBits;
@@ -147,11 +146,11 @@
         _privateKeyRef = SecKeyCreateRandomKey((CFDictionaryRef)params,
                                                &error);
         if (error) {
-            NSAssert(!_privateKeyRef, @"error");
+            NSAssert(!_privateKeyRef, @"key ref should be empty when failed");
             NSAssert(false, @"failed to generate key: %@", error);
             break;
         }
-        NSAssert(_privateKeyRef, @"error");
+        NSAssert(_privateKeyRef, @"private key ref should be set here");
         
         // 2.4. key to data
         NSData *privateKeyData = NSDataFromSecKeyRef(_privateKeyRef);
@@ -160,7 +159,7 @@
             NSString *pem = NSStringFromRSAPrivateKeyContent(_privateContent);
             [_storeDictionary setObject:pem forKey:@"data"];
         } else {
-            NSAssert(false, @"error");
+            NSAssert(false, @"failed to get data from private key ref");
         }
         
         break;
@@ -214,7 +213,7 @@
 
 - (NSData *)decrypt:(const NSData *)ciphertext {
     NSAssert(self.privateKeyRef != NULL, @"private key cannot be empty");
-    NSAssert(ciphertext.length == (self.keySizeInBits/8), @"data error");
+    NSAssert(ciphertext.length == (self.keySizeInBits/8), @"ciphertest length error: %lu", ciphertext.length);
     NSData *plaintext = nil;
     
     CFErrorRef error = NULL;
@@ -225,8 +224,8 @@
                                    (CFDataRef)ciphertext,
                                    &error);
     if (error) {
-        NSAssert(!CT, @"error");
-        NSAssert(false, @"error: %@", error);
+        NSAssert(!CT, @"decrypted data should be empty when failed");
+        NSAssert(false, @"decrypt error: %@", error);
     } else {
         NSAssert(CT, @"decrypted data should not be empty");
         plaintext = (__bridge_transfer NSData *)CT;
@@ -249,7 +248,7 @@
                                (CFDataRef)data,
                                &error);
     if (error) {
-        NSAssert(!CT, @"error");
+        NSAssert(!CT, @"signature should be empty when failed");
         NSAssert(false, @"error: %@", error);
     } else {
         NSAssert(CT, @"signature should not be empty");

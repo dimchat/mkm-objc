@@ -71,13 +71,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly, nonatomic) NSUInteger version;
 
 /**
- *  Seed to generate fingerprint
- *
- *      Username / Group-X
- */
-@property (readonly, strong, nonatomic, nullable) NSString *seed;
-
-/**
  *  Public key
  *
  *      RSA / ECC
@@ -85,12 +78,19 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly, strong, nonatomic) MKMPublicKey *key;
 
 /**
+ *  Seed to generate fingerprint
+ *
+ *      Username / Group-X
+ */
+@property (readonly, strong, nonatomic, nullable) NSString *seed;
+
+/**
  *  Fingerprint to verify ID and public key
  *
  *      Build: fingerprint = sign(seed, privateKey)
  *      Check: verify(seed, fingerprint, publicKey)
  */
-@property (readonly, strong, nonatomic, nullable) NSData *fingerprint;
+@property (readonly, strong, nonatomic, nullable) const NSData *fingerprint;
 
 @property (readonly, nonatomic, getter=isValid) BOOL valid;
 
@@ -101,23 +101,24 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype)initWithDictionary:(NSDictionary *)dict;
 
-- (instancetype)initWithSeed:(nullable const NSString *)name
-                   publicKey:(const MKMPublicKey *)PK
-                 fingerprint:(nullable const NSData *)CT
-                     version:(NSUInteger)metaVersion;
+- (instancetype)initWithVersion:(NSUInteger)version
+                           seed:(const NSString *)name
+                      publicKey:(const MKMPublicKey *)PK
+                    fingerprint:(const NSData *)CT;
 
 /**
  Generate fingerprint, initialize meta data
  
+ @param version - meta version for MKM or ExBTC
  @param name - seed for fingerprint
+ @param SK - private key to generate fingerprint
  @param PK - public key, which must match the private key
- @param SK - private key
  @return Meta object
  */
-- (instancetype)initWithSeed:(const NSString *)name
-                  privateKey:(const MKMPrivateKey *)SK
-                   publicKey:(nullable const MKMPublicKey *)PK
-                     version:(NSUInteger)metaVersion;
+- (instancetype)initWithVersion:(NSUInteger)version
+                           seed:(const NSString *)name
+                     privateKey:(const MKMPrivateKey *)SK
+                      publicKey:(nullable const MKMPublicKey *)PK;
 
 /**
  *  For BTC address

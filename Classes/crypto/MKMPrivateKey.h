@@ -28,11 +28,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (readonly, strong, atomic) MKMPublicKey *publicKey;
 
-- (instancetype)initWithJSONString:(const NSString *)json
-                         publicKey:(const MKMPublicKey *)PK;
-
-- (BOOL)isEqual:(const MKMPrivateKey *)aKey;
-
 @end
 
 NS_ASSUME_NONNULL_END

@@ -25,7 +25,7 @@
 
 /* designated initializer */
 - (instancetype)initWithID:(const MKMID *)ID {
-    NSAssert(MKMNetwork_IsGroup(ID.type), @"group ID error");
+    NSAssert(MKMNetwork_IsGroup(ID.type), @"group ID error: %@", ID);
     if (self = [super initWithID:ID]) {
         // lazy
         _founder = nil;

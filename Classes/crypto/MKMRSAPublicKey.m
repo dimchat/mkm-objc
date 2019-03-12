@@ -33,7 +33,7 @@
 /* designated initializer */
 - (instancetype)initWithDictionary:(NSDictionary *)keyInfo {
     if (self = [super initWithDictionary:keyInfo]) {
-        NSAssert([self.algorithm isEqualToString:ACAlgorithmRSA], @"algorithm error");
+        NSAssert([self.algorithm isEqualToString:ACAlgorithmRSA], @"algorithm error: %@", keyInfo);
         
         // lazy
         _keySizeInBits = 0;
@@ -132,8 +132,7 @@
 
 - (NSData *)encrypt:(const NSData *)plaintext {
     NSAssert(self.publicKeyRef != NULL, @"public key cannot be empty");
-    NSAssert(plaintext.length > 0, @"plaintext cannot be empty");
-    NSAssert(plaintext.length <= (self.keySizeInBits/8 - 11), @"data too long");
+    NSAssert(plaintext.length > 0 && plaintext.length <= (self.keySizeInBits/8 - 11), @"data length error: %lu", plaintext.length);
     NSData *ciphertext = nil;
     
     CFErrorRef error = NULL;
@@ -144,7 +143,7 @@
                                    (CFDataRef)plaintext,
                                    &error);
     if (error) {
-        NSAssert(!CT, @"error");
+        NSAssert(!CT, @"encrypted data should be empty when failed");
         NSAssert(false, @"error: %@", error);
     } else {
         NSAssert(CT, @"encrypted should not be empty");
@@ -157,7 +156,7 @@
 
 - (BOOL)verify:(const NSData *)data withSignature:(const NSData *)signature {
     NSAssert(self.publicKeyRef != NULL, @"public key cannot be empty");
-    NSAssert(signature.length == (self.keySizeInBits/8), @"signature error");
+    NSAssert(signature.length == (self.keySizeInBits/8), @"signature length error: %lu", signature.length);
     NSAssert(data.length > 0, @"data cannot be empty");
     BOOL OK = NO;
     

@@ -13,14 +13,14 @@
 - (NSData *)jsonData {
     NSData *data = nil;
     
-    BOOL valid = [NSJSONSerialization isValidJSONObject:self];
-    NSAssert(valid, @"object format not support for json: %@", self);
-    if (valid) {
+    if ([NSJSONSerialization isValidJSONObject:self]) {
         NSError *error = nil;
         data = [NSJSONSerialization dataWithJSONObject:self
                                                options:NSJSONWritingSortedKeys
                                                  error:&error];
-        NSAssert(!error, @"json error");
+        NSAssert(!error, @"json error: %@", error);
+    } else {
+        NSAssert(false, @"object format not support for json: %@", self);
     }
     
     return data;
@@ -62,14 +62,14 @@
 - (id)jsonObject {
     NSError *error = nil;
     id obj = [NSJSONSerialization JSONObjectWithData:self options:NSJSONReadingAllowFragments error:&error];
-    NSAssert(!error, @"json error: %@", [self UTF8String]);
+    NSAssert(!error, @"json error: %@", error);
     return obj;
 }
 
 - (id)jsonMutableContainer {
     NSError *error = nil;
     id obj = [NSJSONSerialization JSONObjectWithData:self options:NSJSONReadingMutableContainers error:&error];
-    NSAssert(!error, @"json error: %@", [self UTF8String]);
+    NSAssert(!error, @"json error: %@", error);
     return obj;
 }
 

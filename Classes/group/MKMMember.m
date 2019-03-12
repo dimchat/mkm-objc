@@ -28,8 +28,8 @@
 /* designated initializer */
 - (instancetype)initWithGroupID:(const MKMID *)groupID
                       accountID:(const MKMID *)ID {
-    NSAssert(MKMNetwork_IsCommunicator(ID.type), @"member ID error");
-    NSAssert(!groupID || MKMNetwork_IsGroup(groupID.type), @"group ID error");
+    NSAssert(MKMNetwork_IsCommunicator(ID.type), @"member ID error: %@", ID);
+    NSAssert(!groupID || MKMNetwork_IsGroup(groupID.type), @"group ID error: %@", groupID);
     if (self = [super initWithID:ID]) {
         _groupID = [groupID copy];
         _role = MKMMember_Member;

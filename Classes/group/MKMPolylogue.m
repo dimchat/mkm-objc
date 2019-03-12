@@ -14,7 +14,7 @@
 
 /* designated initializer */
 - (instancetype)initWithID:(const MKMID *)ID {
-    NSAssert(ID.type == MKMNetwork_Polylogue, @"ID error");
+    NSAssert(ID.type == MKMNetwork_Polylogue, @"polylogue ID error: %@", ID);
     if (self = [super initWithID:ID]) {
         //
     }

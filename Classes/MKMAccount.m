@@ -24,7 +24,7 @@
 
 /* designated initializer */
 - (instancetype)initWithID:(const MKMID *)ID {
-    NSAssert(MKMNetwork_IsCommunicator(ID.type), @"account ID error");
+    NSAssert(MKMNetwork_IsCommunicator(ID.type), @"account ID error: %@", ID);
     if (self = [super initWithID:ID]) {
         // account status
         _status = MKMAccountStatusInitialized;

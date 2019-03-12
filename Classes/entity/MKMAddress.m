@@ -11,12 +11,16 @@
 
 #import "MKMAddress.h"
 
+    MKMAddressNormal = 1,
+    MKMAddressError = 2,
+};
+
 @interface MKMAddress ()
 
 @property (nonatomic) MKMNetworkType network;
 @property (nonatomic) UInt32 code;
 
-@property (nonatomic, getter=isValid) BOOL valid;
+@property (nonatomic) MKMAddressFlag flag;
 
 @end
 
@@ -48,29 +52,38 @@ static inline UInt32 user_number(const NSData *cc) {
 
 /**
  Parse string with BTC address format
-
  @param string - BTC address format string
  @param address - MKM address
  */
-static inline void parse_address(const NSString *string, MKMAddress *address) {
+static inline void parse_btc_address(const NSString *string, MKMAddress *address) {
     NSData *data = [string base58Decode];
     NSUInteger len = [data length];
     if (len == 25) {
         // Network ID
         const char *bytes = [data bytes];
-        address.network = bytes[0];
         
         // Check Code
         NSData *prefix = [data subdataWithRange:NSMakeRange(0, len-4)];
         NSData *suffix = [data subdataWithRange:NSMakeRange(len-4, 4)];
         NSData *cc = check_code(prefix);
-        address.code = user_number(cc);
         
         // isValid
-        address.valid = [cc isEqualToData:suffix];
+        if ([cc isEqualToData:suffix]) {
+            address.network = bytes[0];
+            address.code = user_number(cc);
+            address.flag = MKMAddressNormal;
+        } else {
+            assert(false);
+            address.network = 0;
+            address.code = 0;
+            address.flag = MKMAddressError;
+        }
     } else {
         // other version ?
         assert(false);
+        address.network = 0;
+        address.code = 0;
+        address.flag = MKMAddressError;
     }
 }
 
@@ -88,11 +101,14 @@ static inline void parse_address(const NSString *string, MKMAddress *address) {
 }
 
 - (instancetype)initWithString:(NSString *)aString {
+    NSAssert(aString.length >= 15, @"address invalid: %@", aString);
     if (self = [super initWithString:aString]) {
-        // lazy
-        _network = 0x00;
+        // lazy loading
+        //      this designated initializer will be call by 'copyWithZone:', so
+        //      it's better to use lazy loading here.
+        _network = 0;
         _code = 0;
-        _valid = NO;
+        _flag = MKMAddressInit;
     }
     return self;
 }
@@ -102,7 +118,7 @@ static inline void parse_address(const NSString *string, MKMAddress *address) {
                           algorithm:(NSUInteger)version {
     NSString *string = nil;
     UInt32 code = 0;
-    BOOL valid = NO;
+    MKMAddressFlag flag = MKMAddressInit;
     if (version == MKMAddressAlgorithm_BTC) {
         /**
          *  BTC address algorithm:
@@ -124,15 +140,16 @@ static inline void parse_address(const NSString *string, MKMAddress *address) {
         [data appendData:cc];
         string = [data base58Encode];
         
-        valid = YES;
+        flag = MKMAddressNormal;
     } else {
-        NSAssert(false, @"unsupported version: %lu", (unsigned long)version);
+        NSAssert(false, @"unsupported version: %lu", version);
+        flag = MKMAddressError;
     }
     
     if (self = [super initWithString:string]) {
         _network = type;
         _code = code;
-        _valid = valid;
+        _flag = flag;
     }
     return self;
 }
@@ -164,7 +181,7 @@ static inline void parse_address(const NSString *string, MKMAddress *address) {
     if (addr) {
         addr.network = _network;
         addr.code = _code;
-        addr.valid = _valid;
+        addr.flag = _flag;
     }
     return addr;
 }
@@ -174,24 +191,24 @@ static inline void parse_address(const NSString *string, MKMAddress *address) {
 }
 
 - (MKMNetworkType)network {
-    if (_network == 0x00 && _code == 0 && _valid == NO) {
-        parse_address(_storeString, self);
+    if (_flag == MKMAddressInit) {
+        parse_btc_address(_storeString, self);
     }
     return _network;
 }
 
 - (UInt32)code {
-    if (_network == 0x00 && _code == 0 && _valid == NO) {
-        parse_address(_storeString, self);
+    if (_flag == MKMAddressInit) {
+        parse_btc_address(_storeString, self);
     }
     return _code;
 }
 
 - (BOOL)isValid {
-    if (_network == 0x00 && _code == 0 && _valid == NO) {
-        parse_address(_storeString, self);
+    if (_flag == MKMAddressInit) {
+        parse_btc_address(_storeString, self);
     }
-    return _valid;
+    return _flag == MKMAddressNormal;
 }
 
 @end

@@ -247,7 +247,7 @@ SingletonImplementations(MKMBarrack, sharedInstance)
 #pragma mark - MKMAccountDelegate
 
 - (MKMAccount *)accountWithID:(const MKMID *)ID {
-    NSAssert(MKMNetwork_IsCommunicator(ID.type), @"account ID error");
+    NSAssert(MKMNetwork_IsCommunicator(ID.type), @"account ID error: %@", ID);
     MKMAccount *account;
     
     // (a) get from account cache
@@ -292,7 +292,7 @@ SingletonImplementations(MKMBarrack, sharedInstance)
 #pragma mark - MKMUserDelegate
 
 - (MKMUser *)userWithID:(const MKMID *)ID {
-    NSAssert(MKMNetwork_IsPerson(ID.type), @"user ID error");
+    NSAssert(MKMNetwork_IsPerson(ID.type), @"user ID error: %@", ID);
     MKMUser *user;
     
     // (a) get from user cache
@@ -358,7 +358,7 @@ SingletonImplementations(MKMBarrack, sharedInstance)
 #pragma mark MKMGroupDelegate
 
 - (MKMGroup *)groupWithID:(const MKMID *)ID {
-    NSAssert(MKMNetwork_IsGroup(ID.type), @"group ID error");
+    NSAssert(MKMNetwork_IsGroup(ID.type), @"group ID error: %@", ID);
     MKMGroup *group;
     
     // (a) get from group cache
@@ -404,8 +404,9 @@ SingletonImplementations(MKMBarrack, sharedInstance)
 #pragma mark MKMMemberDelegate
 
 - (MKMMember *)memberWithID:(const MKMID *)ID groupID:(const MKMID *)gID {
-    NSAssert(MKMNetwork_IsCommunicator(ID.type), @"member ID error");
-    NSAssert(MKMNetwork_IsGroup(gID.type), @"group ID error");
+    NSAssert(MKMNetwork_IsCommunicator(ID.type), @"member ID error: %@", ID);
+    NSAssert(MKMNetwork_IsGroup(gID.type), @"group ID error: %@", gID);
+    
     MemberTableM *table = [_groupMemberTable objectForKey:gID.address];
     MKMMember *member;
     

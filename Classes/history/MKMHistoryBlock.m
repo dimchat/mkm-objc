@@ -95,7 +95,7 @@ static inline NSMutableArray *json_array(const NSArray *events) {
     
     // events
     NSMutableArray *mArray;
-    NSAssert(events.count > 0, @"events error");
+    NSAssert(events.count > 0, @"events cannot be empty");
     if (hash && CT) {
         mArray = json_array(events);
     } else {
@@ -105,19 +105,19 @@ static inline NSMutableArray *json_array(const NSArray *events) {
     
     // merkle
     if (hash) {
-        NSAssert(CT, @"error");
+        NSAssert(CT, @"signature of hash cannot be empty");
         [mDict setObject:[hash base64Encode] forKey:@"merkle"];
     }
     
     // signature
     if (CT) {
-        NSAssert(hash, @"error");
+        NSAssert(hash, @"hash to be signed cannot be empty");
         [mDict setObject:[CT base64Encode] forKey:@"signature"];
     }
     
     // recorder
     if (ID) {
-        NSAssert(!hash || CT, @"error");
+        NSAssert(!hash || CT, @"hash/signature error");
         [mDict setObject:ID forKey:@"recorder"];
     }
     

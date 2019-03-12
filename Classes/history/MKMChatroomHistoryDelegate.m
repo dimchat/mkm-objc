@@ -25,9 +25,9 @@
     }
     
     MKMID *recorder = [MKMID IDWithID:record.recorder];
-    NSAssert([recorder isValid], @"recorder error");
+    NSAssert([recorder isValid], @"recorder error: %@", recorder);
     
-    NSAssert([entity isKindOfClass:[MKMChatroom class]], @"error");
+    NSAssert([entity isKindOfClass:[MKMChatroom class]], @"entity must be a chatroom: %@", entity);
     MKMChatroom *chatroom = (MKMChatroom *)entity;
     
     BOOL isOwner = [chatroom.owner isEqual:recorder];
@@ -56,7 +56,7 @@
     MKMHistoryOperation *operation = event.operation;
     operation = [MKMHistoryOperation operationWithOperation:operation];
     
-    NSAssert([entity isKindOfClass:[MKMChatroom class]], @"error");
+    NSAssert([entity isKindOfClass:[MKMChatroom class]], @"entity must be a chatroom: %@", entity);
     MKMChatroom *chatroom = (MKMChatroom *)entity;
     
     //BOOL isFounder = [chatroom isFounder:ID];
@@ -113,7 +113,7 @@
     // call super execute
     [super evolvingEntity:entity execute:operation commander:commander];
     
-    NSAssert([entity isKindOfClass:[MKMChatroom class]], @"error");
+    NSAssert([entity isKindOfClass:[MKMChatroom class]], @"entity must be a chatroom: %@", entity);
     MKMChatroom *chatroom = (MKMChatroom *)entity;
     
     const NSString *op = operation.command;

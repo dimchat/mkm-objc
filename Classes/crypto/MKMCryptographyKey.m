@@ -90,10 +90,6 @@
     return key;
 }
 
-- (BOOL)isEqual:(const MKMCryptographyKey *)aKey {
-    return [aKey isEqualToDictionary:_storeDictionary];
-}
-
 - (NSString *)algorithm {
     if (!_algorithm) {
         _algorithm = [_storeDictionary objectForKey:@"algorithm"];

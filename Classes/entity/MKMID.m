@@ -6,44 +6,74 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
+#import "NSObject+Compare.h"
+
 #import "MKMID.h"
 
-@interface MKMID ()
+typedef NS_ENUM(u_char, MKMIDFlag) {
+    MKMIDInit = 0,
+    MKMIDNormal = 1,
+    MKMIDError = 2,
+};
 
-@property (strong, nonatomic, nonnull) NSString *name;
-@property (strong, nonatomic, nonnull) const MKMAddress *address;
+@interface MKMID () {
+    
+    NSString *_terminal;
+}
 
-@property (strong, nonatomic, nullable) NSString *terminal;
+@property (strong, nonatomic, nullable) NSString *name;
+@property (strong, nonatomic) const MKMAddress *address;
 
-@property (nonatomic, getter=isValid) BOOL valid;
+@property (nonatomic) MKMIDFlag flag;
 
 @end
 
+/**
+ Parse string for ID
+ 
+ @param string - ID string
+ @param ID - ID object
+ */
 static inline void parse_id_string(const NSString *string, MKMID *ID) {
+    NSString *name = nil;
+    MKMAddress *address = nil;
+    NSString *terminal = nil;
+    
+    NSArray *pair;
+    
     // get terminal
-    NSArray *pair = [string componentsSeparatedByString:@"/"];
+    pair = [string componentsSeparatedByString:@"/"];
     if (pair.count > 1) {
         assert(pair.count == 2);
         string = pair.firstObject; // drop the tail
-        ID.terminal = pair.lastObject;
+        terminal = pair.lastObject;
+        assert(terminal.length > 0);
     }
     
+    // get name & address
     pair = [string componentsSeparatedByString:@"@"];
     if (pair.count > 1) {
         assert(pair.count == 2);
-        // get name
-        ID.name = [pair firstObject];
-        assert(ID.name.length > 0);
+        name = pair.firstObject;
+        assert(name.length > 0);
+        address = [[MKMAddress alloc] initWithString:pair.lastObject];
+    } else {
+        address = [[MKMAddress alloc] initWithString:pair.firstObject];
     }
     
-    // get address
-    NSString *addr = [pair lastObject];
-    assert(addr.length >= 15);
-    ID.address = [[MKMAddress alloc] initWithString:addr];
-    assert(ID.address.isValid);
-    
     // isValid
-    ID.valid = ID.address.isValid;
+    if ([address isValid]) {
+        ID.name = name;
+        ID.address = address;
+        ID.flag = MKMIDNormal;
+        ID.terminal = terminal;
+    } else {
+        assert(false);
+        ID.name = nil;
+        ID.address = nil;
+        ID.flag = MKMIDError;
+        ID.terminal = nil;
+    }
 }
 
 @implementation MKMID
@@ -61,42 +91,56 @@ static inline void parse_id_string(const NSString *string, MKMID *ID) {
 
 - (instancetype)initWithString:(NSString *)aString {
     if (self = [super initWithString:aString]) {
-        // lazy
+        // lazy loading
+        //      this designated initializer will be call by 'copyWithZone:', so
+        //      it's better to use lazy loading here.
         _name = nil;
         _address = nil;
+        _flag = MKMIDInit;
         _terminal = nil;
-        _valid = NO;
     }
     return self;
 }
 
 - (instancetype)initWithName:(const NSString *)seed
                      address:(const MKMAddress *)addr {
-    return [self initWithName:seed address:addr terminal:nil];
+    NSAssert(seed.length > 0, @"ID name should not be empty");
+    NSAssert(addr.isValid, @"ID address invalid: %@", addr);
+    
+    NSString *str = [NSString stringWithFormat:@"%@@%@", seed, addr];
+    if (self = [super initWithString:str]) {
+        if ([addr isValid]) {
+            _name = [seed copy];
+            _address = addr;
+            _flag = MKMIDNormal;
+            _terminal = nil;
+        } else {
+            NSAssert(false, @"ID properties error: %@, %@", seed, addr);
+            _name = nil;
+            _address = nil;
+            _flag = MKMIDError;
+            _terminal = nil;
+        }
+    }
+    return self;
 }
 
 - (instancetype)initWithAddress:(const MKMAddress *)addr {
-    return [self initWithName:nil address:addr terminal:nil];
-}
-
-- (instancetype)initWithName:(nullable const NSString *)seed
-                     address:(const MKMAddress *)addr
-                    terminal:(nullable const NSString *)res {
-    NSString *string;
-    if (seed) {
-        string = [NSString stringWithFormat:@"%@@%@", seed, addr];
-    } else {
-        string = [NSString stringWithFormat:@"%@", addr];
-    }
-    if (res) {
-        string = [string stringByAppendingFormat:@"/%@", res];
-    }
+    NSAssert(addr.isValid, @"ID address invalid: %@", addr);
     
-    if (self = [super initWithString:string]) {
-        _name = [seed copy];
-        _address = [addr copy];
-        _terminal = [res copy];
-        _valid = addr.isValid;
+    if (self = [super initWithString:(NSString *)addr]) {
+        if ([addr isValid]) {
+            _name = nil;
+            _address = addr;
+            _flag = MKMIDNormal;
+            _terminal = nil;
+        } else {
+            NSAssert(false, @"ID property error: %@", addr);
+            _name = nil;
+            _address = nil;
+            _flag = MKMIDError;
+            _terminal = nil;
+        }
     }
     return self;
 }
@@ -106,79 +150,100 @@ static inline void parse_id_string(const NSString *string, MKMID *ID) {
     if (ID) {
         ID.name = _name;
         ID.address = _address;
+        ID.flag = _flag;
         ID.terminal = _terminal;
-        ID.valid = _valid;
     }
     return ID;
 }
 
 - (BOOL)isEqual:(id)object {
+    if (_flag == MKMIDInit) {
+        parse_id_string(_storeString, self);
+    }
     MKMID *ID = [MKMID IDWithID:object];
-    if (!self.isValid || !ID.isValid) {
+    if (_flag != ID.flag) {
         return NO;
     }
     // check name
-    if (self.name.length > 0) {
-        if (![_name isEqualToString:ID.name]) {
-            return NO;
-        }
-    } else if (ID.name.length > 0) {
+    if (NSStringNotEquals(_name, ID.name)) {
         return NO;
     }
     // compare address
-    return [self.address isEqual:ID.address];
-}
-
-- (NSString *)description {
-    return _storeString;
+    return [_address isEqual:ID.address];
 }
 
 - (NSString *)name {
-    if (!_name && !_address && !_terminal && _valid == NO) {
+    if (_flag == MKMIDInit) {
         parse_id_string(_storeString, self);
     }
     return _name;
 }
 
 - (const MKMAddress *)address {
-    if (!_name && !_address && !_terminal && _valid == NO) {
+    if (_flag == MKMIDInit) {
         parse_id_string(_storeString, self);
     }
     return _address;
 }
 
 - (NSString *)terminal {
-    if (!_name && !_address && !_terminal && _valid == NO) {
+    if (_flag == MKMIDInit) {
         parse_id_string(_storeString, self);
     }
     return _terminal;
 }
 
-- (BOOL)isValid {
-    if (!_name && !_address && !_terminal && _valid == NO) {
+- (void)setTerminal:(NSString *)terminal {
+    if (_flag == MKMIDInit) {
         parse_id_string(_storeString, self);
     }
-    return _valid;
+    if (NSStringNotEquals(_terminal, terminal)) {
+        _terminal = terminal;
+        
+        // update store string
+        NSArray *pair = [_storeString componentsSeparatedByString:@"/"];
+        NSAssert(pair.count == 1 || pair.count == 2, @"ID error: %@", _storeString);
+        if (terminal.length > 0) {
+            NSAssert([terminal rangeOfString:@"/"].location == NSNotFound, @"terminal error: %@", terminal);
+            _storeString = [NSString stringWithFormat:@"%@/%@", pair.firstObject, terminal];
+        } else if (pair.count > 1) {
+            _storeString = pair.firstObject;
+        }
+    }
+}
+
+- (BOOL)isValid {
+    if (_flag == MKMIDInit) {
+        parse_id_string(_storeString, self);
+    }
+    return _flag == MKMIDNormal;
 }
 
 - (MKMNetworkType)type {
-    if (!_name && !_address && !_terminal && _valid == NO) {
+    if (_flag == MKMIDInit) {
         parse_id_string(_storeString, self);
     }
     return _address.network;
 }
 
 - (UInt32)number {
-    if (!_name && !_address && !_terminal && _valid == NO) {
+    if (_flag == MKMIDInit) {
         parse_id_string(_storeString, self);
     }
     return _address.code;
 }
 
 - (instancetype)naked {
-    if (self.terminal) {
-        return [[[self class] alloc] initWithName:self.name
-                                          address:self.address];
+    if (_flag == MKMIDInit) {
+        parse_id_string(_storeString, self);
+    }
+    if (_terminal) {
+        if (_name) {
+            return [[[self class] alloc] initWithName:_name
+                                              address:_address];
+        } else {
+            return [[[self class] alloc] initWithAddress:_address];
+        }
     } else {
         return self;
     }

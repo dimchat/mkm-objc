@@ -193,10 +193,10 @@ static inline void print_id(const MKMID *ID) {
     MKMPrivateKey *SK = [[MKMPrivateKey alloc] init];
     MKMPublicKey *PK = SK.publicKey;
     
-    MKMMeta *meta = [[MKMMeta alloc] initWithSeed:name
-                                       privateKey:SK
-                                        publicKey:PK
-                                          version:MKMMetaVersion_MKM];
+    MKMMeta *meta = [[MKMMeta alloc] initWithVersion:MKMMetaVersion_MKM
+                                                seed:name
+                                          privateKey:SK
+                                           publicKey:PK];
     
     const MKMID *ID = [meta buildIDWithNetworkID:MKMNetwork_Main];
     
@@ -211,10 +211,7 @@ static inline void print_id(const MKMID *ID) {
     MKMPrivateKey *SK = [[MKMPrivateKey alloc] init];
     MKMPublicKey *PK = SK.publicKey;
     
-    MKMMeta *meta = [[MKMMeta alloc] initWithSeed:nil
-                                        publicKey:PK
-                                      fingerprint:nil
-                                          version:MKMMetaVersion_BTC];
+    MKMMeta *meta = [[MKMMeta alloc] initWithPublicKey:PK];
     const MKMID *ID = [meta buildIDWithNetworkID:MKMNetwork_BTCMain];
     
     NSLog(@"meta: %@", meta);
@@ -237,7 +234,7 @@ static inline void print_id(const MKMID *ID) {
     
     NSLog(@"user: %@", user);
     NSLog(@"SK: %@", user.privateKey);
-    NSAssert([user.publicKey isMatch:user.privateKey], @"error");
+    NSAssert([user.publicKey isMatch:user.privateKey], @"keys not match");
     
     NSString *string;
     NSData *data;
@@ -297,10 +294,10 @@ static inline void print_id(const MKMID *ID) {
             continue;
         }
         
-        MKMMeta *meta = [[MKMMeta alloc] initWithSeed:name
-                                            publicKey:PK
-                                          fingerprint:CT
-                                              version:MKMMetaDefaultVersion];
+        MKMMeta *meta = [[MKMMeta alloc] initWithVersion:MKMMetaDefaultVersion
+                                                    seed:name
+                                               publicKey:PK
+                                             fingerprint:CT];
         
         const MKMID *ID = [meta buildIDWithNetworkID:network];
 

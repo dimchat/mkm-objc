@@ -49,7 +49,7 @@
         return NO;
     }
     
-    NSAssert([entity isKindOfClass:[MKMAccount class]], @"error");
+    NSAssert([entity isKindOfClass:[MKMAccount class]], @"entity must be an account: %@", entity);
     const MKMAccount *account = (const MKMAccount *)entity;
     
     MKMHistoryOperation *operation;
@@ -87,7 +87,7 @@
     // call super execute
     [super evolvingEntity:entity execute:operation commander:commander];
     
-    NSAssert([entity isKindOfClass:[MKMAccount class]], @"error");
+    NSAssert([entity isKindOfClass:[MKMAccount class]], @"entity must be an account: %@", entity);
     MKMAccount *account = (MKMAccount *)entity;
     
     const NSString *op = operation.command;

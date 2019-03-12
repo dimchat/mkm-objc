@@ -31,8 +31,7 @@ static inline NSData *random_data(NSUInteger size) {
 /* designated initializer */
 - (instancetype)initWithDictionary:(NSDictionary *)keyInfo {
     if (self = [super initWithDictionary:keyInfo]) {
-        NSAssert([self.algorithm isEqualToString:SCAlgorithmAES],
-                 @"algorithm error: %@", keyInfo);
+        NSAssert([self.algorithm isEqualToString:SCAlgorithmAES], @"algorithm error: %@", keyInfo);
         
         // lazy
         _data = nil;
@@ -121,7 +120,6 @@ static inline NSData *random_data(NSUInteger size) {
 - (NSData *)encrypt:(const NSData *)plaintext {
     NSData *ciphertext = nil;
     NSAssert(self.keySize == kCCKeySizeAES256, @"only support AES-256 now");
-    //NSAssert(!self.initializeVector, @"do not support init vector now");
     
     // AES encrypt algorithm
     if (self.keySize == kCCKeySizeAES256) {
@@ -135,7 +133,6 @@ static inline NSData *random_data(NSUInteger size) {
 - (NSData *)decrypt:(const NSData *)ciphertext {
     NSData *plaintext = nil;
     NSAssert(self.keySize == kCCKeySizeAES256, @"only support AES-256 now");
-    //NSAssert(!self.initializeVector, @"do not support init vector now");
     
     // AES decrypt algorithm
     if (self.keySize == kCCKeySizeAES256) {

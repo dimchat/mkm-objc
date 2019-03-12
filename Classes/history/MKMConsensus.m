@@ -80,7 +80,7 @@ SingletonImplementations(MKMConsensus, sharedInstance)
 - (BOOL)evolvingEntity:(const MKMEntity *)entity
         canWriteRecord:(const MKMHistoryBlock *)record {
     NSAssert(!record.recorder || MKMNetwork_IsPerson(record.recorder.type),
-             @"recorder error");
+             @"recorder error: %@", record.recorder);
     id<MKMEntityHistoryDelegate> delegate = history_delegate(entity);
     return [delegate evolvingEntity:entity canWriteRecord:record];
 }
@@ -89,9 +89,9 @@ SingletonImplementations(MKMConsensus, sharedInstance)
            canRunEvent:(const MKMHistoryTransaction *)event
               recorder:(const MKMID *)recorder {
     NSAssert(!recorder || MKMNetwork_IsPerson(recorder.type),
-             @"recorder error");
+             @"recorder error: %@", recorder);
     NSAssert(!event.commander || MKMNetwork_IsPerson(event.commander.type),
-             @"commander error");
+             @"commander error: %@", event.commander);
     id<MKMEntityHistoryDelegate> delegate = history_delegate(entity);
     return [delegate evolvingEntity:entity canRunEvent:event recorder:recorder];
 }
@@ -99,7 +99,7 @@ SingletonImplementations(MKMConsensus, sharedInstance)
 - (void)evolvingEntity:(MKMEntity *)entity
                execute:(const MKMHistoryOperation *)operation
              commander:(const MKMID *)commander {
-    NSAssert(MKMNetwork_IsPerson(commander.type), @"commander error");
+    NSAssert(MKMNetwork_IsPerson(commander.type), @"commander error: %@", commander);
     id<MKMEntityHistoryDelegate> delegate = history_delegate(entity);
     return [delegate evolvingEntity:entity execute:operation commander:commander];
 }
@@ -117,8 +117,8 @@ SingletonImplementations(MKMConsensus, sharedInstance)
 
 - (NSUInteger)runHistory:(const MKMHistory *)history
                forEntity:(MKMEntity *)entity {
-    NSAssert([entity.ID isValid], @"ID error");
-    NSAssert([history.ID isEqual:entity.ID], @"ID not match");
+    NSAssert([entity.ID isValid], @"entity ID error: %@", entity);
+    NSAssert([history.ID isEqual:entity.ID], @"ID not match: %@", entity.ID);
     NSAssert([history count] > 0, @"history cannot be empty");
     NSUInteger pos = 0;
     
@@ -189,7 +189,7 @@ SingletonImplementations(MKMConsensus, sharedInstance)
     if (recorder) {
         recorder = [MKMID IDWithID:recorder];
     } else {
-        NSAssert(MKMNetwork_IsPerson(entity.type), @"error");
+        NSAssert(MKMNetwork_IsPerson(entity.type), @"not a person: %@", entity);
         recorder = entity.ID;
     }
     

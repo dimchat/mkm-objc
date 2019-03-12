@@ -28,19 +28,20 @@
 
 - (BOOL)evolvingEntity:(const MKMEntity *)entity
         canWriteRecord:(const MKMHistoryBlock *)record {
-    NSAssert([record.recorder isValid], @"recorder error");
+    NSAssert([record.recorder isValid], @"recorder error: %@", record.recorder);
     
     // hash(record.events)
     NSData *hash = record.merkleRoot;
+    NSAssert(hash, @"merkle root cannot be empty");
     
     // signature
     NSData *CT = record.signature;
-    NSAssert(CT, @"signature error");
+    NSAssert(CT, @"signature cannot be empty");
     
     // check signature for this record
     MKMPublicKey *PK = MKMPublicKeyForID(record.recorder);
     if (![PK verify:hash withSignature:CT]) {
-        NSAssert(false, @"signature error");
+        NSAssert(false, @"signature not match the hash data with key: %@", PK);
         return NO;
     }
     
@@ -51,15 +52,15 @@
 - (BOOL)evolvingEntity:(const MKMEntity *)entity
            canRunEvent:(const MKMHistoryTransaction *)event
               recorder:(const MKMID *)recorder {
-    NSAssert([recorder isValid], @"recorder error");
+    NSAssert([recorder isValid], @"recorder error: %@", recorder);
     
     if (event.commander == nil || [event.commander isEqual:recorder]) {
         // no need to verify signature when commander is the history recorder
         // and if event.commander not set, it means the recorder is commander
-        NSAssert(event.signature == nil, @"event error");
+        NSAssert(event.signature == nil, @"event error: %@", event);
         return YES;
     }
-    NSAssert([event.commander isValid], @"commander error");
+    NSAssert([event.commander isValid], @"commander error: %@", event.commander);
     
     // operation
     id op = event.operation;
@@ -88,7 +89,7 @@
 - (void)evolvingEntity:(MKMEntity *)entity
                execute:(const MKMHistoryOperation *)operation
              commander:(const MKMID *)commander {
-    NSAssert([commander isValid], @"commander error");
+    NSAssert([commander isValid], @"commander error: %@", commander);
     // let the subclass to do the operating
     return ;
 }

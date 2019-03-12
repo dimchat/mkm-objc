@@ -78,7 +78,7 @@
 - (NSDate *)time {
     if (!_time) {
         NSNumber *timestamp = [_storeDictionary objectForKey:@"time"];
-        NSAssert(timestamp, @"error: %@", _storeDictionary);
+        NSAssert(timestamp, @"time error: %@", _storeDictionary);
         _time = NSDateFromNumber(timestamp);
     }
     return _time;
@@ -108,7 +108,7 @@
     NSString *CT = nil;
     if ([_command isEqualToString:@"link"]) {
         CT = [_storeDictionary objectForKey:@"prevSign"];
-        NSAssert(CT, @"error");
+        NSAssert(CT, @"previous signature cannot be empty in link command");
     }
     return [CT base64Decode];
 }

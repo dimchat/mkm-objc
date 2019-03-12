@@ -30,8 +30,8 @@
         } else if ([algorithm isEqualToString:ACAlgorithmECC]) {
             self = [[MKMECCPublicKey alloc] initWithDictionary:keyInfo];
         } else {
+            NSAssert(false, @"algorithm not support: %@", algorithm);
             self = nil;
-            NSAssert(self, @"algorithm not support: %@", algorithm);
         }
     } else if (self = [super initWithDictionary:keyInfo]) {
         //

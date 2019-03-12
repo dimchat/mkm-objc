@@ -40,9 +40,9 @@
     }
     
     MKMID *recorder = [MKMID IDWithID:record.recorder];
-    NSAssert([recorder isValid], @"recorder error");
+    NSAssert([recorder isValid], @"recorder error: %@", recorder);
     
-    NSAssert([entity isKindOfClass:[MKMGroup class]], @"error");
+    NSAssert([entity isKindOfClass:[MKMGroup class]], @"entity must be a group: %@", entity);
     MKMGroup *social = (MKMGroup *)entity;
     NSArray *members = social.members;
     NSAssert(members.count > 0, @"members cannot be empty");
@@ -55,14 +55,14 @@
         event = [MKMHistoryTransaction transactionWithTransaction:tx];
         for (MKMAddress *addr in event.confirmations) {
             // is it the recorder?
-            if ([recorder.address isEqualToString:addr]) {
+            if ([recorder.address isEqual:addr]) {
                 // the recorder not need to confirm, skip it
                 continue;
             }
             // is it a member?
             for (id m in members) {
                 MKMID *mid = [MKMID IDWithID:m];
-                if ([mid.address isEqualToString:addr]) {
+                if ([mid.address isEqual:addr]) {
                     // address match a member
                     NSData *confirm = [event confirmationForID:mid];
                     MKMPublicKey *PK = MKMPublicKeyForID(mid);
@@ -129,7 +129,7 @@
     MKMHistoryOperation *operation = event.operation;
     operation = [MKMHistoryOperation operationWithOperation:operation];
     
-    NSAssert([entity isKindOfClass:[MKMGroup class]], @"error");
+    NSAssert([entity isKindOfClass:[MKMGroup class]], @"entity must be a group: %@", entity);
     MKMGroup *social = (MKMGroup *)entity;
     
     BOOL isOwner = [social.owner isEqual:commander];
@@ -141,9 +141,7 @@
         if ([op isEqualToString:@"found"] ||
             [op isEqualToString:@"create"]) {
             // only founder
-            const MKMMeta *meta = MKMMetaForID(social.ID);
-            MKMPublicKey *PK = MKMPublicKeyForID(commander);
-            if (![meta.key isEqual:PK]) {
+            if (![social isFounder:commander]) {
                 NSAssert(false, @"only founder can create");
                 return NO;
             }
@@ -162,21 +160,18 @@
         // all members
         //    let the subclass to reduce it
         if (!isMember) {
-            NSAssert(false, @"who are you?");
             return NO;
         }
     } else if ([op isEqualToString:@"invite"]) {
         // all members
         //    let the subclass to reduce it
         if (!isMember) {
-            NSAssert(false, @"who are you?");
             return NO;
         }
     } else if ([op isEqualToString:@"expel"]) {
         // all members
         //    let the subclass to reduce it
         if (!isMember) {
-            NSAssert(false, @"who are you?");
             return NO;
         }
     } else if ([op isEqualToString:@"join"]) {
@@ -188,8 +183,12 @@
     } else if ([op isEqualToString:@"quit"]) {
         // all members except owner
         //    forbide the owner to quit directly
-        if (!isMember || isOwner) {
+        if (isOwner) {
             NSAssert(false, @"owner cannot quit, abdicate first");
+            return NO;
+        }
+        if (!isMember) {
+            NSAssert(false, @"you are not a member");
             return NO;
         }
     }
@@ -204,23 +203,21 @@
     // call super execute
     [super evolvingEntity:entity execute:operation commander:commander];
     
-    NSAssert([entity isKindOfClass:[MKMGroup class]], @"error");
+    NSAssert([entity isKindOfClass:[MKMGroup class]], @"entity must be a group: %@", entity);
     MKMGroup *social = (MKMGroup *)entity;
     
     const NSString *op = operation.command;
     if ([op isEqualToString:@"found"] ||
         [op isEqualToString:@"create"]) {
-        NSAssert(social.founder == nil, @"history error");
+        NSAssert(social.founder == nil, @"founder should not be set yet");
         // founder
         MKMID *founder = [operation objectForKey:@"founder"];
-        NSAssert(founder, @"history error");
+        NSAssert(founder, @"founder cannot be empty");
         founder = [MKMID IDWithID:founder];
-        NSAssert(!social.founder || [social.founder isEqual:founder],
-                 @"founder error");
         social.founder = founder;
         
         // first owner
-        NSAssert(!social.owner, @"owner error");
+        NSAssert(!social.owner, @"owner should not be set yet");
         MKMID *owner = [operation objectForKey:@"owner"];
         if (owner) {
             owner = [MKMID IDWithID:owner];

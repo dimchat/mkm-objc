@@ -25,8 +25,8 @@
         if ([algorithm isEqualToString:SCAlgorithmAES]) {
             self = [[MKMAESKey alloc] initWithDictionary:keyInfo];
         } else {
+            NSAssert(false, @"algorithm not support: %@", algorithm);
             self = nil;
-            NSAssert(self, @"algorithm not support: %@", algorithm);
         }
     } else if (self = [super initWithDictionary:keyInfo]) {
         //

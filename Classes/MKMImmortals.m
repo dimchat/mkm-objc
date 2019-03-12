@@ -57,7 +57,7 @@
     // ID
     MKMID *ID = [dict objectForKey:@"ID"];
     ID = [MKMID IDWithID:ID];
-    NSAssert(ID.isValid, @"ID error");
+    NSAssert(ID.isValid, @"ID error: %@", ID);
     
     // meta
     MKMMeta *meta = [dict objectForKey:@"meta"];
@@ -66,7 +66,7 @@
         [_metaTable setObject:meta forKey:ID.address];
         [MKMFacebook() setMeta:meta forID:ID];
     } else {
-        NSAssert(false, @"meta error");
+        NSAssert(false, @"meta not match ID: %@, %@", ID, meta);
     }
     
     // profile
@@ -75,7 +75,7 @@
     if (profile) {
         [_profileTable setObject:profile forKey:ID.address];
     } else {
-        NSAssert(false, @"profile error");
+        NSAssert(false, @"profile not fould: %@", dict);
     }
     
     // private key
@@ -85,7 +85,7 @@
         // store private key into keychain
         //[SK saveKeyWithIdentifier:ID.address];
     } else {
-        NSAssert(false, @"keys not match");
+        NSAssert(false, @"keys not match: %@, meta: %@", SK, meta);
         SK = nil;
     }
     
@@ -102,13 +102,13 @@
 #pragma mark - Delegates
 
 - (const MKMMeta *)metaForID:(const MKMID *)ID {
-    NSAssert([ID isValid], @"ID invalid");
+    NSAssert([ID isValid], @"ID invalid: %@", ID);
     return [_metaTable objectForKey:ID.address];
 }
 
 - (const MKMMeta *)metaForEntity:(const MKMEntity *)entity {
     const MKMID *ID = entity.ID;
-    NSAssert([ID isValid], @"entity ID invalid");
+    NSAssert([ID isValid], @"entity ID invalid: %@", entity);
     return [_metaTable objectForKey:ID.address];
 }
 
@@ -122,13 +122,13 @@
         return [self userWithID:ID];
     } else {
         // not a person account
-        NSAssert(MKMNetwork_IsCommunicator(ID.type), @"account ID error");
+        NSAssert(MKMNetwork_IsCommunicator(ID.type), @"account ID error: %@", ID);
         return nil;
     }
 }
 
 - (MKMUser *)userWithID:(const MKMID *)ID {
-    NSAssert(MKMNetwork_IsPerson(ID.type), @"user ID error");
+    NSAssert(MKMNetwork_IsPerson(ID.type), @"user ID error: %@", ID);
     return [_userTable objectForKey:ID.address];
 }
 
@@ -155,7 +155,7 @@
 }
 
 - (MKMProfile *)profileForID:(const MKMID *)ID {
-    NSAssert(MKMNetwork_IsPerson(ID.type), @"account ID error");
+    NSAssert(MKMNetwork_IsPerson(ID.type), @"account ID error: %@", ID);
     return [_profileTable objectForKey:ID.address];
 }
 

@@ -61,7 +61,7 @@
     MKMHistoryBlock *lastBlock = history.blocks.lastObject;
     lastBlock = [MKMHistoryBlock blockWithBlock:lastBlock];
     NSData *CT = lastBlock.signature;
-    NSAssert(CT, @"last block error");
+    NSAssert(CT, @"last block error: %@", lastBlock);
     
     MKMHistoryBlock *record;
     MKMHistoryTransaction *ev1, *ev2;

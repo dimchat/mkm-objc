@@ -37,8 +37,6 @@ NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)initWithAlgorithm:(const NSString *)algorithm;
 
-- (BOOL)isEqual:(const MKMCryptographyKey *)aKey;
-
 @end
 
 @interface MKMCryptographyKey (PersistentStore)

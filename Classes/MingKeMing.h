@@ -22,6 +22,7 @@ FOUNDATION_EXPORT const unsigned char MingKeMingVersionString[];
 // Extends
 //#import <MingKeMing/NSObject+Singleton.h>
 //#import <MingKeMing/NSObject+JsON.h>
+//#import <MingKeMing/NSObject+Compare.h>
 //#import <MingKeMing/NSData+Crypto.h>
 //#import <MingKeMing/NSString+Crypto.h>
 //#import <MingKeMing/NSArray+Merkle.h>
