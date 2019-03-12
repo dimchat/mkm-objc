@@ -161,9 +161,6 @@ static inline void parse_id_string(const NSString *string, MKMID *ID) {
         parse_id_string(_storeString, self);
     }
     MKMID *ID = [MKMID IDWithID:object];
-    if (_flag != ID.flag) {
-        return NO;
-    }
     // check name
     if (NSStringNotEquals(_name, ID.name)) {
         return NO;
