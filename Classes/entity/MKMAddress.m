@@ -11,6 +11,8 @@
 
 #import "MKMAddress.h"
 
+typedef NS_ENUM(u_char, MKMAddressFlag) {
+    MKMAddressInit = 0,
     MKMAddressNormal = 1,
     MKMAddressError = 2,
 };
@@ -52,6 +54,7 @@ static inline UInt32 user_number(const NSData *cc) {
 
 /**
  Parse string with BTC address format
+ 
  @param string - BTC address format string
  @param address - MKM address
  */
