@@ -19,8 +19,6 @@
 #import "MKMHistory.h"
 
 #import "MKMConsensus.h"
-#import "MKMBarrack.h"
-#import "MKMBarrack+LocalStorage.h"
 
 #import "MKMUser+History.h"
 
@@ -84,7 +82,7 @@
     record = [[MKMHistoryBlock alloc] initWithTransactions:@[ev1, ev2]
                                                     merkle:hash
                                                  signature:CT
-                                                  recorder:_ID];
+                                                  recorder:self.ID];
     [record signWithPrivateKey:self.privateKey];
     
     return record;

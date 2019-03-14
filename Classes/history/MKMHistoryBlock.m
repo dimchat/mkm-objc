@@ -18,8 +18,6 @@
 #import "MKMMeta.h"
 #import "MKMHistoryTransaction.h"
 
-#import "MKMBarrack.h"
-
 #import "MKMHistoryBlock.h"
 
 static inline NSMutableArray *json_array(const NSArray *events) {
@@ -201,14 +199,8 @@ static inline NSMutableArray *json_array(const NSArray *events) {
 }
 
 - (BOOL)signWithPrivateKey:(const MKMPrivateKey *)SK {
-    MKMPublicKey *PK = MKMPublicKeyForID(self.recorder);
-    if ([PK isMatch:SK]) {
-        self.signature = [SK sign:self.merkleRoot];
-        return _signature != nil;
-    } else {
-        NSAssert(false, @"only recorder's private key allows here");
-        return NO;
-    }
+    self.signature = [SK sign:self.merkleRoot];
+    return _signature != nil;
 }
 
 @end

@@ -141,7 +141,7 @@
         if ([op isEqualToString:@"found"] ||
             [op isEqualToString:@"create"]) {
             // only founder
-            if (![social isFounder:commander]) {
+            if (![social.founder isEqual:commander]) {
                 NSAssert(false, @"only founder can create");
                 return NO;
             }

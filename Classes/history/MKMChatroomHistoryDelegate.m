@@ -59,7 +59,7 @@
     NSAssert([entity isKindOfClass:[MKMChatroom class]], @"entity must be a chatroom: %@", entity);
     MKMChatroom *chatroom = (MKMChatroom *)entity;
     
-    //BOOL isFounder = [chatroom isFounder:ID];
+    //BOOL isFounder = [chatroom.founder isEqual:commander];
     BOOL isOwner = [chatroom.owner isEqual:commander];
     BOOL isAdmin = [chatroom existsAdmin:commander];
     //BOOL isMember = isOwner || isAdmin || [chatroom hasMember:ID];

@@ -20,8 +20,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (readonly, strong, nonatomic) NSArray<const MKMID *> *members;
 
-- (BOOL)isFounder:(const MKMID *)ID;
-
 - (BOOL)existsMember:(const MKMID *)ID;
 
 // +create(founder)

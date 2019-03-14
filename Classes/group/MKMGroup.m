@@ -11,8 +11,6 @@
 #import "MKMID.h"
 #import "MKMMeta.h"
 
-#import "MKMBarrack.h"
-
 #import "MKMGroup.h"
 
 @interface MKMGroup ()
@@ -71,14 +69,6 @@
         [list addObject:ID];
     }
     return list;
-}
-
-- (BOOL)isFounder:(const MKMID *)ID {
-    const MKMMeta *meta = self.meta;
-    MKMPublicKey *PK = MKMPublicKeyForID(ID);
-    // if the user's public key matches with the group's meta,
-    // it means this meta was generate by the user's private key
-    return [meta matchPublicKey:PK];
 }
 
 - (BOOL)existsMember:(const MKMID *)ID {

@@ -10,9 +10,6 @@
 
 #import "MKMID.h"
 
-#import "MKMProfile.h"
-#import "MKMBarrack.h"
-
 #import "MKMEntity.h"
 
 @implementation MKMEntity
