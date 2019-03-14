@@ -8,7 +8,9 @@
 
 #import "NSObject+Singleton.h"
 
-#import "MKMPrivateKey.h"
+#import "MKMAESKey.h"
+#import "MKMRSAPublicKey.h"
+#import "MKMRSAPrivateKey.h"
 
 #import "MKMID.h"
 #import "MKMMeta.h"
@@ -87,6 +89,15 @@ SingletonImplementations(MKMBarrack, sharedInstance)
         
         _entityDataSource = nil;
         _profileDataSource = nil;
+        
+        // AES
+        [MKMSymmetricKey registerClass:[MKMAESKey class]
+                          forAlgorithm:SCAlgorithmAES];
+        // RSA
+        [MKMPublicKey registerClass:[MKMRSAPublicKey class]
+                       forAlgorithm:ACAlgorithmRSA];
+        [MKMPrivateKey registerClass:[MKMRSAPrivateKey class]
+                        forAlgorithm:ACAlgorithmRSA];
     }
     return self;
 }

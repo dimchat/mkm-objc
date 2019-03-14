@@ -52,6 +52,8 @@ static inline void print_id(const MKMID *ID) {
 
 - (void)setUp {
     // Put setup code here. This method is called before the invocation of each test method in the class.
+    
+    [MKMBarrack sharedInstance];
 }
 
 - (void)tearDown {
@@ -230,31 +232,31 @@ static inline void print_id(const MKMID *ID) {
     MKMFacebook().userDelegate = immortals;
     
     MKMID *ID = [MKMID IDWithID:MKM_IMMORTAL_HULK_ID];
-    MKMUser *user = MKMUserWithID(ID);
+    MKMUser *user = [immortals userWithID:ID];
     
-    NSLog(@"user: %@", user);
-    NSLog(@"SK: %@", user.privateKey);
-    NSAssert([user.publicKey isMatch:user.privateKey], @"keys not match");
+//    NSLog(@"user: %@", user);
+//    NSLog(@"SK: %@", user.privateKey);
+//    NSAssert([user.publicKey isMatch:user.privateKey], @"keys not match");
     
-    NSString *string;
-    NSData *data;
-    string = @"WH/wAcu+HfpaLq+vRblNnYufkyjTm4FgYyzW3wBDeRtXs1TeDmRxKVu7"
-    "nQI/sdIALGLXrY+O5mlRfhU8f8TuIBilZUlX/eIUpL4uSDYKVLaRG9pO"
-    "crCHKevjUpId9x/8KBEiMIL5LB0Vo7sKrvrqosCnIgNfHbXMKvMzwcqZ"
-    "EU8=";
-    data = [string base64Decode];
-    data = [user.privateKey decrypt:data];
-    string = [data UTF8String];
-    NSLog(@"RSA decrypt: %@", string);
-    
-    MKMSymmetricKey *pw;
-    pw = [[MKMSymmetricKey alloc] initWithJSONString:string];
-    
-    string = @"9cjCKG99ULCCxbL2mkc/MgF1saeRqJaCc+S12+HCqmsuF7TWK61EwTQWZSKskUeF";
-    data = [string base64Decode];
-    data = [pw decrypt:data];
-    string = [data UTF8String];
-    NSLog(@"AES decrypt: %@", string);
+//    NSString *string;
+//    NSData *data;
+//    string = @"WH/wAcu+HfpaLq+vRblNnYufkyjTm4FgYyzW3wBDeRtXs1TeDmRxKVu7"
+//    "nQI/sdIALGLXrY+O5mlRfhU8f8TuIBilZUlX/eIUpL4uSDYKVLaRG9pO"
+//    "crCHKevjUpId9x/8KBEiMIL5LB0Vo7sKrvrqosCnIgNfHbXMKvMzwcqZ"
+//    "EU8=";
+//    data = [string base64Decode];
+//    data = [user.privateKey decrypt:data];
+//    string = [data UTF8String];
+//    NSLog(@"RSA decrypt: %@", string);
+//    
+//    MKMSymmetricKey *pw;
+//    pw = [[MKMSymmetricKey alloc] initWithJSONString:string];
+//    
+//    string = @"9cjCKG99ULCCxbL2mkc/MgF1saeRqJaCc+S12+HCqmsuF7TWK61EwTQWZSKskUeF";
+//    data = [string base64Decode];
+//    data = [pw decrypt:data];
+//    string = [data UTF8String];
+//    NSLog(@"AES decrypt: %@", string);
     
 }
 

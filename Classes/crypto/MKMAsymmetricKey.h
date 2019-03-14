@@ -13,6 +13,14 @@ NS_ASSUME_NONNULL_BEGIN
 #define ACAlgorithmRSA @"RSA"
 #define ACAlgorithmECC @"ECC"
 
+#define MKMPublicKeyClassFromAlgorithmString(algorithm)                        \
+            [MKMPublicKey classForAlgorithm:(algorithm)]                       \
+                               /* EOF 'MKMPublicKeyClassFromAlgorithmString() */
+
+#define MKMPrivateKeyClassFromAlgorithmString(algorithm)                       \
+           [MKMPrivateKey classForAlgorithm:(algorithm)]                       \
+                              /* EOF 'MKMPrivateKeyClassFromAlgorithmString() */
+
 @protocol MKMPublicKey <NSObject>
 @optional
 

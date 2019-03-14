@@ -48,9 +48,6 @@ FOUNDATION_EXPORT const unsigned char MingKeMingVersionString[];
 //#import <MingKeMing/MKMRSAPublicKey.h>
 //#import <MingKeMing/MKMRSAPrivateKey.h>
 //#import <MingKeMing/MKMRSAPrivateKey+PersistentStore.h>
-//---- ECC
-//#import <MingKeMing/MKMECCPublicKey.h>
-//#import <MingKeMing/MKMECCPrivateKey.h>
 
 // Entity
 #import <MingKeMing/MKMID.h>

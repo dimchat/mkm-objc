@@ -39,6 +39,14 @@ NS_DESIGNATED_INITIALIZER;
 
 @end
 
+@interface MKMCryptographyKey (Runtime)
+
++ (void)registerClass:(nullable Class)keyClass forAlgorithm:(const NSString *)name;
+
++ (nullable Class)classForAlgorithm:(const NSString *)name;
+
+@end
+
 @interface MKMCryptographyKey (PersistentStore)
 
 + (instancetype)loadKeyWithIdentifier:(const NSString *)identifier;

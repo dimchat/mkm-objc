@@ -7,8 +7,6 @@
 //
 
 #import "MKMPrivateKey.h"
-#import "MKMRSAPublicKey.h"
-#import "MKMECCPublicKey.h"
 
 #import "MKMPublicKey.h"
 
@@ -25,10 +23,10 @@
     if ([self isMemberOfClass:[MKMPublicKey class]]) {
         // create instance by subclass with algorithm
         NSString *algorithm = [keyInfo objectForKey:@"algorithm"];
-        if ([algorithm isEqualToString:ACAlgorithmRSA]) {
-            self = [[MKMRSAPublicKey alloc] initWithDictionary:keyInfo];
-        } else if ([algorithm isEqualToString:ACAlgorithmECC]) {
-            self = [[MKMECCPublicKey alloc] initWithDictionary:keyInfo];
+        //Class clazz = MKMPublicKeyClassFromAlgorithmString(algorithm);
+        Class clazz = [[self class] classForAlgorithm:algorithm];
+        if (clazz) {
+            self = [[clazz alloc] initWithDictionary:keyInfo];
         } else {
             NSAssert(false, @"algorithm not support: %@", algorithm);
             self = nil;
@@ -54,25 +52,53 @@
 
 @end
 
+@implementation MKMPublicKey (Runtime)
+
+static NSMutableDictionary<const NSString *, Class> *s_publicKeyClasses = nil;
+
++ (void)registerClass:(Class)keyClass forAlgorithm:(const NSString *)name {
+    NSAssert(name.length > 0, @"algorithm cannot be empty");
+    NSAssert(!keyClass || [keyClass isSubclassOfClass:[MKMPublicKey class]],
+             @"public key class error: %@", keyClass);
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        s_publicKeyClasses = [[NSMutableDictionary alloc] init];
+    });
+    if (keyClass) {
+        [s_publicKeyClasses setObject:keyClass forKey:name];
+    } else {
+        [s_publicKeyClasses removeObjectForKey:name];
+    }
+}
+
++ (nullable Class)classForAlgorithm:(const NSString *)name {
+    NSAssert(name.length > 0, @"algorithm cannot be empty");
+    return [s_publicKeyClasses objectForKey:name];
+}
+
+@end
+
 @implementation MKMPublicKey (PersistentStore)
 
 + (instancetype)loadKeyWithIdentifier:(const NSString *)identifier {
-    MKMPublicKey *PK = nil;
+    MKMPublicKey *key = nil;
     
-    // try RSA public key
-    PK = [MKMRSAPublicKey loadKeyWithIdentifier:identifier];
-    if (PK) {
-        return PK;
+    if ([self isEqual:[MKMPublicKey class]]) {
+        NSArray<Class> *keyClasses = [s_publicKeyClasses allValues];
+        Class clazz;
+        for (clazz in keyClasses) {
+            key = [clazz loadKeyWithIdentifier:identifier];
+            if (key) {
+                break;
+            }
+        }
+    } else {
+        NSAssert([self isSubclassOfClass:[MKMPublicKey class]],
+                 @"unexpected public key class: %@", self);
+        key = [super loadKeyWithIdentifier:identifier];
     }
     
-    // try ECC public key
-    PK = [MKMECCPublicKey loadKeyWithIdentifier:identifier];
-    if (PK) {
-        return PK;
-    }
-    
-    // key not found
-    return PK;
+    return key;
 }
 
 @end

@@ -8,12 +8,6 @@
 
 #import "NSObject+JsON.h"
 
-#import "MKMAESKey.h"
-#import "MKMRSAPrivateKey.h"
-#import "MKMRSAPublicKey.h"
-#import "MKMECCPrivateKey.h"
-#import "MKMECCPublicKey.h"
-
 #import "MKMCryptographyKey.h"
 
 @interface MKMCryptographyKey ()
@@ -100,6 +94,21 @@
 
 - (void)setData:(NSData *)data {
     _data = data;
+}
+
+@end
+
+@implementation MKMCryptographyKey (Runtime)
+
++ (void)registerClass:(Class)keyClass forAlgorithm:(const NSString *)name {
+    NSAssert(false, @"override me in subclass");
+    // let the subclass to do the job
+}
+
++ (nullable Class)classForAlgorithm:(const NSString *)name {
+    NSAssert(false, @"override me in subclass");
+    // let the subclass to do the job
+    return nil;
 }
 
 @end

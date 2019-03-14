@@ -144,18 +144,3 @@ static inline NSData *random_data(NSUInteger size) {
 }
 
 @end
-
-@implementation MKMAESKey (PersistentStore)
-
-+ (instancetype)loadKeyWithIdentifier:(const NSString *)identifier {
-    MKMAESKey *PW = nil;
-    
-    // TODO: load AES key from persistent store
-    // ...
-    NSAssert(false, @"implement me");
-    
-    // key not found
-    return PW;
-}
-
-@end
