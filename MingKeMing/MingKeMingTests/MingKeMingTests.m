@@ -53,7 +53,7 @@ static inline void print_id(const MKMID *ID) {
 - (void)setUp {
     // Put setup code here. This method is called before the invocation of each test method in the class.
     
-    [MKMBarrack sharedInstance];
+    [MKMCryptographyKey loadCryptoKeyClasses];
 }
 
 - (void)tearDown {
@@ -118,6 +118,7 @@ static inline void print_id(const MKMID *ID) {
                           @"data": @"-----BEGIN PUBLIC KEY-----\nMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDr2zVbMu4zFOdimKVD4DlW0Uol\nEtUocA9QESbKVdv8sjFY29JROrXNGHW0uD1cyGSLJyKVuDu7PnvgcUILeSpV+TEn\nNrMN5KSSTeWyOmh5n8NI5WqT3qpCk5vNMa4e/4/Yuh/Hy4d3KOmFO0cVa29e0GmV\nDHkGqw6f7uykdGVnNwIDAQAB\n-----END PUBLIC KEY-----"};
     MKMPublicKey *PK = [MKMPublicKey keyWithKey:key];
     NSLog(@"PK: %@", PK);
+    NSLog(@"PK.json: %@", [PK jsonString]);
     NSString *data = [PK.data base64Encode];
     NSLog(@"PK.data: %@", data);
     
@@ -229,14 +230,13 @@ static inline void print_id(const MKMID *ID) {
 - (void)testAccount {
     
     MKMImmortals *immortals = [[MKMImmortals alloc] init];
-    MKMFacebook().userDelegate = immortals;
     
     MKMID *ID = [MKMID IDWithID:MKM_IMMORTAL_HULK_ID];
     MKMUser *user = [immortals userWithID:ID];
     
-//    NSLog(@"user: %@", user);
-//    NSLog(@"SK: %@", user.privateKey);
-//    NSAssert([user.publicKey isMatch:user.privateKey], @"keys not match");
+    NSLog(@"get user: %@", user);
+    //NSLog(@"SK: %@", user.privateKey);
+    //NSAssert([user.publicKey isMatch:user.privateKey], @"keys not match");
     
 //    NSString *string;
 //    NSData *data;

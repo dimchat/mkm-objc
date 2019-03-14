@@ -19,16 +19,6 @@ FOUNDATION_EXPORT const unsigned char MingKeMingVersionString[];
 #if !defined(__MING_KE_MING__)
 #define __MING_KE_MING__ 1
 
-// Extends
-//#import <MingKeMing/NSObject+Singleton.h>
-//#import <MingKeMing/NSObject+JsON.h>
-//#import <MingKeMing/NSObject+Compare.h>
-//#import <MingKeMing/NSData+Crypto.h>
-//#import <MingKeMing/NSString+Crypto.h>
-//#import <MingKeMing/NSArray+Merkle.h>
-//#import <MingKeMing/NSDictionary+Binary.h>
-//#import <MingKeMing/NSDate+Timestamp.h>
-
 // Types
 //#import <MingKeMing/MKMString.h>
 //#import <MingKeMing/MKMDictionary.h>
@@ -55,18 +45,6 @@ FOUNDATION_EXPORT const unsigned char MingKeMingVersionString[];
 #import <MingKeMing/MKMMeta.h>
 #import <MingKeMing/MKMEntity.h>
 
-// History
-#import <MingKeMing/MKMHistoryOperation.h>
-#import <MingKeMing/MKMHistoryTransaction.h>
-#import <MingKeMing/MKMHistoryBlock.h>
-#import <MingKeMing/MKMHistory.h>
-#import <MingKeMing/MKMEntityHistoryDelegate.h>
-#import <MingKeMing/MKMAccountHistoryDelegate.h>
-#import <MingKeMing/MKMGroupHistoryDelegate.h>
-#import <MingKeMing/MKMChatroomHistoryDelegate.h>
-#import <MingKeMing/MKMConsensus.h>
-#import <MingKeMing/MKMUser+History.h>
-
 // Group
 #import <MingKeMing/MKMMember.h>
 #import <MingKeMing/MKMGroup.h>
@@ -79,8 +57,6 @@ FOUNDATION_EXPORT const unsigned char MingKeMingVersionString[];
 #import <MingKeMing/MKMContact.h>
 
 #import <MingKeMing/MKMProfile.h>
-#import <MingKeMing/MKMBarrack.h>
-#import <MingKeMing/MKMBarrack+LocalStorage.h>
 //#import <MingKeMing/MKMImmortals.h>
 
 #endif /* ! __MING_KE_MING__ */

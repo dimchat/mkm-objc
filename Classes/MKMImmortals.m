@@ -6,16 +6,6 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import "MKMPrivateKey.h"
-#import "MKMPublicKey.h"
-
-#import "MKMID.h"
-#import "MKMMeta.h"
-
-//#if DEBUG
-//#import "DKDClient.h"
-//#endif
-
 #import "MKMImmortals.h"
 
 @interface MKMImmortals () {
@@ -63,7 +53,7 @@
     meta = [MKMMeta metaWithMeta:meta];
     if ([meta matchID:ID]) {
         [_metaTable setObject:meta forKey:ID.address];
-        [MKMFacebook() setMeta:meta forID:ID];
+        //[MKMFacebook() setMeta:meta forID:ID];
     } else {
         NSAssert(false, @"meta not match ID: %@, %@", ID, meta);
     }
@@ -90,12 +80,11 @@
     
     // create user
     MKMUser *user = [[MKMUser alloc] initWithID:ID];
+    user.dataSource = self;
     //user.privateKey = SK;
     [_userTable setObject:user forKey:ID.address];
     
-//#if DEBUG
-//    [[DKDClient sharedInstance] addUser:user];
-//#endif
+    NSLog(@"loaded immortal account: %@", [user description]);
 }
 
 #pragma mark - Delegates
@@ -122,6 +111,28 @@
     } else {
         // not a person account
         NSAssert(MKMNetwork_IsCommunicator(ID.type), @"account ID error: %@", ID);
+        return nil;
+    }
+}
+
+- (NSInteger)numberOfContactsInUser:(const MKMUser *)user {
+    //NSLog(@"user %@ get contact count", user);
+    if ([_userTable.allKeys containsObject:user.ID.address]) {
+        // TODO: get contacts for immortal user
+        //...
+        return 0;
+    } else {
+        return 0;
+    }
+}
+
+- (const MKMID *)user:(const MKMUser *)user contactAtIndex:(NSInteger)index {
+    //NSLog(@"user %@ get contact at index: %ld", user, index);
+    if ([_userTable.allKeys containsObject:user.ID.address]) {
+        // TODO: get contacts for immortal user
+        //...
+        return nil;
+    } else {
         return nil;
     }
 }
