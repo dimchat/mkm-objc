@@ -20,6 +20,15 @@
 /* designated initializer */
 - (instancetype)initWithDictionary:(NSDictionary *)keyInfo {
     if ([self isMemberOfClass:[MKMSymmetricKey class]]) {
+        // register Symmetric Key Classes
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            // AES
+            [MKMSymmetricKey registerClass:[MKMAESKey class] forAlgorithm:SCAlgorithmAES];
+            // DES
+            //...
+        });
+        
         // create instance by subclass with algorithm
         NSString *algorithm = [keyInfo objectForKey:@"algorithm"];
         //Class clazz = MKMSymmetricKeyClassFromAlgorithmString(algorithm);

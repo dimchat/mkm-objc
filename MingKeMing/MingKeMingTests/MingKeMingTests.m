@@ -52,8 +52,6 @@ static inline void print_id(const MKMID *ID) {
 
 - (void)setUp {
     // Put setup code here. This method is called before the invocation of each test method in the class.
-    
-    [MKMCryptographyKey loadCryptoKeyClasses];
 }
 
 - (void)tearDown {

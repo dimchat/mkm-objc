@@ -8,6 +8,8 @@
 
 #import "MKMPublicKey.h"
 
+#include "MKMRSAPrivateKey.h"
+
 #import "MKMPrivateKey.h"
 
 @implementation MKMPrivateKey
@@ -20,6 +22,15 @@
 /* designated initializer */
 - (instancetype)initWithDictionary:(NSDictionary *)keyInfo {
     if ([self isMemberOfClass:[MKMPrivateKey class]]) {
+        // register Private Key Classes
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            // RSA
+            [MKMPrivateKey registerClass:[MKMRSAPrivateKey class] forAlgorithm:ACAlgorithmRSA];
+            // ECC
+            //...
+        });
+        
         // create instance by subclass with algorithm
         NSString *algorithm = [keyInfo objectForKey:@"algorithm"];
         //Class clazz = MKMPrivateKeyClassFromAlgorithmString(algorithm);

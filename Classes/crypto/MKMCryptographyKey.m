@@ -8,10 +8,6 @@
 
 #import "NSObject+JsON.h"
 
-#import "MKMAESKey.h"
-#import "MKMRSAPublicKey.h"
-#import "MKMRSAPrivateKey.h"
-
 #import "MKMCryptographyKey.h"
 
 @interface MKMCryptographyKey ()
@@ -21,14 +17,6 @@
 @end
 
 @implementation MKMCryptographyKey
-
-+ (void)loadCryptoKeyClasses {
-    // AES
-    [MKMSymmetricKey registerClass:[MKMAESKey class] forAlgorithm:SCAlgorithmAES];
-    // RSA
-    [MKMPublicKey registerClass:[MKMRSAPublicKey class] forAlgorithm:ACAlgorithmRSA];
-    [MKMPrivateKey registerClass:[MKMRSAPrivateKey class] forAlgorithm:ACAlgorithmRSA];
-}
 
 + (instancetype)keyWithKey:(id)key {
     if ([key isKindOfClass:[MKMCryptographyKey class]]) {

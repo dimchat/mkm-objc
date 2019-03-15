@@ -28,8 +28,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly, strong, nonatomic) NSString *algorithm;
 @property (readonly, strong, nonatomic) NSData *data;
 
-+ (void)loadCryptoKeyClasses; // load 'AES', 'RSA' classes
-
 + (instancetype)keyWithKey:(id)key;
 
 - (instancetype)initWithDictionary:(NSDictionary *)keyInfo
