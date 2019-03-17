@@ -269,7 +269,7 @@ static inline void parse_meta_dictionary(const NSDictionary *dict, MKMMeta *meta
     if ([PK isEqual:_key]) {
         return YES;
     }
-    // check whether keys equal by verifing signature
+    // check whether keys equal by verifying signature
     return [PK verify:[_seed data] withSignature:_fingerprint];
 }
 
