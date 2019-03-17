@@ -68,17 +68,17 @@
         ID = [_dataSource group:self memberAtIndex:index];
         [list addObject:ID];
     }
-    // check founder position
-    const MKMID *founder = self.founder;
-    if (founder) {
-        NSUInteger pos = [list indexOfObject:founder];
+    // check owner position
+    const MKMID *owner = self.owner;
+    if (owner) {
+        NSUInteger pos = [list indexOfObject:owner];
         if (pos == NSNotFound) {
-            [list insertObject:founder atIndex:0];
+            [list insertObject:owner atIndex:0];
         } else if (pos > 0) {
             [list exchangeObjectAtIndex:pos withObjectAtIndex:0];
         }
     } else {
-        NSAssert(false, @"founder not found: %@", self.ID);
+        NSLog(@"this group %@ has no owner", self.ID);
     }
     return list;
 }
