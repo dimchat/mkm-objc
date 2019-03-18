@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly, strong, nonatomic) const MKMID *founder;
 @property (readonly, strong, nonatomic) const MKMID *owner;
 
-@property (readonly, strong, nonatomic) NSArray<const MKMID *> *members;
+@property (readonly, copy, nonatomic) NSArray<const MKMID *> *members;
 
 - (BOOL)existsMember:(const MKMID *)ID;
 

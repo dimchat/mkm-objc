@@ -44,7 +44,6 @@
 		E9F3A95F21CBBAF7009690F6 /* NSObject+JsON.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8F121CBBAF6009690F6 /* NSObject+JsON.m */; };
 		E9F3A96121CBBAF7009690F6 /* NSDictionary+Binary.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8F321CBBAF6009690F6 /* NSDictionary+Binary.m */; };
 		E9F3A96221CBBAF7009690F6 /* NSArray+Merkle.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8F421CBBAF6009690F6 /* NSArray+Merkle.h */; };
-		E9F3A96321CBBAF7009690F6 /* NSObject+Singleton.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8F521CBBAF6009690F6 /* NSObject+Singleton.h */; };
 		E9F3A96421CBBAF7009690F6 /* NSData+Crypto.mm in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8F621CBBAF6009690F6 /* NSData+Crypto.mm */; };
 		E9F3A96521CBBAF7009690F6 /* NSObject+JsON.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8F721CBBAF6009690F6 /* NSObject+JsON.h */; };
 		E9F3A96621CBBAF7009690F6 /* NSString+Crypto.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8F821CBBAF6009690F6 /* NSString+Crypto.h */; };
@@ -137,7 +136,6 @@
 		E9F3A8F121CBBAF6009690F6 /* NSObject+JsON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+JsON.m"; sourceTree = "<group>"; };
 		E9F3A8F321CBBAF6009690F6 /* NSDictionary+Binary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Binary.m"; sourceTree = "<group>"; };
 		E9F3A8F421CBBAF6009690F6 /* NSArray+Merkle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Merkle.h"; sourceTree = "<group>"; };
-		E9F3A8F521CBBAF6009690F6 /* NSObject+Singleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Singleton.h"; sourceTree = "<group>"; };
 		E9F3A8F621CBBAF6009690F6 /* NSData+Crypto.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "NSData+Crypto.mm"; sourceTree = "<group>"; };
 		E9F3A8F721CBBAF6009690F6 /* NSObject+JsON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+JsON.h"; sourceTree = "<group>"; };
 		E9F3A8F821CBBAF6009690F6 /* NSString+Crypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Crypto.h"; sourceTree = "<group>"; };
@@ -311,7 +309,6 @@
 				E9AFAB782236E0F5001F95C6 /* NSObject+Compare.h */,
 				E9F3A8F721CBBAF6009690F6 /* NSObject+JsON.h */,
 				E9F3A8F121CBBAF6009690F6 /* NSObject+JsON.m */,
-				E9F3A8F521CBBAF6009690F6 /* NSObject+Singleton.h */,
 				E9F3A8F821CBBAF6009690F6 /* NSString+Crypto.h */,
 				E9F3A8F021CBBAF6009690F6 /* NSString+Crypto.mm */,
 				E9BBBD64223AAA5B00E6ACDA /* NSDate+Timestamp.h */,
@@ -451,7 +448,6 @@
 				E9F3A96621CBBAF7009690F6 /* NSString+Crypto.h in Headers */,
 				E9AFAB7A2236E0F5001F95C6 /* NSObject+Compare.h in Headers */,
 				E9F3A96521CBBAF7009690F6 /* NSObject+JsON.h in Headers */,
-				E9F3A96321CBBAF7009690F6 /* NSObject+Singleton.h in Headers */,
 				E9F3A95D21CBBAF7009690F6 /* NSData+Crypto.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
