@@ -8,6 +8,12 @@
 
 #import "MKMImmortals.h"
 
+@interface MKMUser (Hacking)
+
+@property (strong, nonatomic) MKMPrivateKey *privateKey;
+
+@end
+
 @interface MKMImmortals () {
     
     NSMutableDictionary<const MKMAddress *, const MKMMeta *> *_metaTable;
@@ -72,7 +78,7 @@
     SK = [MKMPrivateKey keyWithKey:SK];
     if ([meta matchID:ID] && [meta.key isMatch:SK]) {
         // store private key into keychain
-        //[SK saveKeyWithIdentifier:ID.address];
+        [SK saveKeyWithIdentifier:ID.address];
     } else {
         NSAssert(false, @"keys not match: %@, meta: %@", SK, meta);
         SK = nil;
@@ -81,7 +87,7 @@
     // create user
     MKMUser *user = [[MKMUser alloc] initWithID:ID];
     user.dataSource = self;
-    //user.privateKey = SK;
+    user.privateKey = SK;
     [_userTable setObject:user forKey:ID.address];
     
     NSLog(@"loaded immortal account: %@", [user description]);
