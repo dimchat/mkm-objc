@@ -96,7 +96,7 @@ static NSMutableDictionary<const NSString *, Class> *s_privateKeyClasses = nil;
 
 @implementation MKMPrivateKey (PersistentStore)
 
-+ (instancetype)loadKeyWithIdentifier:(const NSString *)identifier {
++ (nullable instancetype)loadKeyWithIdentifier:(const NSString *)identifier {
     MKMPrivateKey *key = nil;
     
     if ([self isEqual:[MKMPrivateKey class]]) {

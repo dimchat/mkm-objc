@@ -47,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  User factory
  */
-- (MKMUser *)userWithID:(const MKMID *)ID;
+- (nullable MKMUser *)userWithID:(const MKMID *)ID;
 
 /**
  Add contact for user

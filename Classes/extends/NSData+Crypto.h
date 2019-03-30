@@ -37,11 +37,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface NSData (AES)
 
-- (NSData *)AES256EncryptWithKey:(const NSData *)key
-            initializationVector:(nullable const NSData *)iv;
+- (nullable NSData *)AES256EncryptWithKey:(const NSData *)key
+                     initializationVector:(nullable const NSData *)iv;
 
-- (NSData *)AES256DecryptWithKey:(const NSData *)key
-            initializationVector:(nullable const NSData *)iv;
+- (nullable NSData *)AES256DecryptWithKey:(const NSData *)key
+                     initializationVector:(nullable const NSData *)iv;
 
 @end
 

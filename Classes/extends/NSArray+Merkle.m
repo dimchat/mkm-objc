@@ -23,7 +23,7 @@ static inline NSData *merge_data(NSData *data1, NSData *data2) {
 
 @implementation NSArray (Merkle)
 
-- (NSData *)merkleRoot {
+- (nullable NSData *)merkleRoot {
     NSUInteger count = [self count];
     if (count == 0) {
         return nil;

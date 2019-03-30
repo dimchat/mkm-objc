@@ -48,7 +48,7 @@
     return _founder;
 }
 
-- (const MKMID *)owner {
+- (nullable const MKMID *)owner {
     const MKMID *ID = nil;
     if ([_dataSource respondsToSelector:@selector(ownerOfGroup:)]) {
         ID = [_dataSource ownerOfGroup:self];
@@ -57,11 +57,8 @@
 }
 
 - (NSArray<const MKMID *> *)members {
-    NSInteger count = [_dataSource numberOfMembersInGroup:self];
-    if (count <= 0) {
-        return nil;
-    }
     NSMutableArray<const MKMID *> *list;
+    NSInteger count = [_dataSource numberOfMembersInGroup:self];
     list = [[NSMutableArray alloc] initWithCapacity:count];
     const MKMID *ID;
     for (NSInteger index = 0; index < count; ++index) {

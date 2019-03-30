@@ -42,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  text = decrypt(CT, SK);
  */
-- (NSData *)decrypt:(const NSData *)ciphertext;
+- (nullable NSData *)decrypt:(const NSData *)ciphertext;
 
 /**
  *  signature = sign(data, SK);

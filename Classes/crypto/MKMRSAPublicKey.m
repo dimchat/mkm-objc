@@ -82,7 +82,7 @@
         
         NSNumber *size;
         size = [_storeDictionary objectForKey:@"keySizeInBits"];
-        if (size) {
+        if (size != nil) {
             _keySizeInBits = size.unsignedIntegerValue;
             break;
         }
@@ -179,7 +179,7 @@
 
 @implementation MKMRSAPublicKey (PersistentStore)
 
-+ (instancetype)loadKeyWithIdentifier:(const NSString *)identifier {
++ (nullable instancetype)loadKeyWithIdentifier:(const NSString *)identifier {
     MKMRSAPublicKey *PK = nil;
     
     // TODO: load RSA public key from persistent store

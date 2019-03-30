@@ -91,7 +91,7 @@ static NSMutableDictionary<const NSString *, Class> *s_publicKeyClasses = nil;
 
 @implementation MKMPublicKey (PersistentStore)
 
-+ (instancetype)loadKeyWithIdentifier:(const NSString *)identifier {
++ (nullable instancetype)loadKeyWithIdentifier:(const NSString *)identifier {
     MKMPublicKey *key = nil;
     
     if ([self isEqual:[MKMPublicKey class]]) {

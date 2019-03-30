@@ -85,7 +85,7 @@
         
         NSNumber *size;
         size = [_storeDictionary objectForKey:@"keySizeInBits"];
-        if (size) {
+        if (size != nil) {
             _keySizeInBits = size.unsignedIntegerValue;
             break;
         }
@@ -188,6 +188,7 @@
         // get public key content from private key
         SecKeyRef publicKeyRef = SecKeyCopyPublicKey(privateKeyRef);
         NSData *publicKeyData = NSDataFromSecKeyRef(publicKeyRef);
+        CFRelease(publicKeyRef);
         NSString *content = [publicKeyData base64Encode];
         return NSStringFromRSAPublicKeyContent(content);
     }
@@ -196,7 +197,7 @@
     return nil;
 }
 
-- (MKMPublicKey *)publicKey {
+- (nullable MKMPublicKey *)publicKey {
     if (!_publicKey) {
         NSString *publicContent = self.publicContent;
         if (publicContent) {
@@ -211,7 +212,7 @@
 
 #pragma mark - Protocol
 
-- (NSData *)decrypt:(const NSData *)ciphertext {
+- (nullable NSData *)decrypt:(const NSData *)ciphertext {
     NSAssert(self.privateKeyRef != NULL, @"private key cannot be empty");
     NSAssert(ciphertext.length == (self.keySizeInBits/8), @"ciphertest length error: %lu", ciphertext.length);
     NSData *plaintext = nil;

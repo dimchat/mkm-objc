@@ -66,7 +66,7 @@ static inline NSData *random_data(NSUInteger size) {
         // random password
         NSUInteger size = kCCKeySizeAES256;
         NSNumber *keySize = [_storeDictionary objectForKey:@"keySize"];
-        if (keySize) {
+        if (keySize != nil) {
             size = [keySize unsignedIntegerValue];
         }
         _data = random_data(size);
@@ -92,7 +92,7 @@ static inline NSData *random_data(NSUInteger size) {
         }
         
         NSNumber *size = [_storeDictionary objectForKey:@"keySize"];
-        if (size) {
+        if (size != nil) {
             _keySize = size.unsignedIntegerValue;
             break;
         }
@@ -130,7 +130,7 @@ static inline NSData *random_data(NSUInteger size) {
     return ciphertext;
 }
 
-- (NSData *)decrypt:(const NSData *)ciphertext {
+- (nullable NSData *)decrypt:(const NSData *)ciphertext {
     NSData *plaintext = nil;
     NSAssert(self.keySize == kCCKeySizeAES256, @"only support AES-256 now");
     

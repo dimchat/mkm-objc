@@ -23,7 +23,7 @@
 
 static const NSString *s_application_tag = @"chat.dim.rsa.private";
 
-+ (instancetype)loadKeyWithIdentifier:(const NSString *)identifier {
++ (nullable instancetype)loadKeyWithIdentifier:(const NSString *)identifier {
     MKMRSAPrivateKey *SK = nil;
     
     NSString *label = [identifier copy];
@@ -49,6 +49,7 @@ static const NSString *s_application_tag = @"chat.dim.rsa.private";
         // public key
         SecKeyRef publicKeyRef = SecKeyCopyPublicKey(privateKeyRef);
         NSData *pkData = NSDataFromSecKeyRef(publicKeyRef);
+        CFRelease(publicKeyRef);
         
         NSString *algorithm = @"RSA";
         NSString *pkFmt = @"-----BEGIN PUBLIC KEY----- %@ -----END PUBLIC KEY-----";
@@ -98,6 +99,9 @@ static const NSString *s_application_tag = @"chat.dim.rsa.private";
         [mQuery removeObjectForKey:(id)kSecReturnRef];
         
         status = SecItemDelete((CFDictionaryRef)mQuery);
+        if (status != errSecSuccess) {
+            // TODO:
+        }
     }
     if (result) {
         CFRelease(result);

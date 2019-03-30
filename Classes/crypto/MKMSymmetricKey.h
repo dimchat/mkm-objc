@@ -28,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  text = decrypt(CT, PW);
  */
-- (NSData *)decrypt:(const NSData *)ciphertext;
+- (nullable NSData *)decrypt:(const NSData *)ciphertext;
 
 @end
 

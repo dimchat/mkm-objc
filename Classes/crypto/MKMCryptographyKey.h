@@ -49,7 +49,7 @@ NS_DESIGNATED_INITIALIZER;
 
 @interface MKMCryptographyKey (PersistentStore)
 
-+ (instancetype)loadKeyWithIdentifier:(const NSString *)identifier;
++ (nullable instancetype)loadKeyWithIdentifier:(const NSString *)identifier;
 
 - (BOOL)saveKeyWithIdentifier:(const NSString *)identifier;
 

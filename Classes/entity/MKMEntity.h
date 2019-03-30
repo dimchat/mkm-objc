@@ -44,7 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Get meta for entity
  */
-- (const MKMMeta *)metaForEntity:(const MKMEntity *)entity;
+- (nullable const MKMMeta *)metaForEntity:(const MKMEntity *)entity;
 
 /**
  Get entity name

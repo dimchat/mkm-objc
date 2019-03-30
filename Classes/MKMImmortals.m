@@ -100,7 +100,7 @@
     return [_metaTable objectForKey:ID.address];
 }
 
-- (const MKMMeta *)metaForEntity:(const MKMEntity *)entity {
+- (nullable  const MKMMeta *)metaForEntity:(const MKMEntity *)entity {
     const MKMID *ID = entity.ID;
     NSAssert([ID isValid], @"entity ID invalid: %@", entity);
     return [_metaTable objectForKey:ID.address];
@@ -111,7 +111,7 @@
     return profile.name;
 }
 
-- (MKMAccount *)accountWithID:(const MKMID *)ID {
+- (nullable MKMAccount *)accountWithID:(const MKMID *)ID {
     if (MKMNetwork_IsPerson(ID.type)) {
         return [self userWithID:ID];
     } else {
@@ -143,7 +143,7 @@
     }
 }
 
-- (MKMUser *)userWithID:(const MKMID *)ID {
+- (nullable MKMUser *)userWithID:(const MKMID *)ID {
     NSAssert(MKMNetwork_IsPerson(ID.type), @"user ID error: %@", ID);
     return [_userTable objectForKey:ID.address];
 }

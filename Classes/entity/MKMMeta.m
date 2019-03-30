@@ -45,7 +45,7 @@ static inline void parse_meta_dictionary(const NSDictionary *dict, MKMMeta *meta
     // version
     NSNumber *ver = [dict objectForKey:@"version"];
     NSUInteger version = [ver unsignedIntegerValue];
-    assert(ver);
+    assert(ver != nil);
     // public key
     NSDictionary *key = [dict objectForKey:@"key"];
     MKMPublicKey *PK = [MKMPublicKey keyWithKey:key];

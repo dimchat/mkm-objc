@@ -115,7 +115,7 @@
 
 @implementation MKMCryptographyKey (PersistentStore)
 
-+ (instancetype)loadKeyWithIdentifier:(const NSString *)identifier {
++ (nullable instancetype)loadKeyWithIdentifier:(const NSString *)identifier {
     NSAssert(false, @"override me in subclass");
     // let the subclass to do the job
     return nil;

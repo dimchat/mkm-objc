@@ -75,7 +75,7 @@ static NSMutableDictionary<const NSString *, Class> *s_symmetricKeyClasses = nil
 
 @implementation MKMSymmetricKey (PersistentStore)
 
-+ (instancetype)loadKeyWithIdentifier:(const NSString *)identifier {
++ (nullable instancetype)loadKeyWithIdentifier:(const NSString *)identifier {
     MKMSymmetricKey *key = nil;
     
     if ([self isEqual:[MKMSymmetricKey class]]) {

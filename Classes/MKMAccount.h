@@ -43,7 +43,7 @@ typedef NS_ENUM(SInt32, MKMAccountStatus) {
 /**
  Account factory
  */
-- (MKMAccount *)accountWithID:(const MKMID *)ID;
+- (nullable MKMAccount *)accountWithID:(const MKMID *)ID;
 
 @end
 

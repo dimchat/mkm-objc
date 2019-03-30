@@ -144,7 +144,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Get meta for ID
  */
-- (const MKMMeta *)metaForID:(const MKMID *)ID;
+- (nullable const MKMMeta *)metaForID:(const MKMID *)ID;
 
 @end
 

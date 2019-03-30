@@ -63,11 +63,8 @@
 }
 
 - (NSArray<const MKMID *> *)contacts {
-    NSInteger count = [_dataSource numberOfContactsInUser:self];
-    if (count <= 0) {
-        return nil;
-    }
     NSMutableArray<const MKMID *> *list;
+    NSInteger count = [_dataSource numberOfContactsInUser:self];
     list = [[NSMutableArray alloc] initWithCapacity:count];
     const MKMID *ID;
     for (NSInteger index = 0; index < count; ++index) {

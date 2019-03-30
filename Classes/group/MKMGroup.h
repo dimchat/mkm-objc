@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 @property (readonly, strong, nonatomic) const MKMID *founder;
-@property (readonly, strong, nonatomic) const MKMID *owner;
+@property (readonly, strong, nonatomic, nullable) const MKMID *owner;
 
 @property (readonly, copy, nonatomic) NSArray<const MKMID *> *members;
 
@@ -55,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
  Get group owner
  */
 @optional
-- (const MKMID *)ownerOfGroup:(const MKMGroup *)group;
+- (nullable const MKMID *)ownerOfGroup:(const MKMGroup *)group;
 
 @end
 
@@ -64,7 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Group factory
  */
-- (MKMGroup *)groupWithID:(const MKMID *)ID;
+- (nullable MKMGroup *)groupWithID:(const MKMID *)ID;
 
 /**
  Add member to group

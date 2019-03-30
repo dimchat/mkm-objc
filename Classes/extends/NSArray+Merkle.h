@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface NSArray (Merkle)
 
-- (NSData *)merkleRoot;
+- (nullable NSData *)merkleRoot;
 
 @end
 
