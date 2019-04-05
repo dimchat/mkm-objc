@@ -126,10 +126,12 @@
     if ([_userTable.allKeys containsObject:user.ID.address]) {
         // TODO: get contacts for immortal user
         //...
-        return 0;
     } else {
-        return 0;
+        //...
     }
+    
+    // just for test
+    return 2;
 }
 
 - (const MKMID *)user:(const MKMUser *)user contactAtIndex:(NSInteger)index {
@@ -137,9 +139,15 @@
     if ([_userTable.allKeys containsObject:user.ID.address]) {
         // TODO: get contacts for immortal user
         //...
-        return nil;
     } else {
-        return nil;
+        //...
+    }
+    
+    // just for test
+    if (index == 0) {
+        return [MKMID IDWithID:MKM_MONKEY_KING_ID];
+    } else {
+        return [MKMID IDWithID:MKM_IMMORTAL_HULK_ID];
     }
 }
 
