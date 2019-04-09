@@ -294,7 +294,7 @@ static inline void parse_meta_dictionary(const NSDictionary *dict, MKMMeta *meta
     return [address isEqual:addr];
 }
 
-- (const MKMID *)buildIDWithNetworkID:(MKMNetworkType)type {
+- (MKMID *)buildIDWithNetworkID:(MKMNetworkType)type {
     const MKMAddress *addr = [self buildAddressWithNetworkID:type];
     if (!addr) {
         NSAssert(false, @"failed to build ID");
@@ -315,7 +315,7 @@ static inline void parse_meta_dictionary(const NSDictionary *dict, MKMMeta *meta
     return nil;
 }
 
-- (const MKMAddress *)buildAddressWithNetworkID:(MKMNetworkType)type {
+- (MKMAddress *)buildAddressWithNetworkID:(MKMNetworkType)type {
     if (![self isValid]) {
         NSAssert(false, @"Invalid meta: %@", _storeDictionary);
         return nil;
