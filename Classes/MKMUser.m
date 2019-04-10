@@ -51,13 +51,8 @@
 - (MKMPrivateKey *)privateKey {
     if (!_privateKey) {
         // try to load private key from the keychain
-        MKMPublicKey *PK = self.publicKey;
-        MKMPrivateKey *SK = [MKMPrivateKey loadKeyWithIdentifier:_ID.address];
-        if ([PK isMatch:SK]) {
-            _privateKey = SK;
-        } else {
-            NSAssert(false, @"keys not match: %@\n -> %@", PK, SK);
-        }
+        _privateKey = [MKMPrivateKey loadKeyWithIdentifier:_ID.address];
+        NSAssert(_privateKey, @"failed to load private key: %@", _ID);
     }
     return _privateKey;
 }
