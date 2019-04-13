@@ -112,7 +112,8 @@ static const NSString *s_application_tag = @"chat.dim.rsa.private";
     NSMutableDictionary *attributes = [query mutableCopy];
     [attributes removeObjectForKey:(id)kSecMatchLimit];
     [attributes removeObjectForKey:(id)kSecReturnRef];
-    [attributes setObject:(__bridge id)self.privateKeyRef forKey:(id)kSecValueRef];
+    //[attributes setObject:(__bridge id)self.privateKeyRef forKey:(id)kSecValueRef];
+    [attributes setObject:NSDataFromSecKeyRef(self.privateKeyRef) forKey:(id)kSecValueData];
     
     status = SecItemAdd((CFDictionaryRef)attributes, &result);
     if (result) {
