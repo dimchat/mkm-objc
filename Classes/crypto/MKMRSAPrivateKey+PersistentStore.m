@@ -61,6 +61,9 @@ static const NSString *s_application_tag = @"chat.dim.rsa.private";
                                   @"data"     :content,
                                   };
         SK = [[MKMRSAPrivateKey alloc] initWithDictionary:keyInfo];
+    } else {
+        // sec key item not found
+        NSAssert(status == errSecItemNotFound, @"RSA item status error: %d", status);
     }
     if (result) {
         CFRelease(result);
@@ -72,7 +75,7 @@ static const NSString *s_application_tag = @"chat.dim.rsa.private";
 
 - (BOOL)saveKeyWithIdentifier:(const NSString *)identifier {
     if (!self.privateKeyRef) {
-        NSAssert(false, @"_privateKeyRef cannot be empty");
+        NSAssert(false, @"RSA privateKeyRef cannot be empty");
         return NO;
     }
     
@@ -100,8 +103,11 @@ static const NSString *s_application_tag = @"chat.dim.rsa.private";
         
         status = SecItemDelete((CFDictionaryRef)mQuery);
         if (status != errSecSuccess) {
-            // TODO:
+            NSAssert(false, @"RSA failed to erase key: %@", mQuery);
         }
+    } else {
+        // sec key item not found
+        NSAssert(status == errSecItemNotFound, @"RSA item status error: %d", status);
     }
     if (result) {
         CFRelease(result);
@@ -113,7 +119,7 @@ static const NSString *s_application_tag = @"chat.dim.rsa.private";
     [attributes removeObjectForKey:(id)kSecMatchLimit];
     [attributes removeObjectForKey:(id)kSecReturnRef];
     //[attributes setObject:(__bridge id)self.privateKeyRef forKey:(id)kSecValueRef];
-    [attributes setObject:NSDataFromSecKeyRef(self.privateKeyRef) forKey:(id)kSecValueData];
+    [attributes setObject:self.data forKey:(id)kSecValueData];
     
     status = SecItemAdd((CFDictionaryRef)attributes, &result);
     if (result) {
@@ -123,7 +129,7 @@ static const NSString *s_application_tag = @"chat.dim.rsa.private";
     if (status == errSecSuccess) {
         return YES;
     } else {
-        NSAssert(false, @"failed to update key");
+        NSAssert(false, @"RSA failed to update key");
         return NO;
     }
 }

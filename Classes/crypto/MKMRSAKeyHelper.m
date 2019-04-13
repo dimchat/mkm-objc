@@ -21,7 +21,13 @@ static inline SecKeyRef SecKeyRefFromData(const NSData *data,
     SecKeyRef keyRef = SecKeyCreateWithData((CFDataRef)data,
                                             (CFDictionaryRef)dict,
                                             &error);
-    assert(error == NULL);
+    if (error) {
+        NSLog(@"RSA failed to create sec key with data: %@", data);
+        assert(keyRef == NULL); // the key ref should be empty when error
+        assert(false);
+        CFRelease(error);
+        error = NULL;
+    }
     return keyRef;
 }
 
@@ -36,7 +42,13 @@ SecKeyRef SecKeyRefFromPrivateData(const NSData *data) {
 NSData *NSDataFromSecKeyRef(SecKeyRef keyRef) {
     CFErrorRef error = NULL;
     CFDataRef dataRef = SecKeyCopyExternalRepresentation(keyRef, &error);
-    assert(error == NULL);
+    if (error) {
+        NSLog(@"RSA failed to copy data with sec key: %@", keyRef);
+        assert(dataRef == NULL); // the data ref should be empty when error
+        assert(false);
+        CFRelease(error);
+        error = NULL;
+    }
     return (__bridge_transfer NSData *)dataRef;
 }
 

@@ -23,18 +23,8 @@
 /* designated initializer */
 - (instancetype)initWithDictionary:(NSDictionary *)keyInfo {
     if ([self isMemberOfClass:[MKMPublicKey class]]) {
-        // register Public Key Classes
-        static dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^{
-            // RSA
-            [MKMPublicKey registerClass:[MKMRSAPublicKey class] forAlgorithm:ACAlgorithmRSA];
-            // ECC
-            //...
-        });
-        
         // create instance by subclass with algorithm
         NSString *algorithm = [keyInfo objectForKey:@"algorithm"];
-        //Class clazz = MKMPublicKeyClassFromAlgorithmString(algorithm);
         Class clazz = [[self class] classForAlgorithm:algorithm];
         if (clazz) {
             self = [[clazz alloc] initWithDictionary:keyInfo];
@@ -45,7 +35,6 @@
     } else if (self = [super initWithDictionary:keyInfo]) {
         //
     }
-    
     return self;
 }
 
@@ -65,51 +54,19 @@
 
 @implementation MKMPublicKey (Runtime)
 
-static NSMutableDictionary<const NSString *, Class> *s_publicKeyClasses = nil;
+static MKMCryptographyKeyMap *s_publicKeyClasses = nil;
 
-+ (void)registerClass:(Class)keyClass forAlgorithm:(const NSString *)name {
-    NSAssert(name.length > 0, @"algorithm cannot be empty");
-    NSAssert(!keyClass || [keyClass isSubclassOfClass:[MKMPublicKey class]],
-             @"public key class error: %@", keyClass);
++ (MKMCryptographyKeyMap *)keyClasses {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        s_publicKeyClasses = [[NSMutableDictionary alloc] init];
+        MKMCryptographyKeyMap *map = [[NSMutableDictionary alloc] init];
+        // RSA
+        [map setObject:[MKMRSAPublicKey class] forKey:ACAlgorithmRSA];
+        // ECC
+        // ...
+        s_publicKeyClasses = map;
     });
-    if (keyClass) {
-        [s_publicKeyClasses setObject:keyClass forKey:name];
-    } else {
-        [s_publicKeyClasses removeObjectForKey:name];
-    }
-}
-
-+ (nullable Class)classForAlgorithm:(const NSString *)name {
-    NSAssert(name.length > 0, @"algorithm cannot be empty");
-    return [s_publicKeyClasses objectForKey:name];
-}
-
-@end
-
-@implementation MKMPublicKey (PersistentStore)
-
-+ (nullable instancetype)loadKeyWithIdentifier:(const NSString *)identifier {
-    MKMPublicKey *key = nil;
-    
-    if ([self isEqual:[MKMPublicKey class]]) {
-        NSArray<Class> *keyClasses = [s_publicKeyClasses allValues];
-        Class clazz;
-        for (clazz in keyClasses) {
-            key = [clazz loadKeyWithIdentifier:identifier];
-            if (key) {
-                break;
-            }
-        }
-    } else {
-        NSAssert([self isSubclassOfClass:[MKMPublicKey class]],
-                 @"unexpected public key class: %@", self);
-        key = [super loadKeyWithIdentifier:identifier];
-    }
-    
-    return key;
+    return s_publicKeyClasses;
 }
 
 @end

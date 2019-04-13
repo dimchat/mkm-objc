@@ -39,7 +39,11 @@ NS_DESIGNATED_INITIALIZER;
 
 @end
 
+typedef NSMutableDictionary<const NSString *, Class> MKMCryptographyKeyMap;
+
 @interface MKMCryptographyKey (Runtime)
+
++ (MKMCryptographyKeyMap *)keyClasses;
 
 + (void)registerClass:(nullable Class)keyClass forAlgorithm:(const NSString *)name;
 

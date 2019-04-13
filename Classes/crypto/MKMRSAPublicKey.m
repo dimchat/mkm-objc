@@ -110,8 +110,12 @@
 
 - (void)setPublicKeyRef:(SecKeyRef)publicKeyRef {
     if (_publicKeyRef != publicKeyRef) {
-        if (publicKeyRef) CFRetain(publicKeyRef);
-        if (_publicKeyRef) CFRelease(_publicKeyRef);
+        if (publicKeyRef) {
+            publicKeyRef = (SecKeyRef)CFRetain(publicKeyRef);
+        }
+        if (_publicKeyRef) {
+            CFRelease(_publicKeyRef);
+        }
         _publicKeyRef = publicKeyRef;
     }
 }
@@ -131,8 +135,8 @@
 #pragma mark - Protocol
 
 - (NSData *)encrypt:(const NSData *)plaintext {
-    NSAssert(self.publicKeyRef != NULL, @"public key cannot be empty");
-    NSAssert(plaintext.length > 0 && plaintext.length <= (self.keySizeInBits/8 - 11), @"data length error: %lu", plaintext.length);
+    NSAssert(self.publicKeyRef != NULL, @"RSA public key cannot be empty");
+    NSAssert(plaintext.length > 0 && plaintext.length <= (self.keySizeInBits/8 - 11), @"RSA data length error: %lu", plaintext.length);
     NSData *ciphertext = nil;
     
     CFErrorRef error = NULL;
@@ -143,21 +147,23 @@
                                    (CFDataRef)plaintext,
                                    &error);
     if (error) {
-        NSAssert(!CT, @"encrypted data should be empty when failed");
-        NSAssert(false, @"error: %@", error);
+        NSAssert(!CT, @"RSA encrypted data should be empty when failed");
+        NSAssert(false, @"RSA encrypt error: %@", error);
+        CFRelease(error);
+        error = NULL;
     } else {
-        NSAssert(CT, @"encrypted should not be empty");
+        NSAssert(CT, @"RSA encrypted should not be empty");
         ciphertext = (__bridge_transfer NSData *)CT;
     }
     
-    NSAssert(ciphertext, @"encrypt failed");
+    NSAssert(ciphertext, @"RSA encrypt failed");
     return ciphertext;
 }
 
 - (BOOL)verify:(const NSData *)data withSignature:(const NSData *)signature {
-    NSAssert(self.publicKeyRef != NULL, @"public key cannot be empty");
-    NSAssert(signature.length == (self.keySizeInBits/8), @"signature length error: %lu", signature.length);
-    NSAssert(data.length > 0, @"data cannot be empty");
+    NSAssert(self.publicKeyRef != NULL, @"RSA public key cannot be empty");
+    NSAssert(signature.length == (self.keySizeInBits/8), @"RSA signature length error: %lu", signature.length);
+    NSAssert(data.length > 0, @"RSA data cannot be empty");
     BOOL OK = NO;
     
     CFErrorRef error = NULL;
@@ -168,8 +174,10 @@
                                (CFDataRef)signature,
                                &error);
     if (error) {
-        NSAssert(!OK, @"error");
-        //NSAssert(false, @"verify error: %@", error);
+        NSAssert(!OK, @"RSA verify error");
+        //NSAssert(false, @"RSA verify error: %@", error);
+        CFRelease(error);
+        error = NULL;
     }
     
     return OK;

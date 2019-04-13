@@ -113,8 +113,12 @@
 
 - (void)setPrivateKeyRef:(SecKeyRef)privateKeyRef {
     if (_privateKeyRef != privateKeyRef) {
-        if (privateKeyRef) CFRetain(privateKeyRef);
-        if (_privateKeyRef) CFRelease(_privateKeyRef);
+        if (privateKeyRef) {
+            privateKeyRef = (SecKeyRef)CFRetain(privateKeyRef);
+        }
+        if (_privateKeyRef) {
+            CFRelease(_privateKeyRef);
+        }
         _privateKeyRef = privateKeyRef;
     }
 }
@@ -131,7 +135,7 @@
         }
         
         // 2. generate key pairs
-        NSAssert(!_publicKey, @"public key should not be set yet");
+        NSAssert(!_publicKey, @"RSA public key should not be set yet");
         
         // 2.1. key size
         NSUInteger keySizeInBits = self.keySizeInBits;
@@ -146,11 +150,13 @@
         _privateKeyRef = SecKeyCreateRandomKey((CFDictionaryRef)params,
                                                &error);
         if (error) {
-            NSAssert(!_privateKeyRef, @"key ref should be empty when failed");
-            NSAssert(false, @"failed to generate key: %@", error);
+            NSAssert(!_privateKeyRef, @"RSA key ref should be empty when failed");
+            NSAssert(false, @"RSA failed to generate key: %@", error);
+            CFRelease(error);
+            error = NULL;
             break;
         }
-        NSAssert(_privateKeyRef, @"private key ref should be set here");
+        NSAssert(_privateKeyRef, @"RSA private key ref should be set here");
         
         // 2.4. key to data
         NSData *privateKeyData = NSDataFromSecKeyRef(_privateKeyRef);
@@ -159,7 +165,7 @@
             NSString *pem = NSStringFromRSAPrivateKeyContent(_privateContent);
             [_storeDictionary setObject:pem forKey:@"data"];
         } else {
-            NSAssert(false, @"failed to get data from private key ref");
+            NSAssert(false, @"RSA failed to get data from private key ref");
         }
         
         break;
@@ -193,7 +199,7 @@
         return NSStringFromRSAPublicKeyContent(content);
     }
     
-    NSAssert(false, @"failed to get public content");
+    NSAssert(false, @"RSA failed to get public content");
     return nil;
 }
 
@@ -213,8 +219,8 @@
 #pragma mark - Protocol
 
 - (nullable NSData *)decrypt:(const NSData *)ciphertext {
-    NSAssert(self.privateKeyRef != NULL, @"private key cannot be empty");
-    NSAssert(ciphertext.length == (self.keySizeInBits/8), @"ciphertest length error: %lu", ciphertext.length);
+    NSAssert(self.privateKeyRef != NULL, @"RSA private key cannot be empty");
+    NSAssert(ciphertext.length == (self.keySizeInBits/8), @"RSA ciphertest length error: %lu", ciphertext.length);
     NSData *plaintext = nil;
     
     CFErrorRef error = NULL;
@@ -225,20 +231,22 @@
                                    (CFDataRef)ciphertext,
                                    &error);
     if (error) {
-        NSAssert(!CT, @"decrypted data should be empty when failed");
-        NSAssert(false, @"decrypt error: %@", error);
+        NSAssert(!CT, @"RSA decrypted data should be empty when failed");
+        NSAssert(false, @"RSA decrypt error: %@", error);
+        CFRelease(error);
+        error = NULL;
     } else {
-        NSAssert(CT, @"decrypted data should not be empty");
+        NSAssert(CT, @"RSA decrypted data should not be empty");
         plaintext = (__bridge_transfer NSData *)CT;
     }
     
-    NSAssert(plaintext, @"decrypt failed");
+    NSAssert(plaintext, @"RSA decrypt failed");
     return plaintext;
 }
 
 - (NSData *)sign:(const NSData *)data {
-    NSAssert(self.privateKeyRef != NULL, @"private key cannot be empty");
-    NSAssert(data.length > 0, @"data cannot be empty");
+    NSAssert(self.privateKeyRef != NULL, @"RSA private key cannot be empty");
+    NSAssert(data.length > 0, @"RSA data cannot be empty");
     NSData *signature = nil;
     
     CFErrorRef error = NULL;
@@ -249,14 +257,16 @@
                                (CFDataRef)data,
                                &error);
     if (error) {
-        NSAssert(!CT, @"signature should be empty when failed");
-        NSAssert(false, @"error: %@", error);
+        NSAssert(!CT, @"RSA signature should be empty when failed");
+        NSAssert(false, @"RSA sign error: %@", error);
+        CFRelease(error);
+        error = NULL;
     } else {
-        NSAssert(CT, @"signature should not be empty");
+        NSAssert(CT, @"RSA signature should not be empty");
         signature = (__bridge_transfer NSData *)CT;
     }
     
-    NSAssert(signature, @"sign failed");
+    NSAssert(signature, @"RSA sign failed");
     return signature;
 }
 

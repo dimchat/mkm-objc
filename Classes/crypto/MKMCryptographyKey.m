@@ -100,15 +100,22 @@
 
 @implementation MKMCryptographyKey (Runtime)
 
-+ (void)registerClass:(Class)keyClass forAlgorithm:(const NSString *)name {
++ (MKMCryptographyKeyMap *)keyClasses {
     NSAssert(false, @"override me in subclass");
-    // let the subclass to do the job
+    // let the subclass to manage the classes
+    return nil;
+}
+
++ (void)registerClass:(Class)keyClass forAlgorithm:(const NSString *)name {
+    NSAssert(name.length > 0, @"algorithm cannot be empty");
+    NSAssert([keyClass isSubclassOfClass:self], @"class error: %@", keyClass);
+    if (keyClass) {
+        [[self keyClasses] setObject:keyClass forKey:name];
+    }
 }
 
 + (nullable Class)classForAlgorithm:(const NSString *)name {
-    NSAssert(false, @"override me in subclass");
-    // let the subclass to do the job
-    return nil;
+    return [[self keyClasses] objectForKey:name];
 }
 
 @end
@@ -116,9 +123,18 @@
 @implementation MKMCryptographyKey (PersistentStore)
 
 + (nullable instancetype)loadKeyWithIdentifier:(const NSString *)identifier {
-    NSAssert(false, @"override me in subclass");
-    // let the subclass to do the job
-    return nil;
+    MKMCryptographyKey *key = nil;
+    NSArray<Class> *classes = [[self keyClasses] allValues];
+    Class clazz;
+    for (clazz in classes) {
+        key = [clazz loadKeyWithIdentifier:identifier];
+        if (key) {
+            // found
+            NSAssert([[key class] isSubclassOfClass:self], @"key error: %@", key);
+            break;
+        }
+    }
+    return key;
 }
 
 - (BOOL)saveKeyWithIdentifier:(const NSString *)identifier {

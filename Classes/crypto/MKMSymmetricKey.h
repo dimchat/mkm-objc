@@ -13,10 +13,6 @@ NS_ASSUME_NONNULL_BEGIN
 #define SCAlgorithmAES @"AES"
 #define SCAlgorithmDES @"DES"
 
-#define MKMSymmetricKeyClassFromAlgorithmString(algorithm)                     \
-            [MKMSymmetricKey classForAlgorithm:(algorithm)]                    \
-                            /* EOF 'MKMSymmetricKeyClassFromAlgorithmString() */
-
 @protocol MKMSymmetricKey <NSObject>
 @optional
 
