@@ -59,7 +59,7 @@
     meta = [MKMMeta metaWithMeta:meta];
     if ([meta matchID:ID]) {
         [_metaTable setObject:meta forKey:ID.address];
-        //[MKMFacebook() setMeta:meta forID:ID];
+        //[MKMFacebook() saveMeta:meta forID:ID];
     } else {
         NSAssert(false, @"meta not match ID: %@, %@", ID, meta);
     }

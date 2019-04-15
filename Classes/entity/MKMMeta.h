@@ -142,9 +142,18 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol MKMMetaDataSource <NSObject>
 
 /**
- Get meta for ID
+ *  Get meta for ID
  */
 - (nullable const MKMMeta *)metaForID:(const MKMID *)ID;
+
+@end
+
+@protocol MKMMetaDelegate <NSObject>
+
+/**
+ *  Save meta for ID
+ */
+- (BOOL)saveMeta:(const MKMMeta *)meta forID:(const MKMID *)ID;
 
 @end
 

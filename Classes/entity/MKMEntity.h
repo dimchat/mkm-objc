@@ -42,12 +42,12 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol MKMEntityDataSource <NSObject>
 
 /**
- Get meta for entity
+ *  Get meta for entity (call 'metaForID:' of MetaDataSource instead)
  */
 - (nullable const MKMMeta *)metaForEntity:(const MKMEntity *)entity;
 
 /**
- Get entity name
+ *  Get entity name
  */
 - (NSString *)nameOfEntity:(const MKMEntity *)entity;
 
