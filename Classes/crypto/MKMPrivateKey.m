@@ -38,16 +38,15 @@
 }
 
 - (BOOL)isEqual:(id)object {
-    // 1. if the two key has the same content, return YES
+    // 1. if the two keys have same contents, return YES
     if ([super isEqual:object]) {
         return YES;
     }
-    if ([object isKindOfClass:[MKMPrivateKey class]]) {
-        // 2. try to verify by public key
-        return [self.publicKey isMatch:(MKMPrivateKey *)object];
-    } else {
+    if (![object isKindOfClass:[MKMPrivateKey class]]) {
         return NO;
     }
+    // 2. try to verify by public key
+    return [self.publicKey isMatch:(MKMPrivateKey *)object];
 }
 
 - (MKMPublicKey *)publicKey {

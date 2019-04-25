@@ -35,6 +35,23 @@
     return self;
 }
 
+- (BOOL)isEqual:(id)object {
+    // 1. if the two keys have same contents, return YES
+    if ([super isEqual:object]) {
+        return YES;
+    }
+    if (![object isKindOfClass:[MKMSymmetricKey class]]) {
+        return NO;
+    }
+    // 2. try to verify by en/decrypt
+    MKMSymmetricKey *key = (MKMSymmetricKey *)object;
+    static const NSString *promise = @"Moky loves May Lee forever!";
+    NSData *data = [promise dataUsingEncoding:NSUTF8StringEncoding];
+    NSData *ciphertext = [key encrypt:data];
+    NSData *plaintext = [self decrypt:ciphertext];
+    return [plaintext isEqualToData:ciphertext];
+}
+
 @end
 
 @implementation MKMSymmetricKey (Runtime)
