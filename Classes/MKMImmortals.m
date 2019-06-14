@@ -87,28 +87,10 @@
     // create user
     MKMUser *user = [[MKMUser alloc] initWithID:ID];
     user.dataSource = self;
-    user.privateKey = SK;
+    //user.privateKey = SK;
     [_userTable setObject:user forKey:ID.address];
     
     NSLog(@"loaded immortal account: %@", [user description]);
-}
-
-#pragma mark - Delegates
-
-- (const MKMMeta *)metaForID:(const MKMID *)ID {
-    NSAssert([ID isValid], @"ID invalid: %@", ID);
-    return [_metaTable objectForKey:ID.address];
-}
-
-- (nullable  const MKMMeta *)metaForEntity:(const MKMEntity *)entity {
-    const MKMID *ID = entity.ID;
-    NSAssert([ID isValid], @"entity ID invalid: %@", entity);
-    return [_metaTable objectForKey:ID.address];
-}
-
-- (NSString *)nameOfEntity:(const MKMEntity *)entity {
-    MKMProfile *profile = [self profileForID:entity.ID];
-    return profile.name;
 }
 
 - (nullable MKMAccount *)accountWithID:(const MKMID *)ID {
@@ -121,66 +103,40 @@
     }
 }
 
-- (NSInteger)numberOfContactsInUser:(const MKMUser *)user {
-    //NSLog(@"user %@ get contact count", user);
-    if ([_userTable.allKeys containsObject:user.ID.address]) {
-        // TODO: get contacts for immortal user
-        //...
-    } else {
-        //...
-    }
-    
-    // just for test
-    return 2;
-}
-
-- (const MKMID *)user:(const MKMUser *)user contactAtIndex:(NSInteger)index {
-    //NSLog(@"user %@ get contact at index: %ld", user, index);
-    if ([_userTable.allKeys containsObject:user.ID.address]) {
-        // TODO: get contacts for immortal user
-        //...
-    } else {
-        //...
-    }
-    
-    // just for test
-    if (index == 0) {
-        return [MKMID IDWithID:MKM_MONKEY_KING_ID];
-    } else {
-        return [MKMID IDWithID:MKM_IMMORTAL_HULK_ID];
-    }
-}
-
 - (nullable MKMUser *)userWithID:(const MKMID *)ID {
     NSAssert(MKMNetwork_IsPerson(ID.type), @"user ID error: %@", ID);
     return [_userTable objectForKey:ID.address];
 }
 
-- (BOOL)user:(const MKMUser *)user addContact:(const MKMID *)contact {
-    NSLog(@"user %@ add contact %@", user, contact);
-    if ([_userTable.allKeys containsObject:user.ID.address]) {
-        // TODO: add contact for immortal user
-        //...
-        return YES;
-    } else {
-        return NO;
-    }
-}
+#pragma mark - Delegates
 
-- (BOOL)user:(const MKMUser *)user removeContact:(const MKMID *)contact {
-    NSLog(@"user %@ remove contact %@", user, contact);
-    if ([_userTable.allKeys containsObject:user.ID.address]) {
-        // TODO: remove contact for immortal user
-        //...
-        return YES;
-    } else {
-        return NO;
-    }
+- (const MKMMeta *)metaForID:(const MKMID *)ID {
+    NSAssert([ID isValid], @"ID invalid: %@", ID);
+    return [_metaTable objectForKey:ID.address];
 }
 
 - (MKMProfile *)profileForID:(const MKMID *)ID {
     NSAssert(MKMNetwork_IsPerson(ID.type), @"account ID error: %@", ID);
     return [_profileTable objectForKey:ID.address];
+}
+
+- (MKMPrivateKey *)privateKeyForSignatureOfUser:(const MKMID *)user {
+    return [MKMPrivateKey loadKeyWithIdentifier:user.address];
+}
+
+- (NSArray<MKMPrivateKey *> *)privateKeysForDecryptionOfUser:(const MKMID *)user {
+    MKMPrivateKey *key = [MKMPrivateKey loadKeyWithIdentifier:user.address];
+    if (key == nil) {
+        return nil;
+    }
+    return [[NSArray alloc] initWithObjects:key, nil];
+}
+
+- (NSArray<MKMID *> *)contactsOfUser:(const MKMID *)user {
+    NSMutableArray<MKMID *> *list = [[NSMutableArray alloc] initWithCapacity:2];
+    [list addObject:[MKMID IDWithID:MKM_MONKEY_KING_ID]];
+    [list addObject:[MKMID IDWithID:MKM_IMMORTAL_HULK_ID]];
+    return list;
 }
 
 @end

@@ -35,22 +35,16 @@
     return self;
 }
 
-/* designated initializer */
 - (instancetype)initWithObjects:(const id _Nonnull [_Nullable])objects
                         forKeys:(const id <NSCopying> _Nonnull [_Nullable])keys
                           count:(NSUInteger)cnt {
-    if (self = [super init]) {
-        _storeDictionary = [[NSMutableDictionary alloc] initWithObjects:objects forKeys:keys count:cnt];
-    }
-    return self;
+    NSDictionary *dict = [[NSDictionary alloc] initWithObjects:objects forKeys:keys count:cnt];
+    return [self initWithDictionary:dict];
 }
 
-/* designated initializer */
 - (nullable instancetype)initWithCoder:(NSCoder *)aDecoder {
-    if (self = [super init]) {
-        _storeDictionary = [[NSMutableDictionary alloc] initWithCoder:aDecoder];
-    }
-    return self;
+    NSDictionary *dict = [[NSDictionary alloc] initWithCoder:aDecoder];
+    return [self initWithDictionary:dict];
 }
 
 - (id)copyWithZone:(NSZone *)zone {

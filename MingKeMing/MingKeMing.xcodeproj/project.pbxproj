@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E93D437822A7ADF000422EDF /* MKMProfile.h in Headers */ = {isa = PBXBuildFile; fileRef = E93D437622A7ADEF00422EDF /* MKMProfile.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E93D437922A7ADF000422EDF /* MKMProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = E93D437722A7ADF000422EDF /* MKMProfile.m */; };
 		E9AFAB7A2236E0F5001F95C6 /* NSObject+Compare.h in Headers */ = {isa = PBXBuildFile; fileRef = E9AFAB782236E0F5001F95C6 /* NSObject+Compare.h */; };
 		E9BBBD66223AAA5B00E6ACDA /* NSDate+Timestamp.h in Headers */ = {isa = PBXBuildFile; fileRef = E9BBBD64223AAA5B00E6ACDA /* NSDate+Timestamp.h */; };
 		E9BBBD67223AAA5B00E6ACDA /* NSDate+Timestamp.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBBD65223AAA5B00E6ACDA /* NSDate+Timestamp.m */; };
@@ -47,7 +49,6 @@
 		E9F3A96421CBBAF7009690F6 /* NSData+Crypto.mm in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8F621CBBAF6009690F6 /* NSData+Crypto.mm */; };
 		E9F3A96521CBBAF7009690F6 /* NSObject+JsON.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8F721CBBAF6009690F6 /* NSObject+JsON.h */; };
 		E9F3A96621CBBAF7009690F6 /* NSString+Crypto.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8F821CBBAF6009690F6 /* NSString+Crypto.h */; };
-		E9F3A96821CBBAF7009690F6 /* MKMProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8FA21CBBAF6009690F6 /* MKMProfile.m */; };
 		E9F3A96921CBBAF7009690F6 /* MKMDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8FC21CBBAF6009690F6 /* MKMDictionary.m */; };
 		E9F3A96A21CBBAF7009690F6 /* MKMString.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8FD21CBBAF6009690F6 /* MKMString.m */; };
 		E9F3A96B21CBBAF7009690F6 /* MKMDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8FE21CBBAF6009690F6 /* MKMDictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -77,7 +78,6 @@
 		E9F3A98621CBBAF7009690F6 /* byteswap.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A91F21CBBAF6009690F6 /* byteswap.h */; };
 		E9F3A98721CBBAF7009690F6 /* base58.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A92021CBBAF6009690F6 /* base58.cpp */; };
 		E9F3A98821CBBAF7009690F6 /* base58.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A92121CBBAF6009690F6 /* base58.h */; };
-		E9F3A98921CBBAF7009690F6 /* MKMProfile.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A92221CBBAF6009690F6 /* MKMProfile.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E9F3A98A21CBBAF7009690F6 /* MKMAccount.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A92321CBBAF6009690F6 /* MKMAccount.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E9F3A99F21CBBAF7009690F6 /* MingKeMing.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A93921CBBAF6009690F6 /* MingKeMing.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E9F3A9A021CBBAF7009690F6 /* MKMContact.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A93A21CBBAF6009690F6 /* MKMContact.m */; };
@@ -96,6 +96,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E93D437622A7ADEF00422EDF /* MKMProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMProfile.h; sourceTree = "<group>"; };
+		E93D437722A7ADF000422EDF /* MKMProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMProfile.m; sourceTree = "<group>"; };
 		E9AFAB782236E0F5001F95C6 /* NSObject+Compare.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+Compare.h"; sourceTree = "<group>"; };
 		E9BBBD64223AAA5B00E6ACDA /* NSDate+Timestamp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Timestamp.h"; sourceTree = "<group>"; };
 		E9BBBD65223AAA5B00E6ACDA /* NSDate+Timestamp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Timestamp.m"; sourceTree = "<group>"; };
@@ -139,7 +141,6 @@
 		E9F3A8F621CBBAF6009690F6 /* NSData+Crypto.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "NSData+Crypto.mm"; sourceTree = "<group>"; };
 		E9F3A8F721CBBAF6009690F6 /* NSObject+JsON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+JsON.h"; sourceTree = "<group>"; };
 		E9F3A8F821CBBAF6009690F6 /* NSString+Crypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Crypto.h"; sourceTree = "<group>"; };
-		E9F3A8FA21CBBAF6009690F6 /* MKMProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMProfile.m; sourceTree = "<group>"; };
 		E9F3A8FC21CBBAF6009690F6 /* MKMDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMDictionary.m; sourceTree = "<group>"; };
 		E9F3A8FD21CBBAF6009690F6 /* MKMString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMString.m; sourceTree = "<group>"; };
 		E9F3A8FE21CBBAF6009690F6 /* MKMDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMDictionary.h; sourceTree = "<group>"; };
@@ -169,7 +170,6 @@
 		E9F3A91F21CBBAF6009690F6 /* byteswap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = byteswap.h; sourceTree = "<group>"; };
 		E9F3A92021CBBAF6009690F6 /* base58.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = base58.cpp; sourceTree = "<group>"; };
 		E9F3A92121CBBAF6009690F6 /* base58.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = base58.h; sourceTree = "<group>"; };
-		E9F3A92221CBBAF6009690F6 /* MKMProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMProfile.h; sourceTree = "<group>"; };
 		E9F3A92321CBBAF6009690F6 /* MKMAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMAccount.h; sourceTree = "<group>"; };
 		E9F3A93921CBBAF6009690F6 /* MingKeMing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MingKeMing.h; sourceTree = "<group>"; };
 		E9F3A93A21CBBAF6009690F6 /* MKMContact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMContact.m; sourceTree = "<group>"; };
@@ -260,8 +260,6 @@
 				E9F3A93C21CBBAF6009690F6 /* MKMUser.m */,
 				E9F3A90121CBBAF6009690F6 /* MKMContact.h */,
 				E9F3A93A21CBBAF6009690F6 /* MKMContact.m */,
-				E9F3A92221CBBAF6009690F6 /* MKMProfile.h */,
-				E9F3A8FA21CBBAF6009690F6 /* MKMProfile.m */,
 				E9BBBDD3223ABDDF00E6ACDA /* MKMImmortals.h */,
 				E9BBBDD4223ABDDF00E6ACDA /* MKMImmortals.m */,
 				E9F3A93921CBBAF6009690F6 /* MingKeMing.h */,
@@ -354,6 +352,8 @@
 				E9F3A91021CBBAF6009690F6 /* MKMMeta.m */,
 				E9F3A91121CBBAF6009690F6 /* MKMEntity.h */,
 				E9F3A90C21CBBAF6009690F6 /* MKMEntity.m */,
+				E93D437622A7ADEF00422EDF /* MKMProfile.h */,
+				E93D437722A7ADF000422EDF /* MKMProfile.m */,
 			);
 			path = entity;
 			sourceTree = "<group>";
@@ -421,6 +421,7 @@
 				E9F3A97D21CBBAF7009690F6 /* MKMID.h in Headers */,
 				E9F3A97E21CBBAF7009690F6 /* MKMAddress.h in Headers */,
 				E9F3A97821CBBAF7009690F6 /* MKMMeta.h in Headers */,
+				E93D437822A7ADF000422EDF /* MKMProfile.h in Headers */,
 				E9F3A97C21CBBAF7009690F6 /* MKMEntity.h in Headers */,
 				E9F3A97021CBBAF7009690F6 /* MKMGroup.h in Headers */,
 				E9F3A97421CBBAF7009690F6 /* MKMPolylogue.h in Headers */,
@@ -428,7 +429,6 @@
 				E9F3A97521CBBAF7009690F6 /* MKMChatroom.h in Headers */,
 				E9BBBD66223AAA5B00E6ACDA /* NSDate+Timestamp.h in Headers */,
 				E9F3A98121CBBAF7009690F6 /* MKMUser.h in Headers */,
-				E9F3A98921CBBAF7009690F6 /* MKMProfile.h in Headers */,
 				E9F3A99F21CBBAF7009690F6 /* MingKeMing.h in Headers */,
 				E9F3A98A21CBBAF7009690F6 /* MKMAccount.h in Headers */,
 				E9F3A95521CBBAF7009690F6 /* MKMAESKey.h in Headers */,
@@ -514,6 +514,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = E9F3A69021CA4627009690F6;
 			productRefGroup = E9F3A69B21CA4627009690F6 /* Products */;
@@ -555,8 +556,8 @@
 				E9F3A97921CBBAF7009690F6 /* MKMAddress.m in Sources */,
 				E9F3A95121CBBAF7009690F6 /* MKMRSAPrivateKey+PersistentStore.m in Sources */,
 				E9F3A94921CBBAF7009690F6 /* MKMAESKey.m in Sources */,
+				E93D437922A7ADF000422EDF /* MKMProfile.m in Sources */,
 				E9F3A96121CBBAF7009690F6 /* NSDictionary+Binary.m in Sources */,
-				E9F3A96821CBBAF7009690F6 /* MKMProfile.m in Sources */,
 				E9F3A96A21CBBAF7009690F6 /* MKMString.m in Sources */,
 				E9F3A94221CBBAF7009690F6 /* MKMAccount.m in Sources */,
 				E9BBBDD6223ABDE000E6ACDA /* MKMImmortals.m in Sources */,

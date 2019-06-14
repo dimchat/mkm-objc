@@ -21,12 +21,12 @@ NS_ASSUME_NONNULL_BEGIN
  *      1. Immortal Hulk
  *      2. Monkey King
  */
-@interface MKMImmortals : NSObject <MKMMetaDataSource,
-                                    MKMEntityDataSource,
-                                    MKMAccountDelegate,
-                                    MKMUserDataSource,
-                                    MKMUserDelegate,
-                                    MKMProfileDataSource>
+@interface MKMImmortals : NSObject <MKMEntityDataSource,
+                                    MKMUserDataSource>
+
+- (nullable MKMAccount *)accountWithID:(const MKMID *)ID;
+
+- (nullable MKMUser *)userWithID:(const MKMID *)ID;
 
 @end
 

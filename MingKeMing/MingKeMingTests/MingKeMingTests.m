@@ -107,8 +107,12 @@ static inline void print_id(const MKMID *ID) {
     // base58(moky) = 3oF5MJ
     enc = [data base58Encode];
     NSLog(@"base58(%@) = %@", string, enc);
-    
     NSAssert([enc isEqualToString:@"3oF5MJ"], @"base 58 encode error");
+    
+    // base64(moky) = bW9reQ==
+    enc = [data base64Encode];
+    NSLog(@"base64(%@) = %@", string, enc);
+    NSAssert([enc isEqualToString:@"bW9reQ=="], @"base 64 encode error");
 }
 
 - (void)testKeys {
@@ -143,12 +147,17 @@ static inline void print_id(const MKMID *ID) {
     NSLog(@"%@ -> %@ -> %@", string, [CT base64Encode], [dec UTF8String]);
     NSAssert([dec isEqual:data], @"en/decrypt error");
     
-    string = @"XX5qfromb3R078VVK7LwVA==";
-    CT = [string base64Decode];
+    NSString *base64 = @"0xtbqZN6x2aWTZn0DpCoCA==";
+    NSAssert([[CT base64Encode] isEqualToString:base64], @"encrypt error");
+    
+    base64 = @"XX5qfromb3R078VVK7LwVA==";
+    CT = [base64 base64Decode];
     dec = [key decrypt:CT];
-    NSLog(@"%@ -> %@", string, [dec UTF8String]);
+    NSLog(@"%@ -> %@", base64, [dec UTF8String]);
+    NSAssert([[dec UTF8String] isEqualToString:string], @"en/decrypt error");
+    
     dec = [key decrypt:CT];
-    NSLog(@"%@ -> %@", string, [dec UTF8String]);
+    NSLog(@"%@ -> %@", base64, [dec UTF8String]);
 
     
 //    // 2

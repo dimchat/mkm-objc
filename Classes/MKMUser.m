@@ -15,30 +15,7 @@
 
 #import "MKMUser.h"
 
-@interface MKMUser ()
-
-@property (strong, nonatomic) MKMPrivateKey *privateKey;
-
-@end
-
 @implementation MKMUser
-
-/* designated initializer */
-- (instancetype)initWithID:(const MKMID *)ID {
-    if (self = [super initWithID:ID]) {
-        // lazy
-        _privateKey = nil;
-    }
-    return self;
-}
-
-- (id)copyWithZone:(NSZone *)zone {
-    MKMUser *user = [super copyWithZone:zone];
-    if (user) {
-        user.privateKey = _privateKey;
-    }
-    return user;
-}
 
 - (NSString *)debugDescription {
     NSString *desc = [super debugDescription];
@@ -48,36 +25,45 @@
     return [info jsonString];
 }
 
-- (MKMPrivateKey *)privateKey {
-    if (!_privateKey) {
-        // try to load private key from the keychain
-        _privateKey = [MKMPrivateKey loadKeyWithIdentifier:_ID.address];
-        NSAssert(_privateKey, @"failed to load private key: %@", _ID);
-    }
-    return _privateKey;
+- (NSData *)sign:(const NSData *)data {
+    NSAssert(_dataSource, @"user data source not set yet");
+    MKMPrivateKey *key = [_dataSource privateKeyForSignatureOfUser:_ID];
+    return [key sign:data];
 }
+
+- (NSData *)decrypt:(const NSData *)ciphertext {
+    NSAssert(_dataSource, @"user data source not set yet");
+    NSArray<MKMPrivateKey *> *keys = [_dataSource privateKeysForDecryptionOfUser:_ID];
+    NSData *plaintext = nil;
+    for (MKMPrivateKey *key in keys) {
+        plaintext = [key decrypt:ciphertext];
+        if (plaintext != nil) {
+            // OK!
+            break;
+        }
+    }
+    return plaintext;
+}
+
+#pragma mark Contacts of User
 
 - (NSArray<const MKMID *> *)contacts {
-    NSMutableArray<const MKMID *> *list;
-    NSInteger count = [_dataSource numberOfContactsInUser:self];
-    list = [[NSMutableArray alloc] initWithCapacity:count];
-    const MKMID *ID;
-    for (NSInteger index = 0; index < count; ++index) {
-        ID = [_dataSource user:self contactAtIndex:index];
-        [list addObject:ID];
-    }
-    return list;
+    NSAssert(_dataSource, @"user data source not set yet");
+    NSArray *list = [_dataSource contactsOfUser:_ID];
+    return [list copy];
 }
 
-- (BOOL)existsContact:(const MKMID *)contact {
-    NSInteger count = [_dataSource numberOfContactsInUser:self];
+- (BOOL)existsContact:(const MKMID *)ID {
+    NSAssert(_dataSource, @"user data source not set yet");
+    NSArray<const MKMID *> *contacts = [self contacts];
+    NSInteger count = [contacts count];
     if (count <= 0) {
         return NO;
     }
-    const MKMID *ID;
+    const MKMID *contact;
     while (--count >= 0) {
-        ID = [_dataSource user:self contactAtIndex:count];
-        if ([ID isEqual:contact]) {
+        contact = [contacts objectAtIndex:count];
+        if ([contact isEqual:ID]) {
             return YES;
         }
     }

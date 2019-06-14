@@ -100,17 +100,6 @@ NS_DESIGNATED_INITIALIZER;
 
 @end
 
-#pragma mark - Member Delegate
-
-@protocol MKMMemberDelegate <NSObject>
-
-/**
- Member factory
- */
-- (MKMMember *)memberWithID:(const MKMID *)ID groupID:(const MKMID *)gID;
-
-@end
-
 #pragma mark -
 
 @interface MKMFounder : MKMMember

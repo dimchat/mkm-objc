@@ -10,40 +10,24 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class MKMPublicKey;
-
-typedef NS_ENUM(SInt32, MKMAccountStatus) {
-    MKMAccountStatusInitialized = 0,
-    MKMAccountStatusRegistered = 1,
-    MKMAccountStatusDead = -1,
-};
-
-@interface MKMAccount : MKMEntity {
-    
-    MKMAccountStatus _status;
-}
-
-@property (readonly, nonatomic) MKMAccountStatus status;
-
-@property (readonly, strong, nonatomic) MKMPublicKey *publicKey;
-
-@end
-
-#pragma mark - Account Delegate
-
-@protocol MKMAccountDataSource <MKMEntityDataSource>
-
-@optional
-- (MKMAccountStatus)statusOfAccount:(const MKMAccount *)account;
-
-@end
-
-@protocol MKMAccountDelegate <NSObject>
+@interface MKMAccount : MKMEntity
 
 /**
- Account factory
+ *  Verify data with signature, use meta.key
+ *
+ * @param data - message data
+ * @param signature - message signature
+ * @return true on correct
  */
-- (nullable MKMAccount *)accountWithID:(const MKMID *)ID;
+- (BOOL)verify:(const NSData *)data withSignature:(const NSData *)signature;
+
+/**
+ *  Encrypt data, try profile.key first, if not found, use meta.key
+ *
+ * @param plaintext - message data
+ * @return encrypted data
+ */
+- (NSData *)encrypt:(const NSData *)plaintext;
 
 @end
 

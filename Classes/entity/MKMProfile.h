@@ -1,0 +1,83 @@
+//
+//  MKMProfile.h
+//  MingKeMing
+//
+//  Created by Albert Moky on 2018/9/30.
+//  Copyright © 2018 DIM Group. All rights reserved.
+//
+
+#import "MKMDictionary.h"
+
+NS_ASSUME_NONNULL_BEGIN
+
+@class MKMPublicKey;
+@class MKMPrivateKey;
+@class MKMID;
+@class MKMAccount;
+@class MKMUser;
+
+/**
+ *  The Additional Object
+ *
+ *      'Meta' is the information for entity which never changed, which contains the key for verify signature;
+ *      'TAO' is the variable part, which contains the key for asymmetric encryption.
+ */
+@interface MKMTAO : MKMDictionary {
+    
+    const MKMID *_ID;
+    
+    NSMutableDictionary *_properties;
+    BOOL _valid; // YES on signature matched
+}
+
+@property (readonly, strong, nonatomic) const MKMID *ID;
+
+/**
+ *  Public key (used for encryption, can be same with meta.key)
+ *
+ *      RSA
+ */
+@property (strong, nonatomic) MKMPublicKey *key;
+
++ (instancetype)profileWithProfile:(id)profile;
+
+- (instancetype)initWithDictionary:(NSDictionary *)dict
+NS_DESIGNATED_INITIALIZER;
+
+- (instancetype)initWithID:(const MKMID *)ID
+                      data:(nullable NSString *)json
+                 signature:(nullable NSData *)signature
+NS_DESIGNATED_INITIALIZER;
+
+/**
+ *  Reset data signature after properties changed
+ */
+- (void) reset;
+
+/**
+ *  Verify 'data' and 'signature', if OK, refresh properties from 'data'
+ *
+ * @param PK - public key in meta.key
+ * @return true on signature matched
+ */
+- (BOOL)verify:(MKMPublicKey *)PK;
+
+/**
+ *  Encode properties to 'data' and sign it to 'signature'
+ *
+ * @param SK - private key match meta.key
+ * @return signature
+ */
+- (NSData *)sign:(MKMPrivateKey *)SK;
+
+@end
+
+#pragma mark - Profile
+
+@interface MKMProfile : MKMTAO
+
+@property (strong, nonatomic) NSString *name;
+
+@end
+
+NS_ASSUME_NONNULL_END

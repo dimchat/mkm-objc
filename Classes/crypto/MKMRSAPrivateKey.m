@@ -220,7 +220,10 @@
 
 - (nullable NSData *)decrypt:(const NSData *)ciphertext {
     NSAssert(self.privateKeyRef != NULL, @"RSA private key cannot be empty");
-    NSAssert(ciphertext.length == (self.keySizeInBits/8), @"RSA ciphertext length error: %lu", ciphertext.length);
+    if (ciphertext.length != (self.keySizeInBits/8)) {
+        // ciphertext length not match RSA key
+        return nil;
+    }
     NSData *plaintext = nil;
     
     CFErrorRef error = NULL;

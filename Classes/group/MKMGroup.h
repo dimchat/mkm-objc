@@ -10,10 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MKMGroup : MKMEntity {
-    
-    const MKMID *_founder;
-}
+@interface MKMGroup : MKMEntity
 
 @property (readonly, strong, nonatomic) const MKMID *founder;
 @property (readonly, strong, nonatomic, nullable) const MKMID *owner;
@@ -32,49 +29,33 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-#pragma mark - Group Delegate
+#pragma mark - Group Data Source
 
 @protocol MKMGroupDataSource <MKMEntityDataSource>
 
 /**
- Get members count
+ *  Get group founder
+ *
+ * @param group - group ID
+ * @return fonder ID
  */
-- (NSInteger)numberOfMembersInGroup:(const MKMGroup *)group;
+- (const MKMID *)founderOfGroup:(const MKMID *)group;
 
 /**
- Get member at index
+ *  Get group owner
+ *
+ * @param group - group ID
+ * @return owner ID
  */
-- (const MKMID *)group:(const MKMGroup *)group memberAtIndex:(NSInteger)index;
+- (nullable const MKMID *)ownerOfGroup:(const MKMID *)group;
 
 /**
- Get group founder
+ *  Get group members list
+ *
+ * @param group - group ID
+ * @return members list (ID)
  */
-- (const MKMID *)founderOfGroup:(const MKMGroup *)group;
-
-/**
- Get group owner
- */
-@optional
-- (nullable const MKMID *)ownerOfGroup:(const MKMGroup *)group;
-
-@end
-
-@protocol MKMGroupDelegate <NSObject>
-
-/**
- Group factory
- */
-- (nullable MKMGroup *)groupWithID:(const MKMID *)ID;
-
-/**
- Add member to group
- */
-- (BOOL)group:(const MKMGroup *)group addMember:(const MKMID *)member;
-
-/**
- Remove contact of user
- */
-- (BOOL)group:(const MKMGroup *)group removeMember:(const MKMID *)member;
+- (NSArray<const MKMID *> *)membersOfGroup:(const MKMID *)group;
 
 @end
 

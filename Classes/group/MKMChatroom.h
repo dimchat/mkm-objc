@@ -27,14 +27,12 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol MKMChatroomDataSource <MKMGroupDataSource>
 
 /**
- Get admins count
+ *  Get chatroom admin list
+ *
+ * @param chatroom - group ID
+ * @return admins list (ID)
  */
-- (NSInteger)numberOfAdminsInChatroom:(const MKMChatroom *)grp;
-
-/**
- Get admin at index
- */
-- (const MKMID *)chatroom:(const MKMChatroom *)grp adminAtIndex:(NSInteger)index;
+- (NSArray<const MKMID *> *)adminsOfChatroom:(const MKMID *)chatroom;
 
 @end
 

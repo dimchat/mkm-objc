@@ -162,8 +162,11 @@
 
 - (BOOL)verify:(const NSData *)data withSignature:(const NSData *)signature {
     NSAssert(self.publicKeyRef != NULL, @"RSA public key cannot be empty");
-    NSAssert(signature.length == (self.keySizeInBits/8), @"RSA signature length error: %lu", signature.length);
     NSAssert(data.length > 0, @"RSA data cannot be empty");
+    if (signature.length != (self.keySizeInBits/8)) {
+        // signature length not match RSA key
+        return NO;
+    }
     BOOL OK = NO;
     
     CFErrorRef error = NULL;

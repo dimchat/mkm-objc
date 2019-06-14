@@ -43,6 +43,7 @@ FOUNDATION_EXPORT const unsigned char MingKeMingVersionString[];
 #import <MingKeMing/MKMID.h>
 #import <MingKeMing/MKMAddress.h>
 #import <MingKeMing/MKMMeta.h>
+#import <MingKeMing/MKMProfile.h>
 #import <MingKeMing/MKMEntity.h>
 
 // Group
@@ -56,7 +57,6 @@ FOUNDATION_EXPORT const unsigned char MingKeMingVersionString[];
 #import <MingKeMing/MKMUser.h>
 #import <MingKeMing/MKMContact.h>
 
-#import <MingKeMing/MKMProfile.h>
 //#import <MingKeMing/MKMImmortals.h>
 
 #endif /* ! __MING_KE_MING__ */

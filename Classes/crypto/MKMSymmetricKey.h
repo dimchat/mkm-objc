@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  Symmetric Cryptography Key
  *
  *      keyInfo format: {
- *          algorithm: "AES",
+ *          algorithm: "AES", // DES, ...
  *          data     : "{BASE64_ENCODE}",
  *          ...
  *      }

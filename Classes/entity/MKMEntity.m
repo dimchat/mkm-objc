@@ -9,6 +9,7 @@
 #import "NSObject+JsON.h"
 
 #import "MKMID.h"
+#import "MKMProfile.h"
 
 #import "MKMEntity.h"
 
@@ -66,22 +67,25 @@
     return _ID.number;
 }
 
-- (const MKMMeta *)meta {
-    NSAssert(_dataSource, @"entity data source not set yet");
-    return [_dataSource metaForEntity:self];
+- (NSString *)name {
+    // get from profile
+    MKMProfile *profile = [self profile];
+    NSString *nickname = [profile name];
+    if ([nickname length] > 0) {
+        return nickname;
+    }
+    // get from ID.name
+    return _ID.name;
 }
 
-- (NSString *)name {
+- (const MKMMeta *)meta {
     NSAssert(_dataSource, @"entity data source not set yet");
-    NSString *nick = [_dataSource nameOfEntity:self];
-    if (nick.length > 0) {
-        return nick;
-    }
-    nick = _ID.name;
-    if (nick.length > 0) {
-        return nick;
-    }
-    return (NSString *)_ID.address; // BTC Address
+    return [_dataSource metaForID:_ID];
+}
+
+- (MKMProfile *)profile {
+    NSAssert(_dataSource, @"entity data source not set yet");
+    return [_dataSource profileForID:_ID];
 }
 
 @end

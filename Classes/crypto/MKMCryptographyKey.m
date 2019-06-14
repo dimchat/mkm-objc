@@ -38,22 +38,6 @@
     return self;
 }
 
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    NSAssert(false, @"DON'T call me");
-    NSDictionary *dict = nil;
-    self = [self initWithDictionary:dict];
-    return self;
-}
-
-- (instancetype)initWithObjects:(const id _Nonnull [_Nullable])objects
-                        forKeys:(const id <NSCopying> _Nonnull [_Nullable])keys
-                          count:(NSUInteger)cnt {
-    NSAssert(false, @"DON'T call me");
-    NSDictionary *dict = nil;
-    self = [self initWithDictionary:dict];
-    return self;
-}
-
 /* designated initializer */
 - (instancetype)initWithDictionary:(NSDictionary *)keyInfo {
     if (self = [super initWithDictionary:keyInfo]) {
