@@ -22,13 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
  *      'Meta' is the information for entity which never changed, which contains the key for verify signature;
  *      'TAO' is the variable part, which contains the key for asymmetric encryption.
  */
-@interface MKMTAO : MKMDictionary {
-    
-    const MKMID *_ID;
-    
-    NSMutableDictionary *_properties;
-    BOOL _valid; // YES on signature matched
-}
+@interface MKMTAO : MKMDictionary
 
 @property (readonly, strong, nonatomic) const MKMID *ID;
 
@@ -49,10 +43,25 @@ NS_DESIGNATED_INITIALIZER;
                  signature:(nullable NSData *)signature
 NS_DESIGNATED_INITIALIZER;
 
+#pragma mark Interfaces for profile properties
+
 /**
- *  Reset data signature after properties changed
+ *  Update profile property with data & key
+ *  (this will reset data & signature)
  */
-- (void) reset;
+- (void)setData:(nullable NSObject *)value forKey:(NSString *)key;
+
+/**
+ *  Get profile property data with key
+ */
+- (nullable NSObject *)dataForKey:(NSString *)key;
+
+/**
+ *  Get all keys for properties
+ */
+- (NSArray *)dataKeys;
+
+#pragma mark -
 
 /**
  *  Verify 'data' and 'signature', if OK, refresh properties from 'data'

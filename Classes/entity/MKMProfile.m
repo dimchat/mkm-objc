@@ -23,10 +23,17 @@
 #import "MKMProfile.h"
 
 @interface MKMTAO () {
+    
+    const MKMID *_ID;
+    
     NSString *_data;    // JsON.encode(properties)
     NSData *_signature; // User(ID).sign(data)
     
+    NSMutableDictionary *_properties;
+    
     MKMPublicKey *_key;
+    
+    BOOL _valid; // YES on signature matched
 }
 
 @end
@@ -105,7 +112,7 @@
     return self;
 }
 
-- (void)setData:(NSObject *)value forKey:(NSString *)key {
+- (void)setData:(nullable NSObject *)value forKey:(NSString *)key {
     // 1. update data in properties
     if (value != nil) {
         [_properties setObject:value forKey:key];
@@ -121,22 +128,21 @@
     _valid = NO;
 }
 
+- (nullable NSObject *)dataForKey:(NSString *)key {
+    return _valid ? [_properties objectForKey:key] : nil;
+}
+
+- (NSArray *)dataKeys {
+    return _valid ? [_properties allKeys] : nil;
+}
+
 - (MKMPublicKey *)key {
     return _valid ? _key : nil;
 }
 
 - (void)setKey:(MKMPublicKey *)key {
     _key = key;
-    [_properties setObject:key forKey:@"key"];
-    [self reset];
-}
-
-- (void)reset {
-    [_storeDictionary removeObjectForKey:@"data"];
-    [_storeDictionary removeObjectForKey:@"signature"];
-    _data = nil;
-    _signature = nil;
-    _valid = NO;
+    [self setData:key forKey:@"key"];
 }
 
 - (BOOL)verify:(MKMPublicKey *)PK {
@@ -185,16 +191,11 @@
 @implementation MKMProfile
 
 - (NSString *)name {
-    return _valid ? [_storeDictionary objectForKey:@"name"] : nil;
+    return (NSString *)[self dataForKey:@"name"];
 }
 
 - (void)setName:(NSString *)name {
-    if ([name length] > 0) {
-        [_storeDictionary setObject:name forKey:@"name"];
-    } else {
-        [_storeDictionary removeObjectForKey:@"name"];
-    }
-    [self reset];
+    [self setData:name forKey:@"name"];
 }
 
 @end
