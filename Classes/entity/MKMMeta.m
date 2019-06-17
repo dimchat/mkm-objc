@@ -24,8 +24,6 @@
         return meta;
     } else if ([meta isKindOfClass:[NSDictionary class]]) {
         return [[self alloc] initWithDictionary:meta];
-    } else if ([meta isKindOfClass:[NSString class]]) {
-        return [[self alloc] initWithJSONString:meta];
     } else {
         NSAssert(!meta, @"unexpected meta: %@", meta);
         return nil;

@@ -23,8 +23,6 @@
         return key;
     } else if ([key isKindOfClass:[NSDictionary class]]) {
         return [[self alloc] initWithDictionary:key];
-    } else if ([key isKindOfClass:[NSString class]]) {
-        return [[self alloc] initWithJSONString:key];
     } else {
         NSAssert(!key, @"unexpected key: %@", key);
         return nil;
@@ -44,12 +42,6 @@
         // lazy
         _algorithm = nil;
     }
-    return self;
-}
-
-- (instancetype)initWithJSONString:(const NSString *)json {
-    NSDictionary *dict = [[json data] jsonDictionary];
-    self = [self initWithDictionary:dict];
     return self;
 }
 

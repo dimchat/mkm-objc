@@ -110,12 +110,12 @@
 
 #pragma mark - Delegates
 
-- (const MKMMeta *)metaForID:(const MKMID *)ID {
+- (nullable const MKMMeta *)metaForID:(const MKMID *)ID {
     NSAssert([ID isValid], @"ID invalid: %@", ID);
     return [_metaTable objectForKey:ID.address];
 }
 
-- (MKMProfile *)profileForID:(const MKMID *)ID {
+- (nullable MKMProfile *)profileForID:(const MKMID *)ID {
     NSAssert(MKMNetwork_IsPerson(ID.type), @"account ID error: %@", ID);
     return [_profileTable objectForKey:ID.address];
 }
@@ -126,9 +126,6 @@
 
 - (NSArray<MKMPrivateKey *> *)privateKeysForDecryptionOfUser:(const MKMID *)user {
     MKMPrivateKey *key = [MKMPrivateKey loadKeyWithIdentifier:user.address];
-    if (key == nil) {
-        return nil;
-    }
     return [[NSArray alloc] initWithObjects:key, nil];
 }
 

@@ -45,8 +45,6 @@
         return profile;
     } else if ([profile isKindOfClass:[NSDictionary class]]) {
         return [[self alloc] initWithDictionary:profile];
-    } else if ([profile isKindOfClass:[NSString class]]) {
-        return [[self alloc] initWithJSONString:profile];
     } else {
         NSAssert(!profile, @"unexpected profile: %@", profile);
         return nil;
@@ -136,7 +134,7 @@
     return _valid ? [_properties allKeys] : nil;
 }
 
-- (const MKMPublicKey *)key {
+- (nullable const MKMPublicKey *)key {
     return _valid ? _key : nil;
 }
 

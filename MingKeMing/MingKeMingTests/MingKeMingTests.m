@@ -138,9 +138,10 @@ static inline void print_id(const MKMID *ID) {
     NSData *dec;
     
     NSString *keyInfo = @"{\"algorithm\": \"AES\", \"data\": \"C2+xGizLL1G1+z9QLPYNdp/bPP/seDvNw45SXPAvQqk=\", \"iv\": \"SxPwi6u4+ZLXLdAFJezvSQ==\"}";
+    NSDictionary *keyDict = [[keyInfo data] jsonDictionary];
     
     // 1
-    key = [[MKMSymmetricKey alloc] initWithJSONString:keyInfo];
+    key = [MKMSymmetricKey keyWithKey:keyDict];
     CT = [key encrypt:data];
     dec = [key decrypt:CT];
     NSLog(@"key: %@", key);

@@ -31,7 +31,7 @@
     return [key sign:data];
 }
 
-- (NSData *)decrypt:(const NSData *)ciphertext {
+- (nullable NSData *)decrypt:(const NSData *)ciphertext {
     NSAssert(_dataSource, @"user data source not set yet");
     NSArray<MKMPrivateKey *> *keys = [_dataSource privateKeysForDecryptionOfUser:_ID];
     NSData *plaintext = nil;

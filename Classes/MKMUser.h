@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param ciphertext - encrypted data
  * @return plain text
  */
-- (NSData *)decrypt:(const NSData *)ciphertext;
+- (nullable NSData *)decrypt:(const NSData *)ciphertext;
 
 @end
 

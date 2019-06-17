@@ -33,8 +33,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithDictionary:(NSDictionary *)keyInfo
 NS_DESIGNATED_INITIALIZER;
 
-- (instancetype)initWithJSONString:(const NSString *)json;
-
 - (instancetype)initWithAlgorithm:(const NSString *)algorithm;
 
 @end

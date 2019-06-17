@@ -31,7 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *      RSA
  */
-@property (strong, nonatomic) const MKMPublicKey *key;
+@property (strong, nonatomic, nullable) const MKMPublicKey *key;
 
 + (instancetype)profileWithProfile:(id)profile;
 
