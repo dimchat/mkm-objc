@@ -52,7 +52,7 @@
     // ID
     MKMID *ID = [dict objectForKey:@"ID"];
     ID = [MKMID IDWithID:ID];
-    NSAssert(ID.isValid, @"ID error: %@", ID);
+    NSAssert([ID isValid], @"ID error: %@", ID);
     
     // meta
     MKMMeta *meta = [dict objectForKey:@"meta"];

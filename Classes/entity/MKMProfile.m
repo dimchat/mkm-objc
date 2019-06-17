@@ -31,7 +31,7 @@
     
     NSMutableDictionary *_properties;
     
-    MKMPublicKey *_key;
+    const MKMPublicKey *_key;
     
     BOOL _valid; // YES on signature matched
 }
@@ -85,7 +85,7 @@
 - (instancetype)initWithID:(const MKMID *)ID
                       data:(nullable NSString *)json
                  signature:(nullable NSData *)signature {
-    NSAssert(ID.isValid, @"profile ID error: %@", ID);
+    NSAssert([ID isValid], @"profile ID error: %@", ID);
     if (self = [super initWithDictionary:@{@"ID": ID}]) {
         // ID
         _ID = ID;
@@ -136,16 +136,16 @@
     return _valid ? [_properties allKeys] : nil;
 }
 
-- (MKMPublicKey *)key {
+- (const MKMPublicKey *)key {
     return _valid ? _key : nil;
 }
 
-- (void)setKey:(MKMPublicKey *)key {
+- (void)setKey:(const MKMPublicKey *)key {
     _key = key;
-    [self setData:key forKey:@"key"];
+    [self setData:(NSObject *)key forKey:@"key"];
 }
 
-- (BOOL)verify:(MKMPublicKey *)PK {
+- (BOOL)verify:(const MKMPublicKey *)PK {
     if (_valid) {
         // already verified
         return YES;
@@ -169,7 +169,7 @@
     return _valid;
 }
 
-- (NSData *)sign:(MKMPrivateKey *)SK {
+- (NSData *)sign:(const MKMPrivateKey *)SK {
     if (_valid) {
         // already signed
         return _signature;

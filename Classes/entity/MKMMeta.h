@@ -30,9 +30,11 @@ NS_ASSUME_NONNULL_BEGIN
  *      sign the seed to get fingerprint (just for binding username & key).
  *      This can build a BTC address, and bind a username to the entity ID.
  */
-#define MKMMetaVersion_MKM    0x01
-#define MKMMetaVersion_BTC    0x02
-#define MKMMetaVersion_ExBTC  0x03
+#define MKMMetaVersion_MKM    0x01  // 0000 0001
+#define MKMMetaVersion_BTC    0x02  // 0000 0010
+#define MKMMetaVersion_ExBTC  0x03  // 0000 0011
+#define MKMMetaVersion_ETH    0x04  // 0000 0100
+#define MKMMetaVersion_ExETH  0x05  // 0000 0101
 #define MKMMetaDefaultVersion MKMMetaVersion_MKM
 
 @class MKMPublicKey;
@@ -45,8 +47,8 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *      data format: {
  *          version: 1,          // algorithm version
- *          seed: "moKy",        // user/group name
  *          key: "{public key}", // PK = secp256k1(SK);
+ *          seed: "moKy",        // user/group name
  *          fingerprint: "..."   // CT = sign(seed, SK);
  *      }
  *
@@ -59,7 +61,13 @@ NS_ASSUME_NONNULL_BEGIN
  *          address = base58_encode(network + hash + code);
  *          number  = uint(code);
  */
-@interface MKMMeta : MKMDictionary
+@interface MKMMeta : MKMDictionary {
+    
+    NSUInteger _version;
+    const MKMPublicKey *_key;
+    NSString *_seed;
+    const NSData *_fingerprint;
+}
 
 /**
  *  Meta algorithm version
@@ -67,6 +75,9 @@ NS_ASSUME_NONNULL_BEGIN
  *      0x01 - username@address
  *      0x02 - btc_address
  *      0x03 - username@btc_address
+ *      0x04 - eth_address
+ *      0x05 - username@eth_address
+ *      ....
  */
 @property (readonly, nonatomic) NSUInteger version;
 
@@ -75,7 +86,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *      RSA / ECC
  */
-@property (readonly, strong, nonatomic) MKMPublicKey *key;
+@property (readonly, strong, nonatomic) const MKMPublicKey *key;
 
 /**
  *  Seed to generate fingerprint
@@ -92,9 +103,12 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (readonly, strong, nonatomic, nullable) const NSData *fingerprint;
 
-@property (readonly, nonatomic, getter=isValid) BOOL valid;
-
 + (instancetype)metaWithMeta:(id)meta;
+
+//
+//  Runtime
+//
++ (void)registerClass:(nullable Class)metaClass forVersion:(NSUInteger)version;
 
 /**
  *  Copy meta data
@@ -102,9 +116,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithDictionary:(NSDictionary *)dict;
 
 - (instancetype)initWithVersion:(NSUInteger)version
-                           seed:(const NSString *)name
                       publicKey:(const MKMPublicKey *)PK
-                    fingerprint:(const NSData *)CT;
+                           seed:(nullable const NSString *)name
+                    fingerprint:(nullable const NSData *)CT;
 
 /**
  Generate fingerprint, initialize meta data
@@ -132,8 +146,18 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)matchID:(const MKMID *)ID;
 - (BOOL)matchAddress:(const MKMAddress *)address;
 
-- (MKMID *)buildIDWithNetworkID:(MKMNetworkType)type;
-- (MKMAddress *)buildAddressWithNetworkID:(MKMNetworkType)type;
+- (MKMID *)generateID:(MKMNetworkType)type;
+- (MKMAddress *)generateAddress:(MKMNetworkType)type;
+
+@end
+
+#pragma mark -
+
+@interface MKMMetaDefault : MKMMeta
+
+@end
+
+@interface MKMMetaBTC : MKMMeta
 
 @end
 

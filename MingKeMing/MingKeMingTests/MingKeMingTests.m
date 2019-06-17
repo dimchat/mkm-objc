@@ -203,12 +203,12 @@ static inline void print_id(const MKMID *ID) {
     MKMPrivateKey *SK = [[MKMPrivateKey alloc] init];
     MKMPublicKey *PK = SK.publicKey;
     
-    MKMMeta *meta = [[MKMMeta alloc] initWithVersion:MKMMetaVersion_MKM
-                                                seed:name
-                                          privateKey:SK
-                                           publicKey:PK];
+    MKMMeta *meta = [[MKMMetaDefault alloc] initWithVersion:MKMMetaVersion_MKM
+                                                       seed:name
+                                                 privateKey:SK
+                                                  publicKey:PK];
     
-    const MKMID *ID = [meta buildIDWithNetworkID:MKMNetwork_Main];
+    const MKMID *ID = [meta generateID:MKMNetwork_Main];
     
     NSLog(@"meta: %@", meta);
     print_id(ID);
@@ -221,8 +221,8 @@ static inline void print_id(const MKMID *ID) {
     MKMPrivateKey *SK = [[MKMPrivateKey alloc] init];
     MKMPublicKey *PK = SK.publicKey;
     
-    MKMMeta *meta = [[MKMMeta alloc] initWithPublicKey:PK];
-    const MKMID *ID = [meta buildIDWithNetworkID:MKMNetwork_BTCMain];
+    MKMMeta *meta = [[MKMMetaBTC alloc] initWithPublicKey:PK];
+    const MKMID *ID = [meta generateID:MKMNetwork_BTCMain];
     
     NSLog(@"meta: %@", meta);
     print_id(ID);
@@ -292,7 +292,7 @@ static inline void print_id(const MKMID *ID) {
         
         CT = [SK sign:data];
         
-        addr = [[MKMAddress alloc] initWithFingerprint:CT network:network];
+        addr = [[MKMAddressBTC alloc] initWithData:CT network:network];
         
         number = addr.code;
         if (count % 100 == 0) {
@@ -304,11 +304,11 @@ static inline void print_id(const MKMID *ID) {
         }
         
         MKMMeta *meta = [[MKMMeta alloc] initWithVersion:MKMMetaDefaultVersion
-                                                    seed:name
                                                publicKey:PK
+                                                    seed:name
                                              fingerprint:CT];
         
-        const MKMID *ID = [meta buildIDWithNetworkID:network];
+        const MKMID *ID = [meta generateID:network];
 
         NSLog(@"[%lu] address: %@, number: %@", count, addr, search_number(number));
         NSLog(@"GOT IT -> ID: %@, meta: %@, SK: %@", ID, meta, SK);

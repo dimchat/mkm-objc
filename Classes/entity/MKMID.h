@@ -35,32 +35,32 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)IDWithID:(id)ID;
 
 /**
- Initialize an ID with string form "name@address[/terminal]"
-
- @param aString - ID string
- @return ID object
+ *  Initialize an ID with string form "name@address[/terminal]"
+ *
+ * @param aString - ID string
+ * @return ID object
  */
 - (instancetype)initWithString:(NSString *)aString;
 
 /**
- Initialize an ID with username & address
-
- @param seed - username
- @param addr - hash(fingerprint)
- @return ID object
+ *  Initialize an ID with username & address
+ *
+ * @param seed - username
+ * @param addr - hash(fingerprint)
+ * @return ID object
  */
-- (instancetype)initWithName:(const NSString *)seed
+- (instancetype)initWithName:(nullable const NSString *)seed
                      address:(const MKMAddress *)addr;
 
 /**
- For BTC address
+ *  For BTC address
  */
 - (instancetype)initWithAddress:(const MKMAddress *)addr;
 
 /**
- ID without terminal
-
- @return ID object
+ *  ID without terminal
+ *
+ * @return ID object
  */
 - (instancetype)naked;
 

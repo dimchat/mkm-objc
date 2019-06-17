@@ -43,10 +43,11 @@ typedef NSMutableDictionary<const NSString *, Class> MKMCryptographyKeyMap;
 
 @interface MKMCryptographyKey (Runtime)
 
+//
+//  Runtime
+//
 + (MKMCryptographyKeyMap *)keyClasses;
-
-+ (void)registerClass:(nullable Class)keyClass forAlgorithm:(const NSString *)name;
-
++ (void)registerClass:(nullable Class)clazz forAlgorithm:(const NSString *)name;
 + (nullable Class)classForAlgorithm:(const NSString *)name;
 
 @end

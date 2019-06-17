@@ -90,11 +90,13 @@
     return nil;
 }
 
-+ (void)registerClass:(Class)keyClass forAlgorithm:(const NSString *)name {
++ (void)registerClass:(nullable Class)clazz forAlgorithm:(const NSString *)name {
     NSAssert(name.length > 0, @"algorithm cannot be empty");
-    NSAssert([keyClass isSubclassOfClass:self], @"class error: %@", keyClass);
-    if (keyClass) {
-        [[self keyClasses] setObject:keyClass forKey:name];
+    NSAssert([clazz isSubclassOfClass:self], @"class error: %@", clazz);
+    if (clazz) {
+        [[self keyClasses] setObject:clazz forKey:name];
+    } else {
+        [[self keyClasses] removeObjectForKey:name];
     }
 }
 
