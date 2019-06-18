@@ -151,18 +151,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark -
 
-@interface MKMMetaDefault : MKMMeta
-
-- (instancetype)initWithPublicKey:(const MKMPublicKey *)PK
-                             seed:(const NSString *)name
-                      fingerprint:(const NSData *)CT;
-
-- (instancetype)initWithSeed:(const NSString *)name
-                  privateKey:(const MKMPrivateKey *)SK
-                   publicKey:(nullable const MKMPublicKey *)PK;
-
-@end
-
 @interface MKMMetaBTC : MKMMeta
 
 @end

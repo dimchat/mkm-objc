@@ -204,10 +204,10 @@ static inline void print_id(const MKMID *ID) {
     MKMPrivateKey *SK = MKMPrivateKeyWithAlgorithm(ACAlgorithmRSA);
     MKMPublicKey *PK = SK.publicKey;
     
-    MKMMeta *meta = [[MKMMetaDefault alloc] initWithVersion:MKMMetaVersion_MKM
-                                                       seed:name
-                                                 privateKey:SK
-                                                  publicKey:PK];
+    MKMMeta *meta = [[MKMMeta alloc] initWithVersion:MKMMetaDefaultVersion
+                                                seed:name
+                                          privateKey:SK
+                                           publicKey:PK];
     
     const MKMID *ID = [meta generateID:MKMNetwork_Main];
     
@@ -304,9 +304,10 @@ static inline void print_id(const MKMID *ID) {
             continue;
         }
         
-        MKMMeta *meta = [[MKMMetaDefault alloc] initWithPublicKey:PK
-                                                             seed:name
-                                                      fingerprint:CT];
+        MKMMeta *meta = [[MKMMeta alloc] initWithVersion:MKMMetaDefaultVersion
+                                               publicKey:PK
+                                                    seed:name
+                                             fingerprint:CT];
         
         const MKMID *ID = [meta generateID:network];
 
