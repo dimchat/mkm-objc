@@ -34,6 +34,9 @@ NS_DESIGNATED_INITIALIZER;
                  signature:(nullable NSData *)signature
 NS_DESIGNATED_INITIALIZER;
 
+// create a new empty profile
+- (instancetype)initWithID:(const MKMID *)ID;
+
 #pragma mark Interfaces for profile properties
 
 /**

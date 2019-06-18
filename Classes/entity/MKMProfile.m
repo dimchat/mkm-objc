@@ -104,6 +104,10 @@
     return self;
 }
 
+- (instancetype)initWithID:(const MKMID *)ID {
+    return [self initWithID:ID data:nil signature:nil];
+}
+
 - (void)setData:(nullable NSObject *)value forKey:(NSString *)key {
     // 1. update data in properties
     if (value != nil) {

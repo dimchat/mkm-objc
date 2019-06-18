@@ -18,17 +18,6 @@
 
 @implementation MKMCryptographyKey
 
-+ (instancetype)keyWithKey:(id)key {
-    if ([key isKindOfClass:[MKMCryptographyKey class]]) {
-        return key;
-    } else if ([key isKindOfClass:[NSDictionary class]]) {
-        return [[self alloc] initWithDictionary:key];
-    } else {
-        NSAssert(!key, @"unexpected key: %@", key);
-        return nil;
-    }
-}
-
 - (instancetype)init {
     NSAssert(false, @"DON'T call me");
     NSDictionary *dict = nil;
