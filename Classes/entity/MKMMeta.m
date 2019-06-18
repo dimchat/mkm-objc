@@ -19,69 +19,14 @@
 
 @implementation MKMMeta
 
-+ (instancetype)metaWithMeta:(id)meta {
-    if ([meta isKindOfClass:[MKMMeta class]]) {
-        return meta;
-    } else if ([meta isKindOfClass:[NSDictionary class]]) {
-        return [[self alloc] initWithDictionary:meta];
-    } else {
-        NSAssert(!meta, @"unexpected meta: %@", meta);
-        return nil;
-    }
-}
-
-typedef NSMutableDictionary<const NSNumber *, Class> MKMMetaClassMap;
-
-static MKMMetaClassMap *s_metaClasses = nil;
-
-+ (MKMMetaClassMap *)metaClasses {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        MKMMetaClassMap *map = [[NSMutableDictionary alloc] init];
-        // MKM
-        [map setObject:[MKMMetaDefault class] forKey:@(MKMMetaVersion_MKM)];
-        // BTC
-        [map setObject:[MKMMetaBTC class] forKey:@(MKMMetaVersion_BTC)];
-        [map setObject:[MKMMetaBTC class] forKey:@(MKMMetaVersion_ExBTC)];
-        // ...
-        s_metaClasses = map;
-    });
-    return s_metaClasses;
-}
-
-+ (void)registerClass:(nullable Class)metaClass forVersion:(NSUInteger)version {
-    NSAssert([metaClass isSubclassOfClass:self], @"class error: %@", metaClass);
-    if (metaClass) {
-        [[self metaClasses] setObject:metaClass forKey:@(version)];
-    } else {
-        [[self metaClasses] removeObjectForKey:@(version)];
-    }
-}
-
-+ (nullable Class)classForVersion:(NSUInteger)version {
-    return [[self metaClasses] objectForKey:@(version)];
-}
-
 - (instancetype)initWithDictionary:(NSDictionary *)dict {
-    if ([self isMemberOfClass:[MKMMeta class]]) {
-        // create instance by subclass with meta version
-        // version
-        NSNumber *ver = [dict objectForKey:@"version"];
-        NSUInteger version = [ver unsignedIntegerValue];
-        Class clazz = [[self class] classForVersion:version];
-        if (clazz) {
-            self = [[clazz alloc] initWithDictionary:dict];
-        } else {
-            NSAssert(false, @"meta version not supported: %@", ver);
-            self = nil;
-        }
-    } else if (self = [super initWithDictionary:dict]) {
+    if (self = [super initWithDictionary:dict]) {
         // version
         NSNumber *ver = [dict objectForKey:@"version"];
         NSUInteger version = [ver unsignedIntegerValue];
         // public key
         NSDictionary *key = [dict objectForKey:@"key"];
-        MKMPublicKey *PK = [MKMPublicKey keyWithKey:key];
+        MKMPublicKey *PK = MKMPublicKeyFromDictionary(key);
         
         if (version & MKMMetaVersion_MKM) { // MKM, ExBTC, ExETH, ...
             // seed
@@ -198,9 +143,82 @@ static MKMMetaClassMap *s_metaClasses = nil;
 
 @end
 
+static NSMutableDictionary<NSNumber *, Class> *meta_classes(void) {
+    static NSMutableDictionary<NSNumber *, Class> *classes = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        classes = [[NSMutableDictionary alloc] init];
+        // MKM
+        [classes setObject:[MKMMetaDefault class] forKey:@(MKMMetaVersion_MKM)];
+        // BTC
+        [classes setObject:[MKMMetaBTC class] forKey:@(MKMMetaVersion_BTC)];
+        [classes setObject:[MKMMetaBTC class] forKey:@(MKMMetaVersion_ExBTC)];
+        // ...
+    });
+    return classes;
+}
+
+@implementation MKMMeta (Runtime)
+
++ (void)registerClass:(nullable Class)metaClass forVersion:(NSUInteger)version {
+    NSAssert([metaClass isSubclassOfClass:self], @"class error: %@", metaClass);
+    if (metaClass) {
+        [meta_classes() setObject:metaClass forKey:@(version)];
+    } else {
+        [meta_classes() removeObjectForKey:@(version)];
+    }
+}
+
++ (nullable instancetype)getInstance:(id)meta {
+    if (!meta) {
+        return nil;
+    }
+    if ([meta isKindOfClass:[MKMMeta class]]) {
+        // return Meta object directly
+        return meta;
+    }
+    NSAssert([meta isKindOfClass:[NSDictionary class]],
+             @"meta should be a dictionary: %@", meta);
+    if (![self isEqual:[MKMMeta class]]) {
+        // subclass
+        NSAssert([self isSubclassOfClass:[MKMMeta class]], @"meta class error");
+        return [[self alloc] initWithDictionary:meta];
+    }
+    // create instance by subclass with meta version
+    NSNumber *version = [meta objectForKey:@"version"];
+    Class clazz = [meta_classes() objectForKey:version];
+    if (clazz) {
+        return [clazz getInstance:meta];
+    }
+    NSAssert(false, @"meta version not support: %@", version);
+    return nil;
+}
+
+@end
+
 #pragma mark -
 
 @implementation MKMMetaDefault
+
+- (instancetype)initWithPublicKey:(const MKMPublicKey *)PK
+                             seed:(const NSString *)name
+                      fingerprint:(const NSData *)CT {
+    
+    return [super initWithVersion:MKMMetaDefaultVersion
+                        publicKey:PK
+                             seed:name
+                      fingerprint:CT];
+}
+
+- (instancetype)initWithSeed:(const NSString *)name
+                  privateKey:(const MKMPrivateKey *)SK
+                   publicKey:(nullable const MKMPublicKey *)PK {
+    
+    return [super initWithVersion:MKMMetaDefaultVersion
+                             seed:name
+                       privateKey:SK
+                        publicKey:PK];
+}
 
 - (MKMAddress *)generateAddress:(MKMNetworkType)type {
     NSAssert(_version == MKMMetaVersion_MKM, @"meta version error");

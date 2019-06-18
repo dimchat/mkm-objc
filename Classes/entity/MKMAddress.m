@@ -13,57 +13,9 @@
 
 @implementation MKMAddress
 
-+ (instancetype)addressWithAddress:(id)addr {
-    if ([addr isKindOfClass:[MKMAddress class]]) {
-        return addr;
-    } else if ([addr isKindOfClass:[NSString class]]) {
-        return [[self alloc] initWithString:addr];
-    } else {
-        NSAssert(!addr, @"unexpected address: %@", addr);
-        return nil;
-    }
-}
-
-static NSMutableArray<Class> *s_addressClasses = nil;
-
-+ (NSMutableArray<Class> *)addressClasses {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        NSMutableArray<Class> *list = [[NSMutableArray alloc] init];
-        // BTC
-        [list addObject:[MKMAddressBTC class]];
-        // ...
-        s_addressClasses = list;
-    });
-    return s_addressClasses;
-}
-
-+ (void)registerClass:(Class)addressClass {
-    NSAssert([addressClass isSubclassOfClass:self], @"class error: %@", addressClass);
-    NSMutableArray<Class> *classes = [self addressClasses];
-    if (addressClass && ![classes containsObject:addressClass]) {
-        // parse address string with new class first
-        [classes insertObject:addressClass atIndex:0];
-    }
-}
-
 /* designated initializer */
 - (instancetype)initWithString:(NSString *)aString {
-    if ([self isMemberOfClass:[MKMAddress class]]) {
-        // create instance by subclass
-        NSMutableArray<Class> *classes = [[self class] addressClasses];
-        for (Class clazz in classes) {
-            @try {
-                return [[clazz alloc] initWithString:aString];
-            } @catch (NSException *exception) {
-                // address format error, try next
-            } @finally {
-                //
-            }
-        }
-        NSAssert(false, @"address not support: %@", aString);
-        self = nil;
-    } else if (self = [super initWithString:aString]) {
+    if (self = [super initWithString:aString]) {
         _network = 0;
         _code = 0;
     }
@@ -72,6 +24,62 @@ static NSMutableArray<Class> *s_addressClasses = nil;
 
 - (BOOL)isEqual:(id)object {
     return [_storeString isEqualToString:object];
+}
+
+@end
+
+static NSMutableArray<Class> *address_classes(void) {
+    static NSMutableArray<Class> *classes = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        classes = [[NSMutableArray alloc] init];
+        // BTC
+        [classes addObject:[MKMAddressBTC class]];
+        // ETH
+        // ...
+    });
+    return classes;
+}
+
+@implementation MKMAddress (Runtime)
+
++ (void)registerClass:(Class)addressClass {
+    NSAssert([addressClass isSubclassOfClass:self], @"class error: %@", addressClass);
+    NSMutableArray<Class> *classes = address_classes();
+    if (addressClass && ![classes containsObject:addressClass]) {
+        // parse address string with new class first
+        [classes insertObject:addressClass atIndex:0];
+    }
+}
+
++ (nullable instancetype)getInstance:(id)address {
+    if (!address) {
+        return nil;
+    }
+    if ([address isKindOfClass:[MKMAddress class]]) {
+        // return Address object directly
+        return address;
+    }
+    NSAssert([address isKindOfClass:[NSString class]],
+             @"address should be a string: %@", address);
+    if (![self isEqual:[MKMAddress class]]) {
+        // subclass
+        NSAssert([self isSubclassOfClass:[MKMAddress class]], @"address class error");
+        return [[self alloc] initWithString:address];
+    }
+    // create instance by subclass
+    NSMutableArray<Class> *classes = address_classes();
+    for (Class clazz in classes) {
+        @try {
+            return [clazz getInstance:address];
+        } @catch (NSException *exception) {
+            // address format error, try next
+        } @finally {
+            //
+        }
+    }
+    NSAssert(false, @"address not support: %@", address);
+    return nil;
 }
 
 @end

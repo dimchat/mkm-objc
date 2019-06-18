@@ -129,9 +129,12 @@ typedef UInt8 MKMNetworkType;
  *
  *      algorithm:
  *          fingerprint = sign(seed, SK);
- *          digest      = ripemd160(sha256(fingerprint));
- *          check_code  = sha256(sha256(network + digest)).prefix(4);
- *          address     = base58_encode(network + digest + check_code);
+ *
+ *          CT      = fingerprint; // or key.data for BTC address
+ *          digest  = ripemd160(sha256(CT));
+ *          code    = sha256(sha256(network + digest)).prefix(4);
+ *          address = base58_encode(network + digest + code);
+ *          number  = uint(code);
  */
 @interface MKMAddress : MKMString {
     
@@ -142,13 +145,6 @@ typedef UInt8 MKMNetworkType;
 @property (readonly, nonatomic) MKMNetworkType network; // Network ID
 @property (readonly, nonatomic) UInt32 code;            // Check Code
 
-+ (instancetype)addressWithAddress:(id)addr;
-
-//
-//  Runtime
-//
-+ (void)registerClass:(Class)addressClass;
-
 /**
  *  Copy address data
  *
@@ -156,6 +152,17 @@ typedef UInt8 MKMNetworkType;
  * @return Address object
  */
 - (instancetype)initWithString:(NSString *)aString;
+
+@end
+
+// convert String to Address
+#define MKMAddressFromString(address)      [MKMAddress getInstance:(address)]
+
+@interface MKMAddress (Runtime)
+
++ (void)registerClass:(Class)addressClass;
+
++ (nullable instancetype)getInstance:(id)address;
 
 @end
 

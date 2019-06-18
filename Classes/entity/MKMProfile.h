@@ -26,15 +26,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (readonly, strong, nonatomic) const MKMID *ID;
 
-/**
- *  Public key (used for encryption, can be same with meta.key)
- *
- *      RSA
- */
-@property (strong, nonatomic, nullable) const MKMPublicKey *key;
-
-+ (instancetype)profileWithProfile:(id)profile;
-
 - (instancetype)initWithDictionary:(NSDictionary *)dict
 NS_DESIGNATED_INITIALIZER;
 
@@ -86,6 +77,24 @@ NS_DESIGNATED_INITIALIZER;
 @interface MKMProfile : MKMTAO
 
 @property (strong, nonatomic) NSString *name;
+
+/**
+ *  Public key (used for encryption, can be same with meta.key)
+ *
+ *      RSA
+ */
+@property (strong, nonatomic, nullable) const MKMPublicKey *key;
+
+@end
+
+// convert Dictionary to Profile
+#define MKMProfileFromDictionary(profile)  [MKMProfile getInstance:(profile)]
+
+@interface MKMProfile (Runtime)
+
++ (void)registerClass:(Class)profileClass;
+
++ (nullable instancetype)getInstance:(id)profile;
 
 @end
 

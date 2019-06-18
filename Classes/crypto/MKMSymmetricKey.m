@@ -13,23 +13,14 @@
 @implementation MKMSymmetricKey
 
 - (instancetype)init {
+    NSAssert(false, @"DON'T call me!");
     self = [self initWithAlgorithm:SCAlgorithmAES];
     return self;
 }
 
 /* designated initializer */
 - (instancetype)initWithDictionary:(NSDictionary *)keyInfo {
-    if ([self isMemberOfClass:[MKMSymmetricKey class]]) {
-        // create instance by subclass with algorithm
-        NSString *algorithm = [keyInfo objectForKey:@"algorithm"];
-        Class clazz = [[self class] classForAlgorithm:algorithm];
-        if (clazz) {
-            self = [[clazz alloc] initWithDictionary:keyInfo];
-        } else {
-            NSAssert(false, @"algorithm not support: %@", algorithm);
-            self = nil;
-        }
-    } else if (self = [super initWithDictionary:keyInfo]) {
+    if (self = [super initWithDictionary:keyInfo]) {
         //
     }
     return self;
@@ -54,21 +45,75 @@
 
 @end
 
-@implementation MKMSymmetricKey (Runtime)
-
-static MKMCryptographyKeyMap *s_symmetricKeyClasses = nil;
-
-+ (MKMCryptographyKeyMap *)keyClasses {
+static NSMutableDictionary<NSString *, Class> *key_classes(void) {
+    static NSMutableDictionary<NSString *, Class> *classes = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        MKMCryptographyKeyMap *map = [[NSMutableDictionary alloc] init];
+        classes = [[NSMutableDictionary alloc] init];
         // AES
-        [map setObject:[MKMAESKey class] forKey:SCAlgorithmAES];
+        [classes setObject:[MKMAESKey class] forKey:SCAlgorithmAES];
         // DES
         // ...
-        s_symmetricKeyClasses = map;
     });
-    return s_symmetricKeyClasses;
+    return classes;
+}
+
+@implementation MKMSymmetricKey (Runtime)
+
++ (void)registerClass:(Class)keyClass forAlgorithm:(NSString *)name {
+    NSAssert([keyClass isSubclassOfClass:self], @"class error: %@", keyClass);
+    if (keyClass) {
+        [key_classes() setObject:keyClass forKey:name];
+    } else {
+        [key_classes() removeObjectForKey:name];
+    }
+}
+
++ (nullable instancetype)getInstance:(id)key {
+    if (!key) {
+        return nil;
+    }
+    if ([key isKindOfClass:[MKMSymmetricKey class]]) {
+        // return SymmetricKey object directly
+        return key;
+    }
+    NSAssert([key isKindOfClass:[NSDictionary class]],
+             @"symmetric key should be a dictionary: %@", key);
+    if (![self isEqual:[MKMSymmetricKey class]]) {
+        // subclass
+        NSAssert([self isSubclassOfClass:[MKMSymmetricKey class]], @"key class error");
+        return [[self alloc] initWithDictionary:key];
+    }
+    // create instance by subclass with algorithm name
+    NSString *algorithm = [key objectForKey:@"algorithm"];
+    Class clazz = [key_classes() objectForKey:algorithm];
+    if (clazz) {
+        return [clazz getInstance:key];
+    }
+    NSAssert(false, @"key algorithm not support: %@", algorithm);
+    return nil;
+}
+
+@end
+
+@implementation MKMSymmetricKey (PersistentStore)
+
++ (nullable instancetype)loadKeyWithIdentifier:(const NSString *)identifier {
+    if (![self isEqual:[MKMSymmetricKey class]]) {
+        // subclass
+        NSAssert(false, @"override me!");
+        return nil;
+    }
+    MKMSymmetricKey *key = nil;
+    NSArray<Class> *classes = [key_classes() allValues];
+    for (Class clazz in classes) {
+        key = [clazz loadKeyWithIdentifier:identifier];
+        if (key) {
+            // found
+            break;
+        }
+    }
+    return key;
 }
 
 @end

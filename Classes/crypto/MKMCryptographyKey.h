@@ -28,8 +28,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly, strong, nonatomic) NSString *algorithm;
 @property (readonly, strong, nonatomic) NSData *data;
 
-+ (instancetype)keyWithKey:(id)key;
-
 - (instancetype)initWithDictionary:(NSDictionary *)keyInfo
 NS_DESIGNATED_INITIALIZER;
 
@@ -37,16 +35,11 @@ NS_DESIGNATED_INITIALIZER;
 
 @end
 
-typedef NSMutableDictionary<const NSString *, Class> MKMCryptographyKeyMap;
-
 @interface MKMCryptographyKey (Runtime)
 
-//
-//  Runtime
-//
-+ (MKMCryptographyKeyMap *)keyClasses;
-+ (void)registerClass:(nullable Class)clazz forAlgorithm:(const NSString *)name;
-+ (nullable Class)classForAlgorithm:(const NSString *)name;
++ (void)registerClass:(nullable Class)keyClass forAlgorithm:(NSString *)name;
+
++ (nullable instancetype)getInstance:(id)key;
 
 @end
 

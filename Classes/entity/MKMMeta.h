@@ -12,31 +12,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/**
- *  @enum MKMMetaVersion
- *
- *  @abstract Defined for algorithm that generating address.
- *
- *  @discussion Generate & check ID/Address
- *
- *      MKMMetaVersion_MKM give a seed string first, and sign this seed to get
- *      fingerprint; after that, use the fingerprint to generate address.
- *      This will get a firmly relationship between (username, address & key).
- *
- *      MKMMetaVersion_BTC use the key data to generate address directly.
- *      This can build a BTC address for the entity ID (no username).
- *
- *      MKMMetaVersion_ExBTC use the key data to generate address directly, and
- *      sign the seed to get fingerprint (just for binding username & key).
- *      This can build a BTC address, and bind a username to the entity ID.
- */
-#define MKMMetaVersion_MKM    0x01  // 0000 0001
-#define MKMMetaVersion_BTC    0x02  // 0000 0010
-#define MKMMetaVersion_ExBTC  0x03  // 0000 0011
-#define MKMMetaVersion_ETH    0x04  // 0000 0100
-#define MKMMetaVersion_ExETH  0x05  // 0000 0101
-#define MKMMetaDefaultVersion MKMMetaVersion_MKM
-
 @class MKMPublicKey;
 @class MKMPrivateKey;
 
@@ -54,12 +29,6 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *      algorithm:
  *          fingerprint = sign(seed, SK);
- *
- *          CT      = fingerprint; // or key.data for BTC address
- *          hash    = ripemd160(sha256(CT));
- *          code    = sha256(sha256(network + hash)).prefix(4);
- *          address = base58_encode(network + hash + code);
- *          number  = uint(code);
  */
 @interface MKMMeta : MKMDictionary {
     
@@ -103,13 +72,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (readonly, strong, nonatomic, nullable) const NSData *fingerprint;
 
-+ (instancetype)metaWithMeta:(id)meta;
-
-//
-//  Runtime
-//
-+ (void)registerClass:(nullable Class)metaClass forVersion:(NSUInteger)version;
-
 /**
  *  Copy meta data
  */
@@ -151,9 +113,53 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+/**
+ *  @enum MKMMetaVersion
+ *
+ *  @abstract Defined for algorithm that generating address.
+ *
+ *  @discussion Generate & check ID/Address
+ *
+ *      MKMMetaVersion_MKM give a seed string first, and sign this seed to get
+ *      fingerprint; after that, use the fingerprint to generate address.
+ *      This will get a firmly relationship between (username, address & key).
+ *
+ *      MKMMetaVersion_BTC use the key data to generate address directly.
+ *      This can build a BTC address for the entity ID (no username).
+ *
+ *      MKMMetaVersion_ExBTC use the key data to generate address directly, and
+ *      sign the seed to get fingerprint (just for binding username & key).
+ *      This can build a BTC address, and bind a username to the entity ID.
+ */
+#define MKMMetaVersion_MKM    0x01  // 0000 0001
+#define MKMMetaVersion_BTC    0x02  // 0000 0010
+#define MKMMetaVersion_ExBTC  0x03  // 0000 0011
+#define MKMMetaVersion_ETH    0x04  // 0000 0100
+#define MKMMetaVersion_ExETH  0x05  // 0000 0101
+#define MKMMetaDefaultVersion MKMMetaVersion_MKM
+
+// convert Dictionary to Meta
+#define MKMMetaFromDictionary(meta)        [MKMMeta getInstance:(meta)]
+
+@interface MKMMeta (Runtime)
+
++ (void)registerClass:(nullable Class)metaClass forVersion:(NSUInteger)version;
+
++ (nullable instancetype)getInstance:(id)meta;
+
+@end
+
 #pragma mark -
 
 @interface MKMMetaDefault : MKMMeta
+
+- (instancetype)initWithPublicKey:(const MKMPublicKey *)PK
+                             seed:(const NSString *)name
+                      fingerprint:(const NSData *)CT;
+
+- (instancetype)initWithSeed:(const NSString *)name
+                  privateKey:(const MKMPrivateKey *)SK
+                   publicKey:(nullable const MKMPublicKey *)PK;
 
 @end
 

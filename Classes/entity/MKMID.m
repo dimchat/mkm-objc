@@ -21,17 +21,6 @@
 
 @implementation MKMID
 
-+ (instancetype)IDWithID:(id)ID {
-    if ([ID isKindOfClass:[MKMID class]]) {
-        return ID;
-    } else if ([ID isKindOfClass:[NSString class]]) {
-        return [[self alloc] initWithString:ID];
-    } else {
-        NSAssert(!ID, @"unexpected ID: %@", ID);
-        return nil;
-    }
-}
-
 - (instancetype)initWithString:(NSString *)aString {
     if (self = [super initWithString:aString]) {
         // Parse string for ID
@@ -54,10 +43,10 @@
             assert(pair.count == 2);
             _name = pair.firstObject;
             assert(_name.length > 0);
-            _address = [[MKMAddress alloc] initWithString:pair.lastObject];
+            _address = MKMAddressFromString(pair.lastObject);
         } else {
             _name = nil;
-            _address = [[MKMAddress alloc] initWithString:pair.firstObject];
+            _address = MKMAddressFromString(pair.firstObject);
         }
     }
     return self;
@@ -82,7 +71,7 @@
 }
 
 - (BOOL)isEqual:(id)object {
-    MKMID *ID = [MKMID IDWithID:object];
+    MKMID *ID = MKMIDFromString(object);
     // check name
     if (NSStringNotEquals(_name, ID.name)) {
         return NO;
@@ -130,6 +119,23 @@
     } else {
         return self;
     }
+}
+
+@end
+
+@implementation MKMID (Runtime)
+
++ (nullable instancetype)getInstance:(id)ID {
+    if (!ID) {
+        return nil;
+    }
+    if ([ID isKindOfClass:[MKMID class]]) {
+        // return ID object directly
+        return ID;
+    }
+    NSAssert([ID isKindOfClass:[NSString class]],
+             @"ID should be a string: %@", ID);
+    return [[self alloc] initWithString:ID];
 }
 
 @end

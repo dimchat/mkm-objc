@@ -32,8 +32,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (readonly, nonatomic, getter=isValid) BOOL valid;
 
-+ (instancetype)IDWithID:(id)ID;
-
 /**
  *  Initialize an ID with string form "name@address[/terminal]"
  *
@@ -63,6 +61,15 @@ NS_ASSUME_NONNULL_BEGIN
  * @return ID object
  */
 - (instancetype)naked;
+
+@end
+
+// convert String to ID
+#define MKMIDFromString(identifier)      [MKMID getInstance:(identifier)]
+
+@interface MKMID (Runtime)
+
++ (nullable instancetype)getInstance:(id)ID;
 
 @end
 

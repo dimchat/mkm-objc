@@ -50,13 +50,11 @@
     NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:path];
     
     // ID
-    MKMID *ID = [dict objectForKey:@"ID"];
-    ID = [MKMID IDWithID:ID];
+    MKMID *ID = MKMIDFromString([dict objectForKey:@"ID"]);
     NSAssert([ID isValid], @"ID error: %@", ID);
     
     // meta
-    MKMMeta *meta = [dict objectForKey:@"meta"];
-    meta = [MKMMeta metaWithMeta:meta];
+    MKMMeta *meta = MKMMetaFromDictionary([dict objectForKey:@"meta"]);
     if ([meta matchID:ID]) {
         [_metaTable setObject:meta forKey:ID.address];
         //[MKMFacebook() saveMeta:meta forID:ID];
@@ -65,8 +63,7 @@
     }
     
     // profile
-    MKMProfile *profile = [dict objectForKey:@"profile"];
-    profile = [MKMProfile profileWithProfile:profile];
+    MKMProfile *profile = MKMProfileFromDictionary([dict objectForKey:@"profile"]);
     if (profile) {
         [_profileTable setObject:profile forKey:ID.address];
     } else {
@@ -75,7 +72,7 @@
     
     // private key
     MKMPrivateKey *SK = [dict objectForKey:@"privateKey"];
-    SK = [MKMPrivateKey keyWithKey:SK];
+    SK = MKMPrivateKeyFromDictionary(SK);
     if ([meta matchID:ID] && [meta.key isMatch:SK]) {
         // store private key into keychain
         [SK saveKeyWithIdentifier:ID.address];
@@ -131,8 +128,8 @@
 
 - (NSArray<MKMID *> *)contactsOfUser:(const MKMID *)user {
     NSMutableArray<MKMID *> *list = [[NSMutableArray alloc] initWithCapacity:2];
-    [list addObject:[MKMID IDWithID:MKM_MONKEY_KING_ID]];
-    [list addObject:[MKMID IDWithID:MKM_IMMORTAL_HULK_ID]];
+    [list addObject:MKMIDFromString(MKM_MONKEY_KING_ID)];
+    [list addObject:MKMIDFromString(MKM_IMMORTAL_HULK_ID)];
     return list;
 }
 

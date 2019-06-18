@@ -31,8 +31,6 @@
     
     NSMutableDictionary *_properties;
     
-    const MKMPublicKey *_key;
-    
     BOOL _valid; // YES on signature matched
 }
 
@@ -61,7 +59,7 @@
 - (instancetype)initWithDictionary:(NSDictionary *)dict {
     if (self = [super initWithDictionary:dict]) {
         // ID
-        _ID = [MKMID IDWithID:[_storeDictionary objectForKey:@"ID"]];
+        _ID = MKMIDFromString([_storeDictionary objectForKey:@"ID"]);
         
         // properties
         _properties = [[NSMutableDictionary alloc] init];
@@ -70,11 +68,9 @@
         // signature = User(ID).sign(data)
         NSString *sig = [_storeDictionary objectForKey:@"signature"];
         _signature = [sig base64Decode];
+        
         // verify flag
         _valid = NO;
-        
-        // public key
-        _key = nil;
     }
     return self;
 }
@@ -101,11 +97,9 @@
             NSString *sig = [_signature base64Encode];
             [_storeDictionary setObject:sig forKey:@"signature"];
         }
+        
         // verify flag
         _valid = NO;
-        
-        // public key
-        _key = nil;
     }
     return self;
 }
@@ -134,15 +128,6 @@
     return _valid ? [_properties allKeys] : nil;
 }
 
-- (nullable const MKMPublicKey *)key {
-    return _valid ? _key : nil;
-}
-
-- (void)setKey:(const MKMPublicKey *)key {
-    _key = key;
-    [self setData:(NSObject *)key forKey:@"key"];
-}
-
 - (BOOL)verify:(const MKMPublicKey *)PK {
     if (_valid) {
         // already verified
@@ -157,9 +142,6 @@
         _valid = YES;
         // refresh properties
         _properties = [[data jsonDictionary] mutableCopy];
-        
-        // get public key
-        _key = [MKMPublicKey keyWithKey:[_properties objectForKey:@"key"]];
     } else {
         _data = nil;
         _signature = nil;
@@ -186,14 +168,113 @@
 
 #pragma mark - Profile
 
+@interface MKMProfile () {
+    NSString *_name;          // nickname
+    const MKMPublicKey *_key; // public key
+}
+
+@end
+
 @implementation MKMProfile
 
+- (instancetype)initWithDictionary:(NSDictionary *)dict {
+    if (self = [super initWithDictionary:dict]) {
+        _name = nil;
+        _key = nil;
+    }
+    return self;
+}
+
+- (instancetype)initWithID:(const MKMID *)ID data:(NSString *)json signature:(NSData *)signature {
+    if (self = [super initWithID:ID data:json signature:signature]) {
+        _name = nil;
+        _key = nil;
+    }
+    return self;
+}
+
+- (BOOL)verify:(const MKMPublicKey *)PK {
+    if ([super verify:PK]) {
+        _name = (NSString *)[self dataForKey:@"name"];
+        _key = MKMPublicKeyFromDictionary([self dataForKey:@"key"]);
+        
+        return YES;
+    } else {
+        return NO;
+    }
+}
+
 - (NSString *)name {
-    return (NSString *)[self dataForKey:@"name"];
+    return _name;
 }
 
 - (void)setName:(NSString *)name {
+    _name = name;
     [self setData:name forKey:@"name"];
+}
+
+- (nullable const MKMPublicKey *)key {
+    return _key;
+}
+
+- (void)setKey:(const MKMPublicKey *)key {
+    _key = key;
+    [self setData:(NSObject *)key forKey:@"key"];
+}
+
+@end
+
+static NSMutableArray<Class> *profile_classes(void) {
+    static NSMutableArray<Class> *classes = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        classes = [[NSMutableArray alloc] init];
+        // Profile (DON'T add this class)
+        //[classes addObject:[MKMProfile class]];
+        // ...
+    });
+    return classes;
+}
+
+@implementation MKMProfile (Runtime)
+
++ (void)registerClass:(Class)profileClass {
+    NSAssert(![profileClass isEqual:self], @"only subclass");
+    NSAssert([profileClass isSubclassOfClass:self], @"class error: %@", profileClass);
+    NSMutableArray<Class> *classes = profile_classes();
+    if (profileClass && ![classes containsObject:profileClass]) {
+        // parse profile with new class first
+        [classes insertObject:profileClass atIndex:0];
+    }
+}
+
++ (nullable instancetype)getInstance:(id)profile {
+    if (!profile) {
+        return nil;
+    }
+    if ([profile isKindOfClass:[MKMProfile class]]) {
+        // return Profile object directly
+        return profile;
+    }
+    NSAssert([profile isKindOfClass:[NSDictionary class]],
+             @"profile should be a dictionary: %@", profile);
+    if (![self isEqual:[MKMProfile class]]) {
+        // subclass
+        NSAssert([self isSubclassOfClass:[MKMProfile class]], @"profile class error");
+        return [[self alloc] initWithDictionary:profile];
+    }
+    // create instance by subclass
+    NSMutableArray<Class> *classes = profile_classes();
+    for (Class clazz in classes) {
+        @try {
+            return [clazz getInstance:profile];
+        } @catch (NSException *exception) {
+            // profile not match, try next
+        } @finally {
+            //
+        }
+    }
+    return [[self alloc] initWithDictionary:profile];
 }
 
 @end
