@@ -10,8 +10,8 @@
 
 #pragma mark SecKeyRef vs NSData
 
-static inline SecKeyRef SecKeyRefFromData(const NSData *data,
-                                          const NSString *keyClass) {
+static inline SecKeyRef SecKeyRefFromData(NSData *data,
+                                          NSString *keyClass) {
     // Set the private key query dictionary.
     NSDictionary * dict;
     dict = @{(id)kSecAttrKeyType :(id)kSecAttrKeyTypeRSA,
@@ -31,11 +31,11 @@ static inline SecKeyRef SecKeyRefFromData(const NSData *data,
     return keyRef;
 }
 
-SecKeyRef SecKeyRefFromPublicData(const NSData *data) {
+SecKeyRef SecKeyRefFromPublicData(NSData *data) {
     return SecKeyRefFromData(data, (__bridge id)kSecAttrKeyClassPublic);
 }
 
-SecKeyRef SecKeyRefFromPrivateData(const NSData *data) {
+SecKeyRef SecKeyRefFromPrivateData(NSData *data) {
     return SecKeyRefFromData(data, (__bridge id)kSecAttrKeyClassPrivate);
 }
 
@@ -54,8 +54,8 @@ NSData *NSDataFromSecKeyRef(SecKeyRef keyRef) {
 
 #pragma mark RSA Key Content
 
-static inline NSString *RSAKeyContentFromNSString(const NSString *content,
-                                                  const NSString *tag) {
+static inline NSString *RSAKeyContentFromNSString(NSString *content,
+                                                  NSString *tag) {
     NSString *sTag, *eTag;
     NSRange spos, epos;
     NSString *key = [content copy];
@@ -87,15 +87,15 @@ static inline NSString *RSAKeyContentFromNSString(const NSString *content,
     return key;
 }
 
-NSString *RSAPublicKeyContentFromNSString(const NSString *content) {
+NSString *RSAPublicKeyContentFromNSString(NSString *content) {
     return RSAKeyContentFromNSString(content, @"PUBLIC");
 }
 
-NSString *RSAPrivateKeyContentFromNSString(const NSString *content) {
+NSString *RSAPrivateKeyContentFromNSString(NSString *content) {
     return RSAKeyContentFromNSString(content, @"PRIVATE");
 }
 
-NSString *NSStringFromRSAPublicKeyContent(const NSString *content) {
+NSString *NSStringFromRSAPublicKeyContent(NSString *content) {
     NSMutableString *mString = [[NSMutableString alloc] init];
     [mString appendString:@"-----BEGIN PUBLIC KEY-----\n"];
     NSUInteger pos1, pos2, len = content.length;
@@ -112,7 +112,7 @@ NSString *NSStringFromRSAPublicKeyContent(const NSString *content) {
     return mString;
 }
 
-NSString *NSStringFromRSAPrivateKeyContent(const NSString *content) {
+NSString *NSStringFromRSAPrivateKeyContent(NSString *content) {
     NSMutableString *mString = [[NSMutableString alloc] init];
     [mString appendString:@"-----BEGIN RSA PRIVATE KEY-----\n"];
     NSUInteger pos1, pos2, len = content.length;

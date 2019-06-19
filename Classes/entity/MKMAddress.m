@@ -44,7 +44,8 @@ static NSMutableArray<Class> *address_classes(void) {
 @implementation MKMAddress (Runtime)
 
 + (void)registerClass:(Class)addressClass {
-    NSAssert([addressClass isSubclassOfClass:self], @"class error: %@", addressClass);
+    NSAssert([addressClass isSubclassOfClass:self],
+             @"class error: %@", addressClass);
     NSMutableArray<Class> *classes = address_classes();
     if (addressClass && ![classes containsObject:addressClass]) {
         // parse address string with new class first
@@ -64,7 +65,8 @@ static NSMutableArray<Class> *address_classes(void) {
              @"address should be a string: %@", address);
     if (![self isEqual:[MKMAddress class]]) {
         // subclass
-        NSAssert([self isSubclassOfClass:[MKMAddress class]], @"address class error");
+        NSAssert([self isSubclassOfClass:[MKMAddress class]],
+                 @"address class error");
         return [[self alloc] initWithString:address];
     }
     // create instance by subclass
@@ -92,7 +94,7 @@ static NSMutableArray<Class> *address_classes(void) {
  @param data - network + hash(CT)
  @return prefix 4 bytes after sha256*2
  */
-static inline NSData * check_code(const NSData *data) {
+static inline NSData * check_code(NSData *data) {
     assert([data length] == 21);
     data = [data sha256d];
     assert([data length] == 32);
@@ -105,7 +107,7 @@ static inline NSData * check_code(const NSData *data) {
  @param cc - check code
  @return unsigned integer
  */
-static inline UInt32 user_number(const NSData *cc) {
+static inline UInt32 user_number(NSData *cc) {
     assert([cc length] == 4);
     UInt32 number;
     memcpy(&number, [cc bytes], 4);
@@ -149,7 +151,7 @@ static inline UInt32 user_number(const NSData *cc) {
  *      check_code = sha256(sha256(network + digest)).prefix(4);
  *      addr       = base58_encode(network + digest + check_code);
  */
-- (instancetype)initWithData:(const NSData *)CT
+- (instancetype)initWithData:(NSData *)CT
                      network:(MKMNetworkType)type {
     NSString *string = nil;
     UInt32 code = 0;

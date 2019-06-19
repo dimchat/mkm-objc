@@ -38,7 +38,7 @@ static inline NSData *merge_data(NSData *data1, NSData *data2) {
         if ([item isKindOfClass:[NSString class]]) {
             data = [item data];
         } else {
-            NSAssert([item isKindOfClass:[NSData class]], @"error item: %@", item);
+            NSAssert([item isKindOfClass:[NSData class]], @"error: %@", item);
             data = item;
         }
         [mArray addObject:[data sha256d]];

@@ -26,7 +26,7 @@ static inline NSString *search_number(UInt32 code) {
     return number;
 }
 
-static inline void print_id(const MKMID *ID) {
+static inline void print_id(MKMID *ID) {
     NSMutableDictionary *mDict = [[NSMutableDictionary alloc] init];
     [mDict setObject:@(ID.type) forKey:@"type"];
     [mDict setObject:@(ID.number) forKey:@"number"];
@@ -209,7 +209,7 @@ static inline void print_id(const MKMID *ID) {
                                           privateKey:SK
                                            publicKey:PK];
     
-    const MKMID *ID = [meta generateID:MKMNetwork_Main];
+    MKMID *ID = [meta generateID:MKMNetwork_Main];
     
     NSLog(@"meta: %@", meta);
     print_id(ID);
@@ -223,7 +223,7 @@ static inline void print_id(const MKMID *ID) {
     MKMPublicKey *PK = SK.publicKey;
     
     MKMMeta *meta = [[MKMMetaBTC alloc] initWithPublicKey:PK];
-    const MKMID *ID = [meta generateID:MKMNetwork_BTCMain];
+    MKMID *ID = [meta generateID:MKMNetwork_BTCMain];
     
     NSLog(@"meta: %@", meta);
     print_id(ID);
@@ -309,7 +309,7 @@ static inline void print_id(const MKMID *ID) {
                                                     seed:name
                                              fingerprint:CT];
         
-        const MKMID *ID = [meta generateID:network];
+        MKMID *ID = [meta generateID:network];
 
         NSLog(@"[%lu] address: %@, number: %@", count, addr, search_number(number));
         NSLog(@"GOT IT -> ID: %@, meta: %@, SK: %@", ID, meta, SK);

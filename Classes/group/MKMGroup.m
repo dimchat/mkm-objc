@@ -25,35 +25,35 @@
     return [info jsonString];
 }
 
-- (const MKMID *)founder {
+- (MKMID *)founder {
     NSAssert(_dataSource, @"group data source not set yet");
     return [_dataSource founderOfGroup:_ID];
 }
 
-- (nullable const MKMID *)owner {
+- (nullable MKMID *)owner {
     NSAssert(_dataSource, @"group data source not set yet");
     return [_dataSource ownerOfGroup:_ID];
 }
 
 #pragma mark Members of Group
 
-- (NSArray<const MKMID *> *)members {
+- (NSArray<MKMID *> *)members {
     NSAssert(_dataSource, @"group data source not set yet");
     NSArray *list = [_dataSource membersOfGroup:_ID];
     return [list copy];
 }
 
-- (BOOL)existsMember:(const MKMID *)ID {
+- (BOOL)existsMember:(MKMID *)ID {
     if ([self.owner isEqual:ID]) {
         return YES;
     }
     NSAssert(_dataSource, @"group data source not set yet");
-    NSArray<const MKMID *> *members = [self members];
+    NSArray<MKMID *> *members = [self members];
     NSInteger count = [members count];
     if (count <= 0) {
         return NO;
     }
-    const MKMID *member;
+    MKMID *member;
     while (--count >= 0) {
         member = [members objectAtIndex:count];
         if ([member isEqual:ID]) {

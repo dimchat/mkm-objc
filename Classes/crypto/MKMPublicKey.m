@@ -14,27 +14,13 @@
 
 @implementation MKMPublicKey
 
-- (instancetype)init {
-    NSAssert(false, @"DON'T call me");
-    self = [self initWithAlgorithm:ACAlgorithmRSA];
-    return self;
-}
-
-/* designated initializer */
-- (instancetype)initWithDictionary:(NSDictionary *)keyInfo {
-    if (self = [super initWithDictionary:keyInfo]) {
-        //
-    }
-    return self;
-}
-
-- (BOOL)isMatch:(const MKMPrivateKey *)SK {
+- (BOOL)isMatch:(MKMPrivateKey *)SK {
     // 1. if the SK has the same public key, return YES
     if ([SK.publicKey isEqual:self]) {
         return YES;
     }
     // 2. try to verify the SK's signature
-    static const NSString *promise = @"Moky loves May Lee forever!";
+    static NSString *promise = @"Moky loves May Lee forever!";
     NSData *data = [promise dataUsingEncoding:NSUTF8StringEncoding];
     NSData *signature = [SK sign:data];
     return [self verify:data withSignature:signature];
@@ -95,7 +81,7 @@ static NSMutableDictionary<NSString *, Class> *key_classes(void) {
 
 @implementation MKMPublicKey (PersistentStore)
 
-+ (nullable instancetype)loadKeyWithIdentifier:(const NSString *)identifier {
++ (nullable instancetype)loadKeyWithIdentifier:(NSString *)identifier {
     if (![self isEqual:[MKMPublicKey class]]) {
         // subclass
         NSAssert(false, @"override me!");

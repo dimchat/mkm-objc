@@ -24,9 +24,9 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MKMImmortals : NSObject <MKMEntityDataSource,
                                     MKMUserDataSource>
 
-- (nullable MKMAccount *)accountWithID:(const MKMID *)ID;
+- (nullable MKMAccount *)accountWithID:(MKMID *)ID;
 
-- (nullable MKMUser *)userWithID:(const MKMID *)ID;
+- (nullable MKMUser *)userWithID:(MKMID *)ID;
 
 @end
 

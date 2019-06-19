@@ -111,8 +111,8 @@
 
 @implementation NSData (AES)
 
-- (nullable NSData *)AES256EncryptWithKey:(const NSData *)key
-                     initializationVector:(nullable const NSData *)iv {
+- (nullable NSData *)AES256EncryptWithKey:(NSData *)key
+                     initializationVector:(nullable NSData *)iv {
     // 'key' should be 32 bytes for AES256, will be null-padded otherwise
     char keyPtr[kCCKeySizeAES256+1]; // room for terminator (unused)
     bzero(keyPtr, sizeof(keyPtr)); // fill with zeroes (for padding)
@@ -145,8 +145,8 @@
     return [[NSData alloc] initWithBytesNoCopy:buffer length:numBytesEncrypted];
 }
 
-- (nullable NSData *)AES256DecryptWithKey:(const NSData *)key
-                     initializationVector:(nullable const NSData *)iv {
+- (nullable NSData *)AES256DecryptWithKey:(NSData *)key
+                     initializationVector:(nullable NSData *)iv {
     // 'key' should be 32 bytes for AES256, will be null-padded otherwise
     char keyPtr[kCCKeySizeAES256+1]; // room for terminator (unused)
     bzero(keyPtr, sizeof(keyPtr)); // fill with zeroes (for padding)

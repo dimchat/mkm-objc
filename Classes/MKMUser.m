@@ -25,13 +25,13 @@
     return [info jsonString];
 }
 
-- (NSData *)sign:(const NSData *)data {
+- (NSData *)sign:(NSData *)data {
     NSAssert(_dataSource, @"user data source not set yet");
     MKMPrivateKey *key = [_dataSource privateKeyForSignatureOfUser:_ID];
     return [key sign:data];
 }
 
-- (nullable NSData *)decrypt:(const NSData *)ciphertext {
+- (nullable NSData *)decrypt:(NSData *)ciphertext {
     NSAssert(_dataSource, @"user data source not set yet");
     NSArray<MKMPrivateKey *> *keys = [_dataSource privateKeysForDecryptionOfUser:_ID];
     NSData *plaintext = nil;
@@ -47,20 +47,20 @@
 
 #pragma mark Contacts of User
 
-- (NSArray<const MKMID *> *)contacts {
+- (NSArray<MKMID *> *)contacts {
     NSAssert(_dataSource, @"user data source not set yet");
     NSArray *list = [_dataSource contactsOfUser:_ID];
     return [list copy];
 }
 
-- (BOOL)existsContact:(const MKMID *)ID {
+- (BOOL)existsContact:(MKMID *)ID {
     NSAssert(_dataSource, @"user data source not set yet");
-    NSArray<const MKMID *> *contacts = [self contacts];
+    NSArray<MKMID *> *contacts = [self contacts];
     NSInteger count = [contacts count];
     if (count <= 0) {
         return NO;
     }
-    const MKMID *contact;
+    MKMID *contact;
     while (--count >= 0) {
         contact = [contacts objectAtIndex:count];
         if ([contact isEqual:ID]) {

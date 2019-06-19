@@ -62,10 +62,15 @@
     MKMRSAPrivateKey *key = [super copyWithZone:zone];
     if (key) {
         key.keySizeInBits = _keySizeInBits;
+        key.data = _data;
         key.privateContent = _privateContent;
         key.privateKeyRef = _privateKeyRef;
     }
     return key;
+}
+
+- (void)setData:(NSData *)data {
+    _data = data;
 }
 
 - (NSData *)data {
@@ -218,7 +223,7 @@
 
 #pragma mark - Protocol
 
-- (nullable NSData *)decrypt:(const NSData *)ciphertext {
+- (nullable NSData *)decrypt:(NSData *)ciphertext {
     NSAssert(self.privateKeyRef != NULL, @"RSA private key cannot be empty");
     if (ciphertext.length != (self.keySizeInBits/8)) {
         // ciphertext length not match RSA key
@@ -247,7 +252,7 @@
     return plaintext;
 }
 
-- (NSData *)sign:(const NSData *)data {
+- (NSData *)sign:(NSData *)data {
     NSAssert(self.privateKeyRef != NULL, @"RSA private key cannot be empty");
     NSAssert(data.length > 0, @"RSA data cannot be empty");
     NSData *signature = nil;

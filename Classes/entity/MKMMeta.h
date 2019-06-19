@@ -30,13 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
  *      algorithm:
  *          fingerprint = sign(seed, SK);
  */
-@interface MKMMeta : MKMDictionary {
-    
-    NSUInteger _version;
-    const MKMPublicKey *_key;
-    NSString *_seed;
-    const NSData *_fingerprint;
-}
+@interface MKMMeta : MKMDictionary
 
 /**
  *  Meta algorithm version
@@ -55,7 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *      RSA / ECC
  */
-@property (readonly, strong, nonatomic) const MKMPublicKey *key;
+@property (readonly, strong, nonatomic) MKMPublicKey *key;
 
 /**
  *  Seed to generate fingerprint
@@ -70,7 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
  *      Build: fingerprint = sign(seed, privateKey)
  *      Check: verify(seed, fingerprint, publicKey)
  */
-@property (readonly, strong, nonatomic, nullable) const NSData *fingerprint;
+@property (readonly, strong, nonatomic, nullable) NSData *fingerprint;
 
 /**
  *  Copy meta data
@@ -78,9 +72,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithDictionary:(NSDictionary *)dict;
 
 - (instancetype)initWithVersion:(NSUInteger)version
-                      publicKey:(const MKMPublicKey *)PK
-                           seed:(nullable const NSString *)name
-                    fingerprint:(nullable const NSData *)CT;
+                      publicKey:(MKMPublicKey *)PK
+                           seed:(nullable NSString *)name
+                    fingerprint:(nullable NSData *)CT;
 
 /**
  Generate fingerprint, initialize meta data
@@ -92,21 +86,21 @@ NS_ASSUME_NONNULL_BEGIN
  @return Meta object
  */
 - (instancetype)initWithVersion:(NSUInteger)version
-                           seed:(const NSString *)name
-                     privateKey:(const MKMPrivateKey *)SK
-                      publicKey:(nullable const MKMPublicKey *)PK;
+                           seed:(NSString *)name
+                     privateKey:(MKMPrivateKey *)SK
+                      publicKey:(nullable MKMPublicKey *)PK;
 
 /**
  *  For BTC address
  */
-- (instancetype)initWithPublicKey:(const MKMPublicKey *)PK;
+- (instancetype)initWithPublicKey:(MKMPublicKey *)PK;
 
-- (BOOL)matchPublicKey:(const MKMPublicKey *)PK;
+- (BOOL)matchPublicKey:(MKMPublicKey *)PK;
 
 #pragma mark - ID & address
 
-- (BOOL)matchID:(const MKMID *)ID;
-- (BOOL)matchAddress:(const MKMAddress *)address;
+- (BOOL)matchID:(MKMID *)ID;
+- (BOOL)matchAddress:(MKMAddress *)address;
 
 - (MKMID *)generateID:(MKMNetworkType)type;
 - (MKMAddress *)generateAddress:(MKMNetworkType)type;
@@ -151,6 +145,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark -
 
+/**
+ *  Meta to build ID with BTC address
+ *
+ *  version:
+ *      0x02 - BTC
+ *      0x03 - ExBTC
+ */
 @interface MKMMetaBTC : MKMMeta
 
 @end

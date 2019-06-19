@@ -17,6 +17,16 @@
 
 #import "MKMMeta.h"
 
+@interface MKMMeta () {
+    
+    NSUInteger _version;
+    MKMPublicKey *_key;
+    NSString *_seed;
+    NSData *_fingerprint;
+}
+
+@end
+
 @implementation MKMMeta
 
 - (instancetype)initWithDictionary:(NSDictionary *)dict {
@@ -53,9 +63,9 @@
 }
 
 - (instancetype)initWithVersion:(NSUInteger)version
-                      publicKey:(const MKMPublicKey *)PK
-                           seed:(nullable const NSString *)name
-                    fingerprint:(nullable const NSData *)CT {
+                      publicKey:(MKMPublicKey *)PK
+                           seed:(nullable NSString *)name
+                    fingerprint:(nullable NSData *)CT {
     NSAssert(PK, @"meta.key cannot be empty");
     NSDictionary *dict;
     if (version & MKMMetaVersion_MKM) { // MKM, ExBTC, ExETH, ...
@@ -72,16 +82,16 @@
     if (self = [super initWithDictionary:dict]) {
         _version = version;
         _key = PK;
-        _seed = [name copy];
+        _seed = name;
         _fingerprint = CT;
     }
     return self;
 }
 
 - (instancetype)initWithVersion:(NSUInteger)version
-                           seed:(const NSString *)name
-                     privateKey:(const MKMPrivateKey *)SK
-                      publicKey:(const MKMPublicKey *)PK {
+                           seed:(NSString *)name
+                     privateKey:(MKMPrivateKey *)SK
+                      publicKey:(MKMPublicKey *)PK {
     if (PK) {
         NSAssert([PK isMatch:SK], @"PK must match SK");
     } else {
@@ -91,7 +101,7 @@
     return [self initWithVersion:version publicKey:PK seed:name fingerprint:CT];
 }
 
-- (instancetype)initWithPublicKey:(const MKMPublicKey *)PK {
+- (instancetype)initWithPublicKey:(MKMPublicKey *)PK {
     NSAssert(PK, @"meta.key cannot be empty");
     NSUInteger version = MKMMetaVersion_BTC;
     
@@ -107,7 +117,7 @@
     return self;
 }
 
-- (BOOL)matchPublicKey:(const MKMPublicKey *)PK {
+- (BOOL)matchPublicKey:(MKMPublicKey *)PK {
     if ([PK isEqual:_key]) {
         return YES;
     }
@@ -123,11 +133,11 @@
 
 #pragma mark - ID & address
 
-- (BOOL)matchID:(const MKMID *)ID {
+- (BOOL)matchID:(MKMID *)ID {
     return [ID isEqual:[self generateID:ID.address.network]];
 }
 
-- (BOOL)matchAddress:(const MKMAddress *)address {
+- (BOOL)matchAddress:(MKMAddress *)address {
     return [address isEqual:[self generateAddress:address.network]];
 }
 
@@ -202,8 +212,8 @@ static NSMutableDictionary<NSNumber *, Class> *meta_classes(void) {
 @implementation MKMMetaBTC
 
 - (MKMAddress *)generateAddress:(MKMNetworkType)type {
-    NSAssert(_version & MKMMetaVersion_BTC, @"meta version error");
-    return [[MKMAddressBTC alloc] initWithData:_key.data network:type];
+    NSAssert(self.version & MKMMetaVersion_BTC, @"meta version error");
+    return [[MKMAddressBTC alloc] initWithData:self.key.data network:type];
 }
 
 @end

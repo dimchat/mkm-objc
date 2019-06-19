@@ -14,20 +14,6 @@
 
 @implementation MKMPrivateKey
 
-- (instancetype)init {
-    NSAssert(false, @"DON'T call me!");
-    self = [self initWithAlgorithm:ACAlgorithmRSA];
-    return self;
-}
-
-/* designated initializer */
-- (instancetype)initWithDictionary:(NSDictionary *)keyInfo {
-    if (self = [super initWithDictionary:keyInfo]) {
-        //
-    }
-    return self;
-}
-
 - (BOOL)isEqual:(id)object {
     // 1. if the two keys have same contents, return YES
     if ([super isEqual:object]) {
@@ -100,7 +86,7 @@ static NSMutableDictionary<NSString *, Class> *key_classes(void) {
 
 @implementation MKMPrivateKey (PersistentStore)
 
-+ (nullable instancetype)loadKeyWithIdentifier:(const NSString *)identifier {
++ (nullable instancetype)loadKeyWithIdentifier:(NSString *)identifier {
     if (![self isEqual:[MKMPrivateKey class]]) {
         // subclass
         NSAssert(false, @"override me!");

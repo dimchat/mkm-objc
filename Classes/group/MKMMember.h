@@ -86,16 +86,16 @@ typedef UInt8 MKMMemberRole;
 
 @interface MKMMember : MKMAccount {
     
-    const MKMID *_groupID;
+    MKMID *_group;
     
     MKMMemberRole _role;
 }
 
-@property (readonly, strong, nonatomic) const MKMID *groupID;
+@property (readonly, strong, nonatomic) MKMID *group;
 @property (nonatomic) MKMMemberRole role;
 
-- (instancetype)initWithGroupID:(const MKMID *)groupID
-                      accountID:(const MKMID *)ID
+- (instancetype)initWithGroup:(MKMID *)group
+                      account:(MKMID *)ID
 NS_DESIGNATED_INITIALIZER;
 
 @end

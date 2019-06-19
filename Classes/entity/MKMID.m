@@ -13,7 +13,7 @@
 @interface MKMID () {
     
     NSString *_name;
-    const MKMAddress *_address;
+    MKMAddress *_address;
     NSString *_terminal;
 }
 
@@ -52,20 +52,20 @@
     return self;
 }
 
-- (instancetype)initWithName:(nullable const NSString *)seed
-                     address:(const MKMAddress *)addr {
+- (instancetype)initWithName:(nullable NSString *)seed
+                     address:(MKMAddress *)addr {
     NSAssert(addr, @"ID address invalid: %@", addr);
     
     NSString *str = [NSString stringWithFormat:@"%@@%@", seed, addr];
     if (self = [super initWithString:str]) {
-        _name = [seed copy];
+        _name = seed;
         _address = addr;
         _terminal = nil;
     }
     return self;
 }
 
-- (instancetype)initWithAddress:(const MKMAddress *)addr {
+- (instancetype)initWithAddress:(MKMAddress *)addr {
     NSAssert(addr, @"ID address invalid: %@", addr);
     return [self initWithName:nil address:addr];
 }
@@ -82,17 +82,25 @@
 
 - (void)setTerminal:(NSString *)terminal {
     if (NSStringNotEquals(_terminal, terminal)) {
-        _terminal = terminal;
+        // 1. remove '/' from terminal
+        NSArray *pair = [terminal componentsSeparatedByString:@"/"];
+        NSAssert(pair.count == 1, @"terminal error: %@", terminal);
+        terminal = pair.lastObject;
         
-        // update store string
-        NSArray *pair = [_storeString componentsSeparatedByString:@"/"];
-        NSAssert(pair.count == 1 || pair.count == 2, @"ID error: %@", _storeString);
+        // 2. remove '/xxx' from ID
+        pair = [_storeString componentsSeparatedByString:@"/"];
+        NSAssert(pair.count <= 2, @"ID error: %@", _storeString);
+        NSString *string = pair.firstObject;
+        
+        // 3. update store string
         if (terminal.length > 0) {
-            NSAssert([terminal rangeOfString:@"/"].location == NSNotFound, @"terminal error: %@", terminal);
-            _storeString = [NSString stringWithFormat:@"%@/%@", pair.firstObject, terminal];
-        } else if (pair.count > 1) {
-            _storeString = pair.firstObject;
+            _storeString = [string stringByAppendingFormat:@"/%@", terminal];
+        } else {
+            _storeString = string;
         }
+        
+        // 4. update terminal
+        _terminal = terminal;
     }
 }
 

@@ -21,7 +21,10 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface MKMCryptographyKey : MKMDictionary {
     
+    // algorithm name
     NSString *_algorithm;
+    
+    // key data, set by subclass
     NSData *_data;
 }
 
@@ -31,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithDictionary:(NSDictionary *)keyInfo
 NS_DESIGNATED_INITIALIZER;
 
-- (instancetype)initWithAlgorithm:(const NSString *)algorithm;
+- (instancetype)initWithAlgorithm:(NSString *)algorithm;
 
 @end
 
@@ -45,9 +48,9 @@ NS_DESIGNATED_INITIALIZER;
 
 @interface MKMCryptographyKey (PersistentStore)
 
-+ (nullable instancetype)loadKeyWithIdentifier:(const NSString *)identifier;
++ (nullable instancetype)loadKeyWithIdentifier:(NSString *)identifier;
 
-- (BOOL)saveKeyWithIdentifier:(const NSString *)identifier;
+- (BOOL)saveKeyWithIdentifier:(NSString *)identifier;
 
 @end
 

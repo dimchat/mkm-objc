@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param signature - message signature
  * @return true on correct
  */
-- (BOOL)verify:(const NSData *)data withSignature:(const NSData *)signature;
+- (BOOL)verify:(NSData *)data withSignature:(NSData *)signature;
 
 /**
  *  Encrypt data, try profile.key first, if not found, use meta.key
@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param plaintext - message data
  * @return encrypted data
  */
-- (NSData *)encrypt:(const NSData *)plaintext;
+- (NSData *)encrypt:(NSData *)plaintext;
 
 @end
 

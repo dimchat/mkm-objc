@@ -10,20 +10,4 @@
 
 @implementation MKMContact
 
-/* designated initializer */
-- (instancetype)initWithID:(const MKMID *)ID {
-    if (self = [super initWithID:ID]) {
-        //
-    }
-    return self;
-}
-
-- (id)copyWithZone:(NSZone *)zone {
-    MKMContact *contact = [super copyWithZone:zone];
-    if (contact) {
-        //
-    }
-    return contact;
-}
-
 @end

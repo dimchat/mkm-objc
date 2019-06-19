@@ -59,10 +59,15 @@
     MKMRSAPublicKey *key = [super copyWithZone:zone];
     if (key) {
         key.keySizeInBits = _keySizeInBits;
+        key.data = _data;
         key.publicContent = _publicContent;
         key.publicKeyRef = _publicKeyRef;
     }
     return key;
+}
+
+- (void)setData:(NSData *)data {
+    _data = data;
 }
 
 - (NSData *)data {
@@ -134,7 +139,7 @@
 
 #pragma mark - Protocol
 
-- (NSData *)encrypt:(const NSData *)plaintext {
+- (NSData *)encrypt:(NSData *)plaintext {
     NSAssert(self.publicKeyRef != NULL, @"RSA public key cannot be empty");
     NSAssert(plaintext.length > 0 && plaintext.length <= (self.keySizeInBits/8 - 11), @"RSA data length error: %lu", plaintext.length);
     NSData *ciphertext = nil;
@@ -160,7 +165,7 @@
     return ciphertext;
 }
 
-- (BOOL)verify:(const NSData *)data withSignature:(const NSData *)signature {
+- (BOOL)verify:(NSData *)data withSignature:(NSData *)signature {
     NSAssert(self.publicKeyRef != NULL, @"RSA public key cannot be empty");
     NSAssert(data.length > 0, @"RSA data cannot be empty");
     if (signature.length != (self.keySizeInBits/8)) {
@@ -190,7 +195,7 @@
 
 @implementation MKMRSAPublicKey (PersistentStore)
 
-+ (nullable instancetype)loadKeyWithIdentifier:(const NSString *)identifier {
++ (nullable instancetype)loadKeyWithIdentifier:(NSString *)identifier {
     MKMRSAPublicKey *PK = nil;
     
     // TODO: load RSA public key from persistent store

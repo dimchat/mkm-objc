@@ -21,12 +21,12 @@
 
 @implementation MKMRSAPrivateKey (PersistentStore)
 
-static const NSString *s_application_tag = @"chat.dim.rsa.private";
+static NSString *s_application_tag = @"chat.dim.rsa.private";
 
-+ (nullable instancetype)loadKeyWithIdentifier:(const NSString *)identifier {
++ (nullable instancetype)loadKeyWithIdentifier:(NSString *)identifier {
     MKMRSAPrivateKey *SK = nil;
     
-    NSString *label = [identifier copy];
+    NSString *label = identifier;
     NSData *tag = [s_application_tag data];
     
     NSDictionary *query;
@@ -73,13 +73,13 @@ static const NSString *s_application_tag = @"chat.dim.rsa.private";
     return SK;
 }
 
-- (BOOL)saveKeyWithIdentifier:(const NSString *)identifier {
+- (BOOL)saveKeyWithIdentifier:(NSString *)identifier {
     if (!self.privateKeyRef) {
         NSAssert(false, @"RSA privateKeyRef cannot be empty");
         return NO;
     }
     
-    NSString *label = [identifier copy];
+    NSString *label = identifier;
     NSData *tag = [s_application_tag data];
     
     NSDictionary *query;

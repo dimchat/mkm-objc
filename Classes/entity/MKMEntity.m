@@ -18,15 +18,15 @@
 - (instancetype)init {
     NSAssert(false, @"DON'T call me");
     MKMID *ID = nil;
-    self = [self initWithID:ID];
-    return self;
+    return [self initWithID:ID];
 }
 
 /* designated initializer */
-- (instancetype)initWithID:(const MKMID *)ID {
+- (instancetype)initWithID:(MKMID *)ID {
     NSAssert([ID isValid], @"Invalid entity ID: %@", ID);
     if (self = [super init]) {
-        _ID = [ID copy];
+        _ID = ID;
+        _dataSource = nil;
     }
     
     return self;
@@ -78,7 +78,7 @@
     return _ID.name;
 }
 
-- (const MKMMeta *)meta {
+- (MKMMeta *)meta {
     NSAssert(_dataSource, @"entity data source not set yet");
     return [_dataSource metaForID:_ID];
 }

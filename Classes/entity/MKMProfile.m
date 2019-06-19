@@ -24,7 +24,7 @@
 
 @interface MKMTAO () {
     
-    const MKMID *_ID;
+    MKMID *_ID;
     
     NSString *_data;    // JsON.encode(properties)
     NSData *_signature; // User(ID).sign(data)
@@ -37,17 +37,6 @@
 @end
 
 @implementation MKMTAO
-
-+ (instancetype)profileWithProfile:(id)profile {
-    if ([profile isKindOfClass:[MKMProfile class]]) {
-        return profile;
-    } else if ([profile isKindOfClass:[NSDictionary class]]) {
-        return [[self alloc] initWithDictionary:profile];
-    } else {
-        NSAssert(!profile, @"unexpected profile: %@", profile);
-        return nil;
-    }
-}
 
 - (instancetype)init {
     NSAssert(false, @"DON'T call me");
@@ -76,7 +65,7 @@
 }
 
 /* designated initializer */
-- (instancetype)initWithID:(const MKMID *)ID
+- (instancetype)initWithID:(MKMID *)ID
                       data:(nullable NSString *)json
                  signature:(nullable NSData *)signature {
     NSAssert([ID isValid], @"profile ID error: %@", ID);
@@ -104,7 +93,7 @@
     return self;
 }
 
-- (instancetype)initWithID:(const MKMID *)ID {
+- (instancetype)initWithID:(MKMID *)ID {
     return [self initWithID:ID data:nil signature:nil];
 }
 
@@ -132,7 +121,7 @@
     return _valid ? [_properties allKeys] : nil;
 }
 
-- (BOOL)verify:(const MKMPublicKey *)PK {
+- (BOOL)verify:(MKMPublicKey *)PK {
     if (_valid) {
         // already verified
         return YES;
@@ -153,7 +142,7 @@
     return _valid;
 }
 
-- (NSData *)sign:(const MKMPrivateKey *)SK {
+- (NSData *)sign:(MKMPrivateKey *)SK {
     if (_valid) {
         // already signed
         return _signature;
@@ -174,7 +163,7 @@
 
 @interface MKMProfile () {
     NSString *_name;          // nickname
-    const MKMPublicKey *_key; // public key
+    MKMPublicKey *_key; // public key
 }
 
 @end
@@ -189,7 +178,7 @@
     return self;
 }
 
-- (instancetype)initWithID:(const MKMID *)ID data:(NSString *)json signature:(NSData *)signature {
+- (instancetype)initWithID:(MKMID *)ID data:(NSString *)json signature:(NSData *)signature {
     if (self = [super initWithID:ID data:json signature:signature]) {
         _name = nil;
         _key = nil;
@@ -197,7 +186,7 @@
     return self;
 }
 
-- (BOOL)verify:(const MKMPublicKey *)PK {
+- (BOOL)verify:(MKMPublicKey *)PK {
     if ([super verify:PK]) {
         _name = (NSString *)[self dataForKey:@"name"];
         _key = MKMPublicKeyFromDictionary([self dataForKey:@"key"]);
@@ -217,11 +206,11 @@
     [self setData:name forKey:@"name"];
 }
 
-- (nullable const MKMPublicKey *)key {
+- (nullable MKMPublicKey *)key {
     return _key;
 }
 
-- (void)setKey:(const MKMPublicKey *)key {
+- (void)setKey:(MKMPublicKey *)key {
     _key = key;
     [self setData:(NSObject *)key forKey:@"key"];
 }

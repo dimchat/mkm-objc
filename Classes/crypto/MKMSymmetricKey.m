@@ -12,20 +12,6 @@
 
 @implementation MKMSymmetricKey
 
-- (instancetype)init {
-    NSAssert(false, @"DON'T call me!");
-    self = [self initWithAlgorithm:SCAlgorithmAES];
-    return self;
-}
-
-/* designated initializer */
-- (instancetype)initWithDictionary:(NSDictionary *)keyInfo {
-    if (self = [super initWithDictionary:keyInfo]) {
-        //
-    }
-    return self;
-}
-
 - (BOOL)isEqual:(id)object {
     // 1. if the two keys have same contents, return YES
     if ([super isEqual:object]) {
@@ -36,7 +22,7 @@
     }
     // 2. try to verify by en/decrypt
     MKMSymmetricKey *key = (MKMSymmetricKey *)object;
-    static const NSString *promise = @"Moky loves May Lee forever!";
+    static NSString *promise = @"Moky loves May Lee forever!";
     NSData *data = [promise dataUsingEncoding:NSUTF8StringEncoding];
     NSData *ciphertext = [key encrypt:data];
     NSData *plaintext = [self decrypt:ciphertext];
@@ -98,7 +84,7 @@ static NSMutableDictionary<NSString *, Class> *key_classes(void) {
 
 @implementation MKMSymmetricKey (PersistentStore)
 
-+ (nullable instancetype)loadKeyWithIdentifier:(const NSString *)identifier {
++ (nullable instancetype)loadKeyWithIdentifier:(NSString *)identifier {
     if (![self isEqual:[MKMSymmetricKey class]]) {
         // subclass
         NSAssert(false, @"override me!");

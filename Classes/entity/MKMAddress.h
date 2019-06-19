@@ -177,7 +177,7 @@ typedef UInt8 MKMNetworkType;
  * @param type - network ID
  * @return Address object
  */
-- (instancetype)initWithData:(const NSData *)fingerprint
+- (instancetype)initWithData:(NSData *)fingerprint
                      network:(MKMNetworkType)type;
 
 @end

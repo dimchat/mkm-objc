@@ -10,62 +10,33 @@
 
 #import "MKMCryptographyKey.h"
 
-@interface MKMCryptographyKey ()
-
-@property (strong, nonatomic) NSString *algorithm;
-
-@end
-
 @implementation MKMCryptographyKey
 
 - (instancetype)init {
     NSAssert(false, @"DON'T call me");
     NSDictionary *dict = nil;
-    self = [self initWithDictionary:dict];
-    return self;
+    return [self initWithDictionary:dict];
 }
 
 /* designated initializer */
 - (instancetype)initWithDictionary:(NSDictionary *)keyInfo {
     if (self = [super initWithDictionary:keyInfo]) {
-        // lazy
-        _algorithm = nil;
-    }
-    return self;
-}
-
-- (instancetype)initWithAlgorithm:(const NSString *)algorithm {
-    NSDictionary *keyInfo = @{@"algorithm":algorithm};
-    self = [self initWithDictionary:keyInfo];
-    return self;
-}
-
-- (id)copyWithZone:(NSZone *)zone {
-    MKMCryptographyKey *key = [super copyWithZone:zone];
-    if (key) {
-        key.algorithm = _algorithm;
-        key.data = _data;
-    }
-    return key;
-}
-
-- (NSString *)algorithm {
-    if (!_algorithm) {
         _algorithm = [_storeDictionary objectForKey:@"algorithm"];
-        NSAssert(_algorithm, @"key info error: %@", _storeDictionary);
+        _data = nil;
     }
-    return _algorithm;
+    return self;
 }
 
-- (void)setData:(NSData *)data {
-    _data = data;
+- (instancetype)initWithAlgorithm:(NSString *)algorithm {
+    NSDictionary *keyInfo = @{@"algorithm":algorithm};
+    return [self initWithDictionary:keyInfo];
 }
 
 @end
 
 @implementation MKMCryptographyKey (Runtime)
 
-+ (void)registerClass:(nullable Class)clazz forAlgorithm:(const NSString *)name {
++ (void)registerClass:(nullable Class)clazz forAlgorithm:(NSString *)name {
     NSAssert(false, @"override me!");
 }
 
@@ -78,14 +49,13 @@
 
 @implementation MKMCryptographyKey (PersistentStore)
 
-+ (nullable instancetype)loadKeyWithIdentifier:(const NSString *)identifier {
++ (nullable instancetype)loadKeyWithIdentifier:(NSString *)identifier {
     NSAssert(false, @"override me!");
     return nil;
 }
 
-- (BOOL)saveKeyWithIdentifier:(const NSString *)identifier {
-    NSAssert(false, @"override me in subclass");
-    // let the subclass to do the job
+- (BOOL)saveKeyWithIdentifier:(NSString *)identifier {
+    NSAssert(false, @"override me!");
     return NO;
 }
 

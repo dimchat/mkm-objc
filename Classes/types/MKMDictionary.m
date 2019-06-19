@@ -31,7 +31,9 @@
 - (instancetype)initWithObjects:(const id _Nonnull [_Nullable])objects
                         forKeys:(const id <NSCopying> _Nonnull [_Nullable])keys
                           count:(NSUInteger)cnt {
-    NSDictionary *dict = [[NSDictionary alloc] initWithObjects:objects forKeys:keys count:cnt];
+    NSDictionary *dict = [[NSDictionary alloc] initWithObjects:objects
+                                                       forKeys:keys
+                                                         count:cnt];
     return [self initWithDictionary:dict];
 }
 
@@ -57,7 +59,7 @@
     return [_storeDictionary count];
 }
 
-- (id)objectForKey:(const NSString *)aKey {
+- (id)objectForKey:(NSString *)aKey {
     return [_storeDictionary objectForKey:aKey];
 }
 
@@ -85,11 +87,11 @@
 //    return [self copy];
 //}
 
-- (void)removeObjectForKey:(const NSString *)aKey {
+- (void)removeObjectForKey:(NSString *)aKey {
     [_storeDictionary removeObjectForKey:aKey];
 }
 
-- (void)setObject:(id)anObject forKey:(const NSString *)aKey {
+- (void)setObject:(id)anObject forKey:(NSString *)aKey {
     [_storeDictionary setObject:anObject forKey:aKey];
 }
 

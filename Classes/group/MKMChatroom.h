@@ -12,9 +12,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MKMChatroom : MKMGroup
 
-@property (readonly, strong, nonatomic) NSArray<const MKMID *> *admins;
+@property (readonly, copy, nonatomic) NSArray<MKMID *> *admins;
 
-- (BOOL)existsAdmin:(const MKMID *)ID;
+- (BOOL)existsAdmin:(MKMID *)ID;
 
 // -hire(admin, owner)
 // -fire(admin, owner)
@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param chatroom - group ID
  * @return admins list (ID)
  */
-- (NSArray<const MKMID *> *)adminsOfChatroom:(const MKMID *)chatroom;
+- (NSArray<MKMID *> *)adminsOfChatroom:(MKMID *)chatroom;
 
 @end
 

@@ -16,21 +16,21 @@
 
 @implementation MKMAccount
 
-- (BOOL)verify:(const NSData *)data withSignature:(const NSData *)signature {
+- (BOOL)verify:(NSData *)data withSignature:(NSData *)signature {
     // 1. get key for signature from meta
-    const MKMMeta *meta = [self meta];
-    const MKMPublicKey *key = [meta key];
+    MKMMeta *meta = [self meta];
+    MKMPublicKey *key = [meta key];
     // 2. verify with meta.key
     return [key verify:data withSignature:signature];
 }
 
-- (NSData *)encrypt:(const NSData *)plaintext {
+- (NSData *)encrypt:(NSData *)plaintext {
     // 1. get key for encryption from profile
     MKMProfile *profile = [self profile];
-    const MKMPublicKey *key = [profile key];
+    MKMPublicKey *key = [profile key];
     if (key == nil) {
         // 2. get key for encryption from meta
-        const MKMMeta *meta = [self meta];
+        MKMMeta *meta = [self meta];
         // NOTICE: meta.key will never changed,
         //         so use profile.key to encrypt is the better way
         key = [meta key];

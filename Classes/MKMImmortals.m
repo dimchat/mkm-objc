@@ -16,10 +16,10 @@
 
 @interface MKMImmortals () {
     
-    NSMutableDictionary<const MKMAddress *, const MKMMeta *> *_metaTable;
-    NSMutableDictionary<const MKMAddress *, MKMProfile *> *_profileTable;
+    NSMutableDictionary<MKMAddress *, MKMMeta *> *_metaTable;
+    NSMutableDictionary<MKMAddress *, MKMProfile *> *_profileTable;
     
-    NSMutableDictionary<const MKMAddress *, MKMUser *> *_userTable;
+    NSMutableDictionary<MKMAddress *, MKMUser *> *_userTable;
 }
 
 @end
@@ -90,7 +90,7 @@
     NSLog(@"loaded immortal account: %@", [user description]);
 }
 
-- (nullable MKMAccount *)accountWithID:(const MKMID *)ID {
+- (nullable MKMAccount *)accountWithID:(MKMID *)ID {
     if (MKMNetwork_IsPerson(ID.type)) {
         return [self userWithID:ID];
     } else {
@@ -100,33 +100,33 @@
     }
 }
 
-- (nullable MKMUser *)userWithID:(const MKMID *)ID {
+- (nullable MKMUser *)userWithID:(MKMID *)ID {
     NSAssert(MKMNetwork_IsPerson(ID.type), @"user ID error: %@", ID);
     return [_userTable objectForKey:ID.address];
 }
 
 #pragma mark - Delegates
 
-- (nullable const MKMMeta *)metaForID:(const MKMID *)ID {
+- (nullable MKMMeta *)metaForID:(MKMID *)ID {
     NSAssert([ID isValid], @"ID invalid: %@", ID);
     return [_metaTable objectForKey:ID.address];
 }
 
-- (nullable MKMProfile *)profileForID:(const MKMID *)ID {
+- (nullable MKMProfile *)profileForID:(MKMID *)ID {
     NSAssert(MKMNetwork_IsPerson(ID.type), @"account ID error: %@", ID);
     return [_profileTable objectForKey:ID.address];
 }
 
-- (MKMPrivateKey *)privateKeyForSignatureOfUser:(const MKMID *)user {
+- (MKMPrivateKey *)privateKeyForSignatureOfUser:(MKMID *)user {
     return [MKMPrivateKey loadKeyWithIdentifier:user.address];
 }
 
-- (NSArray<MKMPrivateKey *> *)privateKeysForDecryptionOfUser:(const MKMID *)user {
+- (NSArray<MKMPrivateKey *> *)privateKeysForDecryptionOfUser:(MKMID *)user {
     MKMPrivateKey *key = [MKMPrivateKey loadKeyWithIdentifier:user.address];
     return [[NSArray alloc] initWithObjects:key, nil];
 }
 
-- (NSArray<MKMID *> *)contactsOfUser:(const MKMID *)user {
+- (NSArray<MKMID *> *)contactsOfUser:(MKMID *)user {
     NSMutableArray<MKMID *> *list = [[NSMutableArray alloc] initWithCapacity:2];
     [list addObject:MKMIDFromString(MKM_MONKEY_KING_ID)];
     [list addObject:MKMIDFromString(MKM_IMMORTAL_HULK_ID)];

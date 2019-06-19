@@ -10,15 +10,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-SecKeyRef SecKeyRefFromPublicData(const NSData *data);
-SecKeyRef SecKeyRefFromPrivateData(const NSData *data);
+SecKeyRef SecKeyRefFromPublicData(NSData *data);
+SecKeyRef SecKeyRefFromPrivateData(NSData *data);
 
 NSData *NSDataFromSecKeyRef(SecKeyRef keyRef);
 
-NSString *RSAPublicKeyContentFromNSString(const NSString *content);
-NSString *RSAPrivateKeyContentFromNSString(const NSString *content);
+NSString *RSAPublicKeyContentFromNSString(NSString *content);
+NSString *RSAPrivateKeyContentFromNSString(NSString *content);
 
-NSString *NSStringFromRSAPublicKeyContent(const NSString *content);
-NSString *NSStringFromRSAPrivateKeyContent(const NSString *content);
+NSString *NSStringFromRSAPublicKeyContent(NSString *content);
+NSString *NSStringFromRSAPrivateKeyContent(NSString *content);
 
 NS_ASSUME_NONNULL_END

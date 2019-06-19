@@ -14,23 +14,23 @@
 
 #pragma mark Admins of Chatroom
 
-- (NSArray<const MKMID *> *)admins {
+- (NSArray<MKMID *> *)admins {
     NSAssert(_dataSource, @"chatroom data source not set yet");
     NSArray *list = [_dataSource adminsOfChatroom:_ID];
     return [list copy];
 }
 
-- (BOOL)existsAdmin:(const MKMID *)ID {
+- (BOOL)existsAdmin:(MKMID *)ID {
     if ([self.owner isEqual:ID]) {
         return YES;
     }
     NSAssert(_dataSource, @"chatroom data source not set yet");
-    NSArray<const MKMID *> *admins = [self admins];
+    NSArray<MKMID *> *admins = [self admins];
     NSInteger count = [admins count];
     if (count <= 0) {
         return NO;
     }
-    const MKMID *admin;
+    MKMID *admin;
     while (--count >= 0) {
         admin = [admins objectAtIndex:count];
         if ([admin isEqual:ID]) {

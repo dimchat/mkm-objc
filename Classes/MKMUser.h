@@ -15,9 +15,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MKMUser : MKMAccount
 
-@property (readonly, copy, nonatomic) NSArray<const MKMID *> *contacts;
+@property (readonly, copy, nonatomic) NSArray<MKMID *> *contacts;
 
-- (BOOL)existsContact:(const MKMID *)ID;
+- (BOOL)existsContact:(MKMID *)ID;
 
 /**
  *  Sign data with user's private key
@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param data - message data
  * @return signature
  */
-- (NSData *)sign:(const NSData *)data;
+- (NSData *)sign:(NSData *)data;
 
 /**
  *  Decrypt data with user's private key
@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param ciphertext - encrypted data
  * @return plain text
  */
-- (nullable NSData *)decrypt:(const NSData *)ciphertext;
+- (nullable NSData *)decrypt:(NSData *)ciphertext;
 
 @end
 
@@ -47,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param user - user ID
  * @return private key
  */
-- (MKMPrivateKey *)privateKeyForSignatureOfUser:(const MKMID *)user;
+- (MKMPrivateKey *)privateKeyForSignatureOfUser:(MKMID *)user;
 
 /**
  *  Get user's private keys for decryption
@@ -55,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param user - user ID
  * @return private key
  */
-- (NSArray<MKMPrivateKey *> *)privateKeysForDecryptionOfUser:(const MKMID *)user;
+- (NSArray<MKMPrivateKey *> *)privateKeysForDecryptionOfUser:(MKMID *)user;
 
 /**
  *  Get contacts list
@@ -63,7 +63,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param user - user ID
  * @return contacts list (ID)
  */
-- (NSArray<const MKMID *> *)contactsOfUser:(const MKMID *)user;
+- (NSArray<MKMID *> *)contactsOfUser:(MKMID *)user;
 
 @end
 

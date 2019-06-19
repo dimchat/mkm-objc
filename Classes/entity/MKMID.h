@@ -23,12 +23,12 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MKMID : MKMString
 
 @property (readonly, strong, nonatomic, nullable) NSString *name;
-@property (readonly, strong, nonatomic) const MKMAddress *address;
+@property (readonly, strong, nonatomic) MKMAddress *address;
 
 @property (readonly, nonatomic) MKMNetworkType type; // Network ID
 @property (readonly, nonatomic) UInt32 number;       // search number
 
-@property (strong, nonatomic, nullable) NSString * terminal;
+@property (strong, nonatomic, nullable) NSString *terminal;
 
 @property (readonly, nonatomic, getter=isValid) BOOL valid;
 
@@ -47,13 +47,13 @@ NS_ASSUME_NONNULL_BEGIN
  * @param addr - hash(fingerprint)
  * @return ID object
  */
-- (instancetype)initWithName:(nullable const NSString *)seed
-                     address:(const MKMAddress *)addr;
+- (instancetype)initWithName:(nullable NSString *)seed
+                     address:(MKMAddress *)addr;
 
 /**
  *  For BTC address
  */
-- (instancetype)initWithAddress:(const MKMAddress *)addr;
+- (instancetype)initWithAddress:(MKMAddress *)addr;
 
 /**
  *  ID without terminal

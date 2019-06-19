@@ -17,25 +17,27 @@ NS_ASSUME_NONNULL_BEGIN
 @class MKMUser;
 
 /**
- *  The Additional Object
+ *  The Additional Object (Profile)
  *
- *      'Meta' is the information for entity which never changed, which contains the key for verify signature;
- *      'TAO' is the variable part, which contains the key for asymmetric encryption.
+ *      'Meta' is the information for entity which never changed,
+ *          which contains the key for verify signature;
+ *      'TAO' is the variable part(signed by meta.key's private key),
+ *          which contains the key for asymmetric encryption.
  */
 @interface MKMTAO : MKMDictionary
 
-@property (readonly, strong, nonatomic) const MKMID *ID;
+@property (readonly, strong, nonatomic) MKMID *ID;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dict
 NS_DESIGNATED_INITIALIZER;
 
-- (instancetype)initWithID:(const MKMID *)ID
+- (instancetype)initWithID:(MKMID *)ID
                       data:(nullable NSString *)json
                  signature:(nullable NSData *)signature
 NS_DESIGNATED_INITIALIZER;
 
 // create a new empty profile
-- (instancetype)initWithID:(const MKMID *)ID;
+- (instancetype)initWithID:(MKMID *)ID;
 
 #pragma mark Interfaces for profile properties
 
@@ -63,7 +65,7 @@ NS_DESIGNATED_INITIALIZER;
  * @param PK - public key in meta.key
  * @return true on signature matched
  */
-- (BOOL)verify:(const MKMPublicKey *)PK;
+- (BOOL)verify:(MKMPublicKey *)PK;
 
 /**
  *  Encode properties to 'data' and sign it to 'signature'
@@ -71,7 +73,7 @@ NS_DESIGNATED_INITIALIZER;
  * @param SK - private key match meta.key
  * @return signature
  */
-- (NSData *)sign:(const MKMPrivateKey *)SK;
+- (NSData *)sign:(MKMPrivateKey *)SK;
 
 @end
 
@@ -86,7 +88,7 @@ NS_DESIGNATED_INITIALIZER;
  *
  *      RSA
  */
-@property (strong, nonatomic, nullable) const MKMPublicKey *key;
+@property (strong, nonatomic, nullable) MKMPublicKey *key;
 
 @end
 
