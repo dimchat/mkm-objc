@@ -38,6 +38,7 @@ static inline NSMutableDictionary<NSString *, Class> *key_classes(void) {
         classes = [[NSMutableDictionary alloc] init];
         // AES
         [classes setObject:[MKMAESKey class] forKey:SCAlgorithmAES];
+        [classes setObject:[MKMAESKey class] forKey:@"AES/CBC/PKCS7Padding"];
         // DES
         // ...
     });

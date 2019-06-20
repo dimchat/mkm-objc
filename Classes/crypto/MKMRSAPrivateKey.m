@@ -173,6 +173,11 @@
             NSAssert(false, @"RSA failed to get data from private key ref");
         }
         
+        // 3. other parameters
+        //[_storeDictionary setObject:@"ECB" forKey:@"mode"];
+        //[_storeDictionary setObject:@"PKCS1" forKey:@"padding"];
+        //[_storeDictionary setObject:@"SHA256" forKey:@"digest"];
+        
         break;
     }
     return _privateKeyRef;
@@ -214,6 +219,9 @@
         if (publicContent) {
             NSDictionary *dict = @{@"algorithm":self.algorithm,
                                    @"data"     :publicContent,
+                                   //@"mode"     :@"ECB",
+                                   //@"padding"  :@"PKCS1",
+                                   //@"digest"   :@"SHA256",
                                    };
             _publicKey = [[MKMRSAPublicKey alloc] initWithDictionary:dict];
         }

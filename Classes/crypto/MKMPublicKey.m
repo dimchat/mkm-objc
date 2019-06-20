@@ -35,6 +35,8 @@ static inline NSMutableDictionary<NSString *, Class> *key_classes(void) {
         classes = [[NSMutableDictionary alloc] init];
         // RSA
         [classes setObject:[MKMRSAPublicKey class] forKey:ACAlgorithmRSA];
+        [classes setObject:[MKMRSAPublicKey class] forKey:@"SHA256withRSA"];
+        [classes setObject:[MKMRSAPublicKey class] forKey:@"RSA/ECB/PKCS1Padding"];
         // ECC
         // ...
     });

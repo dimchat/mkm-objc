@@ -257,12 +257,14 @@
 		E9BBC02922427E0300E6ACDA /* crypto */ = {
 			isa = PBXGroup;
 			children = (
+				E9BBC03122427E0300E6ACDA /* MKMCryptographyKey.h */,
+				E9BBC03F22427E0300E6ACDA /* MKMCryptographyKey.m */,
+				E9BBC03622427E0300E6ACDA /* MKMSymmetricKey.h */,
+				E9BBC02F22427E0300E6ACDA /* MKMSymmetricKey.m */,
 				E9BBC03C22427E0300E6ACDA /* MKMAESKey.h */,
 				E9BBC03022427E0300E6ACDA /* MKMAESKey.m */,
 				E9BBC02A22427E0300E6ACDA /* MKMAsymmetricKey.h */,
 				E9BBC03B22427E0300E6ACDA /* MKMAsymmetricKey.m */,
-				E9BBC03122427E0300E6ACDA /* MKMCryptographyKey.h */,
-				E9BBC03F22427E0300E6ACDA /* MKMCryptographyKey.m */,
 				E9BBC03E22427E0300E6ACDA /* MKMPrivateKey.h */,
 				E9BBC03222427E0300E6ACDA /* MKMPrivateKey.m */,
 				E9BBC03322427E0300E6ACDA /* MKMPublicKey.h */,
@@ -275,8 +277,6 @@
 				E9BBC03822427E0300E6ACDA /* MKMRSAPrivateKey+PersistentStore.m */,
 				E9BBC03422427E0300E6ACDA /* MKMRSAPublicKey.h */,
 				E9BBC04122427E0300E6ACDA /* MKMRSAPublicKey.m */,
-				E9BBC03622427E0300E6ACDA /* MKMSymmetricKey.h */,
-				E9BBC02F22427E0300E6ACDA /* MKMSymmetricKey.m */,
 			);
 			path = crypto;
 			sourceTree = "<group>";

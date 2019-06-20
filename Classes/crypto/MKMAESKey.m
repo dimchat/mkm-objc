@@ -91,12 +91,18 @@ static inline NSData *random_data(NSUInteger size) {
             break;
         }
         
-        // random password
+        //
+        // key data empty? generate new key info
+        //
+        
+        // key size (bytes)
         NSUInteger size = kCCKeySizeAES256;
         NSNumber *keySize = [_storeDictionary objectForKey:@"keySize"];
         if (keySize != nil) {
             size = [keySize unsignedIntegerValue];
         }
+        
+        // random password
         _data = random_data(size);
         PW = [_data base64Encode];
         [_storeDictionary setObject:PW forKey:@"data"];
@@ -106,6 +112,10 @@ static inline NSData *random_data(NSUInteger size) {
         _iv = random_data(blockSize);
         NSString *IV = [_iv base64Encode];
         [_storeDictionary setObject:IV forKey:@"iv"];
+        
+        // other parameters
+        //[_storeDictionary setObject:@"CBC" forKey:@"mode"];
+        //[_storeDictionary setObject:@"PKCS7" forKey:@"padding"];
         
         break;
     }
