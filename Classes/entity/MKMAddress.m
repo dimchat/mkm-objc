@@ -28,7 +28,7 @@
 
 @end
 
-static NSMutableArray<Class> *address_classes(void) {
+static inline NSMutableArray<Class> *address_classes(void) {
     static NSMutableArray<Class> *classes = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -89,28 +89,27 @@ static NSMutableArray<Class> *address_classes(void) {
 #pragma mark - BTC Address
 
 /**
- Get check code of the address
- 
- @param data - network + hash(CT)
- @return prefix 4 bytes after sha256*2
+ *  Get check code of the address
+ *
+ * @param data - network + hash(CT)
+ * @return prefix 4 bytes after sha256*2
  */
 static inline NSData * check_code(NSData *data) {
     assert([data length] == 21);
-    data = [data sha256d];
-    assert([data length] == 32);
+    data = [[data sha256] sha256];
     return [data subdataWithRange:NSMakeRange(0, 4)];
 }
 
 /**
- Get user number, which for remembering and searching user
- 
- @param cc - check code
- @return unsigned integer
+ *  Get user number, which for remembering and searching user
+ *
+ * @param cc - check code
+ * @return unsigned integer
  */
 static inline UInt32 user_number(NSData *cc) {
     assert([cc length] == 4);
     UInt32 number;
-    memcpy(&number, [cc bytes], 4);
+    memcpy(&number, [cc bytes], sizeof(UInt32));
     return number;
 }
 

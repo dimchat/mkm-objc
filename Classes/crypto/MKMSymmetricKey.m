@@ -31,7 +31,7 @@
 
 @end
 
-static NSMutableDictionary<NSString *, Class> *key_classes(void) {
+static inline NSMutableDictionary<NSString *, Class> *key_classes(void) {
     static NSMutableDictionary<NSString *, Class> *classes = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{

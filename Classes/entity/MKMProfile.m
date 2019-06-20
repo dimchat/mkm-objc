@@ -217,7 +217,7 @@
 
 @end
 
-static NSMutableArray<Class> *profile_classes(void) {
+static inline NSMutableArray<Class> *profile_classes(void) {
     static NSMutableArray<Class> *classes = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{

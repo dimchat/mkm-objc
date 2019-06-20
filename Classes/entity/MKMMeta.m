@@ -153,7 +153,7 @@
 
 @end
 
-static NSMutableDictionary<NSNumber *, Class> *meta_classes(void) {
+static inline NSMutableDictionary<NSNumber *, Class> *meta_classes(void) {
     static NSMutableDictionary<NSNumber *, Class> *classes = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
