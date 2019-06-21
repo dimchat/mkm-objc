@@ -60,34 +60,10 @@
     return [[NSData alloc] initWithBytes:digest length:CC_MD5_DIGEST_LENGTH];
 }
 
-- (NSData *)sha1 {
-    unsigned char digest[CC_SHA1_DIGEST_LENGTH];
-    CC_SHA1([self bytes], (CC_LONG)[self length], digest);
-    return [[NSData alloc] initWithBytes:digest length:CC_SHA1_DIGEST_LENGTH];
-}
-
-- (NSData *)sha224 {
-    unsigned char digest[CC_SHA224_DIGEST_LENGTH];
-    CC_SHA224([self bytes], (CC_LONG)[self length], digest);
-    return [[NSData alloc] initWithBytes:digest length:CC_SHA224_DIGEST_LENGTH];
-}
-
 - (NSData *)sha256 {
     unsigned char digest[CC_SHA256_DIGEST_LENGTH];
     CC_SHA256([self bytes], (CC_LONG)[self length], digest);
     return [[NSData alloc] initWithBytes:digest length:CC_SHA256_DIGEST_LENGTH];
-}
-
-- (NSData *)sha384 {
-    unsigned char digest[CC_SHA384_DIGEST_LENGTH];
-    CC_SHA384([self bytes], (CC_LONG)[self length], digest);
-    return [[NSData alloc] initWithBytes:digest length:CC_SHA384_DIGEST_LENGTH];
-}
-
-- (NSData *)sha512 {
-    unsigned char digest[CC_SHA512_DIGEST_LENGTH];
-    CC_SHA512([self bytes], (CC_LONG)[self length], digest);
-    return [[NSData alloc] initWithBytes:digest length:CC_SHA512_DIGEST_LENGTH];
 }
 
 - (NSData *)sha256d {
@@ -95,24 +71,18 @@
 }
 
 - (NSData *)ripemd160 {
-    NSData *output = nil;
-    
-    unsigned char *buf = (unsigned char *)[self bytes];
-    size_t size = [self length];
-    size_t OUTPUT_SIZE = CRIPEMD160::OUTPUT_SIZE;;
-    unsigned char hash[OUTPUT_SIZE];
-    CRIPEMD160().Write(buf, size).Finalize(hash);
-    output = [[NSData alloc] initWithBytes:&hash length:OUTPUT_SIZE];
-    
-    return output;
+    unsigned char *bytes = (unsigned char *)[self bytes];
+    unsigned char digest[CRIPEMD160::OUTPUT_SIZE];
+    CRIPEMD160().Write(bytes, (size_t)[self length]).Finalize(digest);
+    return [[NSData alloc] initWithBytes:digest length:CRIPEMD160::OUTPUT_SIZE];
 }
 
 @end
 
 @implementation NSData (AES)
 
-- (nullable NSData *)AES256EncryptWithKey:(const NSData *)key
-                     initializationVector:(nullable const NSData *)iv {
+- (nullable NSData *)AES256EncryptWithKey:(NSData *)key
+                     initializationVector:(nullable NSData *)iv {
     // 'key' should be 32 bytes for AES256, will be null-padded otherwise
     char keyPtr[kCCKeySizeAES256+1]; // room for terminator (unused)
     bzero(keyPtr, sizeof(keyPtr)); // fill with zeroes (for padding)
@@ -145,8 +115,8 @@
     return [[NSData alloc] initWithBytesNoCopy:buffer length:numBytesEncrypted];
 }
 
-- (nullable NSData *)AES256DecryptWithKey:(const NSData *)key
-                     initializationVector:(nullable const NSData *)iv {
+- (nullable NSData *)AES256DecryptWithKey:(NSData *)key
+                     initializationVector:(nullable NSData *)iv {
     // 'key' should be 32 bytes for AES256, will be null-padded otherwise
     char keyPtr[kCCKeySizeAES256+1]; // room for terminator (unused)
     bzero(keyPtr, sizeof(keyPtr)); // fill with zeroes (for padding)

@@ -12,18 +12,28 @@
 
 @implementation MKMChatroom
 
-- (BOOL)existsAdmin:(const MKMID *)ID {
+#pragma mark Admins of Chatroom
+
+- (NSArray<MKMID *> *)admins {
+    NSAssert(_dataSource, @"chatroom data source not set yet");
+    NSArray *list = [_dataSource adminsOfChatroom:_ID];
+    return [list copy];
+}
+
+- (BOOL)existsAdmin:(MKMID *)ID {
     if ([self.owner isEqual:ID]) {
         return YES;
     }
-    NSInteger count = [_dataSource numberOfAdminsInChatroom:self];
+    NSAssert(_dataSource, @"chatroom data source not set yet");
+    NSArray<MKMID *> *admins = [self admins];
+    NSInteger count = [admins count];
     if (count <= 0) {
         return NO;
     }
-    const MKMID *admin;
+    MKMID *admin;
     while (--count >= 0) {
-        admin = [_dataSource chatroom:self adminAtIndex:count];
-        if ([ID isEqual:admin]) {
+        admin = [admins objectAtIndex:count];
+        if ([admin isEqual:ID]) {
             return YES;
         }
     }

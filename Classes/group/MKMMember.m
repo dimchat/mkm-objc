@@ -12,26 +12,25 @@
 
 @interface MKMMember ()
 
-@property (strong, nonatomic) const MKMID *groupID;
+@property (strong, nonatomic) MKMID *group;
 
 @end
 
 @implementation MKMMember
 
-- (instancetype)initWithID:(const MKMID *)ID {
-    //NSAssert(false, @"DON'T call me");
-    MKMID *groupID = nil;
-    self = [self initWithGroupID:groupID accountID:ID];
-    return self;
+- (instancetype)initWithID:(MKMID *)ID {
+    NSAssert(false, @"DON'T call me");
+    MKMID *group = nil;
+    return [self initWithGroup:group account:ID];
 }
 
 /* designated initializer */
-- (instancetype)initWithGroupID:(const MKMID *)groupID
-                      accountID:(const MKMID *)ID {
+- (instancetype)initWithGroup:(MKMID *)group
+                      account:(MKMID *)ID {
     NSAssert(MKMNetwork_IsCommunicator(ID.type), @"member ID error: %@", ID);
-    NSAssert(!groupID || MKMNetwork_IsGroup(groupID.type), @"group ID error: %@", groupID);
+    NSAssert(!group || MKMNetwork_IsGroup(group.type), @"group ID error: %@", group);
     if (self = [super initWithID:ID]) {
-        _groupID = [groupID copy];
+        _group = group;
         _role = MKMMember_Member;
     }
     return self;
@@ -40,7 +39,7 @@
 - (id)copyWithZone:(NSZone *)zone {
     MKMMember *member = [super copyWithZone:zone];
     if (member) {
-        member.groupID = _groupID;
+        member.group = _group;
         member.role = _role;
     }
     return member;
@@ -52,9 +51,9 @@
 
 @implementation MKMFounder
 
-- (instancetype)initWithGroupID:(const MKMID *)groupID
-                      accountID:(const MKMID *)ID {
-    if (self = [super initWithGroupID:groupID accountID:ID]) {
+- (instancetype)initWithGroup:(MKMID *)group
+                      account:(MKMID *)ID {
+    if (self = [super initWithGroup:group account:ID]) {
         _role = MKMMember_Founder;
     }
     return self;
@@ -64,9 +63,9 @@
 
 @implementation MKMOwner
 
-- (instancetype)initWithGroupID:(const MKMID *)groupID
-                      accountID:(const MKMID *)ID {
-    if (self = [super initWithGroupID:groupID accountID:ID]) {
+- (instancetype)initWithGroup:(MKMID *)group
+                      account:(MKMID *)ID {
+    if (self = [super initWithGroup:group account:ID]) {
         _role = MKMMember_Owner;
     }
     return self;
@@ -76,9 +75,9 @@
 
 @implementation MKMAdmin
 
-- (instancetype)initWithGroupID:(const MKMID *)groupID
-                      accountID:(const MKMID *)ID {
-    if (self = [super initWithGroupID:groupID accountID:ID]) {
+- (instancetype)initWithGroup:(MKMID *)group
+                      account:(MKMID *)ID {
+    if (self = [super initWithGroup:group account:ID]) {
         _role = MKMMember_Admin;
     }
     return self;

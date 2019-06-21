@@ -12,28 +12,30 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class MKMID;
 @class MKMMeta;
+@class MKMProfile;
 
 @protocol MKMEntityDataSource;
 
 @interface MKMEntity : NSObject <NSCopying> {
     
     // convenience for instance accessing
-    const MKMID *_ID;
+    MKMID *_ID;
     
     __weak __kindof id<MKMEntityDataSource> _dataSource;
 }
 
-@property (readonly, copy, nonatomic) const MKMID *ID;     // name@address
+@property (readonly, copy, nonatomic) MKMID *ID;     // name@address
 
 @property (readonly, nonatomic) MKMNetworkType type; // Network ID
 @property (readonly, nonatomic) UInt32 number;       // search number
 
-@property (readonly, strong, nonatomic) const MKMMeta *meta;  // meta for entity
-@property (readonly, strong, nonatomic) NSString *name; // name or seed
+@property (readonly, strong, nonatomic) MKMMeta *meta;       // meta for entity
+@property (readonly, strong, nonatomic) MKMProfile *profile; // profile of entity
+@property (readonly, strong, nonatomic) NSString *name;      // name or seed
 
 @property (weak, nonatomic) __kindof id<MKMEntityDataSource> dataSource;
 
-- (instancetype)initWithID:(const MKMID *)ID NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithID:(MKMID *)ID NS_DESIGNATED_INITIALIZER;
 
 @end
 
@@ -42,14 +44,20 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol MKMEntityDataSource <NSObject>
 
 /**
- *  Get meta for entity (call 'metaForID:' of MetaDataSource instead)
+ *  Get meta for entity ID
+ *
+ * @param ID - entity ID
+ * @return meta object
  */
-- (nullable const MKMMeta *)metaForEntity:(const MKMEntity *)entity;
+- (nullable MKMMeta *)metaForID:(MKMID *)ID;
 
 /**
- *  Get entity name
+ *  Get profile for entity ID
+ *
+ * @param ID - entity ID
+ * @return profile object
  */
-- (NSString *)nameOfEntity:(const MKMEntity *)entity;
+- (nullable MKMProfile *)profileForID:(MKMID *)ID;
 
 @end
 

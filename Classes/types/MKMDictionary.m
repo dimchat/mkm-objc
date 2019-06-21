@@ -12,13 +12,6 @@
 
 @implementation MKMDictionary
 
-- (instancetype)initWithJSONString:(const NSString *)jsonString {
-    NSData *data = [jsonString data];
-    NSDictionary *dict = [data jsonDictionary];
-    self = [self initWithDictionary:dict];
-    return self;
-}
-
 /* designated initializer */
 - (instancetype)initWithDictionary:(NSDictionary *)dict {
     if (self = [super init]) {
@@ -35,22 +28,18 @@
     return self;
 }
 
-/* designated initializer */
 - (instancetype)initWithObjects:(const id _Nonnull [_Nullable])objects
                         forKeys:(const id <NSCopying> _Nonnull [_Nullable])keys
                           count:(NSUInteger)cnt {
-    if (self = [super init]) {
-        _storeDictionary = [[NSMutableDictionary alloc] initWithObjects:objects forKeys:keys count:cnt];
-    }
-    return self;
+    NSDictionary *dict = [[NSDictionary alloc] initWithObjects:objects
+                                                       forKeys:keys
+                                                         count:cnt];
+    return [self initWithDictionary:dict];
 }
 
-/* designated initializer */
 - (nullable instancetype)initWithCoder:(NSCoder *)aDecoder {
-    if (self = [super init]) {
-        _storeDictionary = [[NSMutableDictionary alloc] initWithCoder:aDecoder];
-    }
-    return self;
+    NSDictionary *dict = [[NSDictionary alloc] initWithCoder:aDecoder];
+    return [self initWithDictionary:dict];
 }
 
 - (id)copyWithZone:(NSZone *)zone {
@@ -70,7 +59,7 @@
     return [_storeDictionary count];
 }
 
-- (id)objectForKey:(const NSString *)aKey {
+- (id)objectForKey:(NSString *)aKey {
     return [_storeDictionary objectForKey:aKey];
 }
 
@@ -98,11 +87,11 @@
 //    return [self copy];
 //}
 
-- (void)removeObjectForKey:(const NSString *)aKey {
+- (void)removeObjectForKey:(NSString *)aKey {
     [_storeDictionary removeObjectForKey:aKey];
 }
 
-- (void)setObject:(id)anObject forKey:(const NSString *)aKey {
+- (void)setObject:(id)anObject forKey:(NSString *)aKey {
     [_storeDictionary setObject:anObject forKey:aKey];
 }
 

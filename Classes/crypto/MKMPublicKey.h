@@ -10,6 +10,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+// convert Dictionary to PublicKey
+#define MKMPublicKeyFromDictionary(key)    [MKMPublicKey getInstance:(key)]
+
 @class MKMPrivateKey;
 
 /**
@@ -23,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface MKMPublicKey : MKMAsymmetricKey <MKMPublicKey>
 
-- (BOOL)isMatch:(const MKMPrivateKey *)SK;
+- (BOOL)isMatch:(MKMPrivateKey *)SK;
 
 @end
 

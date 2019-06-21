@@ -13,7 +13,7 @@
 @implementation MKMPolylogue
 
 /* designated initializer */
-- (instancetype)initWithID:(const MKMID *)ID {
+- (instancetype)initWithID:(MKMID *)ID {
     NSAssert(ID.type == MKMNetwork_Polylogue, @"polylogue ID error: %@", ID);
     if (self = [super initWithID:ID]) {
         //

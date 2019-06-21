@@ -10,136 +10,52 @@
 
 #import "MKMCryptographyKey.h"
 
-@interface MKMCryptographyKey ()
-
-@property (strong, nonatomic) NSString *algorithm;
-
-@end
-
 @implementation MKMCryptographyKey
-
-+ (instancetype)keyWithKey:(id)key {
-    if ([key isKindOfClass:[MKMCryptographyKey class]]) {
-        return key;
-    } else if ([key isKindOfClass:[NSDictionary class]]) {
-        return [[self alloc] initWithDictionary:key];
-    } else if ([key isKindOfClass:[NSString class]]) {
-        return [[self alloc] initWithJSONString:key];
-    } else {
-        NSAssert(!key, @"unexpected key: %@", key);
-        return nil;
-    }
-}
 
 - (instancetype)init {
     NSAssert(false, @"DON'T call me");
     NSDictionary *dict = nil;
-    self = [self initWithDictionary:dict];
-    return self;
-}
-
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    NSAssert(false, @"DON'T call me");
-    NSDictionary *dict = nil;
-    self = [self initWithDictionary:dict];
-    return self;
-}
-
-- (instancetype)initWithObjects:(const id _Nonnull [_Nullable])objects
-                        forKeys:(const id <NSCopying> _Nonnull [_Nullable])keys
-                          count:(NSUInteger)cnt {
-    NSAssert(false, @"DON'T call me");
-    NSDictionary *dict = nil;
-    self = [self initWithDictionary:dict];
-    return self;
+    return [self initWithDictionary:dict];
 }
 
 /* designated initializer */
 - (instancetype)initWithDictionary:(NSDictionary *)keyInfo {
     if (self = [super initWithDictionary:keyInfo]) {
-        // lazy
-        _algorithm = nil;
-    }
-    return self;
-}
-
-- (instancetype)initWithJSONString:(const NSString *)json {
-    NSDictionary *dict = [[json data] jsonDictionary];
-    self = [self initWithDictionary:dict];
-    return self;
-}
-
-- (instancetype)initWithAlgorithm:(const NSString *)algorithm {
-    NSDictionary *keyInfo = @{@"algorithm":algorithm};
-    self = [self initWithDictionary:keyInfo];
-    return self;
-}
-
-- (id)copyWithZone:(NSZone *)zone {
-    MKMCryptographyKey *key = [super copyWithZone:zone];
-    if (key) {
-        key.algorithm = _algorithm;
-        key.data = _data;
-    }
-    return key;
-}
-
-- (NSString *)algorithm {
-    if (!_algorithm) {
         _algorithm = [_storeDictionary objectForKey:@"algorithm"];
-        NSAssert(_algorithm, @"key info error: %@", _storeDictionary);
+        _data = nil;
     }
-    return _algorithm;
+    return self;
 }
 
-- (void)setData:(NSData *)data {
-    _data = data;
+- (instancetype)initWithAlgorithm:(NSString *)algorithm {
+    NSDictionary *keyInfo = @{@"algorithm":algorithm};
+    return [self initWithDictionary:keyInfo];
 }
 
 @end
 
 @implementation MKMCryptographyKey (Runtime)
 
-+ (MKMCryptographyKeyMap *)keyClasses {
-    NSAssert(false, @"override me in subclass");
-    // let the subclass to manage the classes
++ (void)registerClass:(nullable Class)clazz forAlgorithm:(NSString *)name {
+    NSAssert(false, @"override me!");
+}
+
++ (nullable instancetype)getInstance:(id)key {
+    NSAssert(false, @"override me!");
     return nil;
-}
-
-+ (void)registerClass:(Class)keyClass forAlgorithm:(const NSString *)name {
-    NSAssert(name.length > 0, @"algorithm cannot be empty");
-    NSAssert([keyClass isSubclassOfClass:self], @"class error: %@", keyClass);
-    if (keyClass) {
-        [[self keyClasses] setObject:keyClass forKey:name];
-    }
-}
-
-+ (nullable Class)classForAlgorithm:(const NSString *)name {
-    return [[self keyClasses] objectForKey:name];
 }
 
 @end
 
 @implementation MKMCryptographyKey (PersistentStore)
 
-+ (nullable instancetype)loadKeyWithIdentifier:(const NSString *)identifier {
-    MKMCryptographyKey *key = nil;
-    NSArray<Class> *classes = [[self keyClasses] allValues];
-    Class clazz;
-    for (clazz in classes) {
-        key = [clazz loadKeyWithIdentifier:identifier];
-        if (key) {
-            // found
-            NSAssert([[key class] isSubclassOfClass:self], @"key error: %@", key);
-            break;
-        }
-    }
-    return key;
++ (nullable instancetype)loadKeyWithIdentifier:(NSString *)identifier {
+    NSAssert(false, @"override me!");
+    return nil;
 }
 
-- (BOOL)saveKeyWithIdentifier:(const NSString *)identifier {
-    NSAssert(false, @"override me in subclass");
-    // let the subclass to do the job
+- (BOOL)saveKeyWithIdentifier:(NSString *)identifier {
+    NSAssert(false, @"override me!");
     return NO;
 }
 

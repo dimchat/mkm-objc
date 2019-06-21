@@ -13,51 +13,57 @@ NS_ASSUME_NONNULL_BEGIN
 @class MKMPrivateKey;
 @class MKMContact;
 
-@interface MKMUser : MKMAccount {
-    
-    MKMPrivateKey *_privateKey;
-}
+@interface MKMUser : MKMAccount
 
-@property (readonly, strong, nonatomic) MKMPrivateKey *privateKey;
+@property (readonly, copy, nonatomic) NSArray<MKMID *> *contacts;
 
-@property (readonly, copy, nonatomic) NSArray<const MKMID *> *contacts;
+- (BOOL)existsContact:(MKMID *)ID;
 
-- (BOOL)existsContact:(const MKMID *)contact;
+/**
+ *  Sign data with user's private key
+ *
+ * @param data - message data
+ * @return signature
+ */
+- (NSData *)sign:(NSData *)data;
+
+/**
+ *  Decrypt data with user's private key
+ *
+ * @param ciphertext - encrypted data
+ * @return plain text
+ */
+- (nullable NSData *)decrypt:(NSData *)ciphertext;
 
 @end
 
-#pragma mark - User Delegate
+#pragma mark - User Data Source
 
-@protocol MKMUserDataSource <MKMAccountDataSource>
-
-/**
- Get contacts count
- */
-- (NSInteger)numberOfContactsInUser:(const MKMUser *)user;
+@protocol MKMUserDataSource <MKMEntityDataSource>
 
 /**
- Get contact ID at index
+ *  Get user's private key
+ *
+ * @param user - user ID
+ * @return private key
  */
-- (const MKMID *)user:(const MKMUser *)user contactAtIndex:(NSInteger)index;
-
-@end
-
-@protocol MKMUserDelegate <MKMAccountDelegate>
+- (MKMPrivateKey *)privateKeyForSignatureOfUser:(MKMID *)user;
 
 /**
- User factory
+ *  Get user's private keys for decryption
+ *
+ * @param user - user ID
+ * @return private key
  */
-- (nullable MKMUser *)userWithID:(const MKMID *)ID;
+- (NSArray<MKMPrivateKey *> *)privateKeysForDecryptionOfUser:(MKMID *)user;
 
 /**
- Add contact for user
+ *  Get contacts list
+ *
+ * @param user - user ID
+ * @return contacts list (ID)
  */
-- (BOOL)user:(const MKMUser *)user addContact:(const MKMID *)contact;
-
-/**
- Remove contact of user
- */
-- (BOOL)user:(const MKMUser *)user removeContact:(const MKMID *)contact;
+- (NSArray<MKMID *> *)contactsOfUser:(MKMID *)user;
 
 @end
 

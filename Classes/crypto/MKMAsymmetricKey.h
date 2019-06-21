@@ -19,12 +19,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  CT = encrypt(text, PK)
  */
-- (NSData *)encrypt:(const NSData *)plaintext;
+- (NSData *)encrypt:(NSData *)plaintext;
 
 /**
  *  OK = verify(data, signature, PK)
  */
-- (BOOL)verify:(const NSData *)data withSignature:(const NSData *)signature;
+- (BOOL)verify:(NSData *)data withSignature:(NSData *)signature;
 
 @end
 
@@ -34,12 +34,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  text = decrypt(CT, SK);
  */
-- (nullable NSData *)decrypt:(const NSData *)ciphertext;
+- (nullable NSData *)decrypt:(NSData *)ciphertext;
 
 /**
  *  signature = sign(data, SK);
  */
-- (NSData *)sign:(const NSData *)data;
+- (NSData *)sign:(NSData *)data;
 
 @end
 

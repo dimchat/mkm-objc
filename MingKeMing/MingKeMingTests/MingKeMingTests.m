@@ -26,7 +26,7 @@ static inline NSString *search_number(UInt32 code) {
     return number;
 }
 
-static inline void print_id(const MKMID *ID) {
+static inline void print_id(MKMID *ID) {
     NSMutableDictionary *mDict = [[NSMutableDictionary alloc] init];
     [mDict setObject:@(ID.type) forKey:@"type"];
     [mDict setObject:@(ID.number) forKey:@"number"];
@@ -107,14 +107,18 @@ static inline void print_id(const MKMID *ID) {
     // base58(moky) = 3oF5MJ
     enc = [data base58Encode];
     NSLog(@"base58(%@) = %@", string, enc);
-    
     NSAssert([enc isEqualToString:@"3oF5MJ"], @"base 58 encode error");
+    
+    // base64(moky) = bW9reQ==
+    enc = [data base64Encode];
+    NSLog(@"base64(%@) = %@", string, enc);
+    NSAssert([enc isEqualToString:@"bW9reQ=="], @"base 64 encode error");
 }
 
 - (void)testKeys {
     NSDictionary *key = @{@"algorithm": @"RSA",
                           @"data": @"-----BEGIN PUBLIC KEY-----\nMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDr2zVbMu4zFOdimKVD4DlW0Uol\nEtUocA9QESbKVdv8sjFY29JROrXNGHW0uD1cyGSLJyKVuDu7PnvgcUILeSpV+TEn\nNrMN5KSSTeWyOmh5n8NI5WqT3qpCk5vNMa4e/4/Yuh/Hy4d3KOmFO0cVa29e0GmV\nDHkGqw6f7uykdGVnNwIDAQAB\n-----END PUBLIC KEY-----"};
-    MKMPublicKey *PK = [MKMPublicKey keyWithKey:key];
+    MKMPublicKey *PK = MKMPublicKeyFromDictionary(key);
     NSLog(@"PK: %@", PK);
     NSLog(@"PK.json: %@", [PK jsonString]);
     NSString *data = [PK.data base64Encode];
@@ -134,25 +138,31 @@ static inline void print_id(const MKMID *ID) {
     NSData *dec;
     
     NSString *keyInfo = @"{\"algorithm\": \"AES\", \"data\": \"C2+xGizLL1G1+z9QLPYNdp/bPP/seDvNw45SXPAvQqk=\", \"iv\": \"SxPwi6u4+ZLXLdAFJezvSQ==\"}";
+    NSDictionary *keyDict = [[keyInfo data] jsonDictionary];
     
     // 1
-    key = [[MKMSymmetricKey alloc] initWithJSONString:keyInfo];
+    key = MKMSymmetricKeyFromDictionary(keyDict);
     CT = [key encrypt:data];
     dec = [key decrypt:CT];
     NSLog(@"key: %@", key);
     NSLog(@"%@ -> %@ -> %@", string, [CT base64Encode], [dec UTF8String]);
     NSAssert([dec isEqual:data], @"en/decrypt error");
     
-    string = @"XX5qfromb3R078VVK7LwVA==";
-    CT = [string base64Decode];
+    NSString *base64 = @"0xtbqZN6x2aWTZn0DpCoCA==";
+    NSAssert([[CT base64Encode] isEqualToString:base64], @"encrypt error");
+    
+    base64 = @"XX5qfromb3R078VVK7LwVA==";
+    CT = [base64 base64Decode];
     dec = [key decrypt:CT];
-    NSLog(@"%@ -> %@", string, [dec UTF8String]);
+    NSLog(@"%@ -> %@", base64, [dec UTF8String]);
+    NSAssert([[dec UTF8String] isEqualToString:string], @"en/decrypt error");
+    
     dec = [key decrypt:CT];
-    NSLog(@"%@ -> %@", string, [dec UTF8String]);
+    NSLog(@"%@ -> %@", base64, [dec UTF8String]);
 
     
 //    // 2
-//    key = [[MKMSymmetricKey alloc] init];
+//    key = MKMSymmetricKeyWithAlgorithm(SAAlgorithmAES);
 //    NSLog(@"key: %@", key);
 //    CT = [key encrypt:data];
 //    NSLog(@"key: %@", key);
@@ -167,7 +177,7 @@ static inline void print_id(const MKMID *ID) {
     NSString *string = @"moky";
     NSData *data = [string data];
     
-    MKMPrivateKey *SK = [[MKMPrivateKey alloc] init];
+    MKMPrivateKey *SK = MKMPrivateKeyWithAlgorithm(ACAlgorithmRSA);
     MKMPublicKey *PK = SK.publicKey;
     NSLog(@"private key: %@", SK);
     NSLog(@"public key: %@", PK);
@@ -191,15 +201,15 @@ static inline void print_id(const MKMID *ID) {
 - (void)testMeta {
     
     NSString *name = @"moky";
-    MKMPrivateKey *SK = [[MKMPrivateKey alloc] init];
+    MKMPrivateKey *SK = MKMPrivateKeyWithAlgorithm(ACAlgorithmRSA);
     MKMPublicKey *PK = SK.publicKey;
     
-    MKMMeta *meta = [[MKMMeta alloc] initWithVersion:MKMMetaVersion_MKM
+    MKMMeta *meta = [[MKMMeta alloc] initWithVersion:MKMMetaDefaultVersion
                                                 seed:name
                                           privateKey:SK
                                            publicKey:PK];
     
-    const MKMID *ID = [meta buildIDWithNetworkID:MKMNetwork_Main];
+    MKMID *ID = [meta generateID:MKMNetwork_Main];
     
     NSLog(@"meta: %@", meta);
     print_id(ID);
@@ -209,11 +219,11 @@ static inline void print_id(const MKMID *ID) {
 }
 
 - (void)testMeta2 {
-    MKMPrivateKey *SK = [[MKMPrivateKey alloc] init];
+    MKMPrivateKey *SK = MKMPrivateKeyWithAlgorithm(ACAlgorithmRSA);
     MKMPublicKey *PK = SK.publicKey;
     
-    MKMMeta *meta = [[MKMMeta alloc] initWithPublicKey:PK];
-    const MKMID *ID = [meta buildIDWithNetworkID:MKMNetwork_BTCMain];
+    MKMMeta *meta = [[MKMMetaBTC alloc] initWithPublicKey:PK];
+    MKMID *ID = [meta generateID:MKMNetwork_BTCMain];
     
     NSLog(@"meta: %@", meta);
     print_id(ID);
@@ -221,7 +231,7 @@ static inline void print_id(const MKMID *ID) {
     NSAssert([meta matchID:ID], @"error");
     
     NSString *satoshi = @"1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa";
-    MKMID *ID2 = [MKMID IDWithID:satoshi];
+    MKMID *ID2 = MKMIDFromString(satoshi);
     print_id(ID2);
 }
 
@@ -229,7 +239,7 @@ static inline void print_id(const MKMID *ID) {
     
     MKMImmortals *immortals = [[MKMImmortals alloc] init];
     
-    MKMID *ID = [MKMID IDWithID:MKM_IMMORTAL_HULK_ID];
+    MKMID *ID = MKMIDFromString(MKM_IMMORTAL_HULK_ID);
     MKMUser *user = [immortals userWithID:ID];
     
     NSLog(@"get user: %@", user);
@@ -278,12 +288,12 @@ static inline void print_id(const MKMID *ID) {
     
     for (count = 0; count < NSUIntegerMax; ++count) {
         
-        SK = [[MKMPrivateKey alloc] init];
+        SK = MKMPrivateKeyWithAlgorithm(ACAlgorithmRSA);
         PK = SK.publicKey;
         
         CT = [SK sign:data];
         
-        addr = [[MKMAddress alloc] initWithFingerprint:CT network:network];
+        addr = [[MKMAddressBTC alloc] initWithData:CT network:network];
         
         number = addr.code;
         if (count % 100 == 0) {
@@ -295,11 +305,11 @@ static inline void print_id(const MKMID *ID) {
         }
         
         MKMMeta *meta = [[MKMMeta alloc] initWithVersion:MKMMetaDefaultVersion
-                                                    seed:name
                                                publicKey:PK
+                                                    seed:name
                                              fingerprint:CT];
         
-        const MKMID *ID = [meta buildIDWithNetworkID:network];
+        MKMID *ID = [meta generateID:network];
 
         NSLog(@"[%lu] address: %@, number: %@", count, addr, search_number(number));
         NSLog(@"GOT IT -> ID: %@, meta: %@, SK: %@", ID, meta, SK);

@@ -21,41 +21,36 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface MKMCryptographyKey : MKMDictionary {
     
+    // algorithm name
     NSString *_algorithm;
+    
+    // key data, set by subclass
     NSData *_data;
 }
 
 @property (readonly, strong, nonatomic) NSString *algorithm;
 @property (readonly, strong, nonatomic) NSData *data;
 
-+ (instancetype)keyWithKey:(id)key;
-
 - (instancetype)initWithDictionary:(NSDictionary *)keyInfo
 NS_DESIGNATED_INITIALIZER;
 
-- (instancetype)initWithJSONString:(const NSString *)json;
-
-- (instancetype)initWithAlgorithm:(const NSString *)algorithm;
+- (instancetype)initWithAlgorithm:(NSString *)algorithm;
 
 @end
 
-typedef NSMutableDictionary<const NSString *, Class> MKMCryptographyKeyMap;
-
 @interface MKMCryptographyKey (Runtime)
 
-+ (MKMCryptographyKeyMap *)keyClasses;
++ (void)registerClass:(nullable Class)keyClass forAlgorithm:(NSString *)name;
 
-+ (void)registerClass:(nullable Class)keyClass forAlgorithm:(const NSString *)name;
-
-+ (nullable Class)classForAlgorithm:(const NSString *)name;
++ (nullable instancetype)getInstance:(id)key;
 
 @end
 
 @interface MKMCryptographyKey (PersistentStore)
 
-+ (nullable instancetype)loadKeyWithIdentifier:(const NSString *)identifier;
++ (nullable instancetype)loadKeyWithIdentifier:(NSString *)identifier;
 
-- (BOOL)saveKeyWithIdentifier:(const NSString *)identifier;
+- (BOOL)saveKeyWithIdentifier:(NSString *)identifier;
 
 @end
 

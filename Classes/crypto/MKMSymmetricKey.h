@@ -19,20 +19,26 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  CT = encrypt(text, PW)
  */
-- (NSData *)encrypt:(const NSData *)plaintext;
+- (NSData *)encrypt:(NSData *)plaintext;
 
 /**
  *  text = decrypt(CT, PW);
  */
-- (nullable NSData *)decrypt:(const NSData *)ciphertext;
+- (nullable NSData *)decrypt:(NSData *)ciphertext;
 
 @end
+
+// convert Dictionary to SymmetricKey
+#define MKMSymmetricKeyFromDictionary(key) [MKMSymmetricKey getInstance:(key)]
+
+// generate SymmetricKey
+#define MKMSymmetricKeyWithAlgorithm(name) [MKMSymmetricKey getInstance:@{@"algorithm":(name)}]
 
 /**
  *  Symmetric Cryptography Key
  *
  *      keyInfo format: {
- *          algorithm: "AES",
+ *          algorithm: "AES", // DES, ...
  *          data     : "{BASE64_ENCODE}",
  *          ...
  *      }

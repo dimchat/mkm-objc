@@ -62,10 +62,15 @@
     MKMRSAPrivateKey *key = [super copyWithZone:zone];
     if (key) {
         key.keySizeInBits = _keySizeInBits;
+        key.data = _data;
         key.privateContent = _privateContent;
         key.privateKeyRef = _privateKeyRef;
     }
     return key;
+}
+
+- (void)setData:(NSData *)data {
+    _data = data;
 }
 
 - (NSData *)data {
@@ -168,6 +173,11 @@
             NSAssert(false, @"RSA failed to get data from private key ref");
         }
         
+        // 3. other parameters
+        //[_storeDictionary setObject:@"ECB" forKey:@"mode"];
+        //[_storeDictionary setObject:@"PKCS1" forKey:@"padding"];
+        //[_storeDictionary setObject:@"SHA256" forKey:@"digest"];
+        
         break;
     }
     return _privateKeyRef;
@@ -209,6 +219,9 @@
         if (publicContent) {
             NSDictionary *dict = @{@"algorithm":self.algorithm,
                                    @"data"     :publicContent,
+                                   //@"mode"     :@"ECB",
+                                   //@"padding"  :@"PKCS1",
+                                   //@"digest"   :@"SHA256",
                                    };
             _publicKey = [[MKMRSAPublicKey alloc] initWithDictionary:dict];
         }
@@ -218,9 +231,12 @@
 
 #pragma mark - Protocol
 
-- (nullable NSData *)decrypt:(const NSData *)ciphertext {
+- (nullable NSData *)decrypt:(NSData *)ciphertext {
     NSAssert(self.privateKeyRef != NULL, @"RSA private key cannot be empty");
-    NSAssert(ciphertext.length == (self.keySizeInBits/8), @"RSA ciphertext length error: %lu", ciphertext.length);
+    if (ciphertext.length != (self.keySizeInBits/8)) {
+        // ciphertext length not match RSA key
+        return nil;
+    }
     NSData *plaintext = nil;
     
     CFErrorRef error = NULL;
@@ -244,7 +260,7 @@
     return plaintext;
 }
 
-- (NSData *)sign:(const NSData *)data {
+- (NSData *)sign:(NSData *)data {
     NSAssert(self.privateKeyRef != NULL, @"RSA private key cannot be empty");
     NSAssert(data.length > 0, @"RSA data cannot be empty");
     NSData *signature = nil;

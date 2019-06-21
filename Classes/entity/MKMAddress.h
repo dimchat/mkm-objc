@@ -10,9 +10,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-#define MKMAddressAlgorithm_BTC    0x01
-#define MKMAddressDefaultAlgorithm MKMAddressAlgorithm_BTC
-
 /**
  *  @enum MKMNetworkID
  *
@@ -132,46 +129,56 @@ typedef UInt8 MKMNetworkType;
  *
  *      algorithm:
  *          fingerprint = sign(seed, SK);
- *          digest      = ripemd160(sha256(fingerprint));
- *          check_code  = sha256(sha256(network + digest)).prefix(4);
- *          address     = base58_encode(network + digest + check_code);
+ *
+ *          CT      = fingerprint; // or key.data for BTC address
+ *          digest  = ripemd160(sha256(CT));
+ *          code    = sha256(sha256(network + digest)).prefix(4);
+ *          address = base58_encode(network + digest + code);
+ *          number  = uint(code);
  */
-@interface MKMAddress : MKMString
+@interface MKMAddress : MKMString {
+    
+    MKMNetworkType _network;
+    UInt32 _code;
+}
 
 @property (readonly, nonatomic) MKMNetworkType network; // Network ID
 @property (readonly, nonatomic) UInt32 code;            // Check Code
 
-@property (readonly, nonatomic, getter=isValid) BOOL valid;
-
-+ (instancetype)addressWithAddress:(id)addr;
-
 /**
- Copy address data
-
- @param aString - Encoded address string
- @return Address object
+ *  Copy address data
+ *
+ * @param aString - Encoded address string
+ * @return Address object
  */
 - (instancetype)initWithString:(NSString *)aString;
 
+@end
+
+// convert String to Address
+#define MKMAddressFromString(address)      [MKMAddress getInstance:(address)]
+
+@interface MKMAddress (Runtime)
+
++ (void)registerClass:(Class)addressClass;
+
++ (nullable instancetype)getInstance:(id)address;
+
+@end
+
+#pragma mark - BTC Address
+
+@interface MKMAddressBTC : MKMAddress
+
 /**
- Generate address with fingerprint and network ID
-
- @param CT - fingerprint = sign(seed, PK)
- @param type - network ID
- @param version - algorithm version
- @return Address object
+ *  Generate address with fingerprint(key.data) and network ID
+ *
+ * @param fingerprint = sign(seed, PK)
+ * @param type - network ID
+ * @return Address object
  */
-- (instancetype)initWithFingerprint:(const NSData *)CT
-                            network:(MKMNetworkType)type
-                          algorithm:(NSUInteger)version;
-- (instancetype)initWithFingerprint:(const NSData *)CT
-                            network:(MKMNetworkType)type;
-
-- (instancetype)initWithKeyData:(const NSData *)CT
-                        network:(MKMNetworkType)type
-                      algorithm:(NSUInteger)version;
-- (instancetype)initWithKeyData:(const NSData *)CT
-                        network:(MKMNetworkType)type;
+- (instancetype)initWithData:(NSData *)fingerprint
+                     network:(MKMNetworkType)type;
 
 @end
 
