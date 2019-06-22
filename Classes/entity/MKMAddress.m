@@ -28,7 +28,7 @@
 
 @end
 
-static inline NSMutableArray<Class> *address_classes(void) {
+static NSMutableArray<Class> *address_classes(void) {
     static NSMutableArray<Class> *classes = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
