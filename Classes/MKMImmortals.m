@@ -62,14 +62,6 @@
         NSAssert(false, @"meta not match ID: %@, %@", ID, meta);
     }
     
-    // profile
-    MKMProfile *profile = MKMProfileFromDictionary([dict objectForKey:@"profile"]);
-    if (profile) {
-        [_profileTable setObject:profile forKey:ID.address];
-    } else {
-        NSAssert(false, @"profile not fould: %@", dict);
-    }
-    
     // private key
     MKMPrivateKey *SK = [dict objectForKey:@"privateKey"];
     SK = MKMPrivateKeyFromDictionary(SK);
@@ -79,6 +71,14 @@
     } else {
         NSAssert(false, @"keys not match: %@, meta: %@", SK, meta);
         SK = nil;
+    }
+    
+    // profile
+    MKMProfile *profile = MKMProfileFromDictionary([dict objectForKey:@"profile"]);
+    if ([profile verify:meta.key]) {
+        [_profileTable setObject:profile forKey:ID.address];
+    } else if (![profile sign:SK]) {
+        NSAssert(false, @"profile not fould: %@", dict);
     }
     
     // create user
