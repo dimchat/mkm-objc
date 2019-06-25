@@ -63,13 +63,12 @@ static NSMutableArray<Class> *address_classes(void) {
 
 @implementation MKMAddress (Runtime)
 
-+ (void)registerClass:(Class)addressClass {
-    NSAssert([addressClass isSubclassOfClass:self],
-             @"class error: %@", addressClass);
++ (void)registerClass:(Class)clazz {
+    NSAssert([clazz isSubclassOfClass:self], @"address class error: %@", clazz);
     NSMutableArray<Class> *classes = address_classes();
-    if (addressClass && ![classes containsObject:addressClass]) {
+    if (clazz && ![classes containsObject:clazz]) {
         // parse address string with new class first
-        [classes insertObject:addressClass atIndex:0];
+        [classes insertObject:clazz atIndex:0];
     }
 }
 
@@ -82,24 +81,20 @@ static NSMutableArray<Class> *address_classes(void) {
         return address;
     }
     NSAssert([address isKindOfClass:[NSString class]], @"address error: %@", address);
-    if ([self isEqual:[MKMAddress class]]) {
-        // create instance by subclass
-        NSMutableArray<Class> *classes = address_classes();
-        for (Class clazz in classes) {
-            NSAssert([clazz isSubclassOfClass:self], @"class error: %@", clazz);
-            @try {
-                return [clazz getInstance:address];
-            } @catch (NSException *exception) {
-                // address format error, try next
-            } @finally {
-                //
-            }
+    // create instance by subclass
+    NSMutableArray<Class> *classes = address_classes();
+    for (Class clazz in classes) {
+        @try {
+            // create instance with subclass of Address
+            return [[clazz alloc] initWithString:address];
+        } @catch (NSException *exception) {
+            // address format error, try next
+        } @finally {
+            //
         }
-        NSAssert(false, @"address not support: %@", address);
-        return nil;
     }
-    // create instance with subclass of Address
-    return [[self alloc] initWithString:address];
+    NSAssert(false, @"address not support: %@", address);
+    return nil;
 }
 
 @end
@@ -168,13 +163,13 @@ static inline UInt32 user_number(NSData *cc) {
  *      check_code = sha256(sha256(network + digest)).prefix(4);
  *      addr       = base58_encode(network + digest + check_code);
  */
-- (instancetype)initWithData:(NSData *)CT
+- (instancetype)initWithData:(NSData *)key
                      network:(MKMNetworkType)type {
     NSString *string = nil;
     UInt32 code = 0;
     
     // 1. hash = ripemd160(sha256(CT))
-    NSData *hash = [[CT sha256] ripemd160];
+    NSData *hash = [[key sha256] ripemd160];
     // 2. _h = network + hash
     NSMutableData *data;
     data = [[NSMutableData alloc] initWithBytes:&type length:1];
@@ -191,6 +186,10 @@ static inline UInt32 user_number(NSData *cc) {
         _code = code;
     }
     return self;
+}
+
++ (instancetype)generateWithData:(NSData *)key network:(MKMNetworkType)type {
+    return [[self alloc] initWithData:key encoding:type];
 }
 
 - (MKMNetworkType)network {

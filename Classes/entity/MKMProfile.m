@@ -222,8 +222,8 @@ static NSMutableArray<Class> *profile_classes(void) {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         classes = [[NSMutableArray alloc] init];
-        // Profile (DON'T add this class)
-        //[classes addObject:[MKMProfile class]];
+        // default
+        [classes addObject:[MKMProfile class]];
         // ...
     });
     return classes;
@@ -231,13 +231,13 @@ static NSMutableArray<Class> *profile_classes(void) {
 
 @implementation MKMProfile (Runtime)
 
-+ (void)registerClass:(Class)profileClass {
-    NSAssert(![profileClass isEqual:self], @"only subclass");
-    NSAssert([profileClass isSubclassOfClass:self], @"class error: %@", profileClass);
++ (void)registerClass:(Class)clazz {
+    NSAssert(![clazz isEqual:self], @"only subclass");
+    NSAssert([clazz isSubclassOfClass:self], @"profile class error: %@", clazz);
     NSMutableArray<Class> *classes = profile_classes();
-    if (profileClass && ![classes containsObject:profileClass]) {
+    if (clazz && ![classes containsObject:clazz]) {
         // parse profile with new class first
-        [classes insertObject:profileClass atIndex:0];
+        [classes insertObject:clazz atIndex:0];
     }
 }
 
@@ -251,23 +251,19 @@ static NSMutableArray<Class> *profile_classes(void) {
     }
     NSAssert([profile isKindOfClass:[NSDictionary class]],
              @"profile should be a dictionary: %@", profile);
-    if (![self isEqual:[MKMProfile class]]) {
-        // subclass
-        NSAssert([self isSubclassOfClass:[MKMProfile class]], @"profile class error");
-        return [[self alloc] initWithDictionary:profile];
-    }
     // create instance by subclass
     NSMutableArray<Class> *classes = profile_classes();
     for (Class clazz in classes) {
         @try {
-            return [clazz getInstance:profile];
+            return [[clazz alloc] initWithDictionary:profile];
         } @catch (NSException *exception) {
             // profile not match, try next
         } @finally {
             //
         }
     }
-    return [[self alloc] initWithDictionary:profile];
+    NSAssert(false, @"profile not support: %@", profile);
+    return nil;
 }
 
 @end

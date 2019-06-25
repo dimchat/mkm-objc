@@ -172,14 +172,13 @@ NS_DESIGNATED_INITIALIZER;
 }
 
 /**
- *  Generate address with fingerprint(key.data) and network ID
+ *  Generate address with key data and network ID
  *
- * @param fingerprint = sign(seed, PK)
+ * @param key - public key data
  * @param type - network ID
  * @return Address object
  */
-- (instancetype)initWithData:(NSData *)fingerprint
-                     network:(MKMNetworkType)type;
++ (instancetype)generateWithData:(NSData *)key network:(MKMNetworkType)type;
 
 @end
 
