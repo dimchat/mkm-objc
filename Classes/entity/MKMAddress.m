@@ -189,7 +189,7 @@ static inline UInt32 user_number(NSData *cc) {
 }
 
 + (instancetype)generateWithData:(NSData *)key network:(MKMNetworkType)type {
-    return [[self alloc] initWithData:key encoding:type];
+    return [[self alloc] initWithData:key network:type];
 }
 
 - (MKMNetworkType)network {
