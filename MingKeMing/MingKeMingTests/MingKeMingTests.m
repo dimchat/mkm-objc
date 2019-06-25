@@ -202,13 +202,8 @@ static inline void print_id(MKMID *ID) {
     
     NSString *name = @"moky";
     MKMPrivateKey *SK = MKMPrivateKeyWithAlgorithm(ACAlgorithmRSA);
-    MKMPublicKey *PK = SK.publicKey;
     
-    MKMMeta *meta = [[MKMMeta alloc] initWithVersion:MKMMetaDefaultVersion
-                                                seed:name
-                                          privateKey:SK
-                                           publicKey:PK];
-    
+    MKMMeta *meta = MKMMetaGenerate(MKMMetaDefaultVersion, SK, name);
     MKMID *ID = [meta generateID:MKMNetwork_Main];
     
     NSLog(@"meta: %@", meta);
@@ -220,9 +215,8 @@ static inline void print_id(MKMID *ID) {
 
 - (void)testMeta2 {
     MKMPrivateKey *SK = MKMPrivateKeyWithAlgorithm(ACAlgorithmRSA);
-    MKMPublicKey *PK = SK.publicKey;
     
-    MKMMeta *meta = [[MKMMetaBTC alloc] initWithPublicKey:PK];
+    MKMMeta *meta = MKMMetaGenerate(MKMMetaVersion_BTC, SK, nil);
     MKMID *ID = [meta generateID:MKMNetwork_BTCMain];
     
     NSLog(@"meta: %@", meta);
@@ -304,10 +298,13 @@ static inline void print_id(MKMID *ID) {
             continue;
         }
         
-        MKMMeta *meta = [[MKMMeta alloc] initWithVersion:MKMMetaDefaultVersion
-                                               publicKey:PK
-                                                    seed:name
-                                             fingerprint:CT];
+        NSDictionary *dict = @{@"version"    :@(MKMMetaDefaultVersion),
+                               @"key"        :PK,
+                               @"seed"       :name,
+                               @"fingerprint":[CT base64Encode],
+                               };
+        
+        MKMMeta *meta = MKMMetaFromDictionary(dict);
         
         MKMID *ID = [meta generateID:network];
 

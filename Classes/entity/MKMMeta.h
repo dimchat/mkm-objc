@@ -67,33 +67,22 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly, strong, nonatomic, nullable) NSData *fingerprint;
 
 /**
- *  Copy meta data
+ *  Create meta with dictionary
  */
-- (instancetype)initWithDictionary:(NSDictionary *)dict;
-
-- (instancetype)initWithVersion:(NSUInteger)version
-                      publicKey:(MKMPublicKey *)PK
-                           seed:(nullable NSString *)name
-                    fingerprint:(nullable NSData *)CT;
+- (instancetype)initWithDictionary:(NSDictionary *)dict
+NS_DESIGNATED_INITIALIZER;
 
 /**
- Generate fingerprint, initialize meta data
- 
- @param version - meta version for MKM or ExBTC
- @param name - seed for fingerprint
- @param SK - private key to generate fingerprint
- @param PK - public key, which must match the private key
- @return Meta object
+ *  Generate fingerprint, initialize meta data
+ *
+ * @param version - meta version for MKM or ExBTC
+ * @param SK - private key to generate fingerprint
+ * @param name - seed for fingerprint
+ * @return Meta object
  */
-- (instancetype)initWithVersion:(NSUInteger)version
-                           seed:(NSString *)name
-                     privateKey:(MKMPrivateKey *)SK
-                      publicKey:(nullable MKMPublicKey *)PK;
-
-/**
- *  For BTC address
- */
-- (instancetype)initWithPublicKey:(MKMPublicKey *)PK;
++ (instancetype)generateWithVersion:(NSUInteger)version
+                         privateKey:(MKMPrivateKey *)SK
+                               seed:(nullable NSString *)name;
 
 - (BOOL)matchPublicKey:(MKMPublicKey *)PK;
 
@@ -134,6 +123,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 // convert Dictionary to Meta
 #define MKMMetaFromDictionary(meta)        [MKMMeta getInstance:(meta)]
+// generate Meta
+#define MKMMetaGenerate(ver, SK, name)     [MKMMeta generateWithVersion:(ver)  \
+                                                             privateKey:(SK)   \
+                                                                   seed:(name)]
 
 @interface MKMMeta (Runtime)
 
@@ -144,6 +137,16 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 #pragma mark -
+
+/**
+ *  Default Meta to build ID with 'name@address'
+ *
+ *  version:
+ *      0x01 - MKM
+ */
+@interface MKMMetaDefault : MKMMeta
+
+@end
 
 /**
  *  Meta to build ID with BTC address

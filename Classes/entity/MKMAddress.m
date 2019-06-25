@@ -13,17 +13,37 @@
 
 @implementation MKMAddress
 
+- (instancetype)init {
+    NSAssert(false, @"DON'T call me!");
+    NSString *string = nil;
+    return [self initWithString:string];
+}
+
+- (nullable instancetype)initWithCoder:(NSCoder *)aDecoder {
+    NSAssert(false, @"DON'T call me!");
+    NSString *string = nil;
+    return [self initWithString:string];
+}
+
 /* designated initializer */
 - (instancetype)initWithString:(NSString *)aString {
     if (self = [super initWithString:aString]) {
-        _network = 0;
-        _code = 0;
     }
     return self;
 }
 
 - (BOOL)isEqual:(id)object {
     return [_storeString isEqualToString:object];
+}
+
+- (MKMNetworkType)network {
+    NSAssert(false, @"override me!");
+    return 0;
+}
+
+- (UInt32)code {
+    NSAssert(false, @"override me!");
+    return 0;
 }
 
 @end
@@ -61,27 +81,25 @@ static NSMutableArray<Class> *address_classes(void) {
         // return Address object directly
         return address;
     }
-    NSAssert([address isKindOfClass:[NSString class]],
-             @"address should be a string: %@", address);
-    if (![self isEqual:[MKMAddress class]]) {
-        // subclass
-        NSAssert([self isSubclassOfClass:[MKMAddress class]],
-                 @"address class error");
-        return [[self alloc] initWithString:address];
-    }
-    // create instance by subclass
-    NSMutableArray<Class> *classes = address_classes();
-    for (Class clazz in classes) {
-        @try {
-            return [clazz getInstance:address];
-        } @catch (NSException *exception) {
-            // address format error, try next
-        } @finally {
-            //
+    NSAssert([address isKindOfClass:[NSString class]], @"address error: %@", address);
+    if ([self isEqual:[MKMAddress class]]) {
+        // create instance by subclass
+        NSMutableArray<Class> *classes = address_classes();
+        for (Class clazz in classes) {
+            NSAssert([clazz isSubclassOfClass:self], @"class error: %@", clazz);
+            @try {
+                return [clazz getInstance:address];
+            } @catch (NSException *exception) {
+                // address format error, try next
+            } @finally {
+                //
+            }
         }
+        NSAssert(false, @"address not support: %@", address);
+        return nil;
     }
-    NSAssert(false, @"address not support: %@", address);
-    return nil;
+    // create instance with subclass of Address
+    return [[self alloc] initWithString:address];
 }
 
 @end
@@ -173,6 +191,14 @@ static inline UInt32 user_number(NSData *cc) {
         _code = code;
     }
     return self;
+}
+
+- (MKMNetworkType)network {
+    return _network;
+}
+
+- (UInt32)code {
+    return _code;
 }
 
 @end
