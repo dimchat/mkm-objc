@@ -135,9 +135,9 @@
         _valid = YES;
         // refresh properties
         _properties = [[data jsonDictionary] mutableCopy];
-    } else {
-        _data = nil;
-        _signature = nil;
+    //} else {
+    //    _data = nil;
+    //    _signature = nil;
     }
     return _valid;
 }
@@ -187,14 +187,12 @@
 }
 
 - (BOOL)verify:(MKMPublicKey *)PK {
-    if ([super verify:PK]) {
-        _name = (NSString *)[self dataForKey:@"name"];
-        _key = MKMPublicKeyFromDictionary([self dataForKey:@"key"]);
-        
-        return YES;
-    } else {
+    if (![super verify:PK]) {
         return NO;
     }
+    _name = (NSString *)[self dataForKey:@"name"];
+    _key = MKMPublicKeyFromDictionary([self dataForKey:@"key"]);
+    return YES;
 }
 
 - (NSString *)name {
