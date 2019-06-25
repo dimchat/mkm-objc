@@ -136,22 +136,19 @@ typedef UInt8 MKMNetworkType;
  *          address = base58_encode(network + digest + code);
  *          number  = uint(code);
  */
-@interface MKMAddress : MKMString {
-    
-    MKMNetworkType _network;
-    UInt32 _code;
-}
+@interface MKMAddress : MKMString
 
 @property (readonly, nonatomic) MKMNetworkType network; // Network ID
 @property (readonly, nonatomic) UInt32 code;            // Check Code
 
 /**
- *  Copy address data
+ *  Create address with string
  *
  * @param aString - Encoded address string
  * @return Address object
  */
-- (instancetype)initWithString:(NSString *)aString;
+- (instancetype)initWithString:(NSString *)aString
+NS_DESIGNATED_INITIALIZER;
 
 @end
 
@@ -168,17 +165,20 @@ typedef UInt8 MKMNetworkType;
 
 #pragma mark - BTC Address
 
-@interface MKMAddressBTC : MKMAddress
+@interface MKMAddressBTC : MKMAddress {
+    
+    MKMNetworkType _network;
+    UInt32 _code;
+}
 
 /**
- *  Generate address with fingerprint(key.data) and network ID
+ *  Generate address with key data and network ID
  *
- * @param fingerprint = sign(seed, PK)
+ * @param key - public key data
  * @param type - network ID
  * @return Address object
  */
-- (instancetype)initWithData:(NSData *)fingerprint
-                     network:(MKMNetworkType)type;
++ (instancetype)generateWithData:(NSData *)key network:(MKMNetworkType)type;
 
 @end
 

@@ -29,6 +29,12 @@
 
 @implementation MKMMeta
 
+- (instancetype)init {
+    NSAssert(false, @"DON'T call me!");
+    NSDictionary *dict = nil;
+    return [self initWithDictionary:dict];
+}
+
 - (instancetype)initWithDictionary:(NSDictionary *)dict {
     if (self = [super initWithDictionary:dict]) {
         // version
@@ -62,59 +68,24 @@
     return self;
 }
 
-- (instancetype)initWithVersion:(NSUInteger)version
-                      publicKey:(MKMPublicKey *)PK
-                           seed:(nullable NSString *)name
-                    fingerprint:(nullable NSData *)CT {
-    NSAssert(PK, @"meta.key cannot be empty");
++ (instancetype)generateWithVersion:(NSUInteger)version
+                         privateKey:(MKMPrivateKey *)SK
+                               seed:(nullable NSString *)name {
     NSDictionary *dict;
     if (version & MKMMetaVersion_MKM) { // MKM, ExBTC, ExETH, ...
+        NSData *CT = [SK sign:[name data]];
+        NSString *fingerprint = [CT base64Encode];
         dict = @{@"version"    :@(version),
-                 @"key"        :PK,
+                 @"key"        :[SK publicKey],
                  @"seed"       :name,
-                 @"fingerprint":[CT base64Encode],
+                 @"fingerprint":fingerprint,
                  };
     } else { // BTC, ETH, ...
         dict = @{@"version"    :@(version),
-                 @"key"        :PK,
+                 @"key"        :[SK publicKey],
                  };
     }
-    if (self = [super initWithDictionary:dict]) {
-        _version = version;
-        _key = PK;
-        _seed = name;
-        _fingerprint = CT;
-    }
-    return self;
-}
-
-- (instancetype)initWithVersion:(NSUInteger)version
-                           seed:(NSString *)name
-                     privateKey:(MKMPrivateKey *)SK
-                      publicKey:(MKMPublicKey *)PK {
-    if (PK) {
-        NSAssert([PK isMatch:SK], @"PK must match SK");
-    } else {
-        PK = [SK publicKey];
-    }
-    NSData *CT = [SK sign:[name data]];
-    return [self initWithVersion:version publicKey:PK seed:name fingerprint:CT];
-}
-
-- (instancetype)initWithPublicKey:(MKMPublicKey *)PK {
-    NSAssert(PK, @"meta.key cannot be empty");
-    NSUInteger version = MKMMetaVersion_BTC;
-    
-    NSDictionary *dict = @{@"version"    :@(version),
-                           @"key"        :PK,
-                           };
-    if (self = [super initWithDictionary:dict]) {
-        _version = version;
-        _key = PK;
-        _seed = nil;
-        _fingerprint = nil;
-    }
-    return self;
+    return [self getInstance:dict];
 }
 
 - (BOOL)matchPublicKey:(MKMPublicKey *)PK {
@@ -147,22 +118,23 @@
 }
 
 - (MKMAddress *)generateAddress:(MKMNetworkType)type {
-    NSAssert(_version == MKMMetaVersion_MKM, @"meta version error");
-    return [[MKMAddressBTC alloc] initWithData:_fingerprint network:type];
+    NSAssert(false, @"override me!");
+    return nil;
 }
 
 @end
 
-static inline NSMutableDictionary<NSNumber *, Class> *meta_classes(void) {
+static NSMutableDictionary<NSNumber *, Class> *meta_classes(void) {
     static NSMutableDictionary<NSNumber *, Class> *classes = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         classes = [[NSMutableDictionary alloc] init];
         // MKM
-        //[classes setObject:[MKMMetaDefault class] forKey:@(MKMMetaVersion_MKM)];
+        [classes setObject:[MKMMetaDefault class] forKey:@(MKMMetaVersion_MKM)];
         // BTC
         [classes setObject:[MKMMetaBTC class] forKey:@(MKMMetaVersion_BTC)];
         [classes setObject:[MKMMetaBTC class] forKey:@(MKMMetaVersion_ExBTC)];
+        // ETH
         // ...
     });
     return classes;
@@ -188,32 +160,40 @@ static inline NSMutableDictionary<NSNumber *, Class> *meta_classes(void) {
         // return Meta object directly
         return meta;
     }
-    NSAssert([meta isKindOfClass:[NSDictionary class]],
-             @"meta should be a dictionary: %@", meta);
-    if (![self isEqual:[MKMMeta class]]) {
-        // subclass
-        NSAssert([self isSubclassOfClass:[MKMMeta class]], @"meta class error");
-        return [[self alloc] initWithDictionary:meta];
+    NSAssert([meta isKindOfClass:[NSDictionary class]], @"meta error: %@", meta);
+    if ([self isEqual:[MKMMeta class]]) {
+        // get subclass with meta version
+        NSNumber *version = [meta objectForKey:@"version"];
+        Class clazz = [meta_classes() objectForKey:version];
+        if (clazz) {
+            NSAssert([clazz isSubclassOfClass:self], @"class error: %@", clazz);
+            return [clazz getInstance:meta];
+        }
+        NSAssert(false, @"meta not support: %@", meta);
+        return nil;
     }
-    // create instance by subclass with meta version
-    NSNumber *version = [meta objectForKey:@"version"];
-    Class clazz = [meta_classes() objectForKey:version];
-    if (clazz) {
-        return [clazz getInstance:meta];
-    } else {
-        return [[self alloc] initWithDictionary:meta];
-    }
+    // create instance with subclass of Meta
+    return [[self alloc] initWithDictionary:meta];
 }
 
 @end
 
 #pragma mark -
 
+@implementation MKMMetaDefault
+
+- (MKMAddress *)generateAddress:(MKMNetworkType)type {
+    NSAssert(self.version == MKMMetaVersion_MKM, @"meta version error");
+    return [MKMAddressBTC generateWithData:self.fingerprint network:type];
+}
+
+@end
+
 @implementation MKMMetaBTC
 
 - (MKMAddress *)generateAddress:(MKMNetworkType)type {
     NSAssert(self.version & MKMMetaVersion_BTC, @"meta version error");
-    return [[MKMAddressBTC alloc] initWithData:self.key.data network:type];
+    return [MKMAddressBTC generateWithData:self.key.data network:type];
 }
 
 @end

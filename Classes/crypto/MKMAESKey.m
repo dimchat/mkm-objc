@@ -21,7 +21,8 @@ static inline NSData *random_data(NSUInteger size) {
 
 @interface MKMAESKey ()
 
-@property (nonatomic) NSUInteger keySize;
+@property (readonly, nonatomic) NSUInteger keySize;
+@property (readonly, nonatomic) NSUInteger blockSize;
 
 @property (strong, nonatomic) NSData *data; // Key Data
 @property (strong, nonatomic) NSData *iv;   // Initialization Vector
@@ -36,8 +37,6 @@ static inline NSData *random_data(NSUInteger size) {
         NSAssert([self.algorithm isEqualToString:SCAlgorithmAES], @"algorithm error: %@", keyInfo);
         
         // lazy
-        _keySize = 0;
-        
         _data = nil;
         _iv = nil;
     }
@@ -48,8 +47,6 @@ static inline NSData *random_data(NSUInteger size) {
 - (id)copyWithZone:(NSZone *)zone {
     MKMAESKey *key = [super copyWithZone:zone];
     if (key) {
-        key.keySize = _keySize;
-        
         key.data = _data;
         key.iv = _iv;
     }
@@ -57,23 +54,29 @@ static inline NSData *random_data(NSUInteger size) {
 }
 
 - (NSUInteger)keySize {
-    while (_keySize == 0) {
-        if (self.data) {
-            _keySize = self.data.length;
-            break;
-        }
-        
-        NSNumber *size = [_storeDictionary objectForKey:@"keySize"];
-        if (size != nil) {
-            _keySize = size.unsignedIntegerValue;
-            break;
-        }
-        
-        _keySize = kCCKeySizeAES256; // 32
-        [_storeDictionary setObject:@(_keySize) forKey:@"keySize"];
-        break;
+    // TODO: get from key data
+    //...
+    
+    // get from dictionary
+    NSNumber *size = [_storeDictionary objectForKey:@"keySize"];
+    if (size == nil) {
+        return kCCKeySizeAES256; // 32
+    } else {
+        return size.unsignedIntegerValue;
     }
-    return _keySize;
+}
+
+- (NSUInteger)blockSize {
+    // TODO: get from iv data
+    //...
+    
+    // get from dictionary
+    NSNumber *size = [_storeDictionary objectForKey:@"blockSize"];
+    if (size == nil) {
+        return kCCBlockSizeAES128; // 16
+    } else {
+        return size.unsignedIntegerValue;
+    }
 }
 
 - (void)setData:(NSData *)data {
@@ -95,20 +98,14 @@ static inline NSData *random_data(NSUInteger size) {
         // key data empty? generate new key info
         //
         
-        // key size (bytes)
-        NSUInteger size = kCCKeySizeAES256;
-        NSNumber *keySize = [_storeDictionary objectForKey:@"keySize"];
-        if (keySize != nil) {
-            size = [keySize unsignedIntegerValue];
-        }
-        
         // random password
-        _data = random_data(size);
+        NSUInteger keySize = [self keySize];
+        _data = random_data(keySize);
         PW = [_data base64Encode];
         [_storeDictionary setObject:PW forKey:@"data"];
         
         // random initialization vector
-        NSUInteger blockSize = kCCBlockSizeAES128;
+        NSUInteger blockSize = [self blockSize];
         _iv = random_data(blockSize);
         NSString *IV = [_iv base64Encode];
         [_storeDictionary setObject:IV forKey:@"iv"];
@@ -125,9 +122,6 @@ static inline NSData *random_data(NSUInteger size) {
 - (NSData *)iv {
     if (!_iv) {
         NSString *iv = [_storeDictionary objectForKey:@"iv"];
-        if (!iv) {
-            iv = [_storeDictionary objectForKey:@"initializationVector"];
-        }
         _iv = [iv base64Decode];
     }
     return _iv;

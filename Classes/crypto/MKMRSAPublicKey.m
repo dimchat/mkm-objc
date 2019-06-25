@@ -17,10 +17,13 @@
 
 @interface MKMRSAPublicKey () {
     
+    NSUInteger _keySize;
+    
+    NSString *_publicContent;
     SecKeyRef _publicKeyRef;
 }
 
-@property (nonatomic) NSUInteger keySizeInBits;
+@property (nonatomic) NSUInteger keySize;
 
 @property (strong, nonatomic) NSString *publicContent;
 
@@ -33,10 +36,11 @@
 /* designated initializer */
 - (instancetype)initWithDictionary:(NSDictionary *)keyInfo {
     if (self = [super initWithDictionary:keyInfo]) {
-        NSAssert([self.algorithm isEqualToString:ACAlgorithmRSA], @"algorithm error: %@", keyInfo);
+        NSAssert([self.algorithm isEqualToString:ACAlgorithmRSA],
+                 @"algorithm error: %@", keyInfo);
         
         // lazy
-        _keySizeInBits = 0;
+        _keySize = 0;
         _publicContent = nil;
         _publicKeyRef = NULL;
     }
@@ -58,8 +62,8 @@
 - (id)copyWithZone:(NSZone *)zone {
     MKMRSAPublicKey *key = [super copyWithZone:zone];
     if (key) {
-        key.keySizeInBits = _keySizeInBits;
         key.data = _data;
+        key.keySize = _keySize;
         key.publicContent = _publicContent;
         key.publicKeyRef = _publicKeyRef;
     }
@@ -77,26 +81,24 @@
     return _data;
 }
 
-- (NSUInteger)keySizeInBits {
-    while (_keySizeInBits == 0) {
+- (NSUInteger)keySize {
+    while (_keySize == 0) {
+        // get from key
         if (_publicKeyRef || self.publicContent) {
             size_t bytes = SecKeyGetBlockSize(self.publicKeyRef);
-            _keySizeInBits = bytes * sizeof(uint8_t) * 8;
+            _keySize = bytes * sizeof(uint8_t);
             break;
         }
-        
-        NSNumber *size;
-        size = [_storeDictionary objectForKey:@"keySizeInBits"];
-        if (size != nil) {
-            _keySizeInBits = size.unsignedIntegerValue;
-            break;
+        // get from dictionary
+        NSNumber *size = [_storeDictionary objectForKey:@"keySize"];
+        if (size == nil) {
+            _keySize = 1024 / 8; // 128
+        } else {
+            _keySize = size.unsignedIntegerValue;
         }
-        
-        _keySizeInBits = 1024;
-        [_storeDictionary setObject:@(_keySizeInBits) forKey:@"keySizeInBits"];
         break;
     }
-    return _keySizeInBits;
+    return _keySize;
 }
 
 - (NSString *)publicContent {
@@ -141,7 +143,8 @@
 
 - (NSData *)encrypt:(NSData *)plaintext {
     NSAssert(self.publicKeyRef != NULL, @"RSA public key cannot be empty");
-    NSAssert(plaintext.length > 0 && plaintext.length <= (self.keySizeInBits/8 - 11), @"RSA data length error: %lu", plaintext.length);
+    NSAssert(plaintext.length > 0 && plaintext.length <= (self.keySize - 11),
+             @"RSA data length error: %lu", plaintext.length);
     NSData *ciphertext = nil;
     
     CFErrorRef error = NULL;
@@ -168,7 +171,7 @@
 - (BOOL)verify:(NSData *)data withSignature:(NSData *)signature {
     NSAssert(self.publicKeyRef != NULL, @"RSA public key cannot be empty");
     NSAssert(data.length > 0, @"RSA data cannot be empty");
-    if (signature.length != (self.keySizeInBits/8)) {
+    if (signature.length != (self.keySize)) {
         // signature length not match RSA key
         return NO;
     }
