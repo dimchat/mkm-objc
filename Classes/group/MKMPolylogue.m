@@ -21,4 +21,14 @@
     return self;
 }
 
+- (nullable MKMID *)owner {
+    NSAssert(_dataSource, @"group data source not set yet");
+    MKMID *ID = [_dataSource ownerOfGroup:_ID];
+    if ([ID isValid]) {
+        NSAssert([[self founder] isEqual:ID], @"polylugue's owner is founder");
+        return ID;
+    }
+    return [self founder];
+}
+
 @end

@@ -12,6 +12,7 @@
 
 #import "MKMID.h"
 #import "MKMMeta.h"
+#import "MKMProfile.h"
 
 #import "MKMGroup.h"
 
@@ -61,6 +62,23 @@
         }
     }
     return NO;
+}
+
+- (MKMProfile *)profile {
+    MKMProfile *tao = [super profile];
+    if (!tao) {
+        return nil;
+    }
+    // try to verify with owner's meta.key
+    MKMID *owner = [self owner];
+    MKMMeta *meta = [_dataSource metaForID:owner];
+    MKMPublicKey *key = [meta key];
+    if ([tao verify:key]) {
+        // signature correct
+        return tao;
+    }
+    // profile error
+    return tao;
 }
 
 @end
