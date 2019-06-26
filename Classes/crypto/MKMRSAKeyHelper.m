@@ -58,7 +58,7 @@ static inline NSString *RSAKeyContentFromNSString(NSString *content,
                                                   NSString *tag) {
     NSString *sTag, *eTag;
     NSRange spos, epos;
-    NSString *key = [content copy];
+    NSString *key = content;
     
     sTag = [NSString stringWithFormat:@"-----BEGIN RSA %@ KEY-----", tag];
     eTag = [NSString stringWithFormat:@"-----END RSA %@ KEY-----", tag];

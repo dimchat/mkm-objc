@@ -26,13 +26,22 @@
     
     MKMID *_ID;
     
+    NSMutableDictionary *_properties;
+    
     NSString *_data;    // JsON.encode(properties)
     NSData *_signature; // User(ID).sign(data)
     
-    NSMutableDictionary *_properties;
-    
     BOOL _valid; // YES on signature matched
 }
+
+@property (strong, nonatomic) MKMID *ID;
+
+@property (strong, nonatomic) NSMutableDictionary *properties;
+
+@property (strong, nonatomic) NSString *data;
+@property (strong, nonatomic) NSData *signature;
+
+@property (nonatomic, getter=isValid) BOOL valid;
 
 @end
 
@@ -47,19 +56,15 @@
 /* designated initializer */
 - (instancetype)initWithDictionary:(NSDictionary *)dict {
     if (self = [super initWithDictionary:dict]) {
-        // ID
-        _ID = MKMIDFromString([_storeDictionary objectForKey:@"ID"]);
+        // lazi
+        _ID = nil;
         
-        // properties
-        _properties = [[NSMutableDictionary alloc] init];
-        // data = JsON.encode(properties)
-        _data = [_storeDictionary objectForKey:@"data"];
-        // signature = User(ID).sign(data)
-        NSString *sig = [_storeDictionary objectForKey:@"signature"];
-        _signature = [sig base64Decode];
+        _properties = nil;
         
-        // verify flag
-        _valid = NO;
+        _data = nil; // JsON.encode(properties)
+        _signature = nil; // User(ID).sign(data)
+        
+        _valid = NO; // verify flag
     }
     return self;
 }
@@ -97,12 +102,53 @@
     return [self initWithID:ID data:nil signature:nil];
 }
 
+- (id)copyWithZone:(NSZone *)zone {
+    MKMTAO *profile = [super copyWithZone:zone];
+    if (profile) {
+        profile.ID = _ID;
+        profile.properties = _properties;
+        profile.data = _data;
+        profile.signature = _signature;
+        profile.valid = _valid;
+    }
+    return profile;
+}
+
+- (MKMID *)ID {
+    if (!_ID) {
+        _ID = MKMIDFromString([_storeDictionary objectForKey:@"ID"]);
+    }
+    return _ID;
+}
+
+- (NSMutableDictionary *)properties {
+    if (!_properties) {
+        _properties = [[NSMutableDictionary alloc] init];
+    }
+    return _properties;
+}
+
+- (NSString *)data {
+    if (!_data) {
+        _data = [_storeDictionary objectForKey:@"data"];
+    }
+    return _data;
+}
+
+- (NSData *)signature {
+    if (!_signature) {
+        NSString *sig = [_storeDictionary objectForKey:@"signature"];
+        _signature = [sig base64Decode];
+    }
+    return _signature;
+}
+
 - (void)setData:(nullable NSObject *)value forKey:(NSString *)key {
     // 1. update data in properties
     if (value != nil) {
-        [_properties setObject:value forKey:key];
+        [self.properties setObject:value forKey:key];
     } else {
-        [_properties removeObjectForKey:key];
+        [self.properties removeObjectForKey:key];
     }
     
     // 2. reset data signature after properties changed
@@ -114,24 +160,24 @@
 }
 
 - (nullable NSObject *)dataForKey:(NSString *)key {
-    return _valid ? [_properties objectForKey:key] : nil;
+    return self.valid ? [self.properties objectForKey:key] : nil;
 }
 
 - (NSArray *)dataKeys {
-    return _valid ? [_properties allKeys] : nil;
+    return self.valid ? [self.properties allKeys] : nil;
 }
 
 - (BOOL)verify:(MKMPublicKey *)PK {
-    if (_valid) {
+    if (self.valid) {
         // already verified
         return YES;
     }
-    if (_data == nil || _signature == nil) {
+    if (self.data == nil || self.signature == nil) {
         // data error
         return NO;
     }
-    NSData *data = [_data data];
-    if ([PK verify:data withSignature:_signature]) {
+    NSData *data = [self.data data];
+    if ([PK verify:data withSignature:self.signature]) {
         _valid = YES;
         // refresh properties
         _properties = [[data jsonDictionary] mutableCopy];
@@ -143,16 +189,17 @@
 }
 
 - (NSData *)sign:(MKMPrivateKey *)SK {
-    if (_valid) {
+    if (self.valid) {
         // already signed
         return _signature;
     }
-    NSData *data = [_properties jsonData];
+    NSData *data = [self.properties jsonData];
     _data = [data UTF8String];
     _signature = [SK sign:data];
+    NSString *signature = [self.signature base64Encode];
     // update 'data' & 'signature' fields
-    [_storeDictionary setObject:_data forKey:@"data"];
-    [_storeDictionary setObject:[_signature base64Encode] forKey:@"signature"];
+    [_storeDictionary setObject:self.data forKey:@"data"];
+    [_storeDictionary setObject:signature forKey:@"signature"];
     _valid = YES;
     return _signature;
 }

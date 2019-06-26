@@ -31,7 +31,7 @@ static inline char hex_char(char ch) {
 - (NSData *)hexDecode {
     NSMutableData *output = nil;
     
-    NSString *str = [self copy];
+    NSString *str = self;
     // 1. remove ' ', ':', '-', '\n'
     str = [str stringByReplacingOccurrencesOfString:@" " withString:@""];
     str = [str stringByReplacingOccurrencesOfString:@":" withString:@""];
