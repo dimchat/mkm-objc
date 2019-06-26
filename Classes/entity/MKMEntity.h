@@ -52,6 +52,15 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable MKMMeta *)metaForID:(MKMID *)ID;
 
 /**
+ *  Save meta into local storage
+ *
+ * @param meta - Meta info
+ * @param ID - entity ID
+ * @return YES on success
+ */
+- (BOOL)saveMeta:(MKMMeta *)meta forID:(MKMID *)ID;
+
+/**
  *  Get profile for entity ID
  *
  * @param ID - entity ID

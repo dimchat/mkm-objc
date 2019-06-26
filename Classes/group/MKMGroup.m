@@ -77,7 +77,7 @@
         // signature correct
         return tao;
     }
-    // profile error
+    // profile error, continue to process by subclass
     return tao;
 }
 
