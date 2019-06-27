@@ -29,10 +29,14 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 // convert Dictionary to SymmetricKey
-#define MKMSymmetricKeyFromDictionary(key) [MKMSymmetricKey getInstance:(key)]
+#define MKMSymmetricKeyFromDictionary(key)                                     \
+            [MKMSymmetricKey getInstance:(key)]                                \
+                                  /* EOF 'MKMSymmetricKeyFromDictionary(key)' */
 
 // generate SymmetricKey
-#define MKMSymmetricKeyWithAlgorithm(name) [MKMSymmetricKey getInstance:@{@"algorithm":(name)}]
+#define MKMSymmetricKeyWithAlgorithm(name)                                     \
+            [MKMSymmetricKey getInstance:@{@"algorithm":(name)}]               \
+                                   /* EOF 'MKMSymmetricKeyWithAlgorithm(name) */
 
 /**
  *  Symmetric Cryptography Key
