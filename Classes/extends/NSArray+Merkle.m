@@ -33,8 +33,7 @@ static inline NSData *merge_data(NSData *data1, NSData *data2) {
     NSMutableArray *mArray;
     mArray = [[NSMutableArray alloc] initWithCapacity:count];
     NSData *data;
-    NSArray *this = [self copy];
-    for (id item in this) {
+    for (id item in self) {
         if ([item isKindOfClass:[NSString class]]) {
             data = [item data];
         } else {

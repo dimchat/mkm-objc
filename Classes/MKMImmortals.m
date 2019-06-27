@@ -112,6 +112,10 @@
     return [_metaTable objectForKey:ID.address];
 }
 
+- (BOOL)saveMeta:(MKMMeta *)meta forID:(MKMID *)ID {
+    return [[_metaTable allValues] containsObject:meta];
+}
+
 - (nullable MKMProfile *)profileForID:(MKMID *)ID {
     NSAssert(MKMNetwork_IsPerson(ID.type), @"account ID error: %@", ID);
     return [_profileTable objectForKey:ID.address];
