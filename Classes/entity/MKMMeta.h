@@ -122,11 +122,14 @@ NS_DESIGNATED_INITIALIZER;
 #define MKMMetaDefaultVersion MKMMetaVersion_MKM
 
 // convert Dictionary to Meta
-#define MKMMetaFromDictionary(meta)        [MKMMeta getInstance:(meta)]
+#define MKMMetaFromDictionary(meta)                                            \
+            [MKMMeta getInstance:(meta)]                                       \
+                                         /* EOF 'MKMMetaFromDictionary(meta)' */
+
 // generate Meta
-#define MKMMetaGenerate(ver, SK, name)     [MKMMeta generateWithVersion:(ver)  \
-                                                             privateKey:(SK)   \
-                                                                   seed:(name)]
+#define MKMMetaGenerate(ver, SK, name)                                         \
+            [MKMMeta generateWithVersion:(ver) privateKey:(SK) seed:(name)]    \
+                                      /* EOF 'MKMMetaGenerate(ver, SK, name)' */
 
 @interface MKMMeta (Runtime)
 

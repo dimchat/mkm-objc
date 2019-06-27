@@ -11,10 +11,14 @@
 NS_ASSUME_NONNULL_BEGIN
 
 // convert Dictionary to PrivateKey
-#define MKMPrivateKeyFromDictionary(key)   [MKMPrivateKey getInstance:(key)]
+#define MKMPrivateKeyFromDictionary(key)                                       \
+            [MKMPrivateKey getInstance:(key)]                                  \
+                                    /* EOF 'MKMPrivateKeyFromDictionary(key)' */
 
 // generate PrivateKey
-#define MKMPrivateKeyWithAlgorithm(name)   [MKMPrivateKey getInstance:@{@"algorithm":(name)}]
+#define MKMPrivateKeyWithAlgorithm(name)                                       \
+            [MKMPrivateKey getInstance:@{@"algorithm":(name)}]                 \
+                                    /* EOF 'MKMPrivateKeyWithAlgorithm(name)' */
 
 @class MKMPublicKey;
 

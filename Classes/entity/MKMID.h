@@ -65,7 +65,9 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 // convert String to ID
-#define MKMIDFromString(identifier)      [MKMID getInstance:(identifier)]
+#define MKMIDFromString(ID)                                                    \
+            [MKMID getInstance:(ID)]                                           \
+                                                 /* EOF 'MKMIDFromString(ID)' */
 
 @interface MKMID (Runtime)
 

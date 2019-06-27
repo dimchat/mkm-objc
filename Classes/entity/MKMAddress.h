@@ -106,10 +106,10 @@ typedef NS_ENUM(UInt8, MKMNetworkID) {
 };
 typedef UInt8 MKMNetworkType;
 
-#define MKMNetwork_IsCommunicator(network) (((network) & MKMNetwork_Main) || \
+#define MKMNetwork_IsCommunicator(network) (((network) & MKMNetwork_Main) ||   \
                                             ((network) == MKMNetwork_BTCMain))
 
-#define MKMNetwork_IsPerson(network)       (((network) == MKMNetwork_Main) || \
+#define MKMNetwork_IsPerson(network)       (((network) == MKMNetwork_Main) ||  \
                                             ((network) == MKMNetwork_BTCMain))
 #define MKMNetwork_IsGroup(network)        ((network) & MKMNetwork_Group)
 
@@ -153,7 +153,9 @@ NS_DESIGNATED_INITIALIZER;
 @end
 
 // convert String to Address
-#define MKMAddressFromString(address)      [MKMAddress getInstance:(address)]
+#define MKMAddressFromString(address)                                          \
+            [MKMAddress getInstance:(address)]                                 \
+                                       /* EOF 'MKMAddressFromString(address)' */
 
 @interface MKMAddress (Runtime)
 

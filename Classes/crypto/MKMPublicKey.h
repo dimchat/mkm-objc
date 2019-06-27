@@ -11,7 +11,9 @@
 NS_ASSUME_NONNULL_BEGIN
 
 // convert Dictionary to PublicKey
-#define MKMPublicKeyFromDictionary(key)    [MKMPublicKey getInstance:(key)]
+#define MKMPublicKeyFromDictionary(key)                                        \
+            [MKMPublicKey getInstance:(key)]                                   \
+                                     /* EOF 'MKMPublicKeyFromDictionary(key)' */
 
 @class MKMPrivateKey;
 
