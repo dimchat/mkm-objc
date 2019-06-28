@@ -16,7 +16,32 @@
 
 #import "MKMGroup.h"
 
+@interface MKMGroup () {
+    
+    MKMID *_founder;
+}
+
+@property (strong, nonatomic) MKMID *founder;
+
+@end
+
 @implementation MKMGroup
+
+/* designated initializer */
+- (instancetype)initWithID:(MKMID *)ID {
+    if (self = [super initWithID:ID]) {
+        _founder = nil;
+    }
+    return self;
+}
+
+- (id)copyWithZone:(NSZone *)zone {
+    MKMGroup *group = [super copyWithZone:zone];
+    if (group) {
+        group.founder = _founder;
+    }
+    return group;
+}
 
 - (NSString *)debugDescription {
     NSString *desc = [super debugDescription];
@@ -27,8 +52,12 @@
 }
 
 - (MKMID *)founder {
+    if (_founder) {
+        return _founder;
+    }
     NSAssert(_dataSource, @"group data source not set yet");
-    return [_dataSource founderOfGroup:_ID];
+    _founder = [_dataSource founderOfGroup:_ID];
+    return _founder;
 }
 
 - (nullable MKMID *)owner {
