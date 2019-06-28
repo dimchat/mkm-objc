@@ -95,8 +95,8 @@
 
 - (MKMProfile *)profile {
     MKMProfile *tao = [super profile];
-    if (!tao) {
-        return nil;
+    if (!tao || [tao isValid]) {
+        return tao;
     }
     // try to verify with owner's meta.key
     MKMID *owner = [self owner];
@@ -106,7 +106,7 @@
         // signature correct
         return tao;
     }
-    // profile error, continue to process by subclass
+    // profile error? continue to process by subclass
     return tao;
 }
 
