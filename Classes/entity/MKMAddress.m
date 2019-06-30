@@ -11,6 +11,13 @@
 
 #import "MKMAddress.h"
 
+@interface MKMAddress ()
+
+@property (nonatomic) MKMNetworkType network; // Network ID
+@property (nonatomic) UInt32 code;            // Check Code
+
+@end
+
 @implementation MKMAddress
 
 - (instancetype)init {
@@ -28,22 +35,14 @@
 /* designated initializer */
 - (instancetype)initWithString:(NSString *)aString {
     if (self = [super initWithString:aString]) {
+        _network = 0;
+        _code = 0;
     }
     return self;
 }
 
 - (BOOL)isEqual:(id)object {
     return [_storeString isEqualToString:object];
-}
-
-- (MKMNetworkType)network {
-    NSAssert(false, @"override me!");
-    return 0;
-}
-
-- (UInt32)code {
-    NSAssert(false, @"override me!");
-    return 0;
 }
 
 @end
@@ -81,6 +80,19 @@ static NSMutableArray<Class> *address_classes(void) {
         return address;
     }
     NSAssert([address isKindOfClass:[NSString class]], @"address error: %@", address);
+    /**
+     *  Address for broadcast
+     */
+    if ([address isEqualToString:@"EVERYWHERE"]) {
+        static MKMAddress *everywhere = nil;
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            everywhere = [[MKMAddress alloc] initWithString:@"EVERYWHERE"];
+            everywhere.network = MKMNetwork_Main;
+            everywhere.code = 9527;
+        });
+        return everywhere;
+    }
     // create instance by subclass
     NSMutableArray<Class> *classes = address_classes();
     for (Class clazz in classes) {
@@ -151,8 +163,8 @@ static inline UInt32 user_number(NSData *cc) {
         }
         // Network ID
         const char *bytes = [data bytes];
-        _network = bytes[0];
-        _code = user_number(cc);
+        self.network = bytes[0];
+        self.code = user_number(cc);
     }
     return self;
 }
@@ -182,22 +194,14 @@ static inline UInt32 user_number(NSData *cc) {
     string = [data base58Encode];
     
     if (self = [super initWithString:string]) {
-        _network = type;
-        _code = code;
+        self.network = type;
+        self.code = code;
     }
     return self;
 }
 
 + (instancetype)generateWithData:(NSData *)key network:(MKMNetworkType)type {
     return [[self alloc] initWithData:key network:type];
-}
-
-- (MKMNetworkType)network {
-    return _network;
-}
-
-- (UInt32)code {
-    return _code;
 }
 
 @end

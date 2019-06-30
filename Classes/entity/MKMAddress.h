@@ -157,6 +157,10 @@ NS_DESIGNATED_INITIALIZER;
             [MKMAddress getInstance:(address)]                                 \
                                        /* EOF 'MKMAddressFromString(address)' */
 
+#define MKMEverywhere()                                                        \
+            MKMAddressFromString(@"EVERYWHERE")                                \
+                                                     /* EOF 'MKMEverywhere()' */
+
 @interface MKMAddress (Runtime)
 
 + (void)registerClass:(Class)addressClass;
@@ -167,11 +171,7 @@ NS_DESIGNATED_INITIALIZER;
 
 #pragma mark - BTC Address
 
-@interface MKMAddressBTC : MKMAddress {
-    
-    MKMNetworkType _network;
-    UInt32 _code;
-}
+@interface MKMAddressBTC : MKMAddress
 
 /**
  *  Generate address with key data and network ID

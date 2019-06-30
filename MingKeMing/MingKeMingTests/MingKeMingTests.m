@@ -260,6 +260,8 @@ static inline void print_id(MKMID *ID) {
 //    string = [data UTF8String];
 //    NSLog(@"AES decrypt: %@", string);
     
+    ID = MKMEveryone();
+    print_id(ID);
 }
 
 - (void)testRegister {
@@ -287,7 +289,7 @@ static inline void print_id(MKMID *ID) {
         
         CT = [SK sign:data];
         
-        addr = [[MKMAddressBTC alloc] initWithData:CT network:network];
+        addr = [MKMAddressBTC generateWithData:CT network:network];
         
         number = addr.code;
         if (count % 100 == 0) {
