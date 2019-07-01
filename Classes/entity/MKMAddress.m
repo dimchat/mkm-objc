@@ -83,15 +83,24 @@ static NSMutableArray<Class> *address_classes(void) {
     /**
      *  Address for broadcast
      */
-    if ([address isEqualToString:@"EVERYWHERE"]) {
+    if ([address isEqualToString:@"ANYWHERE"]) {
+        static MKMAddress *anywhere = nil;
+        SingletonDispatchOnce(^{
+            anywhere = [[MKMAddress alloc] initWithString:@"ANYWHERE"];
+            anywhere.network = MKMNetwork_Main;
+            anywhere.code = 9527;
+        });
+        return anywhere;
+    } else if ([address isEqualToString:@"EVERYWHERE"]) {
         static MKMAddress *everywhere = nil;
         SingletonDispatchOnce(^{
             everywhere = [[MKMAddress alloc] initWithString:@"EVERYWHERE"];
-            everywhere.network = MKMNetwork_Main;
+            everywhere.network = MKMNetwork_Group;
             everywhere.code = 9527;
         });
         return everywhere;
     }
+    
     // create instance by subclass
     NSMutableArray<Class> *classes = address_classes();
     for (Class clazz in classes) {

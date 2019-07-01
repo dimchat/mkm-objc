@@ -69,6 +69,9 @@ NS_ASSUME_NONNULL_BEGIN
             [MKMID getInstance:(ID)]                                           \
                                                  /* EOF 'MKMIDFromString(ID)' */
 
+#define MKMAnyone()                                                            \
+            MKMIDFromString(@"ANYONE@ANYWHERE")                                \
+                                                         /* EOF 'MKMAnyone()' */
 #define MKMEveryone()                                                          \
             MKMIDFromString(@"EVERYONE@EVERYWHERE")                            \
                                                        /* EOF 'MKMEveryone()' */

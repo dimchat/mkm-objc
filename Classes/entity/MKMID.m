@@ -148,7 +148,14 @@ static MKMID *everyone = nil;
     /**
      *  ID for broadcast
      */
-    if ([ID isEqualToString:@"EVERYONE@EVERYWHERE"]) {
+    if ([ID isEqualToString:@"ANYONE@ANYWHERE"]) {
+        static MKMID *anyone = nil;
+        SingletonDispatchOnce(^{
+            anyone = [[MKMID alloc] initWithName:@"ANYONE"
+                                         address:MKMAnywhere()];
+        });
+        return anyone;
+    } else if ([ID isEqualToString:@"EVERYONE@EVERYWHERE"]) {
         static MKMID *everyone = nil;
         SingletonDispatchOnce(^{
             everyone = [[MKMID alloc] initWithName:@"EVERYONE"
@@ -156,6 +163,7 @@ static MKMID *everyone = nil;
         });
         return everyone;
     }
+    
     return [[self alloc] initWithString:ID];
 }
 
