@@ -6,6 +6,7 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
+#import "NSObject+Singleton.h"
 #import "NSString+Crypto.h"
 #import "NSData+Crypto.h"
 
@@ -49,8 +50,7 @@
 
 static NSMutableArray<Class> *address_classes(void) {
     static NSMutableArray<Class> *classes = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    SingletonDispatchOnce(^{
         classes = [[NSMutableArray alloc] init];
         // BTC
         [classes addObject:[MKMAddressBTC class]];
@@ -85,8 +85,7 @@ static NSMutableArray<Class> *address_classes(void) {
      */
     if ([address isEqualToString:@"EVERYWHERE"]) {
         static MKMAddress *everywhere = nil;
-        static dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^{
+        SingletonDispatchOnce(^{
             everywhere = [[MKMAddress alloc] initWithString:@"EVERYWHERE"];
             everywhere.network = MKMNetwork_Main;
             everywhere.code = 9527;

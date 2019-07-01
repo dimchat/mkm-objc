@@ -52,7 +52,7 @@
     if (![object isKindOfClass:[NSDictionary class]]) {
         return NO;
     }
-    return [_storeDictionary isEqualToDictionary:object];
+    return self == object || [_storeDictionary isEqualToDictionary:object];
 }
 
 - (NSUInteger)count {

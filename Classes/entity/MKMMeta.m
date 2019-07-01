@@ -6,6 +6,7 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
+#import "NSObject+Singleton.h"
 #import "NSObject+JsON.h"
 #import "NSString+Crypto.h"
 #import "NSData+Crypto.h"
@@ -126,8 +127,7 @@
 
 static NSMutableDictionary<NSNumber *, Class> *meta_classes(void) {
     static NSMutableDictionary<NSNumber *, Class> *classes = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    SingletonDispatchOnce(^{
         classes = [[NSMutableDictionary alloc] init];
         // MKM
         [classes setObject:[MKMMetaDefault class] forKey:@(MKMMetaVersion_MKM)];

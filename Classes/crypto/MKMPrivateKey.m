@@ -6,9 +6,10 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import "MKMPublicKey.h"
+#import "NSObject+Singleton.h"
 
-#include "MKMRSAPrivateKey.h"
+#import "MKMPublicKey.h"
+#import "MKMRSAPrivateKey.h"
 
 #import "MKMPrivateKey.h"
 
@@ -35,8 +36,7 @@
 
 static NSMutableDictionary<NSString *, Class> *key_classes(void) {
     static NSMutableDictionary<NSString *, Class> *classes = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    SingletonDispatchOnce(^{
         classes = [[NSMutableDictionary alloc] init];
         // RSA
         [classes setObject:[MKMRSAPrivateKey class] forKey:ACAlgorithmRSA];
