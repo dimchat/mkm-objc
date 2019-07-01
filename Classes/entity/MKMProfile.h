@@ -27,6 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MKMTAO : MKMDictionary
 
 @property (readonly, strong, nonatomic) MKMID *ID;
+@property (readonly, nonatomic, getter=isValid) BOOL valid;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dict
 NS_DESIGNATED_INITIALIZER;

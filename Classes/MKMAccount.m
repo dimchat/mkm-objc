@@ -47,8 +47,8 @@
 
 - (MKMProfile *)profile {
     MKMProfile *tao = [super profile];
-    if (!tao) {
-        return nil;
+    if (!tao || [tao isValid]) {
+        return tao;
     }
     // try to verify with meta.key
     MKMPublicKey *key = [self metaKey];

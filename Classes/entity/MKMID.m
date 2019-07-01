@@ -131,6 +131,8 @@
 
 @end
 
+static MKMID *everyone = nil;
+
 @implementation MKMID (Runtime)
 
 + (nullable instancetype)getInstance:(id)ID {
@@ -141,8 +143,19 @@
         // return ID object directly
         return ID;
     }
-    NSAssert([ID isKindOfClass:[NSString class]],
-             @"ID should be a string: %@", ID);
+    NSAssert([ID isKindOfClass:[NSString class]], @"ID should be a string: %@", ID);
+    /**
+     *  ID for broadcast
+     */
+    if ([ID isEqualToString:@"EVERYONE@EVERYWHERE"]) {
+        static MKMID *everyone = nil;
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            everyone = [[MKMID alloc] initWithName:@"EVERYONE"
+                                           address:MKMEverywhere()];
+        });
+        return everyone;
+    }
     return [[self alloc] initWithString:ID];
 }
 
