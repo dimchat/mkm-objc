@@ -6,6 +6,7 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
+#import "NSObject+Singleton.h"
 #import "NSString+Crypto.h"
 #import "NSData+Crypto.h"
 
@@ -49,8 +50,7 @@
 
 static NSMutableArray<Class> *address_classes(void) {
     static NSMutableArray<Class> *classes = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    SingletonDispatchOnce(^{
         classes = [[NSMutableArray alloc] init];
         // BTC
         [classes addObject:[MKMAddressBTC class]];
@@ -83,16 +83,24 @@ static NSMutableArray<Class> *address_classes(void) {
     /**
      *  Address for broadcast
      */
-    if ([address isEqualToString:@"EVERYWHERE"]) {
+    if ([address isEqualToString:@"ANYWHERE"]) {
+        static MKMAddress *anywhere = nil;
+        SingletonDispatchOnce(^{
+            anywhere = [[MKMAddress alloc] initWithString:@"ANYWHERE"];
+            anywhere.network = MKMNetwork_Main;
+            anywhere.code = 9527;
+        });
+        return anywhere;
+    } else if ([address isEqualToString:@"EVERYWHERE"]) {
         static MKMAddress *everywhere = nil;
-        static dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^{
+        SingletonDispatchOnce(^{
             everywhere = [[MKMAddress alloc] initWithString:@"EVERYWHERE"];
-            everywhere.network = MKMNetwork_Main;
+            everywhere.network = MKMNetwork_Group;
             everywhere.code = 9527;
         });
         return everywhere;
     }
+    
     // create instance by subclass
     NSMutableArray<Class> *classes = address_classes();
     for (Class clazz in classes) {

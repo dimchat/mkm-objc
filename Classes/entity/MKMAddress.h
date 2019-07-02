@@ -157,6 +157,12 @@ NS_DESIGNATED_INITIALIZER;
             [MKMAddress getInstance:(address)]                                 \
                                        /* EOF 'MKMAddressFromString(address)' */
 
+/**
+ *  Address for broadcast
+ */
+#define MKMAnywhere()                                                          \
+            MKMAddressFromString(@"ANYWHERE")                                  \
+                                                       /* EOF 'MKMAnywhere()' */
 #define MKMEverywhere()                                                        \
             MKMAddressFromString(@"EVERYWHERE")                                \
                                                      /* EOF 'MKMEverywhere()' */

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E961082C22C9EB160032D8A2 /* NSObject+Singleton.h in Headers */ = {isa = PBXBuildFile; fileRef = E961082B22C9EB160032D8A2 /* NSObject+Singleton.h */; };
 		E9BBBF4E22427BCA00E6ACDA /* MingKeMing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9BBBF4422427BCA00E6ACDA /* MingKeMing.framework */; };
 		E9BBBF5322427BCA00E6ACDA /* MingKeMingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBBF5222427BCA00E6ACDA /* MingKeMingTests.m */; };
 		E9BBC07F22427E0300E6ACDA /* MKMAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC02822427E0300E6ACDA /* MKMAccount.m */; };
@@ -95,6 +96,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E961082B22C9EB160032D8A2 /* NSObject+Singleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Singleton.h"; sourceTree = "<group>"; };
 		E9BBBF4422427BCA00E6ACDA /* MingKeMing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MingKeMing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9BBBF4822427BCA00E6ACDA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E9BBBF4D22427BCA00E6ACDA /* MingKeMingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MingKeMingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -295,6 +297,7 @@
 				E9BBC04622427E0300E6ACDA /* NSObject+Compare.h */,
 				E9BBC04D22427E0300E6ACDA /* NSObject+JsON.h */,
 				E9BBC04822427E0300E6ACDA /* NSObject+JsON.m */,
+				E961082B22C9EB160032D8A2 /* NSObject+Singleton.h */,
 				E9BBC04E22427E0300E6ACDA /* NSString+Crypto.h */,
 				E9BBC04722427E0300E6ACDA /* NSString+Crypto.mm */,
 			);
@@ -406,6 +409,7 @@
 				E9BBC0AA22427E0300E6ACDA /* MKMContact.h in Headers */,
 				E9BBC0BC22427E0300E6ACDA /* MKMUser.h in Headers */,
 				E9BBC0B222427E0300E6ACDA /* MKMMember.h in Headers */,
+				E961082C22C9EB160032D8A2 /* NSObject+Singleton.h in Headers */,
 				E9BBC0B122427E0300E6ACDA /* MKMChatroom.h in Headers */,
 				E9BBC0AC22427E0300E6ACDA /* MKMGroup.h in Headers */,
 				E9BBC0B022427E0300E6ACDA /* MKMPolylogue.h in Headers */,

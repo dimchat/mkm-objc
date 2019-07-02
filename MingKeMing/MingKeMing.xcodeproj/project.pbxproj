@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		E93D437822A7ADF000422EDF /* MKMProfile.h in Headers */ = {isa = PBXBuildFile; fileRef = E93D437622A7ADEF00422EDF /* MKMProfile.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E93D437922A7ADF000422EDF /* MKMProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = E93D437722A7ADF000422EDF /* MKMProfile.m */; };
+		E961082222C9E7600032D8A2 /* NSObject+Singleton.h in Headers */ = {isa = PBXBuildFile; fileRef = E961082122C9E7600032D8A2 /* NSObject+Singleton.h */; };
 		E9AFAB7A2236E0F5001F95C6 /* NSObject+Compare.h in Headers */ = {isa = PBXBuildFile; fileRef = E9AFAB782236E0F5001F95C6 /* NSObject+Compare.h */; };
 		E9BBBD66223AAA5B00E6ACDA /* NSDate+Timestamp.h in Headers */ = {isa = PBXBuildFile; fileRef = E9BBBD64223AAA5B00E6ACDA /* NSDate+Timestamp.h */; };
 		E9BBBD67223AAA5B00E6ACDA /* NSDate+Timestamp.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBBD65223AAA5B00E6ACDA /* NSDate+Timestamp.m */; };
@@ -98,6 +99,7 @@
 /* Begin PBXFileReference section */
 		E93D437622A7ADEF00422EDF /* MKMProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMProfile.h; sourceTree = "<group>"; };
 		E93D437722A7ADF000422EDF /* MKMProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMProfile.m; sourceTree = "<group>"; };
+		E961082122C9E7600032D8A2 /* NSObject+Singleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Singleton.h"; sourceTree = "<group>"; };
 		E9AFAB782236E0F5001F95C6 /* NSObject+Compare.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+Compare.h"; sourceTree = "<group>"; };
 		E9BBBD64223AAA5B00E6ACDA /* NSDate+Timestamp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Timestamp.h"; sourceTree = "<group>"; };
 		E9BBBD65223AAA5B00E6ACDA /* NSDate+Timestamp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Timestamp.m"; sourceTree = "<group>"; };
@@ -307,6 +309,7 @@
 				E9AFAB782236E0F5001F95C6 /* NSObject+Compare.h */,
 				E9F3A8F721CBBAF6009690F6 /* NSObject+JsON.h */,
 				E9F3A8F121CBBAF6009690F6 /* NSObject+JsON.m */,
+				E961082122C9E7600032D8A2 /* NSObject+Singleton.h */,
 				E9F3A8F821CBBAF6009690F6 /* NSString+Crypto.h */,
 				E9F3A8F021CBBAF6009690F6 /* NSString+Crypto.mm */,
 				E9BBBD64223AAA5B00E6ACDA /* NSDate+Timestamp.h */,
@@ -418,6 +421,7 @@
 				E9F3A94A21CBBAF7009690F6 /* MKMCryptographyKey.h in Headers */,
 				E9F3A95721CBBAF7009690F6 /* MKMPrivateKey.h in Headers */,
 				E9F3A94321CBBAF7009690F6 /* MKMAsymmetricKey.h in Headers */,
+				E961082222C9E7600032D8A2 /* NSObject+Singleton.h in Headers */,
 				E9F3A97D21CBBAF7009690F6 /* MKMID.h in Headers */,
 				E9F3A97E21CBBAF7009690F6 /* MKMAddress.h in Headers */,
 				E9F3A97821CBBAF7009690F6 /* MKMMeta.h in Headers */,

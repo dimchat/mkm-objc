@@ -41,7 +41,7 @@
 }
 
 - (BOOL)isEqual:(id)object {
-    return [_storeString isEqualToString:object];
+    return self == object || [_storeString isEqualToString:object];
 }
 
 - (NSUInteger)length {

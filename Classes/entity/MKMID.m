@@ -6,6 +6,7 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
+#import "NSObject+Singleton.h"
 #import "NSObject+Compare.h"
 
 #import "MKMID.h"
@@ -147,15 +148,22 @@ static MKMID *everyone = nil;
     /**
      *  ID for broadcast
      */
-    if ([ID isEqualToString:@"EVERYONE@EVERYWHERE"]) {
+    if ([ID isEqualToString:@"ANYONE@ANYWHERE"]) {
+        static MKMID *anyone = nil;
+        SingletonDispatchOnce(^{
+            anyone = [[MKMID alloc] initWithName:@"ANYONE"
+                                         address:MKMAnywhere()];
+        });
+        return anyone;
+    } else if ([ID isEqualToString:@"EVERYONE@EVERYWHERE"]) {
         static MKMID *everyone = nil;
-        static dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^{
+        SingletonDispatchOnce(^{
             everyone = [[MKMID alloc] initWithName:@"EVERYONE"
                                            address:MKMEverywhere()];
         });
         return everyone;
     }
+    
     return [[self alloc] initWithString:ID];
 }
 

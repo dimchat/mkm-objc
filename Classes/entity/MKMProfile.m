@@ -6,6 +6,7 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
+#import "NSObject+Singleton.h"
 #import "NSObject+JsON.h"
 #import "NSData+Crypto.h"
 #import "NSString+Crypto.h"
@@ -264,8 +265,7 @@
 
 static NSMutableArray<Class> *profile_classes(void) {
     static NSMutableArray<Class> *classes = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    SingletonDispatchOnce(^{
         classes = [[NSMutableArray alloc] init];
         // default
         [classes addObject:[MKMProfile class]];
