@@ -135,7 +135,8 @@ static NSMutableDictionary<NSNumber *, Class> *meta_classes(void) {
         [classes setObject:[MKMMetaBTC class] forKey:@(MKMMetaVersion_BTC)];
         [classes setObject:[MKMMetaBTC class] forKey:@(MKMMetaVersion_ExBTC)];
         // ETH
-        // ...
+        [classes setObject:[MKMMetaETH class] forKey:@(MKMMetaVersion_ETH)];
+        [classes setObject:[MKMMetaETH class] forKey:@(MKMMetaVersion_ExETH)];
     });
     return classes;
 }
@@ -193,6 +194,15 @@ static NSMutableDictionary<NSNumber *, Class> *meta_classes(void) {
 
 - (MKMAddress *)generateAddress:(MKMNetworkType)type {
     NSAssert(self.version & MKMMetaVersion_BTC, @"meta version error");
+    return [MKMAddressBTC generateWithData:self.key.data network:type];
+}
+
+@end
+
+@implementation MKMMetaETH
+
+- (MKMAddress *)generateAddress:(MKMNetworkType)type {
+    NSAssert(self.version & MKMMetaVersion_ETH, @"meta version error");
     return [MKMAddressBTC generateWithData:self.key.data network:type];
 }
 

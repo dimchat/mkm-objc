@@ -190,4 +190,19 @@ NS_DESIGNATED_INITIALIZER;
 
 @end
 
+#pragma mark - ETH Address
+
+@interface MKMAddressETH : MKMAddress
+
+/**
+ *  Generate address with key data and network ID
+ *
+ * @param key - public key data
+ * @param type - network ID
+ * @return Address object
+ */
++ (instancetype)generateWithData:(NSData *)key network:(MKMNetworkType)type;
+
+@end
+
 NS_ASSUME_NONNULL_END

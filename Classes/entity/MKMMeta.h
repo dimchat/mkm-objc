@@ -162,4 +162,15 @@ NS_DESIGNATED_INITIALIZER;
 
 @end
 
+/**
+ *  Meta to build ID with ETH address
+ *
+ *  version:
+ *      0x04 - ETH
+ *      0x05 - ExETH
+ */
+@interface MKMMetaETH : MKMMeta
+
+@end
+
 NS_ASSUME_NONNULL_END
