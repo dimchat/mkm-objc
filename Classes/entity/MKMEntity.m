@@ -13,15 +13,6 @@
 
 #import "MKMEntity.h"
 
-@interface MKMEntity () {
-    
-    MKMMeta *_meta;
-}
-
-@property (strong, nonatomic) MKMMeta *meta;
-
-@end
-
 @implementation MKMEntity
 
 - (instancetype)init {
@@ -35,7 +26,6 @@
     NSAssert([ID isValid], @"Invalid entity ID: %@", ID);
     if (self = [super init]) {
         _ID = ID;
-        _meta = nil;
         _dataSource = nil;
     }
     
@@ -46,7 +36,6 @@
     MKMEntity *entity = [[self class] allocWithZone:zone];
     entity = [entity initWithID:_ID];
     if (entity) {
-        entity.meta = _meta;
         entity.dataSource = _dataSource;
     }
     return entity;
@@ -90,12 +79,8 @@
 }
 
 - (MKMMeta *)meta {
-    if (_meta) {
-        return _meta;
-    }
     NSAssert(_dataSource, @"entity data source not set yet");
-    _meta = [_dataSource metaForID:_ID];
-    return _meta;
+    return [_dataSource metaForID:_ID];
 }
 
 - (MKMProfile *)profile {
