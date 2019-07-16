@@ -76,6 +76,16 @@ NS_ASSUME_NONNULL_BEGIN
             MKMIDFromString(@"everyone@everywhere")                            \
                                                        /* EOF 'MKMEveryone()' */
 
+#define MKMIsAnyone(ID)                                                        \
+            (MKMNetwork_IsPerson([(ID) type]) && [MKMAnyone() isEqual:(ID)])   \
+                                                       /* EOF 'MKMIsAnyone()' */
+#define MKMIsEveryone(ID)                                                      \
+            (MKMNetwork_IsGroup([(ID) type]) && [MKMEveryone() isEqual:(ID)])  \
+                                                      /* EOF 'MKMIsEveryone() */
+#define MKMIsBroadcast(ID)                                                     \
+            (MKMIsAnyone(ID) || MKMIsEveryone(ID))                             \
+                                                    /* EOF 'MKMIsBroadcast()' */
+
 @interface MKMID (Runtime)
 
 + (nullable instancetype)getInstance:(id)ID;
