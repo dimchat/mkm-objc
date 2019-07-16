@@ -161,10 +161,10 @@ NS_DESIGNATED_INITIALIZER;
  *  Address for broadcast
  */
 #define MKMAnywhere()                                                          \
-            MKMAddressFromString(@"ANYWHERE")                                  \
+            MKMAddressFromString(@"anywhere")                                  \
                                                        /* EOF 'MKMAnywhere()' */
 #define MKMEverywhere()                                                        \
-            MKMAddressFromString(@"EVERYWHERE")                                \
+            MKMAddressFromString(@"everywhere")                                \
                                                      /* EOF 'MKMEverywhere()' */
 
 @interface MKMAddress (Runtime)
@@ -178,21 +178,6 @@ NS_DESIGNATED_INITIALIZER;
 #pragma mark - BTC Address
 
 @interface MKMAddressBTC : MKMAddress
-
-/**
- *  Generate address with key data and network ID
- *
- * @param key - public key data
- * @param type - network ID
- * @return Address object
- */
-+ (instancetype)generateWithData:(NSData *)key network:(MKMNetworkType)type;
-
-@end
-
-#pragma mark - ETH Address
-
-@interface MKMAddressETH : MKMAddress
 
 /**
  *  Generate address with key data and network ID

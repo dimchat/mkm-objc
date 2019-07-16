@@ -83,18 +83,19 @@ static NSMutableArray<Class> *address_classes(void) {
     /**
      *  Address for broadcast
      */
-    if ([address isEqualToString:@"ANYWHERE"]) {
+    NSString *lowercase = [address lowercaseString];
+    if ([lowercase isEqualToString:@"anywhere"]) {
         static MKMAddress *anywhere = nil;
         SingletonDispatchOnce(^{
-            anywhere = [[MKMAddress alloc] initWithString:@"ANYWHERE"];
+            anywhere = [[MKMAddress alloc] initWithString:@"anywhere"];
             anywhere.network = MKMNetwork_Main;
             anywhere.code = 9527;
         });
         return anywhere;
-    } else if ([address isEqualToString:@"EVERYWHERE"]) {
+    } else if ([lowercase isEqualToString:@"everywhere"]) {
         static MKMAddress *everywhere = nil;
         SingletonDispatchOnce(^{
-            everywhere = [[MKMAddress alloc] initWithString:@"EVERYWHERE"];
+            everywhere = [[MKMAddress alloc] initWithString:@"everywhere"];
             everywhere.network = MKMNetwork_Group;
             everywhere.code = 9527;
         });
@@ -147,74 +148,6 @@ static inline UInt32 user_number(NSData *cc) {
 }
 
 @implementation MKMAddressBTC
-
-- (instancetype)initWithString:(NSString *)aString {
-    NSAssert(aString.length >= 15, @"address invalid: %@", aString);
-    if (self = [super initWithString:aString]) {
-        // Parse string with BTC address format
-        NSData *data = [aString base58Decode];
-        NSUInteger len = [data length];
-        if (len != 25) {
-            @throw [NSException exceptionWithName:NSRangeException
-                                           reason:@"BTC address length error"
-                                         userInfo:nil];
-        }
-        // Check Code
-        NSData *prefix = [data subdataWithRange:NSMakeRange(0, len-4)];
-        NSData *suffix = [data subdataWithRange:NSMakeRange(len-4, 4)];
-        NSData *cc = check_code(prefix);
-        // isValid
-        if (![cc isEqualToData:suffix]) {
-            @throw [NSException exceptionWithName:NSGenericException
-                                           reason:@"BTC check code error"
-                                         userInfo:nil];
-        }
-        // Network ID
-        const char *bytes = [data bytes];
-        self.network = bytes[0];
-        self.code = user_number(cc);
-    }
-    return self;
-}
-
-/**
- *  BTC address algorithm:
- *      digest     = ripemd160(sha256(fingerprint));
- *      check_code = sha256(sha256(network + digest)).prefix(4);
- *      addr       = base58_encode(network + digest + check_code);
- */
-- (instancetype)initWithData:(NSData *)key
-                     network:(MKMNetworkType)type {
-    NSString *string = nil;
-    UInt32 code = 0;
-    
-    // 1. hash = ripemd160(sha256(CT))
-    NSData *hash = [[key sha256] ripemd160];
-    // 2. _h = network + hash
-    NSMutableData *data;
-    data = [[NSMutableData alloc] initWithBytes:&type length:1];
-    [data appendData:hash];
-    // 3. cc = sha256(sha256(_h)).prefix(4)
-    NSData *cc = check_code(data);
-    code = user_number(cc);
-    // 4. addr = base58_encode(_h + cc)
-    [data appendData:cc];
-    string = [data base58Encode];
-    
-    if (self = [super initWithString:string]) {
-        self.network = type;
-        self.code = code;
-    }
-    return self;
-}
-
-+ (instancetype)generateWithData:(NSData *)key network:(MKMNetworkType)type {
-    return [[self alloc] initWithData:key network:type];
-}
-
-@end
-
-@implementation MKMAddressETH
 
 - (instancetype)initWithString:(NSString *)aString {
     NSAssert(aString.length >= 15, @"address invalid: %@", aString);

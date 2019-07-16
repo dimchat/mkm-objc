@@ -70,10 +70,10 @@ NS_ASSUME_NONNULL_BEGIN
                                                  /* EOF 'MKMIDFromString(ID)' */
 
 #define MKMAnyone()                                                            \
-            MKMIDFromString(@"ANYONE@ANYWHERE")                                \
+            MKMIDFromString(@"anyone@anywhere")                                \
                                                          /* EOF 'MKMAnyone()' */
 #define MKMEveryone()                                                          \
-            MKMIDFromString(@"EVERYONE@EVERYWHERE")                            \
+            MKMIDFromString(@"everyone@everywhere")                            \
                                                        /* EOF 'MKMEveryone()' */
 
 @interface MKMID (Runtime)

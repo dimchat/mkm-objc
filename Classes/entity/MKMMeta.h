@@ -139,38 +139,4 @@ NS_DESIGNATED_INITIALIZER;
 
 @end
 
-#pragma mark -
-
-/**
- *  Default Meta to build ID with 'name@address'
- *
- *  version:
- *      0x01 - MKM
- */
-@interface MKMMetaDefault : MKMMeta
-
-@end
-
-/**
- *  Meta to build ID with BTC address
- *
- *  version:
- *      0x02 - BTC
- *      0x03 - ExBTC
- */
-@interface MKMMetaBTC : MKMMeta
-
-@end
-
-/**
- *  Meta to build ID with ETH address
- *
- *  version:
- *      0x04 - ETH
- *      0x05 - ExETH
- */
-@interface MKMMetaETH : MKMMeta
-
-@end
-
 NS_ASSUME_NONNULL_END

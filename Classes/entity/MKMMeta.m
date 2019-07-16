@@ -125,18 +125,38 @@
 
 @end
 
+#pragma mark - Default Meta
+
+/**
+ *  Default Meta to build ID with 'name@address'
+ *
+ *  version:
+ *      0x01 - MKM
+ */
+@interface MKMMetaDefault : MKMMeta
+
+@end
+
+@implementation MKMMetaDefault
+
+- (MKMAddress *)generateAddress:(MKMNetworkType)type {
+    NSAssert(self.version == MKMMetaVersion_MKM, @"meta version error");
+    return [MKMAddressBTC generateWithData:self.fingerprint network:type];
+}
+
+@end
+
+#pragma mark - Runtime
+
 static NSMutableDictionary<NSNumber *, Class> *meta_classes(void) {
     static NSMutableDictionary<NSNumber *, Class> *classes = nil;
     SingletonDispatchOnce(^{
         classes = [[NSMutableDictionary alloc] init];
         // MKM
         [classes setObject:[MKMMetaDefault class] forKey:@(MKMMetaVersion_MKM)];
-        // BTC
-        [classes setObject:[MKMMetaBTC class] forKey:@(MKMMetaVersion_BTC)];
-        [classes setObject:[MKMMetaBTC class] forKey:@(MKMMetaVersion_ExBTC)];
-        // ETH
-        [classes setObject:[MKMMetaETH class] forKey:@(MKMMetaVersion_ETH)];
-        [classes setObject:[MKMMetaETH class] forKey:@(MKMMetaVersion_ExETH)];
+        // BTC, ExBTC
+        // ETH, EXETH
+        // ...
     });
     return classes;
 }
@@ -175,35 +195,6 @@ static NSMutableDictionary<NSNumber *, Class> *meta_classes(void) {
     }
     // create instance with subclass of Meta
     return [[self alloc] initWithDictionary:meta];
-}
-
-@end
-
-#pragma mark -
-
-@implementation MKMMetaDefault
-
-- (MKMAddress *)generateAddress:(MKMNetworkType)type {
-    NSAssert(self.version == MKMMetaVersion_MKM, @"meta version error");
-    return [MKMAddressBTC generateWithData:self.fingerprint network:type];
-}
-
-@end
-
-@implementation MKMMetaBTC
-
-- (MKMAddress *)generateAddress:(MKMNetworkType)type {
-    NSAssert(self.version & MKMMetaVersion_BTC, @"meta version error");
-    return [MKMAddressBTC generateWithData:self.key.data network:type];
-}
-
-@end
-
-@implementation MKMMetaETH
-
-- (MKMAddress *)generateAddress:(MKMNetworkType)type {
-    NSAssert(self.version & MKMMetaVersion_ETH, @"meta version error");
-    return [MKMAddressBTC generateWithData:self.key.data network:type];
 }
 
 @end
