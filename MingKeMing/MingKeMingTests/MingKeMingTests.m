@@ -16,6 +16,29 @@
 
 #import "MKMImmortals.h"
 
+@interface NSData (Hex)
+
+- (NSString *)hexEncode;
+
+@end
+
+@implementation NSData (Hex)
+
+- (NSString *)hexEncode {
+    NSMutableString *output = nil;
+    
+    const char *bytes = (const char *)[self bytes];
+    NSUInteger len = [self length];
+    output = [[NSMutableString alloc] initWithCapacity:(len*2)];
+    for (int i = 0; i < len; ++i) {
+        [output appendFormat:@"%02x", (unsigned char)bytes[i]];
+    }
+    
+    return output;
+}
+
+@end
+
 static inline NSString *search_number(UInt32 code) {
     NSMutableString *number;
     number = [[NSMutableString alloc] initWithFormat:@"%010u", (unsigned int)code];;
@@ -213,21 +236,21 @@ static inline void print_id(MKMID *ID) {
     
 }
 
-- (void)testMeta2 {
-    MKMPrivateKey *SK = MKMPrivateKeyWithAlgorithm(ACAlgorithmRSA);
-    
-    MKMMeta *meta = MKMMetaGenerate(MKMMetaVersion_BTC, SK, nil);
-    MKMID *ID = [meta generateID:MKMNetwork_BTCMain];
-    
-    NSLog(@"meta: %@", meta);
-    print_id(ID);
-    
-    NSAssert([meta matchID:ID], @"error");
-    
-    NSString *satoshi = @"1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa";
-    MKMID *ID2 = MKMIDFromString(satoshi);
-    print_id(ID2);
-}
+//- (void)testMeta2 {
+//    MKMPrivateKey *SK = MKMPrivateKeyWithAlgorithm(ACAlgorithmRSA);
+//    
+//    MKMMeta *meta = MKMMetaGenerate(MKMMetaVersion_BTC, SK, nil);
+//    MKMID *ID = [meta generateID:MKMNetwork_BTCMain];
+//    
+//    NSLog(@"meta: %@", meta);
+//    print_id(ID);
+//    
+//    NSAssert([meta matchID:ID], @"error");
+//    
+//    NSString *satoshi = @"1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa";
+//    MKMID *ID2 = MKMIDFromString(satoshi);
+//    print_id(ID2);
+//}
 
 - (void)testAccount {
     

@@ -37,13 +37,11 @@
 		E9BBC09B22427E0300E6ACDA /* NSObject+Compare.h in Headers */ = {isa = PBXBuildFile; fileRef = E9BBC04622427E0300E6ACDA /* NSObject+Compare.h */; };
 		E9BBC09C22427E0300E6ACDA /* NSString+Crypto.mm in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC04722427E0300E6ACDA /* NSString+Crypto.mm */; };
 		E9BBC09D22427E0300E6ACDA /* NSObject+JsON.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC04822427E0300E6ACDA /* NSObject+JsON.m */; };
-		E9BBC09E22427E0300E6ACDA /* NSDate+Timestamp.h in Headers */ = {isa = PBXBuildFile; fileRef = E9BBC04922427E0300E6ACDA /* NSDate+Timestamp.h */; };
 		E9BBC09F22427E0300E6ACDA /* NSDictionary+Binary.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC04A22427E0300E6ACDA /* NSDictionary+Binary.m */; };
 		E9BBC0A022427E0300E6ACDA /* NSArray+Merkle.h in Headers */ = {isa = PBXBuildFile; fileRef = E9BBC04B22427E0300E6ACDA /* NSArray+Merkle.h */; };
 		E9BBC0A122427E0300E6ACDA /* NSData+Crypto.mm in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC04C22427E0300E6ACDA /* NSData+Crypto.mm */; };
 		E9BBC0A222427E0300E6ACDA /* NSObject+JsON.h in Headers */ = {isa = PBXBuildFile; fileRef = E9BBC04D22427E0300E6ACDA /* NSObject+JsON.h */; };
 		E9BBC0A322427E0300E6ACDA /* NSString+Crypto.h in Headers */ = {isa = PBXBuildFile; fileRef = E9BBC04E22427E0300E6ACDA /* NSString+Crypto.h */; };
-		E9BBC0A422427E0300E6ACDA /* NSDate+Timestamp.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC04F22427E0300E6ACDA /* NSDate+Timestamp.m */; };
 		E9BBC0A622427E0300E6ACDA /* MKMDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC05222427E0300E6ACDA /* MKMDictionary.m */; };
 		E9BBC0A722427E0300E6ACDA /* MKMString.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC05322427E0300E6ACDA /* MKMString.m */; };
 		E9BBC0A822427E0300E6ACDA /* MKMDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = E9BBC05422427E0300E6ACDA /* MKMDictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -129,13 +127,11 @@
 		E9BBC04622427E0300E6ACDA /* NSObject+Compare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Compare.h"; sourceTree = "<group>"; };
 		E9BBC04722427E0300E6ACDA /* NSString+Crypto.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "NSString+Crypto.mm"; sourceTree = "<group>"; };
 		E9BBC04822427E0300E6ACDA /* NSObject+JsON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+JsON.m"; sourceTree = "<group>"; };
-		E9BBC04922427E0300E6ACDA /* NSDate+Timestamp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Timestamp.h"; sourceTree = "<group>"; };
 		E9BBC04A22427E0300E6ACDA /* NSDictionary+Binary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Binary.m"; sourceTree = "<group>"; };
 		E9BBC04B22427E0300E6ACDA /* NSArray+Merkle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Merkle.h"; sourceTree = "<group>"; };
 		E9BBC04C22427E0300E6ACDA /* NSData+Crypto.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "NSData+Crypto.mm"; sourceTree = "<group>"; };
 		E9BBC04D22427E0300E6ACDA /* NSObject+JsON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+JsON.h"; sourceTree = "<group>"; };
 		E9BBC04E22427E0300E6ACDA /* NSString+Crypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Crypto.h"; sourceTree = "<group>"; };
-		E9BBC04F22427E0300E6ACDA /* NSDate+Timestamp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Timestamp.m"; sourceTree = "<group>"; };
 		E9BBC05222427E0300E6ACDA /* MKMDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMDictionary.m; sourceTree = "<group>"; };
 		E9BBC05322427E0300E6ACDA /* MKMString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMString.m; sourceTree = "<group>"; };
 		E9BBC05422427E0300E6ACDA /* MKMDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMDictionary.h; sourceTree = "<group>"; };
@@ -290,8 +286,6 @@
 				E9BBC04322427E0300E6ACDA /* NSArray+Merkle.m */,
 				E9BBC04522427E0300E6ACDA /* NSData+Crypto.h */,
 				E9BBC04C22427E0300E6ACDA /* NSData+Crypto.mm */,
-				E9BBC04922427E0300E6ACDA /* NSDate+Timestamp.h */,
-				E9BBC04F22427E0300E6ACDA /* NSDate+Timestamp.m */,
 				E9BBC04422427E0300E6ACDA /* NSDictionary+Binary.h */,
 				E9BBC04A22427E0300E6ACDA /* NSDictionary+Binary.m */,
 				E9BBC04622427E0300E6ACDA /* NSObject+Compare.h */,
@@ -433,7 +427,6 @@
 				E9BBC0A022427E0300E6ACDA /* NSArray+Merkle.h in Headers */,
 				E9BBC0A322427E0300E6ACDA /* NSString+Crypto.h in Headers */,
 				E9BBC0C122427E0300E6ACDA /* byteswap.h in Headers */,
-				E9BBC09E22427E0300E6ACDA /* NSDate+Timestamp.h in Headers */,
 				E9BBC09B22427E0300E6ACDA /* NSObject+Compare.h in Headers */,
 				E9BBC0BE22427E0300E6ACDA /* common.h in Headers */,
 				E9BBC0C022427E0300E6ACDA /* endian.h in Headers */,
@@ -570,7 +563,6 @@
 				E9BBC0BF22427E0300E6ACDA /* ripemd160.cpp in Sources */,
 				E9BBC09C22427E0300E6ACDA /* NSString+Crypto.mm in Sources */,
 				E9BBC09022427E0300E6ACDA /* MKMRSAPrivateKey.m in Sources */,
-				E9BBC0A422427E0300E6ACDA /* NSDate+Timestamp.m in Sources */,
 				E9BBC0AF22427E0300E6ACDA /* MKMGroup.m in Sources */,
 				E9BBC09822427E0300E6ACDA /* NSArray+Merkle.m in Sources */,
 				E9BBC0B722427E0300E6ACDA /* MKMMeta.m in Sources */,
