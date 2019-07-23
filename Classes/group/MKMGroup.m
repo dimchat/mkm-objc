@@ -94,20 +94,23 @@
 }
 
 - (MKMProfile *)profile {
-    MKMProfile *tao = [super profile];
-    if (!tao || [tao isValid]) {
-        return tao;
+    MKMProfile *tai = [super profile];
+    if (!tai || [tai isValid]) {
+        return tai;
     }
     // try to verify with owner's meta.key
     MKMID *owner = [self owner];
+    if (!owner) {
+        return tai;
+    }
     MKMMeta *meta = [_dataSource metaForID:owner];
     MKMPublicKey *key = [meta key];
-    if ([tao verify:key]) {
+    if ([tai verify:key]) {
         // signature correct
-        return tao;
+        return tai;
     }
     // profile error? continue to process by subclass
-    return tao;
+    return tai;
 }
 
 @end

@@ -46,18 +46,18 @@
 }
 
 - (MKMProfile *)profile {
-    MKMProfile *tao = [super profile];
-    if (!tao || [tao isValid]) {
-        return tao;
+    MKMProfile *tai = [super profile];
+    if (!tai || [tai isValid]) {
+        return tai;
     }
     // try to verify with meta.key
     MKMPublicKey *key = [self metaKey];
-    if ([tao verify:key]) {
+    if ([tai verify:key]) {
         // signature correct
-        return tao;
+        return tai;
     }
     // profile error
-    return tao;
+    return tai;
 }
 
 @end

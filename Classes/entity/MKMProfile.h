@@ -17,14 +17,14 @@ NS_ASSUME_NONNULL_BEGIN
 @class MKMUser;
 
 /**
- *  The Additional Object (Profile)
+ *  The Additional Information (Profile)
  *
  *      'Meta' is the information for entity which never changed,
  *          which contains the key for verify signature;
- *      'TAO' is the variable part(signed by meta.key's private key),
+ *      'TAI' is the variable part(signed by meta.key's private key),
  *          which contains the key for asymmetric encryption.
  */
-@interface MKMTAO : MKMDictionary
+@interface MKMTAI : MKMDictionary
 
 @property (readonly, strong, nonatomic) MKMID *ID;
 @property (readonly, nonatomic, getter=isValid) BOOL valid;
@@ -80,7 +80,7 @@ NS_DESIGNATED_INITIALIZER;
 
 #pragma mark - Profile
 
-@interface MKMProfile : MKMTAO
+@interface MKMProfile : MKMTAI
 
 @property (strong, nonatomic) NSString *name;
 

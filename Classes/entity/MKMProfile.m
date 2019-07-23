@@ -23,7 +23,7 @@
 
 #import "MKMProfile.h"
 
-@interface MKMTAO () {
+@interface MKMTAI () {
     
     MKMID *_ID;
     
@@ -46,7 +46,7 @@
 
 @end
 
-@implementation MKMTAO
+@implementation MKMTAI
 
 - (instancetype)init {
     NSAssert(false, @"DON'T call me");
@@ -104,7 +104,7 @@
 }
 
 - (id)copyWithZone:(NSZone *)zone {
-    MKMTAO *profile = [super copyWithZone:zone];
+    MKMTAI *profile = [super copyWithZone:zone];
     if (profile) {
         profile.ID = _ID;
         profile.properties = _properties;
