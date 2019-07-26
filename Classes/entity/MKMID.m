@@ -72,6 +72,9 @@
 }
 
 - (BOOL)isEqual:(id)object {
+    if ([super isEqual:object]) {
+        return YES;
+    }
     MKMID *ID = MKMIDFromString(object);
     // check name
     if (NSStringNotEquals(_name, ID.name)) {

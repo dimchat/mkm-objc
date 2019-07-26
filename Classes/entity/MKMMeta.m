@@ -141,7 +141,7 @@
 
 - (MKMAddress *)generateAddress:(MKMNetworkType)type {
     NSAssert(self.version == MKMMetaVersion_MKM, @"meta version error");
-    return [MKMAddressBTC generateWithData:self.fingerprint network:type];
+    return [MKMAddressDefault generateWithData:self.fingerprint network:type];
 }
 
 @end

@@ -119,23 +119,6 @@ typedef UInt8 MKMNetworkType;
 #define MKMNetwork_IsThing(network)        ((network) & MKMNetwork_Thing)
 #define MKMNetwork_IsRobot(network)        ((network) == MKMNetwork_Robot)
 
-/**
- *  Address like BitCoin
- *
- *      data format: "network+digest+checkcode"
- *          network    --  1 byte
- *          digest     -- 20 bytes
- *          check_code --  4 bytes
- *
- *      algorithm:
- *          fingerprint = sign(seed, SK);
- *
- *          CT      = fingerprint; // or key.data for BTC address
- *          digest  = ripemd160(sha256(CT));
- *          code    = sha256(sha256(network + digest)).prefix(4);
- *          address = base58_encode(network + digest + code);
- *          number  = uint(code);
- */
 @interface MKMAddress : MKMString
 
 @property (readonly, nonatomic) MKMNetworkType network; // Network ID
@@ -175,8 +158,25 @@ NS_DESIGNATED_INITIALIZER;
 
 @end
 
-#pragma mark - BTC Address
+#pragma mark - Default Address Algorithm (BTC)
 
+/**
+ *  Address like BitCoin
+ *
+ *      data format: "network+digest+checkcode"
+ *          network    --  1 byte
+ *          digest     -- 20 bytes
+ *          check_code --  4 bytes
+ *
+ *      algorithm:
+ *          fingerprint = sign(seed, SK);
+ *
+ *          CT      = fingerprint; // or key.data for BTC address
+ *          digest  = ripemd160(sha256(CT));
+ *          code    = sha256(sha256(network + digest)).prefix(4);
+ *          address = base58_encode(network + digest + code);
+ *          number  = uint(code);
+ */
 @interface MKMAddressBTC : MKMAddress
 
 /**
@@ -189,5 +189,7 @@ NS_DESIGNATED_INITIALIZER;
 + (instancetype)generateWithData:(NSData *)key network:(MKMNetworkType)type;
 
 @end
+
+#define MKMAddressDefault MKMAddressBTC
 
 NS_ASSUME_NONNULL_END

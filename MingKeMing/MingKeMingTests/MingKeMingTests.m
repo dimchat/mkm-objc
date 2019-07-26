@@ -315,7 +315,7 @@ static inline void print_id(MKMID *ID) {
         
         CT = [SK sign:data];
         
-        addr = [MKMAddressBTC generateWithData:CT network:network];
+        addr = [MKMAddressDefault generateWithData:CT network:network];
         
         number = addr.code;
         if (count % 100 == 0) {

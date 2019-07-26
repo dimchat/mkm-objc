@@ -41,6 +41,9 @@
 }
 
 - (BOOL)isEqual:(id)object {
+    if (![object isKindOfClass:[NSString class]]) {
+        return NO;
+    }
     return self == object || [_storeString isEqualToString:object];
 }
 

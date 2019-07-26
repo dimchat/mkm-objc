@@ -42,6 +42,12 @@
 }
 
 - (BOOL)isEqual:(id)object {
+    if (self == object) {
+        return YES;
+    }
+    if (![object isKindOfClass:[MKMEntity class]]) {
+        return NO;
+    }
     MKMEntity *entity = (MKMEntity *)object;
     return [entity.ID isEqual:_ID];
 }

@@ -42,18 +42,14 @@
     return self;
 }
 
-- (BOOL)isEqual:(id)object {
-    return [_storeString isEqualToString:object];
-}
-
 @end
 
 static NSMutableArray<Class> *address_classes(void) {
     static NSMutableArray<Class> *classes = nil;
     SingletonDispatchOnce(^{
         classes = [[NSMutableArray alloc] init];
-        // BTC
-        [classes addObject:[MKMAddressBTC class]];
+        // Default (BTC)
+        [classes addObject:[MKMAddressDefault class]];
         // ETH
         // ...
     });
@@ -120,7 +116,7 @@ static NSMutableArray<Class> *address_classes(void) {
 
 @end
 
-#pragma mark - BTC Address
+#pragma mark - Default Address Algorithm (BTC)
 
 /**
  *  Get check code of the address
