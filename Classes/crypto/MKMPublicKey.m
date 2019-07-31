@@ -27,6 +27,16 @@
     return [self verify:data withSignature:signature];
 }
 
+- (NSData *)encrypt:(NSData *)plaintext {
+    NSAssert(false, @"override me!");
+    return nil;
+}
+
+- (BOOL)verify:(NSData *)data withSignature:(NSData *)signature {
+    NSAssert(false, @"override me!");
+    return nil;
+}
+
 @end
 
 static NSMutableDictionary<NSString *, Class> *key_classes(void) {

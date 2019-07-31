@@ -31,6 +31,16 @@
     return [plaintext isEqualToData:ciphertext];
 }
 
+- (NSData *)encrypt:(NSData *)plaintext {
+    NSAssert(false, @"override me!");
+    return nil;
+}
+
+- (nullable NSData *)decrypt:(NSData *)ciphertext {
+    NSAssert(false, @"override me!");
+    return nil;
+}
+
 @end
 
 static NSMutableDictionary<NSString *, Class> *key_classes(void) {

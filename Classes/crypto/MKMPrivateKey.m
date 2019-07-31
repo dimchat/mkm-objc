@@ -32,6 +32,16 @@
     return nil;
 }
 
+- (nullable NSData *)decrypt:(NSData *)ciphertext {
+    NSAssert(false, @"override me!");
+    return nil;
+}
+
+- (NSData *)sign:(NSData *)data {
+    NSAssert(false, @"override me!");
+    return nil;
+}
+
 @end
 
 static NSMutableDictionary<NSString *, Class> *key_classes(void) {

@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
  *      keyInfo format: {
  *          algorithm: "AES",
  *          keySize  : 32,                // optional
- *          data     : "{BASE64_ENCODE}}" // password data
+ *          data     : "{BASE64_ENCODE}", // password data
  *          iv       : "{BASE64_ENCODE}", // initialization vector
  *      }
  */

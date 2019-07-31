@@ -14,7 +14,6 @@ NS_ASSUME_NONNULL_BEGIN
 #define ACAlgorithmECC @"ECC"
 
 @protocol MKMPublicKey <NSObject>
-@optional
 
 /**
  *  CT = encrypt(text, PK)
@@ -29,7 +28,6 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @protocol MKMPrivateKey <NSObject>
-@optional
 
 /**
  *  text = decrypt(CT, SK);
