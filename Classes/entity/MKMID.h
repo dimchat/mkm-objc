@@ -83,7 +83,8 @@ NS_ASSUME_NONNULL_BEGIN
             (MKMNetwork_IsGroup([(ID) type]) && [MKMEveryone() isEqual:(ID)])  \
                                                       /* EOF 'MKMIsEveryone() */
 #define MKMIsBroadcast(ID)                                                     \
-            (MKMIsAnyone(ID) || MKMIsEveryone(ID))                             \
+            (MKMNetwork_IsGroup([(ID) type]) ?                                 \
+                [MKMEveryone() isEqual:(ID)] : MKMIsAnyone(ID))                \
                                                     /* EOF 'MKMIsBroadcast()' */
 
 @interface MKMID (Runtime)

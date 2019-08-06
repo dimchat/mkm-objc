@@ -219,6 +219,36 @@ static inline void print_id(MKMID *ID) {
         NSAssert(false, @"signature error");
     }
     
+    NSDictionary *spKey;
+    spKey = @{@"algorithm": @"RSA",
+              @"data": @"MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDET7fvLupUBUc6ImwJejColybq\n"
+              "rU+Y6PwiCKhblGbwVqbvapD2A1hjEu4EtL6mm3v7hcgsO3Df33/ShRua6GW9/JQV\n"
+              "DLfdznLfuTg8w5Ug+dysJfbrmB1G7nbqDYEyXQXNRWpQsLHYSD/ihaSKWNnOuV0c\n"
+              "7ieJEzQAp++O+d3WUQIDAQAB"
+              };
+    PK = MKMPublicKeyFromDictionary(spKey);
+    NSLog(@"sp key: %@", PK);
+    
+    spKey = @{@"algorithm": @"RSA",
+              @"data": @"MIICXAIBAAKBgQDET7fvLupUBUc6ImwJejColybqrU+Y6PwiCKhblGbwVqbvapD2\n"
+              "A1hjEu4EtL6mm3v7hcgsO3Df33/ShRua6GW9/JQVDLfdznLfuTg8w5Ug+dysJfbr\n"
+              "mB1G7nbqDYEyXQXNRWpQsLHYSD/ihaSKWNnOuV0c7ieJEzQAp++O+d3WUQIDAQAB\n"
+              "AoGAA+J7dnBYWv4JPyth9ayNNLLcBmoUUIdwwNgow7orsM8YKdXzJSkjCT/dRarR\n"
+              "eIDMaulmcQiils2IjSEM7ytw4vEOPWY0AVj2RPhD83GcYyw9sUcTaz22R5UgsQ8X\n"
+              "7ikqBX+YO+diVBf2EqAoEihdO8App6jtlsQGsUjjlrKQIMECQQDSphyRLixymft9\n"
+              "bip7N6YZA5RoiO1yJhPn6X2EQ0QxX8IwKlV654jhDcLsPBUJsbxYK0bWfORZLi8V\n"
+              "+ambjnbxAkEA7pNmEvw/V+zw3DDGizeyRbhYgeZxAgKwXd8Vxd6pFl4iQRmvu0is\n"
+              "d94jZzryBycP6HSRKN11stnDJN++5TEVYQJALfTjoqDqPY5umazhQ8SeTjLDvBKz\n"
+              "iwXXre743VQ3mnYDzbJOt+OvrznrXtK03EqUhr/aUo0o3HQA/dBcOn3YYQJBAM98\n"
+              "yAh48wogGnYVwYbwgI3cPrVy2hO6jPKHAyOce4flhHsDwO7rzHtPaZDtFfMciNxN\n"
+              "DLXyrNtIQkx+f0JLBuECQCUfuJGL+qbExpD3tScBJPAIJ8ZVRVbTcL3eHC9q6gx3\n"
+              "7Fmn9KfbQrUHPwwdo5nuK+oVVYnFkyKGPSer7ras8ro="
+              };
+    SK = MKMPrivateKeyFromDictionary(spKey);
+
+    CT = [PK encrypt:data];
+    dec = [SK decrypt:CT];
+    NSLog(@"sp: %@ -> %@ -> %@", string, [CT base64Encode], [dec UTF8String]);
 }
 
 - (void)testMeta {

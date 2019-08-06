@@ -34,7 +34,7 @@
 
 - (BOOL)verify:(NSData *)data withSignature:(NSData *)signature {
     NSAssert(false, @"override me!");
-    return nil;
+    return NO;
 }
 
 @end
