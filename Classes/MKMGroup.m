@@ -51,6 +51,26 @@
     return [info jsonString];
 }
 
+- (nullable __kindof MKMProfile *)profile {
+    MKMProfile *tai = [super profile];
+    if (!tai || [tai isValid]) {
+        return tai;
+    }
+    // try to verify with owner's meta.key
+    MKMID *owner = [self owner];
+    if (!owner) {
+        return tai;
+    }
+    MKMMeta *meta = [_dataSource metaForID:owner];
+    MKMPublicKey *key = [meta key];
+    if ([tai verify:key]) {
+        // signature correct
+        return tai;
+    }
+    // profile error? continue to process by subclass
+    return tai;
+}
+
 - (MKMID *)founder {
     if (_founder) {
         return _founder;
@@ -60,7 +80,7 @@
     return _founder;
 }
 
-- (nullable MKMID *)owner {
+- (MKMID *)owner {
     NSAssert(_dataSource, @"group data source not set yet");
     return [_dataSource ownerOfGroup:_ID];
 }
@@ -91,26 +111,6 @@
         }
     }
     return NO;
-}
-
-- (MKMProfile *)profile {
-    MKMProfile *tai = [super profile];
-    if (!tai || [tai isValid]) {
-        return tai;
-    }
-    // try to verify with owner's meta.key
-    MKMID *owner = [self owner];
-    if (!owner) {
-        return tai;
-    }
-    MKMMeta *meta = [_dataSource metaForID:owner];
-    MKMPublicKey *key = [meta key];
-    if ([tai verify:key]) {
-        // signature correct
-        return tai;
-    }
-    // profile error? continue to process by subclass
-    return tai;
 }
 
 @end

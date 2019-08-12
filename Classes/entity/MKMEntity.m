@@ -89,7 +89,7 @@
     return [_dataSource metaForID:_ID];
 }
 
-- (MKMProfile *)profile {
+- (nullable __kindof MKMProfile *)profile {
     NSAssert(_dataSource, @"entity data source not set yet");
     return [_dataSource profileForID:_ID];
 }

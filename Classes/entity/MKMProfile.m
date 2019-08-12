@@ -18,8 +18,8 @@
 #import "MKMAddress.h"
 #import "MKMMeta.h"
 
-#import "MKMAccount.h"
 #import "MKMUser.h"
+#import "MKMLocalUser.h"
 
 #import "MKMProfile.h"
 

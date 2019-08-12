@@ -8,7 +8,7 @@
 
 #import "MKMImmortals.h"
 
-@interface MKMUser (Hacking)
+@interface MKMLocalUser (Hacking)
 
 @property (strong, nonatomic) MKMPrivateKey *privateKey;
 
@@ -19,7 +19,7 @@
     NSMutableDictionary<MKMAddress *, MKMMeta *> *_metaTable;
     NSMutableDictionary<MKMAddress *, MKMProfile *> *_profileTable;
     
-    NSMutableDictionary<MKMAddress *, MKMUser *> *_userTable;
+    NSMutableDictionary<MKMAddress *, MKMLocalUser *> *_userTable;
 }
 
 @end
@@ -82,7 +82,7 @@
     }
     
     // create user
-    MKMUser *user = [[MKMUser alloc] initWithID:ID];
+    MKMLocalUser *user = [[MKMLocalUser alloc] initWithID:ID];
     user.dataSource = self;
     //user.privateKey = SK;
     [_userTable setObject:user forKey:ID.address];
@@ -90,17 +90,7 @@
     NSLog(@"loaded immortal account: %@", [user description]);
 }
 
-- (nullable MKMAccount *)accountWithID:(MKMID *)ID {
-    if (MKMNetwork_IsPerson(ID.type)) {
-        return [self userWithID:ID];
-    } else {
-        // not a person account
-        NSAssert(MKMNetwork_IsCommunicator(ID.type), @"account ID error: %@", ID);
-        return nil;
-    }
-}
-
-- (nullable MKMUser *)userWithID:(MKMID *)ID {
+- (nullable MKMLocalUser *)userWithID:(MKMID *)ID {
     NSAssert(MKMNetwork_IsPerson(ID.type), @"user ID error: %@", ID);
     return [_userTable objectForKey:ID.address];
 }
@@ -116,21 +106,21 @@
     return [[_metaTable allValues] containsObject:meta];
 }
 
-- (nullable MKMProfile *)profileForID:(MKMID *)ID {
-    NSAssert(MKMNetwork_IsPerson(ID.type), @"account ID error: %@", ID);
+- (nullable __kindof MKMProfile *)profileForID:(MKMID *)ID {
+    NSAssert(MKMNetwork_IsPerson(ID.type), @"user ID error: %@", ID);
     return [_profileTable objectForKey:ID.address];
 }
 
-- (MKMPrivateKey *)privateKeyForSignatureOfUser:(MKMID *)user {
+- (nullable MKMPrivateKey *)privateKeyForSignatureOfUser:(MKMID *)user {
     return [MKMPrivateKey loadKeyWithIdentifier:user.address];
 }
 
-- (NSArray<MKMPrivateKey *> *)privateKeysForDecryptionOfUser:(MKMID *)user {
+- (nullable NSArray<MKMPrivateKey *> *)privateKeysForDecryptionOfUser:(MKMID *)user {
     MKMPrivateKey *key = [MKMPrivateKey loadKeyWithIdentifier:user.address];
     return [[NSArray alloc] initWithObjects:key, nil];
 }
 
-- (NSArray<MKMID *> *)contactsOfUser:(MKMID *)user {
+- (nullable NSArray<MKMID *> *)contactsOfUser:(MKMID *)user {
     NSMutableArray<MKMID *> *list = [[NSMutableArray alloc] initWithCapacity:2];
     [list addObject:MKMIDFromString(MKM_MONKEY_KING_ID)];
     [list addObject:MKMIDFromString(MKM_IMMORTAL_HULK_ID)];

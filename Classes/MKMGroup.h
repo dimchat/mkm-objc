@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MKMGroup : MKMEntity
 
 @property (readonly, strong, nonatomic) MKMID *founder;
-@property (readonly, strong, nonatomic, nullable) MKMID *owner;
+@property (readonly, strong, nonatomic) MKMID *owner;
 
 @property (readonly, copy, nonatomic) NSArray<MKMID *> *members;
 
@@ -39,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param group - group ID
  * @return fonder ID
  */
-- (MKMID *)founderOfGroup:(MKMID *)group;
+- (nullable MKMID *)founderOfGroup:(MKMID *)group;
 
 /**
  *  Get group owner
@@ -55,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param group - group ID
  * @return members list (ID)
  */
-- (NSArray<MKMID *> *)membersOfGroup:(MKMID *)group;
+- (nullable NSArray<MKMID *> *)membersOfGroup:(MKMID *)group;
 
 @end
 

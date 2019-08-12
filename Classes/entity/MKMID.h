@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  ID for entity (Account/Group)
+ *  ID for entity (User/Group)
  *
  *      data format: "name@address[/terminal]"
  *

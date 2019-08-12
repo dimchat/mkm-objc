@@ -2,72 +2,62 @@
 //  MKMUser.m
 //  MingKeMing
 //
-//  Created by Albert Moky on 2018/9/24.
+//  Created by Albert Moky on 2018/9/23.
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import "NSObject+JsON.h"
-
 #import "MKMPublicKey.h"
-#import "MKMPrivateKey.h"
 
 #import "MKMID.h"
+#import "MKMMeta.h"
+#import "MKMProfile.h"
 
 #import "MKMUser.h"
 
 @implementation MKMUser
 
-- (NSString *)debugDescription {
-    NSString *desc = [super debugDescription];
-    NSDictionary *dict = [[desc data] jsonDictionary];
-    NSMutableDictionary *info = [dict mutableCopy];
-    [info setObject:@(self.contacts.count) forKey:@"contacts"];
-    return [info jsonString];
+- (BOOL)verify:(NSData *)data withSignature:(NSData *)signature {
+    // 1. get key for signature from meta
+    MKMPublicKey *key = [self metaKey];
+    // 2. verify with meta.key
+    return [key verify:data withSignature:signature];
 }
 
-- (NSData *)sign:(NSData *)data {
-    NSAssert(_dataSource, @"user data source not set yet");
-    MKMPrivateKey *key = [_dataSource privateKeyForSignatureOfUser:_ID];
-    return [key sign:data];
-}
-
-- (nullable NSData *)decrypt:(NSData *)ciphertext {
-    NSAssert(_dataSource, @"user data source not set yet");
-    NSArray<MKMPrivateKey *> *keys = [_dataSource privateKeysForDecryptionOfUser:_ID];
-    NSData *plaintext = nil;
-    for (MKMPrivateKey *key in keys) {
-        plaintext = [key decrypt:ciphertext];
-        if (plaintext != nil) {
-            // OK!
-            break;
-        }
+- (NSData *)encrypt:(NSData *)plaintext {
+    // 1. get key for encryption from profile
+    MKMPublicKey *key = [self profileKey];
+    if (key == nil) {
+        // 2. get key for encryption from meta
+        //    NOTICE: meta.key will never changed, so use profile.key to encrypt is the better way
+        key = [self metaKey];
     }
-    return plaintext;
+    // 3. encrypt with profile.key
+    return [key encrypt:plaintext];
 }
 
-#pragma mark Contacts of User
-
-- (NSArray<MKMID *> *)contacts {
-    NSAssert(_dataSource, @"user data source not set yet");
-    NSArray *list = [_dataSource contactsOfUser:_ID];
-    return [list copy];
+- (MKMPublicKey *)metaKey {
+    MKMMeta *meta = [self meta];
+    return [meta key];
 }
 
-- (BOOL)existsContact:(MKMID *)ID {
-    NSAssert(_dataSource, @"user data source not set yet");
-    NSArray<MKMID *> *contacts = [self contacts];
-    NSInteger count = [contacts count];
-    if (count <= 0) {
-        return NO;
+- (nullable MKMPublicKey *)profileKey {
+    MKMProfile *profile = [self profile];
+    return [profile key];
+}
+
+- (nullable MKMProfile *)profile {
+    MKMProfile *tai = [super profile];
+    if (!tai || [tai isValid]) {
+        return tai;
     }
-    MKMID *contact;
-    while (--count >= 0) {
-        contact = [contacts objectAtIndex:count];
-        if ([contact isEqual:ID]) {
-            return YES;
-        }
+    // try to verify with meta.key
+    MKMPublicKey *key = [self metaKey];
+    if ([tai verify:key]) {
+        // signature correct
+        return tai;
     }
-    return NO;
+    // profile error
+    return tai;
 }
 
 @end

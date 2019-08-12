@@ -13,8 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 @class MKMPublicKey;
 @class MKMPrivateKey;
 @class MKMID;
-@class MKMAccount;
 @class MKMUser;
+@class MKMLocalUser;
 
 /**
  *  The Additional Information (Profile)

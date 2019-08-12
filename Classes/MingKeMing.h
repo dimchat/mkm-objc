@@ -48,8 +48,8 @@ FOUNDATION_EXPORT const unsigned char MingKeMingVersionString[];
 
 //-
 #import <MingKeMing/MKMGroup.h>
-#import <MingKeMing/MKMAccount.h>
 #import <MingKeMing/MKMUser.h>
+#import <MingKeMing/MKMLocalUser.h>
 
 //#import <MingKeMing/MKMImmortals.h>
 

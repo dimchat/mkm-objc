@@ -106,18 +106,18 @@ typedef NS_ENUM(UInt8, MKMNetworkID) {
 };
 typedef UInt8 MKMNetworkType;
 
-#define MKMNetwork_IsCommunicator(network) (((network) & MKMNetwork_Main) ||   \
-                                            ((network) == MKMNetwork_BTCMain))
+#define MKMNetwork_IsUser(network)     (((network) & MKMNetwork_Main) ||       \
+                                        ((network) == MKMNetwork_BTCMain))
+#define MKMNetwork_IsGroup(network)    ((network) & MKMNetwork_Group)
 
-#define MKMNetwork_IsPerson(network)       (((network) == MKMNetwork_Main) ||  \
-                                            ((network) == MKMNetwork_BTCMain))
-#define MKMNetwork_IsGroup(network)        ((network) & MKMNetwork_Group)
+#define MKMNetwork_IsPerson(network)   (((network) == MKMNetwork_Main) ||      \
+                                       ((network) == MKMNetwork_BTCMain))
 
-#define MKMNetwork_IsStation(network)      ((network) == MKMNetwork_Station)
-#define MKMNetwork_IsProvider(network)     ((network) == MKMNetwork_Provider)
+#define MKMNetwork_IsStation(network)  ((network) == MKMNetwork_Station)
+#define MKMNetwork_IsProvider(network) ((network) == MKMNetwork_Provider)
 
-#define MKMNetwork_IsThing(network)        ((network) & MKMNetwork_Thing)
-#define MKMNetwork_IsRobot(network)        ((network) == MKMNetwork_Robot)
+#define MKMNetwork_IsThing(network)    ((network) & MKMNetwork_Thing)
+#define MKMNetwork_IsRobot(network)    ((network) == MKMNetwork_Robot)
 
 @interface MKMAddress : MKMString
 

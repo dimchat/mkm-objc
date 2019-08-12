@@ -2,68 +2,32 @@
 //  MKMUser.h
 //  MingKeMing
 //
-//  Created by Albert Moky on 2018/9/24.
+//  Created by Albert Moky on 2018/9/23.
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import "MKMAccount.h"
+#import "MKMEntity.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class MKMPrivateKey;
-@class MKMContact;
-
-@interface MKMUser : MKMAccount
-
-@property (readonly, copy, nonatomic) NSArray<MKMID *> *contacts;
-
-- (BOOL)existsContact:(MKMID *)ID;
+@interface MKMUser : MKMEntity
 
 /**
- *  Sign data with user's private key
+ *  Verify data with signature, use meta.key
  *
  * @param data - message data
- * @return signature
+ * @param signature - message signature
+ * @return true on correct
  */
-- (NSData *)sign:(NSData *)data;
+- (BOOL)verify:(NSData *)data withSignature:(NSData *)signature;
 
 /**
- *  Decrypt data with user's private key
+ *  Encrypt data, try profile.key first, if not found, use meta.key
  *
- * @param ciphertext - encrypted data
- * @return plain text
+ * @param plaintext - message data
+ * @return encrypted data
  */
-- (nullable NSData *)decrypt:(NSData *)ciphertext;
-
-@end
-
-#pragma mark - User Data Source
-
-@protocol MKMUserDataSource <MKMEntityDataSource>
-
-/**
- *  Get user's private key
- *
- * @param user - user ID
- * @return private key
- */
-- (MKMPrivateKey *)privateKeyForSignatureOfUser:(MKMID *)user;
-
-/**
- *  Get user's private keys for decryption
- *
- * @param user - user ID
- * @return private key
- */
-- (NSArray<MKMPrivateKey *> *)privateKeysForDecryptionOfUser:(MKMID *)user;
-
-/**
- *  Get contacts list
- *
- * @param user - user ID
- * @return contacts list (ID)
- */
-- (NSArray<MKMID *> *)contactsOfUser:(MKMID *)user;
+- (NSData *)encrypt:(NSData *)plaintext;
 
 @end
 

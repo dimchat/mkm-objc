@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class MKMID;
 
 /**
- *  Account/Group Meta data
+ *  User/Group Meta data
  *
  *      data format: {
  *          version: 1,          // algorithm version

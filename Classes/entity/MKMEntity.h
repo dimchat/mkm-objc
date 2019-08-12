@@ -24,14 +24,14 @@ NS_ASSUME_NONNULL_BEGIN
     __weak __kindof id<MKMEntityDataSource> _dataSource;
 }
 
-@property (readonly, copy, nonatomic) MKMID *ID;     // name@address
+@property (readonly, copy, nonatomic) MKMID *ID;        // name@address
 
-@property (readonly, nonatomic) MKMNetworkType type; // Network ID
-@property (readonly, nonatomic) UInt32 number;       // search number
+@property (readonly, nonatomic) MKMNetworkType type;    // Network ID
+@property (readonly, nonatomic) UInt32 number;          // search number
 
-@property (readonly, strong, nonatomic) MKMMeta *meta;       // meta for entity
-@property (readonly, strong, nonatomic) MKMProfile *profile; // profile of entity
-@property (readonly, strong, nonatomic) NSString *name;      // name or seed
+@property (readonly, strong, nonatomic) MKMMeta *meta;
+@property (readonly, strong, nonatomic, nullable) __kindof MKMProfile *profile;
+@property (readonly, strong, nonatomic) NSString *name; // profile.name or seed
 
 @property (weak, nonatomic) __kindof id<MKMEntityDataSource> dataSource;
 
@@ -66,7 +66,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param ID - entity ID
  * @return profile object
  */
-- (nullable MKMProfile *)profileForID:(MKMID *)ID;
+- (nullable __kindof MKMProfile *)profileForID:(MKMID *)ID;
 
 @end
 
