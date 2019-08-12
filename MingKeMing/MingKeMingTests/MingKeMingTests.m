@@ -376,4 +376,47 @@ static inline void print_id(MKMID *ID) {
     NSLog(@"count: %lu, time: %lu, speed: %f", count, (unsigned long)ti, count/ti);
 }
 
+- (void)testMetaAndKey {
+    NSString *name = @"moky";
+    MKMPrivateKey *SK = MKMPrivateKeyWithAlgorithm(ACAlgorithmRSA);
+    MKMMeta *meta = MKMMetaGenerate(MKMMetaDefaultVersion, SK, name);
+    NSLog(@"meta: %@", [meta jsonString]);
+    NSLog(@"SK: %@", [SK jsonString]);
+}
+
+static inline void checkX(NSString *metaJson, NSString *skJson) {
+    NSDictionary *dict = [[metaJson data] jsonDictionary];
+    MKMMeta *meta = MKMMetaFromDictionary(dict);
+    MKMID *ID = [meta generateID:MKMNetwork_Main];
+    NSLog(@"meta: %@", meta);
+    NSLog(@"ID: %@", ID);
+    
+    dict = [[skJson data] jsonDictionary];
+    MKMPrivateKey *SK = MKMPrivateKeyFromDictionary(dict);
+    NSLog(@"private key: %@", SK);
+    assert([meta.key isMatch:SK]);
+    
+    NSString *name = @"moky";
+    NSData *data = [name data];
+    NSData *CT = [meta.key encrypt:data];
+    NSData *PT = [SK decrypt:CT];
+    NSString *hex = [CT hexEncode];
+    NSString *res = [PT UTF8String];
+    NSLog(@"encryption: %@ -> %@ -> %@", name, hex, res);
+}
+
+- (void)testPythonMeta {
+    NSLog(@"checking data from Python ...");
+    NSString *s1 = @"{\"version\": 1, \"seed\": \"moky\", \"key\": {\"algorithm\": \"RSA\", \"data\": \"-----BEGIN PUBLIC KEY-----\\nMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDbTf58ScygpB7tbOSN5/9dZIEB\\ncbKjnwUxW8cWdEo765gGXUsNUQUgThFC4csLsFTvqVhGxn3+WfDIwrvzF/2HWJu8\\nUvo3LkG3ZGP8US9y2Mvp9VaCWz8ZwyMe4fcWus8dRs8fdTatLeoZVGQDv9SdE2Vx\\nuPvJw3gHyR9dOKq37QIDAQAB\\n-----END PUBLIC KEY-----\"}, \"fingerprint\": \"MTHQiV/6sCAtOM6CJ2clJgKHu4Lyw34rzoWLsARPL61Z4ivz/q2y9dXIN49A0B+RT6z7+vqI6NGseTLZoc1wT7EHN5qDIYWMdJjOd7YGv5K/AFQCMkZxcpDb51ryWC22/n2bi1MvkH+b3lhQjwvtwqq05K1nDixUTFqAEcNQDOg=\"}\n";
+    NSString *s2 = @"{\"algorithm\": \"RSA\", \"data\": \"-----BEGIN RSA PRIVATE KEY-----\\nMIICXAIBAAKBgQDbTf58ScygpB7tbOSN5/9dZIEBcbKjnwUxW8cWdEo765gGXUsN\\nUQUgThFC4csLsFTvqVhGxn3+WfDIwrvzF/2HWJu8Uvo3LkG3ZGP8US9y2Mvp9VaC\\nWz8ZwyMe4fcWus8dRs8fdTatLeoZVGQDv9SdE2VxuPvJw3gHyR9dOKq37QIDAQAB\\nAoGADLCdbHM3xkbg7EOsEQMO7YhKh7scx2eE/SdupH+7qO53yEx/MojQ517lFE3s\\n+iLss0aFD2lecoihTHiqOAWYG7CfMRg7OaG5Kx7MCZdo/fm28DtiymjpB6nR1SFu\\nmroBWN2rDWHiYBSLeZM8Efh8ONhSue6zMwCIzatBfhrp5JkCQQDfuevIWO9WYRQi\\ndpvDdHzf7uK7ypAs+h90NdJ5P2ihYW7EkSioTu1tskI+d71p/pzTWMd6u/3wWKGV\\n95Yz2wQ5AkEA+vDJToLYObUStmGp+FVsKU4JezHfd831pMcx09nG3d3AIHcJfKx7\\nJzY6k1KVUE3nPHMwhIxEV1AOsOiImU7ZVQJBAKL7b5AZceoMeL2OiHTAJMSB470I\\nmTWa1VU0bGsVzWRbdXVPhj3umbrjNK0LT/qqmJbCwzdfQmRYPQbiQhLux8kCQG4x\\nzISwipkUvcnfK0+E24Fr5lf196bZh7Q7UNMx/9Uv6o2XGFBqQY5fjutgyXbBLvjp\\nsHWUTvJ0km73Pfzslh0CQGLWIE3osF9bLOy7xhLzbVFf3y0yFI/0/pyYvBMZ3yCy\\nw65R9OCcY2PFM2SGEw+nQtopShcpKT0xG30P11TO9oA=\\n-----END RSA PRIVATE KEY-----\"}\n";
+    checkX(s1, s2);
+}
+
+- (void)testJavaMeta {
+    NSLog(@"checking data from Java ...");
+    NSString *s1 = @"{\"seed\":\"moky\",\"fingerprint\":\"m76nBPhABBTG4LmLlxzp4s3o2n4EdEsjDE60EHDtQme8gY9mPf7sr41eDbbpmzH2QnNlulh2Jh8ryr99rYnjBFe7o0HtWpOP1ea/kTCZb1qRHKgg0/JvDghYoHAElAdMHWtJMTwxCJIW+ei9HjQ4MZ10oCLmxFwtIN+qokcAcH4=\",\"version\":1,\"key\":{\"mode\":\"ECB\",\"padding\":\"PKCS1\",\"data\":\"-----BEGIN PUBLIC KEY-----\\r\\nMIGJAoGBAMOJODxrdcYaVtEvTMW3KmG3X4xhEor9+LWN03X4WyCk+PHncC4UtvYgMdfHXaL5JZXu\\r\\nPf52UOv5pNM21eo3SnRC2TN+DzwNKnLV83LxMuGMl/CPPmstdQVwg8Ru5NNNnEvtH3TxgmzfDRDm\\r\\ncfFEJp9PF27WfVpr4niWCy7NAHMTAgMBAAE=\\r\\n-----END PUBLIC KEY-----\",\"digest\":\"SHA256\",\"algorithm\":\"RSA\"}}\n";
+    NSString *s2 = @"{\"mode\":\"ECB\",\"padding\":\"PKCS1\",\"data\":\"-----BEGIN PUBLIC KEY-----\\r\\nMIGJAoGBAMOJODxrdcYaVtEvTMW3KmG3X4xhEor9+LWN03X4WyCk+PHncC4UtvYgMdfHXaL5JZXu\\r\\nPf52UOv5pNM21eo3SnRC2TN+DzwNKnLV83LxMuGMl/CPPmstdQVwg8Ru5NNNnEvtH3TxgmzfDRDm\\r\\ncfFEJp9PF27WfVpr4niWCy7NAHMTAgMBAAE=\\r\\n-----END PUBLIC KEY-----\\n-----BEGIN RSA PRIVATE KEY-----\\r\\nMIICXgIBAAKBgQDDiTg8a3XGGlbRL0zFtypht1+MYRKK/fi1jdN1+FsgpPjx53AuFLb2IDHXx12i\\r\\n+SWV7j3+dlDr+aTTNtXqN0p0Qtkzfg88DSpy1fNy8TLhjJfwjz5rLXUFcIPEbuTTTZxL7R908YJs\\r\\n3w0Q5nHxRCafTxdu1n1aa+J4lgsuzQBzEwIDAQABAoGATsOUeooS2+S6OfMiqrX4hXoXK/XiQUjC\\r\\niWeC2Y9cLc8mVFMU1gsUFBqt2Sx+pGpV4IoiQMEqIZPi+A2rp3f0LiH3oYpap4rBEJKpHO8dvNAy\\r\\n2yZjAAuwnVBw5Eahdh+vjxVAeblckPP1ktpl9KNJpnLFeT4wToJm7e2o4VZABokCQQDyZfFYiY0O\\r\\nqJQEtf2gAwCQDF/zk2r7HebW0lwhSkD+xup5akaGW5PJArIF2YMMs494DL/ACSlEDME2KhW+69uH\\r\\nAkEAzoIZnx1/E16+UwDQp3UtPL6oIaeVRtz4yjdq7RHBESvVrSi3M3n9artgv8qLyAstRuuw7Hz4\\r\\nlYvWuuGGS1NHFQJBAJ8xhlSwWZxz6GpDn6MT9a2lAus0OQFc/Pq+wtT2MENjHiDJRDH/OMq9427m\\r\\nECQqVSHxtYkIOzq+6bGJ6CgwPEcCQQCD6GqBTpALSWt9DXo6XQjGUmqHBMq/dwqb8IYmZD7UvxFA\\r\\nCE/tW7DZ6lLEb5aV8z26nXZnuPP4YliJCuGDX/B5AkEAyhXbQ2V1Vtf0ouuIEJoUvxlvqVMgKl9k\\r\\npydPVhWIoW4bj2NBnMgkptbt3GuK55NxvUCDfAgVD02VsObeW67L+Q==\\r\\n-----END RSA PRIVATE KEY-----\",\"digest\":\"SHA256\",\"algorithm\":\"RSA\"}\n";
+    checkX(s1, s2);
+}
+
 @end

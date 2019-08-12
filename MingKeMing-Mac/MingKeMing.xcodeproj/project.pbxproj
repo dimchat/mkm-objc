@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E91F2B1D2301521500BE05D0 /* MKMGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = E91F2B1B2301521500BE05D0 /* MKMGroup.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E91F2B1E2301521500BE05D0 /* MKMGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = E91F2B1C2301521500BE05D0 /* MKMGroup.m */; };
 		E961082C22C9EB160032D8A2 /* NSObject+Singleton.h in Headers */ = {isa = PBXBuildFile; fileRef = E961082B22C9EB160032D8A2 /* NSObject+Singleton.h */; };
 		E9BBBF4E22427BCA00E6ACDA /* MingKeMing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9BBBF4422427BCA00E6ACDA /* MingKeMing.framework */; };
 		E9BBBF5322427BCA00E6ACDA /* MingKeMingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBBF5222427BCA00E6ACDA /* MingKeMingTests.m */; };
@@ -46,15 +48,6 @@
 		E9BBC0A722427E0300E6ACDA /* MKMString.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC05322427E0300E6ACDA /* MKMString.m */; };
 		E9BBC0A822427E0300E6ACDA /* MKMDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = E9BBC05422427E0300E6ACDA /* MKMDictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E9BBC0A922427E0300E6ACDA /* MKMString.h in Headers */ = {isa = PBXBuildFile; fileRef = E9BBC05522427E0300E6ACDA /* MKMString.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E9BBC0AA22427E0300E6ACDA /* MKMContact.h in Headers */ = {isa = PBXBuildFile; fileRef = E9BBC05622427E0300E6ACDA /* MKMContact.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E9BBC0AB22427E0300E6ACDA /* MKMPolylogue.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC05822427E0300E6ACDA /* MKMPolylogue.m */; };
-		E9BBC0AC22427E0300E6ACDA /* MKMGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = E9BBC05922427E0300E6ACDA /* MKMGroup.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E9BBC0AD22427E0300E6ACDA /* MKMChatroom.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC05A22427E0300E6ACDA /* MKMChatroom.m */; };
-		E9BBC0AE22427E0300E6ACDA /* MKMMember.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC05B22427E0300E6ACDA /* MKMMember.m */; };
-		E9BBC0AF22427E0300E6ACDA /* MKMGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC05C22427E0300E6ACDA /* MKMGroup.m */; };
-		E9BBC0B022427E0300E6ACDA /* MKMPolylogue.h in Headers */ = {isa = PBXBuildFile; fileRef = E9BBC05D22427E0300E6ACDA /* MKMPolylogue.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E9BBC0B122427E0300E6ACDA /* MKMChatroom.h in Headers */ = {isa = PBXBuildFile; fileRef = E9BBC05E22427E0300E6ACDA /* MKMChatroom.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E9BBC0B222427E0300E6ACDA /* MKMMember.h in Headers */ = {isa = PBXBuildFile; fileRef = E9BBC05F22427E0300E6ACDA /* MKMMember.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E9BBC0B322427E0300E6ACDA /* MKMEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC06122427E0300E6ACDA /* MKMEntity.m */; };
 		E9BBC0B422427E0300E6ACDA /* MKMMeta.h in Headers */ = {isa = PBXBuildFile; fileRef = E9BBC06222427E0300E6ACDA /* MKMMeta.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E9BBC0B522427E0300E6ACDA /* MKMAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC06322427E0300E6ACDA /* MKMAddress.m */; };
@@ -74,7 +67,6 @@
 		E9BBC0C322427E0300E6ACDA /* base58.h in Headers */ = {isa = PBXBuildFile; fileRef = E9BBC07522427E0300E6ACDA /* base58.h */; };
 		E9BBC0C522427E0300E6ACDA /* MKMAccount.h in Headers */ = {isa = PBXBuildFile; fileRef = E9BBC07722427E0300E6ACDA /* MKMAccount.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E9BBC0C622427E0300E6ACDA /* MingKeMing.h in Headers */ = {isa = PBXBuildFile; fileRef = E9BBC07822427E0300E6ACDA /* MingKeMing.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E9BBC0C722427E0300E6ACDA /* MKMContact.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC07922427E0300E6ACDA /* MKMContact.m */; };
 		E9BBC0C822427E0300E6ACDA /* MKMUser.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC07A22427E0300E6ACDA /* MKMUser.m */; };
 		E9BBC0C922427E0300E6ACDA /* MKMImmortals.h in Headers */ = {isa = PBXBuildFile; fileRef = E9BBC07B22427E0300E6ACDA /* MKMImmortals.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		E9BBC0CA22427E0300E6ACDA /* mkm_hulk.plist in Resources */ = {isa = PBXBuildFile; fileRef = E9BBC07D22427E0300E6ACDA /* mkm_hulk.plist */; };
@@ -94,6 +86,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E91F2B1B2301521500BE05D0 /* MKMGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMGroup.h; sourceTree = "<group>"; };
+		E91F2B1C2301521500BE05D0 /* MKMGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMGroup.m; sourceTree = "<group>"; };
 		E961082B22C9EB160032D8A2 /* NSObject+Singleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Singleton.h"; sourceTree = "<group>"; };
 		E9BBBF4422427BCA00E6ACDA /* MingKeMing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MingKeMing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9BBBF4822427BCA00E6ACDA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -136,15 +130,6 @@
 		E9BBC05322427E0300E6ACDA /* MKMString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMString.m; sourceTree = "<group>"; };
 		E9BBC05422427E0300E6ACDA /* MKMDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMDictionary.h; sourceTree = "<group>"; };
 		E9BBC05522427E0300E6ACDA /* MKMString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMString.h; sourceTree = "<group>"; };
-		E9BBC05622427E0300E6ACDA /* MKMContact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMContact.h; sourceTree = "<group>"; };
-		E9BBC05822427E0300E6ACDA /* MKMPolylogue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMPolylogue.m; sourceTree = "<group>"; };
-		E9BBC05922427E0300E6ACDA /* MKMGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMGroup.h; sourceTree = "<group>"; };
-		E9BBC05A22427E0300E6ACDA /* MKMChatroom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMChatroom.m; sourceTree = "<group>"; };
-		E9BBC05B22427E0300E6ACDA /* MKMMember.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMMember.m; sourceTree = "<group>"; };
-		E9BBC05C22427E0300E6ACDA /* MKMGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMGroup.m; sourceTree = "<group>"; };
-		E9BBC05D22427E0300E6ACDA /* MKMPolylogue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMPolylogue.h; sourceTree = "<group>"; };
-		E9BBC05E22427E0300E6ACDA /* MKMChatroom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMChatroom.h; sourceTree = "<group>"; };
-		E9BBC05F22427E0300E6ACDA /* MKMMember.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMMember.h; sourceTree = "<group>"; };
 		E9BBC06122427E0300E6ACDA /* MKMEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMEntity.m; sourceTree = "<group>"; };
 		E9BBC06222427E0300E6ACDA /* MKMMeta.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMMeta.h; sourceTree = "<group>"; };
 		E9BBC06322427E0300E6ACDA /* MKMAddress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMAddress.m; sourceTree = "<group>"; };
@@ -164,7 +149,6 @@
 		E9BBC07522427E0300E6ACDA /* base58.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = base58.h; sourceTree = "<group>"; };
 		E9BBC07722427E0300E6ACDA /* MKMAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMAccount.h; sourceTree = "<group>"; };
 		E9BBC07822427E0300E6ACDA /* MingKeMing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MingKeMing.h; sourceTree = "<group>"; };
-		E9BBC07922427E0300E6ACDA /* MKMContact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMContact.m; sourceTree = "<group>"; };
 		E9BBC07A22427E0300E6ACDA /* MKMUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMUser.m; sourceTree = "<group>"; };
 		E9BBC07B22427E0300E6ACDA /* MKMImmortals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMImmortals.h; sourceTree = "<group>"; };
 		E9BBC07D22427E0300E6ACDA /* mkm_hulk.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = mkm_hulk.plist; sourceTree = "<group>"; };
@@ -237,15 +221,14 @@
 				E9BBC05122427E0300E6ACDA /* types */,
 				E9BBC02922427E0300E6ACDA /* crypto */,
 				E9BBC06022427E0300E6ACDA /* entity */,
-				E9BBC05722427E0300E6ACDA /* group */,
+				E91F2B1B2301521500BE05D0 /* MKMGroup.h */,
+				E91F2B1C2301521500BE05D0 /* MKMGroup.m */,
 				E9BBC07722427E0300E6ACDA /* MKMAccount.h */,
 				E9BBC02822427E0300E6ACDA /* MKMAccount.m */,
-				E9BBC05622427E0300E6ACDA /* MKMContact.h */,
-				E9BBC07922427E0300E6ACDA /* MKMContact.m */,
-				E9BBC07B22427E0300E6ACDA /* MKMImmortals.h */,
-				E9BBC06922427E0300E6ACDA /* MKMImmortals.m */,
 				E9BBC06A22427E0300E6ACDA /* MKMUser.h */,
 				E9BBC07A22427E0300E6ACDA /* MKMUser.m */,
+				E9BBC07B22427E0300E6ACDA /* MKMImmortals.h */,
+				E9BBC06922427E0300E6ACDA /* MKMImmortals.m */,
 				E9BBC07822427E0300E6ACDA /* MingKeMing.h */,
 			);
 			name = Classes;
@@ -307,21 +290,6 @@
 				E9BBC05222427E0300E6ACDA /* MKMDictionary.m */,
 			);
 			path = types;
-			sourceTree = "<group>";
-		};
-		E9BBC05722427E0300E6ACDA /* group */ = {
-			isa = PBXGroup;
-			children = (
-				E9BBC05E22427E0300E6ACDA /* MKMChatroom.h */,
-				E9BBC05A22427E0300E6ACDA /* MKMChatroom.m */,
-				E9BBC05922427E0300E6ACDA /* MKMGroup.h */,
-				E9BBC05C22427E0300E6ACDA /* MKMGroup.m */,
-				E9BBC05F22427E0300E6ACDA /* MKMMember.h */,
-				E9BBC05B22427E0300E6ACDA /* MKMMember.m */,
-				E9BBC05D22427E0300E6ACDA /* MKMPolylogue.h */,
-				E9BBC05822427E0300E6ACDA /* MKMPolylogue.m */,
-			);
-			path = group;
 			sourceTree = "<group>";
 		};
 		E9BBC06022427E0300E6ACDA /* entity */ = {
@@ -400,13 +368,9 @@
 				E9BBC0A822427E0300E6ACDA /* MKMDictionary.h in Headers */,
 				E9BBC0C522427E0300E6ACDA /* MKMAccount.h in Headers */,
 				E9BBC0C622427E0300E6ACDA /* MingKeMing.h in Headers */,
-				E9BBC0AA22427E0300E6ACDA /* MKMContact.h in Headers */,
 				E9BBC0BC22427E0300E6ACDA /* MKMUser.h in Headers */,
-				E9BBC0B222427E0300E6ACDA /* MKMMember.h in Headers */,
 				E961082C22C9EB160032D8A2 /* NSObject+Singleton.h in Headers */,
-				E9BBC0B122427E0300E6ACDA /* MKMChatroom.h in Headers */,
-				E9BBC0AC22427E0300E6ACDA /* MKMGroup.h in Headers */,
-				E9BBC0B022427E0300E6ACDA /* MKMPolylogue.h in Headers */,
+				E91F2B1D2301521500BE05D0 /* MKMGroup.h in Headers */,
 				E9BBC0BA22427E0300E6ACDA /* MKMAddress.h in Headers */,
 				E9BBC0B822427E0300E6ACDA /* MKMEntity.h in Headers */,
 				E9BBC0B922427E0300E6ACDA /* MKMID.h in Headers */,
@@ -538,7 +502,6 @@
 			files = (
 				E9BBC08122427E0300E6ACDA /* MKMRSAKeyHelper.m in Sources */,
 				E9BBC0BB22427E0300E6ACDA /* MKMImmortals.m in Sources */,
-				E9BBC0C722427E0300E6ACDA /* MKMContact.m in Sources */,
 				E9BBC09522427E0300E6ACDA /* MKMCryptographyKey.m in Sources */,
 				E9BBC0B522427E0300E6ACDA /* MKMAddress.m in Sources */,
 				E9BBC08E22427E0300E6ACDA /* MKMRSAPrivateKey+PersistentStore.m in Sources */,
@@ -549,12 +512,10 @@
 				E9BBC09322427E0300E6ACDA /* MKMPublicKey.m in Sources */,
 				E9BBC0A622427E0300E6ACDA /* MKMDictionary.m in Sources */,
 				E9BBC0C222427E0300E6ACDA /* base58.cpp in Sources */,
-				E9BBC0AD22427E0300E6ACDA /* MKMChatroom.m in Sources */,
-				E9BBC0AB22427E0300E6ACDA /* MKMPolylogue.m in Sources */,
 				E9BBC0A122427E0300E6ACDA /* NSData+Crypto.mm in Sources */,
-				E9BBC0AE22427E0300E6ACDA /* MKMMember.m in Sources */,
 				E9BBC08822427E0300E6ACDA /* MKMPrivateKey.m in Sources */,
 				E9BBC09D22427E0300E6ACDA /* NSObject+JsON.m in Sources */,
+				E91F2B1E2301521500BE05D0 /* MKMGroup.m in Sources */,
 				E9FC8DC522B907500013FCD3 /* MKMProfile.m in Sources */,
 				E9BBC0B622427E0300E6ACDA /* MKMID.m in Sources */,
 				E9BBC0B322427E0300E6ACDA /* MKMEntity.m in Sources */,
@@ -563,7 +524,6 @@
 				E9BBC0BF22427E0300E6ACDA /* ripemd160.cpp in Sources */,
 				E9BBC09C22427E0300E6ACDA /* NSString+Crypto.mm in Sources */,
 				E9BBC09022427E0300E6ACDA /* MKMRSAPrivateKey.m in Sources */,
-				E9BBC0AF22427E0300E6ACDA /* MKMGroup.m in Sources */,
 				E9BBC09822427E0300E6ACDA /* NSArray+Merkle.m in Sources */,
 				E9BBC0B722427E0300E6ACDA /* MKMMeta.m in Sources */,
 				E9BBC08522427E0300E6ACDA /* MKMSymmetricKey.m in Sources */,

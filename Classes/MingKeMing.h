@@ -46,16 +46,10 @@ FOUNDATION_EXPORT const unsigned char MingKeMingVersionString[];
 #import <MingKeMing/MKMProfile.h>
 #import <MingKeMing/MKMEntity.h>
 
-// Group
-#import <MingKeMing/MKMMember.h>
-#import <MingKeMing/MKMGroup.h>
-#import <MingKeMing/MKMPolylogue.h>
-#import <MingKeMing/MKMChatroom.h>
-
 //-
+#import <MingKeMing/MKMGroup.h>
 #import <MingKeMing/MKMAccount.h>
 #import <MingKeMing/MKMUser.h>
-#import <MingKeMing/MKMContact.h>
 
 //#import <MingKeMing/MKMImmortals.h>
 
