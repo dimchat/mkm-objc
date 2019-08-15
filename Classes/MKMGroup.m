@@ -54,16 +54,13 @@
 - (nullable __kindof MKMProfile *)profile {
     MKMProfile *tai = [super profile];
     if (!tai || [tai isValid]) {
+        // no need to verify
         return tai;
     }
     // try to verify with owner's meta.key
     MKMID *owner = [self owner];
-    if (!owner) {
-        return tai;
-    }
     MKMMeta *meta = [_dataSource metaForID:owner];
-    MKMPublicKey *key = [meta key];
-    if ([tai verify:key]) {
+    if ([tai verify:meta.key]) {
         // signature correct
         return tai;
     }
@@ -72,11 +69,10 @@
 }
 
 - (MKMID *)founder {
-    if (_founder) {
-        return _founder;
+    if (!_founder) {
+        NSAssert(_dataSource, @"group data source not set yet");
+        _founder = [_dataSource founderOfGroup:_ID];
     }
-    NSAssert(_dataSource, @"group data source not set yet");
-    _founder = [_dataSource founderOfGroup:_ID];
     return _founder;
 }
 
@@ -85,32 +81,10 @@
     return [_dataSource ownerOfGroup:_ID];
 }
 
-#pragma mark Members of Group
-
 - (NSArray<MKMID *> *)members {
     NSAssert(_dataSource, @"group data source not set yet");
     NSArray *list = [_dataSource membersOfGroup:_ID];
     return [list copy];
-}
-
-- (BOOL)existsMember:(MKMID *)ID {
-    if ([self.owner isEqual:ID]) {
-        return YES;
-    }
-    NSAssert(_dataSource, @"group data source not set yet");
-    NSArray<MKMID *> *members = [self members];
-    NSInteger count = [members count];
-    if (count <= 0) {
-        return NO;
-    }
-    MKMID *member;
-    while (--count >= 0) {
-        member = [members objectAtIndex:count];
-        if ([member isEqual:ID]) {
-            return YES;
-        }
-    }
-    return NO;
 }
 
 @end

@@ -17,8 +17,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (readonly, copy, nonatomic) NSArray<MKMID *> *members;
 
-- (BOOL)existsMember:(MKMID *)ID;
-
 // +create(founder)
 // -setName(name)
 // -abdicate(member, owner)
