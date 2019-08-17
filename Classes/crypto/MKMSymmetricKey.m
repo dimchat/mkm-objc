@@ -83,7 +83,7 @@ static NSMutableDictionary<NSString *, Class> *key_classes(void) {
         return [[self alloc] initWithDictionary:key];
     }
     // create instance by subclass with algorithm name
-    NSString *algorithm = [key objectForKey:@"algorithm"];
+    NSString *algorithm = [self algorithmOfKey:key];
     Class clazz = [key_classes() objectForKey:algorithm];
     if (clazz) {
         return [clazz getInstance:key];

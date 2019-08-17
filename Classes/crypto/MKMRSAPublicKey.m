@@ -36,9 +36,6 @@
 /* designated initializer */
 - (instancetype)initWithDictionary:(NSDictionary *)keyInfo {
     if (self = [super initWithDictionary:keyInfo]) {
-        NSAssert([self.algorithm isEqualToString:ACAlgorithmRSA],
-                 @"algorithm error: %@", keyInfo);
-        
         // lazy
         _keySize = 0;
         _publicContent = nil;

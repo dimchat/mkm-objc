@@ -51,7 +51,7 @@ static NSString *s_application_tag = @"chat.dim.rsa.private";
         NSData *pkData = NSDataFromSecKeyRef(publicKeyRef);
         CFRelease(publicKeyRef);
         
-        NSString *algorithm = @"RSA";
+        NSString *algorithm = ACAlgorithmRSA;
         NSString *pkFmt = @"-----BEGIN PUBLIC KEY----- %@ -----END PUBLIC KEY-----";
         NSString *skFmt = @"-----BEGIN RSA PRIVATE KEY----- %@ -----END RSA PRIVATE KEY-----";
         NSString *pkc = [NSString stringWithFormat:pkFmt, [pkData base64Encode]];

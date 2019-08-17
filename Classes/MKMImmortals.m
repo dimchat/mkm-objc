@@ -57,7 +57,6 @@
     MKMMeta *meta = MKMMetaFromDictionary([dict objectForKey:@"meta"]);
     if ([meta matchID:ID]) {
         [_metaTable setObject:meta forKey:ID.address];
-        //[MKMFacebook() saveMeta:meta forID:ID];
     } else {
         NSAssert(false, @"meta not match ID: %@, %@", ID, meta);
     }
@@ -100,10 +99,6 @@
 - (nullable MKMMeta *)metaForID:(MKMID *)ID {
     NSAssert([ID isValid], @"ID invalid: %@", ID);
     return [_metaTable objectForKey:ID.address];
-}
-
-- (BOOL)saveMeta:(MKMMeta *)meta forID:(MKMID *)ID {
-    return [[_metaTable allValues] containsObject:meta];
 }
 
 - (nullable __kindof MKMProfile *)profileForID:(MKMID *)ID {

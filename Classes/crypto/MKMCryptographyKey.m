@@ -21,15 +21,15 @@
 /* designated initializer */
 - (instancetype)initWithDictionary:(NSDictionary *)keyInfo {
     if (self = [super initWithDictionary:keyInfo]) {
-        _algorithm = [_storeDictionary objectForKey:@"algorithm"];
         _data = nil;
     }
     return self;
 }
 
-- (instancetype)initWithAlgorithm:(NSString *)algorithm {
-    NSDictionary *keyInfo = @{@"algorithm":algorithm};
-    return [self initWithDictionary:keyInfo];
++ (NSString *)algorithmOfKey:(NSDictionary *)keyInfo {
+    NSString *algorithm = [keyInfo objectForKey:@"algorithm"];
+    NSAssert(algorithm, @"algorithm not found: %@", keyInfo);
+    return algorithm;
 }
 
 @end

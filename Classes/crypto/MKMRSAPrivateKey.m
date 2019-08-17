@@ -40,9 +40,6 @@
 /* designated initializer */
 - (instancetype)initWithDictionary:(NSDictionary *)keyInfo {
     if (self = [super initWithDictionary:keyInfo]) {
-        NSAssert([self.algorithm isEqualToString:ACAlgorithmRSA],
-                 @"algorithm error: %@", keyInfo);
-        
         // lazy
         _keySize = 0;
         
@@ -232,7 +229,7 @@
     if (!_publicKey) {
         NSString *publicContent = self.publicContent;
         if (publicContent) {
-            NSDictionary *dict = @{@"algorithm":self.algorithm,
+            NSDictionary *dict = @{@"algorithm":ACAlgorithmRSA,
                                    @"data"     :publicContent,
                                    @"mode"     :@"ECB",
                                    @"padding"  :@"PKCS1",

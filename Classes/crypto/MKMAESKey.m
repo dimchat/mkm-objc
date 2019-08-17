@@ -34,8 +34,6 @@ static inline NSData *random_data(NSUInteger size) {
 /* designated initializer */
 - (instancetype)initWithDictionary:(NSDictionary *)keyInfo {
     if (self = [super initWithDictionary:keyInfo]) {
-        NSAssert([self.algorithm isEqualToString:SCAlgorithmAES], @"algorithm error: %@", keyInfo);
-        
         // lazy
         _data = nil;
         _iv = nil;
