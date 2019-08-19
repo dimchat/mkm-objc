@@ -59,10 +59,12 @@
     }
     // try to verify with owner's meta.key
     MKMID *owner = [self owner];
-    MKMMeta *meta = [_dataSource metaForID:owner];
-    if ([tai verify:meta.key]) {
-        // signature correct
-        return tai;
+    if ([owner isValid]) {
+        MKMMeta *meta = [_dataSource metaForID:owner];
+        if ([tai verify:meta.key]) {
+            // signature correct
+            return tai;
+        }
     }
     // profile error? continue to process by subclass
     return tai;
