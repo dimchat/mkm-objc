@@ -27,7 +27,7 @@
     return [self.publicKey isMatch:(MKMPrivateKey *)object];
 }
 
-- (MKMPublicKey *)publicKey {
+- (nullable __kindof MKMPublicKey *)publicKey {
     // implements in subclass
     return nil;
 }

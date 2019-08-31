@@ -36,7 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Get public key from private key
  */
-@property (readonly, strong, atomic, nullable) MKMPublicKey *publicKey;
+@property (readonly, strong, atomic, nullable) __kindof MKMPublicKey *publicKey;
 
 @end
 

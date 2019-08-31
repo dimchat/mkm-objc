@@ -31,7 +31,7 @@
 @property (nonatomic) SecKeyRef privateKeyRef;
 
 @property (strong, nonatomic) NSString *publicContent;
-@property (strong, atomic, nullable) MKMPublicKey *publicKey;
+@property (strong, atomic, nullable) MKMRSAPublicKey *publicKey;
 
 @end
 
@@ -225,7 +225,7 @@
     return _publicContent;
 }
 
-- (nullable MKMPublicKey *)publicKey {
+- (nullable __kindof MKMPublicKey *)publicKey {
     if (!_publicKey) {
         NSString *publicContent = self.publicContent;
         if (publicContent) {
@@ -241,7 +241,7 @@
     return _publicKey;
 }
 
-- (void)setPublicKey:(MKMRSAPublicKey *)publicKey {
+- (void)setPublicKey:(nullable MKMRSAPublicKey *)publicKey {
     _publicKey = publicKey;
 }
 

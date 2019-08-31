@@ -202,7 +202,7 @@
     
     // finally, try by private key
     MKMRSAPrivateKey *SK = [MKMRSAPrivateKey loadKeyWithIdentifier:identifier];
-    PK = (MKMRSAPublicKey *)SK.publicKey;
+    PK = SK.publicKey;
     
     return PK;
 }
