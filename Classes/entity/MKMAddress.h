@@ -135,6 +135,12 @@ NS_DESIGNATED_INITIALIZER;
 
 @end
 
+@interface MKMAddress (Broadcast)
+
+@property (readonly, nonatomic, getter=isBroadcast) BOOL broadcast;
+
+@end
+
 // convert String to Address
 #define MKMAddressFromString(address)                                          \
             [MKMAddress getInstance:(address)]                                 \

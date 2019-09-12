@@ -44,6 +44,46 @@
 
 @end
 
+#pragma mark - Constant Addresses
+
+static inline MKMAddress *anywhere(void) {
+    static MKMAddress *s_anywhere = nil;
+    SingletonDispatchOnce(^{
+        s_anywhere = [[MKMAddress alloc] initWithString:@"anywhere"];
+        s_anywhere.network = MKMNetwork_Main;
+        s_anywhere.code = 9527;
+    });
+    return s_anywhere;
+}
+
+static inline MKMAddress *everywhere(void) {
+    static MKMAddress *s_everywhere = nil;
+    SingletonDispatchOnce(^{
+        s_everywhere = [[MKMAddress alloc] initWithString:@"everywhere"];
+        s_everywhere.network = MKMNetwork_Group;
+        s_everywhere.code = 9527;
+    });
+    return s_everywhere;
+}
+
+@implementation MKMAddress (Broadcast)
+
+- (BOOL)isBroadcast {
+    if (self.network == MKMNetwork_Main) {
+        // user address
+        return [anywhere() isEqual:self];
+    }
+    if (self.network == MKMNetwork_Group) {
+        // group address
+        return [everywhere() isEqual:self];
+    }
+    return NO;
+}
+
+@end
+
+#pragma mark - Runtime
+
 static NSMutableArray<Class> *address_classes(void) {
     static NSMutableArray<Class> *classes = nil;
     SingletonDispatchOnce(^{
@@ -76,26 +116,18 @@ static NSMutableArray<Class> *address_classes(void) {
         return address;
     }
     NSAssert([address isKindOfClass:[NSString class]], @"address error: %@", address);
+    
     /**
      *  Address for broadcast
      */
-    NSString *lowercase = [address lowercaseString];
-    if ([lowercase isEqualToString:@"anywhere"]) {
-        static MKMAddress *anywhere = nil;
-        SingletonDispatchOnce(^{
-            anywhere = [[MKMAddress alloc] initWithString:@"anywhere"];
-            anywhere.network = MKMNetwork_Main;
-            anywhere.code = 9527;
-        });
-        return anywhere;
-    } else if ([lowercase isEqualToString:@"everywhere"]) {
-        static MKMAddress *everywhere = nil;
-        SingletonDispatchOnce(^{
-            everywhere = [[MKMAddress alloc] initWithString:@"everywhere"];
-            everywhere.network = MKMNetwork_Group;
-            everywhere.code = 9527;
-        });
-        return everywhere;
+    NSUInteger length = [address length];
+    // anywhere
+    if (length == 8 && [anywhere() isEqualToString:[address lowercaseString]]) {
+        return anywhere();
+    }
+    // everywhere
+    if (length == 10 && [everywhere() isEqualToString:[address lowercaseString]]) {
+        return everywhere();
     }
     
     // create instance by subclass

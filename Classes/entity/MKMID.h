@@ -51,16 +51,15 @@ NS_ASSUME_NONNULL_BEGIN
                      address:(MKMAddress *)addr;
 
 /**
- *  For BTC address
+ *  For ID without name(only contains address), likes BTC/ETH/...
  */
 - (instancetype)initWithAddress:(MKMAddress *)addr;
 
-/**
- *  ID without terminal
- *
- * @return ID object
- */
-- (instancetype)naked;
+@end
+
+@interface MKMID (Broadcast)
+
+@property (readonly, nonatomic, getter=isBroadcast) BOOL broadcast;
 
 @end
 
@@ -69,24 +68,15 @@ NS_ASSUME_NONNULL_BEGIN
             [MKMID getInstance:(ID)]                                           \
                                                  /* EOF 'MKMIDFromString(ID)' */
 
+/**
+ *  ID for broadcast
+ */
 #define MKMAnyone()                                                            \
             MKMIDFromString(@"anyone@anywhere")                                \
                                                          /* EOF 'MKMAnyone()' */
 #define MKMEveryone()                                                          \
             MKMIDFromString(@"everyone@everywhere")                            \
                                                        /* EOF 'MKMEveryone()' */
-
-#define MKMIsAnyone(ID)                                                        \
-            (MKMNetwork_IsPerson([(ID) type]) && [MKMAnyone() isEqual:(ID)])   \
-                                                       /* EOF 'MKMIsAnyone()' */
-#define MKMIsEveryone(ID)                                                      \
-            (MKMNetwork_IsGroup([(ID) type]) && [MKMEveryone() isEqual:(ID)])  \
-                                                      /* EOF 'MKMIsEveryone() */
-#define MKMIsBroadcast(ID)                                                     \
-            (MKMNetwork_IsGroup([(ID) type]) ?                                 \
-                [[(ID) address] isEqual:MKMEverywhere()] :                     \
-                [[(ID) address] isEqual:MKMAnywhere()])                        \
-                                                    /* EOF 'MKMIsBroadcast()' */
 
 @interface MKMID (Runtime)
 

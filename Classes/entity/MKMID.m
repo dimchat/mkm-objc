@@ -6,7 +6,6 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import "NSObject+Singleton.h"
 #import "NSObject+Compare.h"
 
 #import "MKMID.h"
@@ -120,22 +119,15 @@
     return _address.code;
 }
 
-- (instancetype)naked {
-    if (_terminal) {
-        if (_name) {
-            return [[[self class] alloc] initWithName:_name
-                                              address:_address];
-        } else {
-            return [[[self class] alloc] initWithAddress:_address];
-        }
-    } else {
-        return self;
-    }
+@end
+
+@implementation MKMID (Broadcast)
+
+- (BOOL)isBroadcast {
+    return [self.address isBroadcast];
 }
 
 @end
-
-static MKMID *everyone = nil;
 
 @implementation MKMID (Runtime)
 
@@ -148,28 +140,6 @@ static MKMID *everyone = nil;
         return ID;
     }
     NSAssert([ID isKindOfClass:[NSString class]], @"ID should be a string: %@", ID);
-    /**
-     *  ID for broadcast
-     */
-    NSString *lowercase = [ID lowercaseString];
-    if ([lowercase isEqualToString:@"anyone"] ||
-        [lowercase isEqualToString:@"anyone@anywhere"]) {
-        static MKMID *anyone = nil;
-        SingletonDispatchOnce(^{
-            anyone = [[MKMID alloc] initWithName:@"anyone"
-                                         address:MKMAnywhere()];
-        });
-        return anyone;
-    } else if ([lowercase isEqualToString:@"everyone"] ||
-               [lowercase isEqualToString:@"everyone@everywhere"]) {
-        static MKMID *everyone = nil;
-        SingletonDispatchOnce(^{
-            everyone = [[MKMID alloc] initWithName:@"everyone"
-                                           address:MKMEverywhere()];
-        });
-        return everyone;
-    }
-    
     return [[self alloc] initWithString:ID];
 }
 
