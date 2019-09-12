@@ -152,14 +152,16 @@ static MKMID *everyone = nil;
      *  ID for broadcast
      */
     NSString *lowercase = [ID lowercaseString];
-    if ([lowercase isEqualToString:@"anyone@anywhere"]) {
+    if ([lowercase isEqualToString:@"anyone"] ||
+        [lowercase isEqualToString:@"anyone@anywhere"]) {
         static MKMID *anyone = nil;
         SingletonDispatchOnce(^{
             anyone = [[MKMID alloc] initWithName:@"anyone"
                                          address:MKMAnywhere()];
         });
         return anyone;
-    } else if ([lowercase isEqualToString:@"everyone@everywhere"]) {
+    } else if ([lowercase isEqualToString:@"everyone"] ||
+               [lowercase isEqualToString:@"everyone@everywhere"]) {
         static MKMID *everyone = nil;
         SingletonDispatchOnce(^{
             everyone = [[MKMID alloc] initWithName:@"everyone"
