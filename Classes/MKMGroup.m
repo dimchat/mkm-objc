@@ -60,7 +60,7 @@
     // try to verify with owner's meta.key
     MKMID *owner = [self owner];
     if ([owner isValid]) {
-        MKMMeta *meta = [_dataSource metaForID:owner];
+        MKMMeta *meta = [self.dataSource metaForID:owner];
         if ([tai verify:meta.key]) {
             // signature correct
             return tai;
@@ -72,20 +72,20 @@
 
 - (MKMID *)founder {
     if (!_founder) {
-        NSAssert(_dataSource, @"group data source not set yet");
-        _founder = [_dataSource founderOfGroup:_ID];
+        NSAssert(self.dataSource, @"group data source not set yet");
+        _founder = [self.dataSource founderOfGroup:_ID];
     }
     return _founder;
 }
 
 - (MKMID *)owner {
-    NSAssert(_dataSource, @"group data source not set yet");
-    return [_dataSource ownerOfGroup:_ID];
+    NSAssert(self.dataSource, @"group data source not set yet");
+    return [self.dataSource ownerOfGroup:_ID];
 }
 
 - (NSArray<MKMID *> *)members {
-    NSAssert(_dataSource, @"group data source not set yet");
-    NSArray *list = [_dataSource membersOfGroup:_ID];
+    NSAssert(self.dataSource, @"group data source not set yet");
+    NSArray *list = [self.dataSource membersOfGroup:_ID];
     return [list copy];
 }
 

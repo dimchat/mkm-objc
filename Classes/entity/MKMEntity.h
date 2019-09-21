@@ -20,8 +20,6 @@ NS_ASSUME_NONNULL_BEGIN
     
     // convenience for instance accessing
     MKMID *_ID;
-    
-    __weak __kindof id<MKMEntityDataSource> _dataSource;
 }
 
 @property (readonly, copy, nonatomic) MKMID *ID;        // name@address
