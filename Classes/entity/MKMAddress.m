@@ -175,7 +175,7 @@ static inline UInt32 user_number(NSData *cc) {
     return number;
 }
 
-@implementation MKMAddressBTC
+@implementation MKMAddressDefault
 
 - (instancetype)initWithString:(NSString *)aString {
     NSAssert(aString.length >= 15, @"address invalid: %@", aString);

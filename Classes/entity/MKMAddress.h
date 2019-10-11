@@ -183,7 +183,7 @@ NS_DESIGNATED_INITIALIZER;
  *          address = base58_encode(network + digest + code);
  *          number  = uint(code);
  */
-@interface MKMAddressBTC : MKMAddress
+@interface MKMAddressDefault : MKMAddress
 
 /**
  *  Generate address with key data and network ID
@@ -195,7 +195,5 @@ NS_DESIGNATED_INITIALIZER;
 + (instancetype)generateWithData:(NSData *)key network:(MKMNetworkType)type;
 
 @end
-
-#define MKMAddressDefault MKMAddressBTC
 
 NS_ASSUME_NONNULL_END
