@@ -26,12 +26,6 @@
     return self;
 }
 
-+ (NSString *)algorithmOfKey:(NSDictionary *)keyInfo {
-    NSString *algorithm = [keyInfo objectForKey:@"algorithm"];
-    NSAssert(algorithm, @"algorithm not found: %@", keyInfo);
-    return algorithm;
-}
-
 @end
 
 @implementation MKMCryptographyKey (Runtime)

@@ -30,8 +30,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithDictionary:(NSDictionary *)keyInfo
 NS_DESIGNATED_INITIALIZER;
 
-+ (NSString *)algorithmOfKey:(NSDictionary *)keyInfo;
-
 @end
 
 @interface MKMCryptographyKey (Runtime)

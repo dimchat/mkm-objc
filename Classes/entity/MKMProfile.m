@@ -267,9 +267,7 @@ static NSMutableArray<Class> *profile_classes(void) {
     static NSMutableArray<Class> *classes = nil;
     SingletonDispatchOnce(^{
         classes = [[NSMutableArray alloc] init];
-        // default
-        [classes addObject:[MKMProfile class]];
-        // ...
+        // extended profile...
     });
     return classes;
 }
@@ -278,7 +276,7 @@ static NSMutableArray<Class> *profile_classes(void) {
 
 + (void)registerClass:(Class)clazz {
     NSAssert(![clazz isEqual:self], @"only subclass");
-    NSAssert([clazz isSubclassOfClass:self], @"profile class error: %@", clazz);
+    NSAssert([clazz isSubclassOfClass:self], @"error: %@", clazz);
     NSMutableArray<Class> *classes = profile_classes();
     if (clazz && ![classes containsObject:clazz]) {
         // parse profile with new class first
@@ -294,21 +292,30 @@ static NSMutableArray<Class> *profile_classes(void) {
         // return Profile object directly
         return profile;
     }
-    NSAssert([profile isKindOfClass:[NSDictionary class]],
-             @"profile should be a dictionary: %@", profile);
-    // create instance by subclass
-    NSMutableArray<Class> *classes = profile_classes();
-    for (Class clazz in classes) {
-        @try {
-            return [[clazz alloc] initWithDictionary:profile];
-        } @catch (NSException *exception) {
-            // profile not match, try next
-        } @finally {
-            //
+    NSAssert([profile isKindOfClass:[NSDictionary class]], @"profile error: %@", profile);
+    if ([self isEqual:[MKMProfile class]]) {
+        // try to create instance by each subclass
+        MKMProfile *tai = nil;
+        NSMutableArray<Class> *classes = profile_classes();
+        for (Class clazz in classes) {
+            @try {
+                tai = [clazz getInstance:profile];
+                if (tai) {
+                    // create by this subclass successfully
+                    break;
+                }
+            } @catch (NSException *exception) {
+                // profile not match? try next
+            } @finally {
+                //
+            }
+        }
+        if (tai) {
+            return tai;
         }
     }
-    NSAssert(false, @"profile not support: %@", profile);
-    return nil;
+    // subclass
+    return [[self alloc] initWithDictionary:profile];
 }
 
 @end

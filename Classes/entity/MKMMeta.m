@@ -163,11 +163,10 @@ static NSMutableDictionary<NSNumber *, Class> *meta_classes(void) {
 
 @implementation MKMMeta (Runtime)
 
-+ (void)registerClass:(nullable Class)metaClass forVersion:(NSUInteger)version {
-    NSAssert(![metaClass isEqual:self], @"only subclass");
-    NSAssert([metaClass isSubclassOfClass:self], @"class error: %@", metaClass);
-    if (metaClass) {
-        [meta_classes() setObject:metaClass forKey:@(version)];
++ (void)registerClass:(nullable Class)clazz forVersion:(NSUInteger)version {
+    if (clazz) {
+        NSAssert([clazz isSubclassOfClass:self], @"error: %@", clazz);
+        [meta_classes() setObject:clazz forKey:@(version)];
     } else {
         [meta_classes() removeObjectForKey:@(version)];
     }
@@ -183,17 +182,16 @@ static NSMutableDictionary<NSNumber *, Class> *meta_classes(void) {
     }
     NSAssert([meta isKindOfClass:[NSDictionary class]], @"meta error: %@", meta);
     if ([self isEqual:[MKMMeta class]]) {
-        // get subclass with meta version
+        // create instance by subclass with meta version
         NSNumber *version = [meta objectForKey:@"version"];
         Class clazz = [meta_classes() objectForKey:version];
         if (clazz) {
-            NSAssert([clazz isSubclassOfClass:self], @"class error: %@", clazz);
             return [clazz getInstance:meta];
         }
         NSAssert(false, @"meta not support: %@", meta);
         return nil;
     }
-    // create instance with subclass of Meta
+    // subclass
     return [[self alloc] initWithDictionary:meta];
 }
 

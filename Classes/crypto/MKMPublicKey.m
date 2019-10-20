@@ -55,10 +55,10 @@ static NSMutableDictionary<NSString *, Class> *key_classes(void) {
 
 @implementation MKMPublicKey (Runtime)
 
-+ (void)registerClass:(Class)keyClass forAlgorithm:(NSString *)name {
-    NSAssert([keyClass isSubclassOfClass:self], @"class error: %@", keyClass);
-    if (keyClass) {
-        [key_classes() setObject:keyClass forKey:name];
++ (void)registerClass:(Class)clazz forAlgorithm:(NSString *)name {
+    if (clazz) {
+        NSAssert([clazz isSubclassOfClass:self], @"error: %@", clazz);
+        [key_classes() setObject:clazz forKey:name];
     } else {
         [key_classes() removeObjectForKey:name];
     }
@@ -72,21 +72,19 @@ static NSMutableDictionary<NSString *, Class> *key_classes(void) {
         // return PublicKey object directly
         return key;
     }
-    NSAssert([key isKindOfClass:[NSDictionary class]],
-             @"public key should be a dictionary: %@", key);
-    if (![self isEqual:[MKMPublicKey class]]) {
-        // subclass
-        NSAssert([self isSubclassOfClass:[MKMPublicKey class]], @"key class error");
-        return [[self alloc] initWithDictionary:key];
+    NSAssert([key isKindOfClass:[NSDictionary class]], @"public key error: %@", key);
+    if ([self isEqual:[MKMPublicKey class]]) {
+        // create instance by subclass with key algorithm
+        NSString *algorithm = [key objectForKey:@"algorithm"];
+        Class clazz = [key_classes() objectForKey:algorithm];
+        if (clazz) {
+            return [clazz getInstance:key];
+        }
+        NSAssert(false, @"public key not support: %@", key);
+        return nil;
     }
-    // create instance by subclass with algorithm name
-    NSString *algorithm = [self algorithmOfKey:key];
-    Class clazz = [key_classes() objectForKey:algorithm];
-    if (clazz) {
-        return [clazz getInstance:key];
-    }
-    NSAssert(false, @"key algorithm not support: %@", algorithm);
-    return nil;
+    // subclass
+    return [[self alloc] initWithDictionary:key];
 }
 
 @end
