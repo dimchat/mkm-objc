@@ -4,20 +4,24 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>MingKeMing-Mac.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+			<key>orderHint</key>
+			<integer>3</integer>
+		</dict>
 		<key>MingKeMing.xcscheme_^#shared#^_</key>
 		<dict>
+			<key>isShown</key>
+			<false/>
 			<key>orderHint</key>
-			<integer>2</integer>
+			<integer>1</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>E9BBBF4322427BCA00E6ACDA</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>E9BBBF4C22427BCA00E6ACDA</key>
+		<key>5276BF4A2361C5F600AEC8E4</key>
 		<dict>
 			<key>primary</key>
 			<true/>

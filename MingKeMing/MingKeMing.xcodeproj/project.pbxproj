@@ -7,6 +7,71 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5276BF4C2361C5F600AEC8E4 /* MKMGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = E91F2AFC2301481C00BE05D0 /* MKMGroup.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5276BF4D2361C5F600AEC8E4 /* MKMString.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8FF21CBBAF6009690F6 /* MKMString.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5276BF4E2361C5F600AEC8E4 /* MKMDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8FE21CBBAF6009690F6 /* MKMDictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5276BF4F2361C5F600AEC8E4 /* MKMSymmetricKey.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8E021CBBAF6009690F6 /* MKMSymmetricKey.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5276BF502361C5F600AEC8E4 /* MKMPublicKey.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8DD21CBBAF6009690F6 /* MKMPublicKey.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5276BF512361C5F600AEC8E4 /* MKMCryptographyKey.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8DB21CBBAF6009690F6 /* MKMCryptographyKey.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5276BF522361C5F600AEC8E4 /* MKMPrivateKey.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8E821CBBAF6009690F6 /* MKMPrivateKey.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5276BF532361C5F600AEC8E4 /* MKMAsymmetricKey.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8D421CBBAF6009690F6 /* MKMAsymmetricKey.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5276BF542361C5F600AEC8E4 /* NSObject+Singleton.h in Headers */ = {isa = PBXBuildFile; fileRef = E961082122C9E7600032D8A2 /* NSObject+Singleton.h */; };
+		5276BF552361C5F600AEC8E4 /* MKMID.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A91221CBBAF6009690F6 /* MKMID.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5276BF562361C5F600AEC8E4 /* MKMAddress.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A91321CBBAF6009690F6 /* MKMAddress.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5276BF572361C5F600AEC8E4 /* MKMMeta.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A90D21CBBAF6009690F6 /* MKMMeta.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5276BF582361C5F600AEC8E4 /* MKMProfile.h in Headers */ = {isa = PBXBuildFile; fileRef = E93D437622A7ADEF00422EDF /* MKMProfile.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5276BF592361C5F600AEC8E4 /* MKMEntity.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A91121CBBAF6009690F6 /* MKMEntity.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5276BF5A2361C5F600AEC8E4 /* MKMLocalUser.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A91621CBBAF6009690F6 /* MKMLocalUser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5276BF5B2361C5F600AEC8E4 /* MingKeMing.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A93921CBBAF6009690F6 /* MingKeMing.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5276BF5C2361C5F600AEC8E4 /* endian.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A91E21CBBAF6009690F6 /* endian.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		5276BF5D2361C5F600AEC8E4 /* byteswap.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A91F21CBBAF6009690F6 /* byteswap.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		5276BF5E2361C5F600AEC8E4 /* ripemd160.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A91A21CBBAF6009690F6 /* ripemd160.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		5276BF5F2361C5F600AEC8E4 /* common.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A91B21CBBAF6009690F6 /* common.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		5276BF602361C5F600AEC8E4 /* base58.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A92121CBBAF6009690F6 /* base58.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		5276BF612361C5F600AEC8E4 /* MKMUser.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A92321CBBAF6009690F6 /* MKMUser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5276BF622361C5F600AEC8E4 /* MKMAESKey.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8E621CBBAF6009690F6 /* MKMAESKey.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		5276BF632361C5F600AEC8E4 /* MKMRSAKeyHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8E321CBBAF6009690F6 /* MKMRSAKeyHelper.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		5276BF642361C5F600AEC8E4 /* MKMRSAPublicKey.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8DE21CBBAF6009690F6 /* MKMRSAPublicKey.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		5276BF652361C5F600AEC8E4 /* MKMRSAPrivateKey.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8D621CBBAF6009690F6 /* MKMRSAPrivateKey.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		5276BF662361C5F600AEC8E4 /* MKMRSAPrivateKey+PersistentStore.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8D721CBBAF6009690F6 /* MKMRSAPrivateKey+PersistentStore.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		5276BF672361C5F600AEC8E4 /* MKMImmortals.h in Headers */ = {isa = PBXBuildFile; fileRef = E9BBBDD3223ABDDF00E6ACDA /* MKMImmortals.h */; };
+		5276BF682361C5F600AEC8E4 /* NSDictionary+Binary.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8EE21CBBAF6009690F6 /* NSDictionary+Binary.h */; };
+		5276BF692361C5F600AEC8E4 /* NSArray+Merkle.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8F421CBBAF6009690F6 /* NSArray+Merkle.h */; };
+		5276BF6A2361C5F600AEC8E4 /* NSString+Crypto.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8F821CBBAF6009690F6 /* NSString+Crypto.h */; };
+		5276BF6B2361C5F600AEC8E4 /* NSObject+Compare.h in Headers */ = {isa = PBXBuildFile; fileRef = E9AFAB782236E0F5001F95C6 /* NSObject+Compare.h */; };
+		5276BF6C2361C5F600AEC8E4 /* NSObject+JsON.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8F721CBBAF6009690F6 /* NSObject+JsON.h */; };
+		5276BF6D2361C5F600AEC8E4 /* NSData+Crypto.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8EF21CBBAF6009690F6 /* NSData+Crypto.h */; };
+		5276BF6F2361C5F600AEC8E4 /* MKMRSAKeyHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8D521CBBAF6009690F6 /* MKMRSAKeyHelper.m */; };
+		5276BF702361C5F600AEC8E4 /* MKMCryptographyKey.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8E921CBBAF6009690F6 /* MKMCryptographyKey.m */; };
+		5276BF712361C5F600AEC8E4 /* MKMAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A90E21CBBAF6009690F6 /* MKMAddress.m */; };
+		5276BF722361C5F600AEC8E4 /* MKMRSAPrivateKey+PersistentStore.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8E221CBBAF6009690F6 /* MKMRSAPrivateKey+PersistentStore.m */; };
+		5276BF732361C5F600AEC8E4 /* MKMAESKey.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8DA21CBBAF6009690F6 /* MKMAESKey.m */; };
+		5276BF742361C5F600AEC8E4 /* MKMProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = E93D437722A7ADF000422EDF /* MKMProfile.m */; };
+		5276BF752361C5F600AEC8E4 /* NSDictionary+Binary.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8F321CBBAF6009690F6 /* NSDictionary+Binary.m */; };
+		5276BF762361C5F600AEC8E4 /* MKMString.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8FD21CBBAF6009690F6 /* MKMString.m */; };
+		5276BF772361C5F600AEC8E4 /* MKMUser.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8D221CBBAF6009690F6 /* MKMUser.m */; };
+		5276BF782361C5F600AEC8E4 /* MKMImmortals.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBBDD4223ABDDF00E6ACDA /* MKMImmortals.m */; };
+		5276BF792361C5F600AEC8E4 /* MKMPublicKey.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8E721CBBAF6009690F6 /* MKMPublicKey.m */; };
+		5276BF7A2361C5F600AEC8E4 /* MKMDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8FC21CBBAF6009690F6 /* MKMDictionary.m */; };
+		5276BF7B2361C5F600AEC8E4 /* base58.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A92021CBBAF6009690F6 /* base58.cpp */; };
+		5276BF7C2361C5F600AEC8E4 /* NSData+Crypto.mm in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8F621CBBAF6009690F6 /* NSData+Crypto.mm */; };
+		5276BF7D2361C5F600AEC8E4 /* MKMPrivateKey.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8DC21CBBAF6009690F6 /* MKMPrivateKey.m */; };
+		5276BF7E2361C5F600AEC8E4 /* NSObject+JsON.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8F121CBBAF6009690F6 /* NSObject+JsON.m */; };
+		5276BF7F2361C5F600AEC8E4 /* MKMID.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A90F21CBBAF6009690F6 /* MKMID.m */; };
+		5276BF802361C5F600AEC8E4 /* MKMLocalUser.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A93C21CBBAF6009690F6 /* MKMLocalUser.m */; };
+		5276BF812361C5F600AEC8E4 /* MKMEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A90C21CBBAF6009690F6 /* MKMEntity.m */; };
+		5276BF822361C5F600AEC8E4 /* MKMRSAPublicKey.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8EB21CBBAF6009690F6 /* MKMRSAPublicKey.m */; };
+		5276BF832361C5F600AEC8E4 /* MKMAsymmetricKey.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8E521CBBAF6009690F6 /* MKMAsymmetricKey.m */; };
+		5276BF842361C5F600AEC8E4 /* ripemd160.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A91C21CBBAF6009690F6 /* ripemd160.cpp */; };
+		5276BF852361C5F600AEC8E4 /* NSString+Crypto.mm in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8F021CBBAF6009690F6 /* NSString+Crypto.mm */; };
+		5276BF862361C5F600AEC8E4 /* MKMRSAPrivateKey.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8E421CBBAF6009690F6 /* MKMRSAPrivateKey.m */; };
+		5276BF872361C5F600AEC8E4 /* NSArray+Merkle.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8ED21CBBAF6009690F6 /* NSArray+Merkle.m */; };
+		5276BF882361C5F600AEC8E4 /* MKMMeta.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A91021CBBAF6009690F6 /* MKMMeta.m */; };
+		5276BF892361C5F600AEC8E4 /* MKMGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = E91F2AFB2301481C00BE05D0 /* MKMGroup.m */; };
+		5276BF8A2361C5F600AEC8E4 /* MKMSymmetricKey.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8D921CBBAF6009690F6 /* MKMSymmetricKey.m */; };
+		5276BF8C2361C5F600AEC8E4 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9F3AB6821CFA8EE009690F6 /* Security.framework */; };
+		5276BF8E2361C5F600AEC8E4 /* mkm_moki.plist in Resources */ = {isa = PBXBuildFile; fileRef = E9BBBDD9223ABFA200E6ACDA /* mkm_moki.plist */; };
+		5276BF8F2361C5F600AEC8E4 /* mkm_hulk.plist in Resources */ = {isa = PBXBuildFile; fileRef = E9BBBDD8223ABFA200E6ACDA /* mkm_hulk.plist */; };
 		E91F2AFD2301481D00BE05D0 /* MKMGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = E91F2AFB2301481C00BE05D0 /* MKMGroup.m */; };
 		E91F2AFE2301481D00BE05D0 /* MKMGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = E91F2AFC2301481C00BE05D0 /* MKMGroup.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E93D437822A7ADF000422EDF /* MKMProfile.h in Headers */ = {isa = PBXBuildFile; fileRef = E93D437622A7ADEF00422EDF /* MKMProfile.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -87,6 +152,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5276BF932361C5F600AEC8E4 /* MingKeMing-Mac.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "MingKeMing-Mac.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5276BF942361C5F600AEC8E4 /* MingKeMing-Mac-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "MingKeMing-Mac-Info.plist"; path = "/Users/john/Documents/workspace/iphone/dimchat/mkm-objc/MingKeMing/MingKeMing-Mac-Info.plist"; sourceTree = "<absolute>"; };
 		E91F2AFB2301481C00BE05D0 /* MKMGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMGroup.m; sourceTree = "<group>"; };
 		E91F2AFC2301481C00BE05D0 /* MKMGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMGroup.h; sourceTree = "<group>"; };
 		E93D437622A7ADEF00422EDF /* MKMProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMProfile.h; sourceTree = "<group>"; };
@@ -160,6 +227,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		5276BF8B2361C5F600AEC8E4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5276BF8C2361C5F600AEC8E4 /* Security.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E9F3A69721CA4627009690F6 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -206,6 +281,7 @@
 			children = (
 				E9F3A69A21CA4627009690F6 /* MingKeMing.framework */,
 				E9F3A6A321CA4627009690F6 /* MingKeMingTests.xctest */,
+				5276BF932361C5F600AEC8E4 /* MingKeMing-Mac.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -213,6 +289,7 @@
 		E9F3A69C21CA4627009690F6 /* MingKeMing */ = {
 			isa = PBXGroup;
 			children = (
+				5276BF942361C5F600AEC8E4 /* MingKeMing-Mac-Info.plist */,
 				E9F3A69E21CA4627009690F6 /* Info.plist */,
 			);
 			path = MingKeMing;
@@ -372,6 +449,47 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		5276BF4B2361C5F600AEC8E4 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5276BF4C2361C5F600AEC8E4 /* MKMGroup.h in Headers */,
+				5276BF4D2361C5F600AEC8E4 /* MKMString.h in Headers */,
+				5276BF4E2361C5F600AEC8E4 /* MKMDictionary.h in Headers */,
+				5276BF4F2361C5F600AEC8E4 /* MKMSymmetricKey.h in Headers */,
+				5276BF502361C5F600AEC8E4 /* MKMPublicKey.h in Headers */,
+				5276BF512361C5F600AEC8E4 /* MKMCryptographyKey.h in Headers */,
+				5276BF522361C5F600AEC8E4 /* MKMPrivateKey.h in Headers */,
+				5276BF532361C5F600AEC8E4 /* MKMAsymmetricKey.h in Headers */,
+				5276BF542361C5F600AEC8E4 /* NSObject+Singleton.h in Headers */,
+				5276BF552361C5F600AEC8E4 /* MKMID.h in Headers */,
+				5276BF562361C5F600AEC8E4 /* MKMAddress.h in Headers */,
+				5276BF572361C5F600AEC8E4 /* MKMMeta.h in Headers */,
+				5276BF582361C5F600AEC8E4 /* MKMProfile.h in Headers */,
+				5276BF592361C5F600AEC8E4 /* MKMEntity.h in Headers */,
+				5276BF5A2361C5F600AEC8E4 /* MKMLocalUser.h in Headers */,
+				5276BF5B2361C5F600AEC8E4 /* MingKeMing.h in Headers */,
+				5276BF5C2361C5F600AEC8E4 /* endian.h in Headers */,
+				5276BF5D2361C5F600AEC8E4 /* byteswap.h in Headers */,
+				5276BF5E2361C5F600AEC8E4 /* ripemd160.h in Headers */,
+				5276BF5F2361C5F600AEC8E4 /* common.h in Headers */,
+				5276BF602361C5F600AEC8E4 /* base58.h in Headers */,
+				5276BF612361C5F600AEC8E4 /* MKMUser.h in Headers */,
+				5276BF622361C5F600AEC8E4 /* MKMAESKey.h in Headers */,
+				5276BF632361C5F600AEC8E4 /* MKMRSAKeyHelper.h in Headers */,
+				5276BF642361C5F600AEC8E4 /* MKMRSAPublicKey.h in Headers */,
+				5276BF652361C5F600AEC8E4 /* MKMRSAPrivateKey.h in Headers */,
+				5276BF662361C5F600AEC8E4 /* MKMRSAPrivateKey+PersistentStore.h in Headers */,
+				5276BF672361C5F600AEC8E4 /* MKMImmortals.h in Headers */,
+				5276BF682361C5F600AEC8E4 /* NSDictionary+Binary.h in Headers */,
+				5276BF692361C5F600AEC8E4 /* NSArray+Merkle.h in Headers */,
+				5276BF6A2361C5F600AEC8E4 /* NSString+Crypto.h in Headers */,
+				5276BF6B2361C5F600AEC8E4 /* NSObject+Compare.h in Headers */,
+				5276BF6C2361C5F600AEC8E4 /* NSObject+JsON.h in Headers */,
+				5276BF6D2361C5F600AEC8E4 /* NSData+Crypto.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E9F3A69521CA4627009690F6 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -416,6 +534,24 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		5276BF4A2361C5F600AEC8E4 /* MingKeMing-Mac */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5276BF902361C5F600AEC8E4 /* Build configuration list for PBXNativeTarget "MingKeMing-Mac" */;
+			buildPhases = (
+				5276BF4B2361C5F600AEC8E4 /* Headers */,
+				5276BF6E2361C5F600AEC8E4 /* Sources */,
+				5276BF8B2361C5F600AEC8E4 /* Frameworks */,
+				5276BF8D2361C5F600AEC8E4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "MingKeMing-Mac";
+			productName = MingKeMing;
+			productReference = 5276BF932361C5F600AEC8E4 /* MingKeMing-Mac.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		E9F3A69921CA4627009690F6 /* MingKeMing */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = E9F3A6AE21CA4627009690F6 /* Build configuration list for PBXNativeTarget "MingKeMing" */;
@@ -483,12 +619,22 @@
 			projectRoot = "";
 			targets = (
 				E9F3A69921CA4627009690F6 /* MingKeMing */,
+				5276BF4A2361C5F600AEC8E4 /* MingKeMing-Mac */,
 				E9F3A6A221CA4627009690F6 /* MingKeMingTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		5276BF8D2361C5F600AEC8E4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5276BF8E2361C5F600AEC8E4 /* mkm_moki.plist in Resources */,
+				5276BF8F2361C5F600AEC8E4 /* mkm_hulk.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E9F3A69821CA4627009690F6 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -508,6 +654,41 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		5276BF6E2361C5F600AEC8E4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5276BF6F2361C5F600AEC8E4 /* MKMRSAKeyHelper.m in Sources */,
+				5276BF702361C5F600AEC8E4 /* MKMCryptographyKey.m in Sources */,
+				5276BF712361C5F600AEC8E4 /* MKMAddress.m in Sources */,
+				5276BF722361C5F600AEC8E4 /* MKMRSAPrivateKey+PersistentStore.m in Sources */,
+				5276BF732361C5F600AEC8E4 /* MKMAESKey.m in Sources */,
+				5276BF742361C5F600AEC8E4 /* MKMProfile.m in Sources */,
+				5276BF752361C5F600AEC8E4 /* NSDictionary+Binary.m in Sources */,
+				5276BF762361C5F600AEC8E4 /* MKMString.m in Sources */,
+				5276BF772361C5F600AEC8E4 /* MKMUser.m in Sources */,
+				5276BF782361C5F600AEC8E4 /* MKMImmortals.m in Sources */,
+				5276BF792361C5F600AEC8E4 /* MKMPublicKey.m in Sources */,
+				5276BF7A2361C5F600AEC8E4 /* MKMDictionary.m in Sources */,
+				5276BF7B2361C5F600AEC8E4 /* base58.cpp in Sources */,
+				5276BF7C2361C5F600AEC8E4 /* NSData+Crypto.mm in Sources */,
+				5276BF7D2361C5F600AEC8E4 /* MKMPrivateKey.m in Sources */,
+				5276BF7E2361C5F600AEC8E4 /* NSObject+JsON.m in Sources */,
+				5276BF7F2361C5F600AEC8E4 /* MKMID.m in Sources */,
+				5276BF802361C5F600AEC8E4 /* MKMLocalUser.m in Sources */,
+				5276BF812361C5F600AEC8E4 /* MKMEntity.m in Sources */,
+				5276BF822361C5F600AEC8E4 /* MKMRSAPublicKey.m in Sources */,
+				5276BF832361C5F600AEC8E4 /* MKMAsymmetricKey.m in Sources */,
+				5276BF842361C5F600AEC8E4 /* ripemd160.cpp in Sources */,
+				5276BF852361C5F600AEC8E4 /* NSString+Crypto.mm in Sources */,
+				5276BF862361C5F600AEC8E4 /* MKMRSAPrivateKey.m in Sources */,
+				5276BF872361C5F600AEC8E4 /* NSArray+Merkle.m in Sources */,
+				5276BF882361C5F600AEC8E4 /* MKMMeta.m in Sources */,
+				5276BF892361C5F600AEC8E4 /* MKMGroup.m in Sources */,
+				5276BF8A2361C5F600AEC8E4 /* MKMSymmetricKey.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E9F3A69621CA4627009690F6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -562,6 +743,60 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		5276BF912361C5F600AEC8E4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = EQ22GS36XN;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "MingKeMing-Mac-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = DIM.MingKeMing;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		5276BF922361C5F600AEC8E4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = EQ22GS36XN;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "MingKeMing-Mac-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = DIM.MingKeMing;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		E9F3A6AC21CA4627009690F6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -689,7 +924,7 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = JUVC7SZJE7;
+				DEVELOPMENT_TEAM = EQ22GS36XN;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -715,7 +950,7 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = JUVC7SZJE7;
+				DEVELOPMENT_TEAM = EQ22GS36XN;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -771,6 +1006,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		5276BF902361C5F600AEC8E4 /* Build configuration list for PBXNativeTarget "MingKeMing-Mac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5276BF912361C5F600AEC8E4 /* Debug */,
+				5276BF922361C5F600AEC8E4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		E9F3A69421CA4627009690F6 /* Build configuration list for PBXProject "MingKeMing" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
