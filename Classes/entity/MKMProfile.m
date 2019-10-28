@@ -146,7 +146,7 @@
 
 - (void)setData:(nullable NSObject *)value forKey:(NSString *)key {
     // 1. update data in properties
-    if (value != nil) {
+    if (value) {
         [self.properties setObject:value forKey:key];
     } else {
         [self.properties removeObjectForKey:key];
@@ -197,10 +197,9 @@
     NSData *data = [self.properties jsonData];
     _data = [data UTF8String];
     _signature = [SK sign:data];
-    NSString *signature = [self.signature base64Encode];
     // update 'data' & 'signature' fields
-    [_storeDictionary setObject:self.data forKey:@"data"];
-    [_storeDictionary setObject:signature forKey:@"signature"];
+    [_storeDictionary setObject:_data forKey:@"data"];
+    [_storeDictionary setObject:[_signature base64Encode] forKey:@"signature"];
     _valid = YES;
     return _signature;
 }
@@ -274,13 +273,13 @@ static NSMutableArray<Class> *profile_classes(void) {
 
 @implementation MKMProfile (Runtime)
 
-+ (void)registerClass:(Class)clazz {
-    NSAssert(![clazz isEqual:self], @"only subclass");
-    NSAssert([clazz isSubclassOfClass:self], @"error: %@", clazz);
++ (void)registerClass:(Class)profileClass {
+    NSAssert(![profileClass isEqual:self], @"only subclass");
+    NSAssert([profileClass isSubclassOfClass:self], @"error: %@", profileClass);
     NSMutableArray<Class> *classes = profile_classes();
-    if (clazz && ![classes containsObject:clazz]) {
+    if (profileClass && ![classes containsObject:profileClass]) {
         // parse profile with new class first
-        [classes insertObject:clazz atIndex:0];
+        [classes insertObject:profileClass atIndex:0];
     }
 }
 

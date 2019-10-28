@@ -28,6 +28,7 @@
 - (NSData *)sign:(NSData *)data {
     NSAssert(self.dataSource, @"user data source not set yet");
     MKMPrivateKey *key = [self.dataSource privateKeyForSignatureOfUser:_ID];
+    NSAssert(key, @"failed to get private key for signature: %@", _ID);
     return [key sign:data];
 }
 

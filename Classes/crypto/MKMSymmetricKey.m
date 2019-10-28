@@ -58,10 +58,10 @@ static NSMutableDictionary<NSString *, Class> *key_classes(void) {
 
 @implementation MKMSymmetricKey (Runtime)
 
-+ (void)registerClass:(Class)clazz forAlgorithm:(NSString *)name {
-    if (clazz) {
-        NSAssert([clazz isSubclassOfClass:self], @"error: %@", clazz);
-        [key_classes() setObject:clazz forKey:name];
++ (void)registerClass:(Class)keyClass forAlgorithm:(NSString *)name {
+    if (keyClass) {
+        NSAssert([keyClass isSubclassOfClass:self], @"error: %@", keyClass);
+        [key_classes() setObject:keyClass forKey:name];
     } else {
         [key_classes() removeObjectForKey:name];
     }

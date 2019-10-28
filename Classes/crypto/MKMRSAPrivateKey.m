@@ -257,19 +257,19 @@
     
     CFErrorRef error = NULL;
     SecKeyAlgorithm alg = kSecKeyAlgorithmRSAEncryptionPKCS1;
-    CFDataRef CT;
-    CT = SecKeyCreateDecryptedData(self.privateKeyRef,
-                                   alg,
-                                   (CFDataRef)ciphertext,
-                                   &error);
+    CFDataRef data;
+    data = SecKeyCreateDecryptedData(self.privateKeyRef,
+                                     alg,
+                                     (CFDataRef)ciphertext,
+                                     &error);
     if (error) {
-        NSAssert(!CT, @"RSA decrypted data should be empty when failed");
+        NSAssert(!data, @"RSA decrypted data should be empty when failed");
         NSAssert(false, @"RSA decrypt error: %@", error);
         CFRelease(error);
         error = NULL;
     } else {
-        NSAssert(CT, @"RSA decrypted data should not be empty");
-        plaintext = (__bridge_transfer NSData *)CT;
+        NSAssert(data, @"RSA decrypted data should not be empty");
+        plaintext = (__bridge_transfer NSData *)data;
     }
     
     NSAssert(plaintext, @"RSA decrypt failed");

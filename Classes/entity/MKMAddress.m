@@ -121,12 +121,12 @@ static NSMutableArray<Class> *address_classes(void) {
      *  Address for broadcast
      */
     NSUInteger length = [address length];
-    // anywhere
-    if (length == 8 && [anywhere() isEqualToString:[address lowercaseString]]) {
+    if (length == 8 && [[address lowercaseString] isEqualToString:anywhere()]) {
+        // anywhere
         return anywhere();
     }
-    // everywhere
-    if (length == 10 && [everywhere() isEqualToString:[address lowercaseString]]) {
+    if (length == 10 && [[address lowercaseString] isEqualToString:everywhere()]) {
+        // everywhere
         return everywhere();
     }
     

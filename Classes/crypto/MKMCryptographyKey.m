@@ -30,7 +30,7 @@
 
 @implementation MKMCryptographyKey (Runtime)
 
-+ (void)registerClass:(nullable Class)clazz forAlgorithm:(NSString *)name {
++ (void)registerClass:(nullable Class)keyClass forAlgorithm:(NSString *)name {
     NSAssert(false, @"override me!");
 }
 

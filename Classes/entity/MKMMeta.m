@@ -163,10 +163,10 @@ static NSMutableDictionary<NSNumber *, Class> *meta_classes(void) {
 
 @implementation MKMMeta (Runtime)
 
-+ (void)registerClass:(nullable Class)clazz forVersion:(NSUInteger)version {
-    if (clazz) {
-        NSAssert([clazz isSubclassOfClass:self], @"error: %@", clazz);
-        [meta_classes() setObject:clazz forKey:@(version)];
++ (void)registerClass:(nullable Class)metaClass forVersion:(NSUInteger)version {
+    if (metaClass) {
+        NSAssert([metaClass isSubclassOfClass:self], @"error: %@", metaClass);
+        [meta_classes() setObject:metaClass forKey:@(version)];
     } else {
         [meta_classes() removeObjectForKey:@(version)];
     }
