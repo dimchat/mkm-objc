@@ -1,3 +1,32 @@
+// license: https://mit-license.org
+//
+//  Ming-Ke-Ming : Decentralized User Identity Authentication
+//
+//                               Written in 2018 by Moky <albert.moky@gmail.com>
+//
+// =============================================================================
+// The MIT License (MIT)
+//
+// Copyright (c) 2019 Albert Moky
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+// =============================================================================
 //
 //  MKMImmortals.m
 //  MingKeMing
@@ -8,7 +37,7 @@
 
 #import "MKMImmortals.h"
 
-@interface MKMLocalUser (Hacking)
+@interface MKMUser (Hacking)
 
 @property (strong, nonatomic) MKMPrivateKey *privateKey;
 
@@ -19,7 +48,7 @@
     NSMutableDictionary<MKMAddress *, MKMMeta *> *_metaTable;
     NSMutableDictionary<MKMAddress *, MKMProfile *> *_profileTable;
     
-    NSMutableDictionary<MKMAddress *, MKMLocalUser *> *_userTable;
+    NSMutableDictionary<MKMAddress *, MKMUser *> *_userTable;
 }
 
 @end
@@ -81,7 +110,7 @@
     }
     
     // create user
-    MKMLocalUser *user = [[MKMLocalUser alloc] initWithID:ID];
+    MKMUser *user = [[MKMUser alloc] initWithID:ID];
     user.dataSource = self;
     //user.privateKey = SK;
     [_userTable setObject:user forKey:ID.address];
@@ -89,7 +118,7 @@
     NSLog(@"loaded immortal account: %@", [user description]);
 }
 
-- (nullable MKMLocalUser *)userWithID:(MKMID *)ID {
+- (nullable MKMUser *)userWithID:(MKMID *)ID {
     NSAssert(MKMNetwork_IsPerson(ID.type), @"user ID error: %@", ID);
     return [_userTable objectForKey:ID.address];
 }

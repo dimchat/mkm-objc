@@ -287,7 +287,7 @@ static inline void print_id(MKMID *ID) {
     MKMImmortals *immortals = [[MKMImmortals alloc] init];
     
     MKMID *ID = MKMIDFromString(MKM_IMMORTAL_HULK_ID);
-    MKMLocalUser *user = [immortals userWithID:ID];
+    MKMUser *user = [immortals userWithID:ID];
     
     NSLog(@"get user: %@", user);
     //NSLog(@"SK: %@", user.privateKey);
