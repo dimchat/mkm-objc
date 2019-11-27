@@ -205,8 +205,8 @@ static inline void print_id(MKMID *ID) {
     NSLog(@"private key: %@", SK);
     NSLog(@"public key: %@", PK);
     
-    NSData *CT = [PK encrypt:data];
-    NSData *dec = [SK decrypt:CT];
+    NSData *CT = [(id<MKMEncryptKey>)PK encrypt:data];
+    NSData *dec = [(id<MKMDecryptKey>)SK decrypt:CT];
     NSLog(@"%@ -> %@ -> %@", string, [CT base64Encode], [dec UTF8String]);
     NSAssert([dec isEqual:data], @"en/decrypt error");
     
@@ -246,8 +246,8 @@ static inline void print_id(MKMID *ID) {
               };
     SK = MKMPrivateKeyFromDictionary(spKey);
 
-    CT = [PK encrypt:data];
-    dec = [SK decrypt:CT];
+    CT = [(id<MKMEncryptKey>)PK encrypt:data];
+    dec = [(id<MKMDecryptKey>)SK decrypt:CT];
     NSLog(@"sp: %@ -> %@ -> %@", string, [CT base64Encode], [dec UTF8String]);
 }
 
@@ -394,12 +394,12 @@ static inline void checkX(NSString *metaJson, NSString *skJson) {
     dict = [[skJson data] jsonDictionary];
     MKMPrivateKey *SK = MKMPrivateKeyFromDictionary(dict);
     NSLog(@"private key: %@", SK);
-    assert([meta.key isMatch:SK]);
+    assert([(id<MKMPublicKey>)meta.key isMatch:SK]);
     
     NSString *name = @"moky";
     NSData *data = [name data];
-    NSData *CT = [meta.key encrypt:data];
-    NSData *PT = [SK decrypt:CT];
+    NSData *CT = [(id<MKMEncryptKey>)meta.key encrypt:data];
+    NSData *PT = [(id<MKMDecryptKey>)SK decrypt:CT];
     NSString *hex = [CT hexEncode];
     NSString *res = [PT UTF8String];
     NSLog(@"encryption: %@ -> %@ -> %@", name, hex, res);

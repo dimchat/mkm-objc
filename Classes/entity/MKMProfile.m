@@ -196,7 +196,7 @@
     return self.valid ? [self.properties allKeys] : nil;
 }
 
-- (BOOL)verify:(MKMPublicKey *)PK {
+- (BOOL)verify:(id<MKMVerifyKey>)PK {
     if (self.valid) {
         // already verified
         return YES;
@@ -217,7 +217,7 @@
     return _valid;
 }
 
-- (NSData *)sign:(MKMPrivateKey *)SK {
+- (NSData *)sign:(id<MKMSignKey>)SK {
     if (self.valid) {
         // already signed
         return _signature;
@@ -238,7 +238,7 @@
 
 @interface MKMProfile () {
     NSString *_name;          // nickname
-    MKMPublicKey *_key; // public key
+    id<MKMEncryptKey> _key; // public key
 }
 
 @end
@@ -261,12 +261,12 @@
     return self;
 }
 
-- (BOOL)verify:(MKMPublicKey *)PK {
+- (BOOL)verify:(id<MKMVerifyKey>)PK {
     if (![super verify:PK]) {
         return NO;
     }
     _name = (NSString *)[self dataForKey:@"name"];
-    _key = MKMPublicKeyFromDictionary([self dataForKey:@"key"]);
+    _key = (id<MKMEncryptKey>) MKMPublicKeyFromDictionary([self dataForKey:@"key"]);
     return YES;
 }
 
@@ -279,11 +279,11 @@
     [self setData:name forKey:@"name"];
 }
 
-- (nullable MKMPublicKey *)key {
+- (nullable id<MKMEncryptKey>)key {
     return _key;
 }
 
-- (void)setKey:(MKMPublicKey *)key {
+- (void)setKey:(id<MKMEncryptKey>)key {
     _key = key;
     [self setData:(NSObject *)key forKey:@"key"];
 }

@@ -39,8 +39,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class MKMPublicKey;
-@class MKMPrivateKey;
+@protocol MKMEncryptKey;
+@protocol MKMVerifyKey;
+@protocol MKMSignKey;
+
 @class MKMID;
 @class MKMUser;
 
@@ -94,7 +96,7 @@ NS_DESIGNATED_INITIALIZER;
  * @param PK - public key in meta.key
  * @return true on signature matched
  */
-- (BOOL)verify:(MKMPublicKey *)PK;
+- (BOOL)verify:(id<MKMVerifyKey>)PK;
 
 /**
  *  Encode properties to 'data' and sign it to 'signature'
@@ -102,7 +104,7 @@ NS_DESIGNATED_INITIALIZER;
  * @param SK - private key match meta.key
  * @return signature
  */
-- (NSData *)sign:(MKMPrivateKey *)SK;
+- (NSData *)sign:(id<MKMSignKey>)SK;
 
 @end
 
@@ -117,7 +119,7 @@ NS_DESIGNATED_INITIALIZER;
  *
  *      RSA
  */
-@property (strong, nonatomic, nullable) MKMPublicKey *key;
+@property (strong, nonatomic, nullable) id<MKMEncryptKey> key;
 
 @end
 

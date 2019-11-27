@@ -50,7 +50,7 @@
 @interface MKMMeta () {
     
     MKMMetaType _version;
-    MKMPublicKey *_key;
+    id<MKMVerifyKey> _key;
     NSString *_seed;
     NSData *_fingerprint;
 }
@@ -69,7 +69,7 @@
     if (self = [super initWithDictionary:dict]) {
         // version
         NSNumber *ver = [dict objectForKey:@"version"];
-        MKMMetaType version = [ver unsignedIntegerValue];
+        MKMMetaType version = [ver unsignedCharValue];
         // public key
         NSDictionary *key = [dict objectForKey:@"key"];
         MKMPublicKey *PK = MKMPublicKeyFromDictionary(key);
@@ -99,26 +99,26 @@
 }
 
 + (instancetype)generateWithVersion:(MKMMetaType)version
-                         privateKey:(MKMPrivateKey *)SK
+                         privateKey:(id<MKMSignKey>)SK
                                seed:(nullable NSString *)name {
     NSDictionary *dict;
     if (version & MKMMetaVersion_MKM) { // MKM, ExBTC, ExETH, ...
         NSData *CT = [SK sign:[name data]];
         NSString *fingerprint = [CT base64Encode];
         dict = @{@"version"    :@(version),
-                 @"key"        :[SK publicKey],
+                 @"key"        :[(id<MKMPrivateKey>)SK publicKey],
                  @"seed"       :name,
                  @"fingerprint":fingerprint,
                  };
     } else { // BTC, ETH, ...
         dict = @{@"version"    :@(version),
-                 @"key"        :[SK publicKey],
+                 @"key"        :[(id<MKMPrivateKey>)SK publicKey],
                  };
     }
     return [self getInstance:dict];
 }
 
-- (BOOL)matchPublicKey:(MKMPublicKey *)PK {
+- (BOOL)matchPublicKey:(id<MKMVerifyKey>)PK {
     if ([PK isEqual:_key]) {
         return YES;
     }

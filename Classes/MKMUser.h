@@ -58,7 +58,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (NSData *)encrypt:(NSData *)plaintext;
 
-#pragma mark Local User
+@end
+
+@interface MKMUser (Local)
 
 @property (readonly, copy, nonatomic) NSArray<MKMID *> *contacts;
 
@@ -87,28 +89,48 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol MKMUserDataSource <MKMEntityDataSource>
 
 /**
- *  Get user's private key
- *
- * @param user - user ID
- * @return private key
- */
-- (nullable MKMPrivateKey *)privateKeyForSignatureOfUser:(MKMID *)user;
-
-/**
- *  Get user's private keys for decryption
- *
- * @param user - user ID
- * @return private key
- */
-- (nullable NSArray<MKMPrivateKey *> *)privateKeysForDecryptionOfUser:(MKMID *)user;
-
-/**
  *  Get contacts list
  *
  * @param user - user ID
  * @return contacts list (ID)
  */
 - (nullable NSArray<MKMID *> *)contactsOfUser:(MKMID *)user;
+
+/**
+ *  Get user's public key for encryption
+ *  (profile.key or meta.key)
+ *
+ * @param user - user ID
+ * @return public key
+ */
+- (nullable id<MKMEncryptKey>)publicKeyForEncryption:(MKMID *)user;
+
+/**
+ *  Get user's private keys for decryption
+ *  (which paired with [profile.key, meta.key])
+ *
+ * @param user - user ID
+ * @return private key
+ */
+- (nullable NSArray<id<MKMDecryptKey>> *)privateKeysForDecryptionOfUser:(MKMID *)user;
+
+/**
+ *  Get user's private key for signature
+ *  (which paired with profile.key or meta.key)
+ *
+ * @param user - user ID
+ * @return private key
+ */
+- (nullable id<MKMSignKey>)privateKeyForSignatureOfUser:(MKMID *)user;
+
+/**
+ *  Get user's public keys for verification
+ *  [profile.key, meta.key]
+ *
+ * @param user - user ID
+ * @return public key
+ */
+- (nullable NSArray<id<MKMVerifyKey>> *)publicKeysForVerification:(MKMID *)user;
 
 @end
 

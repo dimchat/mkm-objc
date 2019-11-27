@@ -48,63 +48,91 @@
 
 @implementation MKMUser
 
-- (MKMPublicKey *)metaKey {
+- (nullable id<MKMUserDataSource>)delegate {
+    id<MKMEntityDataSource> dataSource = self.dataSource;
+    NSAssert([dataSource conformsToProtocol:@protocol(MKMUserDataSource)],
+             @"user delegate error: %@", dataSource);
+    return (id<MKMUserDataSource>)dataSource;
+}
+
+- (id<MKMVerifyKey>)metaKey {
     MKMMeta *meta = [self meta];
+    NSAssert(meta, @"failed to get meta for user: %@", _ID);
     return [meta key];
 }
 
-- (nullable MKMPublicKey *)profileKey {
+- (nullable id<MKMEncryptKey>)profileKey {
     MKMProfile *profile = [self profile];
+    NSAssert(!profile || [profile isValid], @"profile not valid: %@", profile);
     return [profile key];
 }
 
-- (nullable MKMProfile *)profile {
-    MKMProfile *tai = [super profile];
-    if (!tai || [tai isValid]) {
-        // no need to verify
-        return tai;
+// NOTICE: meta.key will never changed, so use profile.key to encrypt
+//         is the better way
+- (nullable id<MKMEncryptKey>)encryptKey {
+    id<MKMEncryptKey> key;
+    // 0. get key from delegate
+    key = [self.delegate publicKeyForEncryption:_ID];
+    if (key) {
+        return key;
     }
-    // try to verify with meta.key
-    MKMPublicKey *key = [self metaKey];
-    if ([tai verify:key]) {
-        // signature correct
-        return tai;
+    // 1. get key from profile
+    key = [self profileKey];
+    if (key) {
+        return key;
     }
-    // profile error? continue to process by subclass
-    return tai;
+    // 2. get key from meta
+    id<MKMVerifyKey> mKey = [self metaKey];
+    if ([mKey conformsToProtocol:@protocol(MKMEncryptKey)]) {
+        return (id<MKMEncryptKey>)mKey;
+    }
+    NSAssert(false, @"failed to get encrypt key for user: %@", _ID);
+    return nil;
+}
+
+// NOTICE: I suggest using the private key paired with meta.key to sign message
+//         so here should return the meta.key
+- (nullable NSArray<id<MKMVerifyKey>> *)verifyKeys {
+    NSArray<id<MKMVerifyKey>> *keys;
+    // 0. get keys from delegate
+    keys = [self.delegate publicKeysForVerification:_ID];
+    if ([keys count] > 0) {
+        return keys;
+    }
+    NSMutableArray *mArray = [[NSMutableArray alloc] init];
+    /*
+    // 1. get key from profile
+    NSObject *pKey = [self profileKey];
+    if ([pKey conformsToProtocol:@protocol(MKMVerifyKey)]) {
+        [mArray addObject:pKey];
+    }
+     */
+    // 2. get key from meta
+    id<MKMVerifyKey> mKey = [self metaKey];
+    NSAssert(mKey, @"failed to get meta key for user: %@", _ID);
+    [mArray addObject:mKey];
+    return mArray;
 }
 
 - (BOOL)verify:(NSData *)data withSignature:(NSData *)signature {
-    MKMPublicKey *key;
-    /*
-    // 1. get public key from profile
-    key = [self profileKey];
-    if ([key verify:data withSignature:signature]) {
-        return YES;
+    NSArray<id<MKMVerifyKey>> *keys = [self verifyKeys];
+    for (id<MKMVerifyKey> key in keys) {
+        if ([key verify:data withSignature:signature]) {
+            return YES;
+        }
     }
-     */
-    // 2. get public key from meta
-    key = [self metaKey];
-    NSAssert(key, @"failed to get verify key for: %@", _ID);
-    // 3. verify it
-    return [key verify:data withSignature:signature];
+    return NO;
 }
 
 - (NSData *)encrypt:(NSData *)plaintext {
-    // 1. get key for encryption from profile
-    MKMPublicKey *key = [self profileKey];
-    if (!key) {
-        // 2. get key for encryption from meta
-        //    NOTICE: meta.key will never changed, so use profile.key to encrypt
-        //            is the better way
-        key = [self metaKey];
-    }
-    NSAssert(key, @"failed to get encrypt key for: %@", _ID);
-    // 3. encrypt it
+    id<MKMEncryptKey> key = [self encryptKey];
+    NSAssert(key, @"failed to get encrypt key for user: %@", _ID);
     return [key encrypt:plaintext];
 }
 
-#pragma mark Local User
+@end
+
+@implementation MKMUser (Local)
 
 - (NSString *)debugDescription {
     NSString *desc = [super debugDescription];
@@ -113,29 +141,6 @@
     [info setObject:@(self.contacts.count) forKey:@"contacts"];
     return [info jsonString];
 }
-
-- (NSData *)sign:(NSData *)data {
-    NSAssert(self.dataSource, @"user data source not set yet");
-    MKMPrivateKey *key = [self.dataSource privateKeyForSignatureOfUser:_ID];
-    NSAssert(key, @"failed to get private key for signature: %@", _ID);
-    return [key sign:data];
-}
-
-- (nullable NSData *)decrypt:(NSData *)ciphertext {
-    NSAssert(self.dataSource, @"user data source not set yet");
-    NSArray<MKMPrivateKey *> *keys = [self.dataSource privateKeysForDecryptionOfUser:_ID];
-    NSData *plaintext = nil;
-    for (MKMPrivateKey *key in keys) {
-        plaintext = [key decrypt:ciphertext];
-        if (plaintext != nil) {
-            // OK!
-            break;
-        }
-    }
-    return plaintext;
-}
-
-#pragma mark Contacts of Local User
 
 - (NSArray<MKMID *> *)contacts {
     NSAssert(self.dataSource, @"user data source not set yet");
@@ -158,6 +163,39 @@
         }
     }
     return NO;
+}
+
+- (nullable id<MKMSignKey>)signKey {
+    return [self.delegate privateKeyForSignatureOfUser:_ID];
+}
+
+- (nullable NSArray<id<MKMDecryptKey>> *)decryptKeys {
+    return [self.delegate privateKeysForDecryptionOfUser:_ID];
+}
+
+- (NSData *)sign:(NSData *)data {
+    id<MKMSignKey> key = [self signKey];
+    NSAssert(key, @"failed to get sign key for user: %@", _ID);
+    return [key sign:data];
+}
+
+- (nullable NSData *)decrypt:(NSData *)ciphertext {
+    NSArray<id<MKMDecryptKey>> *keys = [self decryptKeys];
+    NSAssert([keys count] > 0, @"failed to get decrypt key for user: %@", _ID);
+    NSData *plaintext = nil;
+    for (id<MKMDecryptKey> key in keys) {
+        @try {
+            plaintext = [key decrypt:ciphertext];
+            if ([plaintext length] > 0) {
+                return plaintext;
+            }
+        } @catch (NSException *exception) {
+            // this key not match, try next one
+        } @finally {
+            //
+        }
+    }
+    return nil;
 }
 
 @end

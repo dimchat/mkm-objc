@@ -78,8 +78,8 @@ typedef NS_ENUM(UInt8, MKMMetaVersion) {
 typedef UInt8 MKMMetaType;
 #define MKMMetaDefaultVersion MKMMetaVersion_MKM
 
-@class MKMPublicKey;
-@class MKMPrivateKey;
+@protocol MKMVerifyKey;
+@protocol MKMSignKey;
 
 @class MKMID;
 
@@ -115,7 +115,7 @@ typedef UInt8 MKMMetaType;
  *
  *      RSA / ECC
  */
-@property (readonly, strong, nonatomic) MKMPublicKey *key;
+@property (readonly, strong, nonatomic) id<MKMVerifyKey> key;
 
 /**
  *  Seed to generate fingerprint
@@ -147,10 +147,10 @@ NS_DESIGNATED_INITIALIZER;
  * @return Meta object
  */
 + (instancetype)generateWithVersion:(MKMMetaType)version
-                         privateKey:(MKMPrivateKey *)SK
+                         privateKey:(id<MKMSignKey>)SK
                                seed:(nullable NSString *)name;
 
-- (BOOL)matchPublicKey:(MKMPublicKey *)PK;
+- (BOOL)matchPublicKey:(id<MKMVerifyKey>)PK;
 
 #pragma mark - ID & address
 

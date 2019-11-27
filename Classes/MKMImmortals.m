@@ -93,7 +93,7 @@
     // private key
     MKMPrivateKey *SK = [dict objectForKey:@"privateKey"];
     SK = MKMPrivateKeyFromDictionary(SK);
-    if ([meta matchID:ID] && [meta.key isMatch:SK]) {
+    if ([meta matchID:ID] && [(id<MKMPublicKey>)meta.key isMatch:SK]) {
         // store private key into keychain
         [SK saveKeyWithIdentifier:ID.address];
     } else {
@@ -135,8 +135,15 @@
     return [_profileTable objectForKey:ID.address];
 }
 
-- (nullable MKMPrivateKey *)privateKeyForSignatureOfUser:(MKMID *)user {
-    return [MKMPrivateKey loadKeyWithIdentifier:user.address];
+- (nullable NSArray<MKMID *> *)contactsOfUser:(MKMID *)user {
+    NSMutableArray<MKMID *> *list = [[NSMutableArray alloc] initWithCapacity:2];
+    [list addObject:MKMIDFromString(MKM_MONKEY_KING_ID)];
+    [list addObject:MKMIDFromString(MKM_IMMORTAL_HULK_ID)];
+    return list;
+}
+
+- (nullable id<MKMEncryptKey>)publicKeyForEncryption:(nonnull MKMID *)user {
+    return nil;
 }
 
 - (nullable NSArray<MKMPrivateKey *> *)privateKeysForDecryptionOfUser:(MKMID *)user {
@@ -144,11 +151,12 @@
     return [[NSArray alloc] initWithObjects:key, nil];
 }
 
-- (nullable NSArray<MKMID *> *)contactsOfUser:(MKMID *)user {
-    NSMutableArray<MKMID *> *list = [[NSMutableArray alloc] initWithCapacity:2];
-    [list addObject:MKMIDFromString(MKM_MONKEY_KING_ID)];
-    [list addObject:MKMIDFromString(MKM_IMMORTAL_HULK_ID)];
-    return list;
+- (nullable MKMPrivateKey *)privateKeyForSignatureOfUser:(MKMID *)user {
+    return [MKMPrivateKey loadKeyWithIdentifier:user.address];
+}
+
+- (nullable NSArray<id<MKMVerifyKey>> *)publicKeysForVerification:(nonnull MKMID *)user {
+    return nil;
 }
 
 @end
