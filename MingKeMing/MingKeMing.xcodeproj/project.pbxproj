@@ -70,6 +70,10 @@
 		5276BF8C2361C5F600AEC8E4 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9F3AB6821CFA8EE009690F6 /* Security.framework */; };
 		5276BF8E2361C5F600AEC8E4 /* mkm_moki.plist in Resources */ = {isa = PBXBuildFile; fileRef = E9BBBDD9223ABFA200E6ACDA /* mkm_moki.plist */; };
 		5276BF8F2361C5F600AEC8E4 /* mkm_hulk.plist in Resources */ = {isa = PBXBuildFile; fileRef = E9BBBDD8223ABFA200E6ACDA /* mkm_hulk.plist */; };
+		E919AF8D238FCFB6004F7FF9 /* MKMTai.h in Headers */ = {isa = PBXBuildFile; fileRef = E919AF8B238FCFB6004F7FF9 /* MKMTai.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E919AF8E238FCFB6004F7FF9 /* MKMTai.h in Headers */ = {isa = PBXBuildFile; fileRef = E919AF8B238FCFB6004F7FF9 /* MKMTai.h */; };
+		E919AF8F238FCFB6004F7FF9 /* MKMTai.m in Sources */ = {isa = PBXBuildFile; fileRef = E919AF8C238FCFB6004F7FF9 /* MKMTai.m */; };
+		E919AF90238FCFB6004F7FF9 /* MKMTai.m in Sources */ = {isa = PBXBuildFile; fileRef = E919AF8C238FCFB6004F7FF9 /* MKMTai.m */; };
 		E91F2AFD2301481D00BE05D0 /* MKMGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = E91F2AFB2301481C00BE05D0 /* MKMGroup.m */; };
 		E91F2AFE2301481D00BE05D0 /* MKMGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = E91F2AFC2301481C00BE05D0 /* MKMGroup.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E93D437822A7ADF000422EDF /* MKMProfile.h in Headers */ = {isa = PBXBuildFile; fileRef = E93D437622A7ADEF00422EDF /* MKMProfile.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -150,6 +154,8 @@
 /* Begin PBXFileReference section */
 		5276BF932361C5F600AEC8E4 /* MingKeMing-Mac.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "MingKeMing-Mac.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5276BF942361C5F600AEC8E4 /* MingKeMing-Mac-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "MingKeMing-Mac-Info.plist"; path = "/Users/john/Documents/workspace/iphone/dimchat/mkm-objc/MingKeMing/MingKeMing-Mac-Info.plist"; sourceTree = "<absolute>"; };
+		E919AF8B238FCFB6004F7FF9 /* MKMTai.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MKMTai.h; sourceTree = "<group>"; };
+		E919AF8C238FCFB6004F7FF9 /* MKMTai.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MKMTai.m; sourceTree = "<group>"; };
 		E91F2AFB2301481C00BE05D0 /* MKMGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMGroup.m; sourceTree = "<group>"; };
 		E91F2AFC2301481C00BE05D0 /* MKMGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMGroup.h; sourceTree = "<group>"; };
 		E93D437622A7ADEF00422EDF /* MKMProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMProfile.h; sourceTree = "<group>"; };
@@ -384,6 +390,8 @@
 				E9F3A90F21CBBAF6009690F6 /* MKMID.m */,
 				E9F3A90D21CBBAF6009690F6 /* MKMMeta.h */,
 				E9F3A91021CBBAF6009690F6 /* MKMMeta.m */,
+				E919AF8B238FCFB6004F7FF9 /* MKMTai.h */,
+				E919AF8C238FCFB6004F7FF9 /* MKMTai.m */,
 				E9F3A91121CBBAF6009690F6 /* MKMEntity.h */,
 				E9F3A90C21CBBAF6009690F6 /* MKMEntity.m */,
 				E93D437622A7ADEF00422EDF /* MKMProfile.h */,
@@ -478,6 +486,7 @@
 				5276BF6B2361C5F600AEC8E4 /* NSObject+Compare.h in Headers */,
 				5276BF6C2361C5F600AEC8E4 /* NSObject+JsON.h in Headers */,
 				5276BF6D2361C5F600AEC8E4 /* NSData+Crypto.h in Headers */,
+				E919AF8E238FCFB6004F7FF9 /* MKMTai.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -496,6 +505,7 @@
 				E961082222C9E7600032D8A2 /* NSObject+Singleton.h in Headers */,
 				E9F3A97D21CBBAF7009690F6 /* MKMID.h in Headers */,
 				E9F3A97E21CBBAF7009690F6 /* MKMAddress.h in Headers */,
+				E919AF8D238FCFB6004F7FF9 /* MKMTai.h in Headers */,
 				E9F3A97821CBBAF7009690F6 /* MKMMeta.h in Headers */,
 				E93D437822A7ADF000422EDF /* MKMProfile.h in Headers */,
 				E9F3A97C21CBBAF7009690F6 /* MKMEntity.h in Headers */,
@@ -654,6 +664,7 @@
 				5276BF722361C5F600AEC8E4 /* MKMRSAPrivateKey+PersistentStore.m in Sources */,
 				5276BF732361C5F600AEC8E4 /* MKMAESKey.m in Sources */,
 				5276BF742361C5F600AEC8E4 /* MKMProfile.m in Sources */,
+				E919AF90238FCFB6004F7FF9 /* MKMTai.m in Sources */,
 				5276BF752361C5F600AEC8E4 /* NSDictionary+Binary.m in Sources */,
 				5276BF762361C5F600AEC8E4 /* MKMString.m in Sources */,
 				5276BF772361C5F600AEC8E4 /* MKMUser.m in Sources */,
@@ -688,6 +699,7 @@
 				E9F3A95121CBBAF7009690F6 /* MKMRSAPrivateKey+PersistentStore.m in Sources */,
 				E9F3A94921CBBAF7009690F6 /* MKMAESKey.m in Sources */,
 				E93D437922A7ADF000422EDF /* MKMProfile.m in Sources */,
+				E919AF8F238FCFB6004F7FF9 /* MKMTai.m in Sources */,
 				E9F3A96121CBBAF7009690F6 /* NSDictionary+Binary.m in Sources */,
 				E9F3A96A21CBBAF7009690F6 /* MKMString.m in Sources */,
 				E9F3A94221CBBAF7009690F6 /* MKMUser.m in Sources */,

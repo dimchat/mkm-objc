@@ -115,7 +115,7 @@ typedef UInt8 MKMMetaType;
  *
  *      RSA / ECC
  */
-@property (readonly, strong, nonatomic) id<MKMVerifyKey> key;
+@property (readonly, strong, nonatomic) __kindof id<MKMVerifyKey> key;
 
 /**
  *  Seed to generate fingerprint
@@ -133,6 +133,13 @@ typedef UInt8 MKMMetaType;
 @property (readonly, strong, nonatomic, nullable) NSData *fingerprint;
 
 /**
+ *  Check meta valid
+ *
+ *      (must call this when received a new meta from network)
+ */
+@property (readonly, nonatomic, getter=isValid) BOOL valid;
+
+/**
  *  Create meta with dictionary
  */
 - (instancetype)initWithDictionary:(NSDictionary *)dict
@@ -147,7 +154,7 @@ NS_DESIGNATED_INITIALIZER;
  * @return Meta object
  */
 + (instancetype)generateWithVersion:(MKMMetaType)version
-                         privateKey:(id<MKMSignKey>)SK
+                         privateKey:(id<MKMPrivateKey>)SK
                                seed:(nullable NSString *)name;
 
 - (BOOL)matchPublicKey:(id<MKMVerifyKey>)PK;

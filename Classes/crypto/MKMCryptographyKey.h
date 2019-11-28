@@ -117,13 +117,13 @@ NS_DESIGNATED_INITIALIZER;
 
 + (void)registerClass:(nullable Class)keyClass forAlgorithm:(NSString *)name;
 
-+ (nullable instancetype)getInstance:(id)key;
++ (nullable __kindof instancetype)getInstance:(id)key;
 
 @end
 
 @interface MKMCryptographyKey (PersistentStore)
 
-+ (nullable instancetype)loadKeyWithIdentifier:(NSString *)identifier;
++ (nullable __kindof instancetype)loadKeyWithIdentifier:(NSString *)identifier;
 
 - (BOOL)saveKeyWithIdentifier:(NSString *)identifier;
 

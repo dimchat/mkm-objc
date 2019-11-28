@@ -49,7 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Check whether paired
  */
-- (BOOL)isMatch:(id<MKMPrivateKey>)SK;
+- (BOOL)isMatch:(id<MKMSignKey>)SK;
 
 @end
 
