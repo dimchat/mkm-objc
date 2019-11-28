@@ -166,11 +166,11 @@
 }
 
 - (nullable id<MKMSignKey>)signKey {
-    return [self.delegate privateKeyForSignatureOfUser:_ID];
+    return [self.delegate privateKeyForSignature:_ID];
 }
 
 - (nullable NSArray<id<MKMDecryptKey>> *)decryptKeys {
-    return [self.delegate privateKeysForDecryptionOfUser:_ID];
+    return [self.delegate privateKeysForDecryption:_ID];
 }
 
 - (NSData *)sign:(NSData *)data {

@@ -112,7 +112,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param user - user ID
  * @return private key
  */
-- (nullable NSArray<id<MKMDecryptKey>> *)privateKeysForDecryptionOfUser:(MKMID *)user;
+- (nullable NSArray<id<MKMDecryptKey>> *)privateKeysForDecryption:(MKMID *)user;
 
 /**
  *  Get user's private key for signature
@@ -121,7 +121,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param user - user ID
  * @return private key
  */
-- (nullable id<MKMSignKey>)privateKeyForSignatureOfUser:(MKMID *)user;
+- (nullable id<MKMSignKey>)privateKeyForSignature:(MKMID *)user;
 
 /**
  *  Get user's public keys for verification

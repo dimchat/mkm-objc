@@ -146,12 +146,12 @@
     return nil;
 }
 
-- (nullable NSArray<MKMPrivateKey *> *)privateKeysForDecryptionOfUser:(MKMID *)user {
+- (nullable NSArray<MKMPrivateKey *> *)privateKeysForDecryption:(MKMID *)user {
     MKMPrivateKey *key = [MKMPrivateKey loadKeyWithIdentifier:user.address];
     return [[NSArray alloc] initWithObjects:key, nil];
 }
 
-- (nullable MKMPrivateKey *)privateKeyForSignatureOfUser:(MKMID *)user {
+- (nullable MKMPrivateKey *)privateKeyForSignature:(MKMID *)user {
     return [MKMPrivateKey loadKeyWithIdentifier:user.address];
 }
 
