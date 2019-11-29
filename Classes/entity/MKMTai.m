@@ -150,6 +150,10 @@
     return profile;
 }
 
+- (BOOL)isValid {
+    return _status >= 0;
+}
+
 - (NSString *)ID {
     if (!_ID) {
         _ID = [_storeDictionary objectForKey:@"ID"];
