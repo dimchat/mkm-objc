@@ -48,11 +48,8 @@
 
 @implementation MKMUser
 
-- (nullable id<MKMUserDataSource>)delegate {
-    id<MKMEntityDataSource> dataSource = self.dataSource;
-    NSAssert([dataSource conformsToProtocol:@protocol(MKMUserDataSource)],
-             @"user delegate error: %@", dataSource);
-    return (id<MKMUserDataSource>)dataSource;
+- (nullable id<MKMUserDataSource>)dataSource {
+    return (id<MKMUserDataSource>)[super dataSource];
 }
 
 - (id<MKMVerifyKey>)metaKey {
@@ -72,7 +69,7 @@
 - (nullable id<MKMEncryptKey>)encryptKey {
     id<MKMEncryptKey> key;
     // 0. get key from delegate
-    key = [self.delegate publicKeyForEncryption:_ID];
+    key = [self.dataSource publicKeyForEncryption:_ID];
     if (key) {
         return key;
     }
@@ -95,7 +92,7 @@
 - (nullable NSArray<id<MKMVerifyKey>> *)verifyKeys {
     NSArray<id<MKMVerifyKey>> *keys;
     // 0. get keys from delegate
-    keys = [self.delegate publicKeysForVerification:_ID];
+    keys = [self.dataSource publicKeysForVerification:_ID];
     if ([keys count] > 0) {
         return keys;
     }
@@ -166,11 +163,11 @@
 }
 
 - (nullable id<MKMSignKey>)signKey {
-    return [self.delegate privateKeyForSignature:_ID];
+    return [self.dataSource privateKeyForSignature:_ID];
 }
 
 - (nullable NSArray<id<MKMDecryptKey>> *)decryptKeys {
-    return [self.delegate privateKeysForDecryption:_ID];
+    return [self.dataSource privateKeysForDecryption:_ID];
 }
 
 - (NSData *)sign:(NSData *)data {
