@@ -15,27 +15,27 @@
                         /* EOF 'SingletonDispatchOnce(block)' */
 
 #define SingletonImplementations_Main(Class, factory)          \
-        static Class *s_sharedInstance = nil;                  \
+        static Class *s_shared##Class = nil;                   \
         + (instancetype)allocWithZone:(struct _NSZone *)zone { \
             SingletonDispatchOnce(^{                           \
-                s_sharedInstance = [super allocWithZone:zone]; \
+                s_shared##Class = [super allocWithZone:zone];  \
             });                                                \
-            return s_sharedInstance;                           \
+            return s_shared##Class;                            \
         }                                                      \
         + (instancetype)factory {                              \
             SingletonDispatchOnce(^{                           \
-                s_sharedInstance = [[self alloc] init];        \
+                s_shared##Class = [[self alloc] init];         \
             });                                                \
-            return s_sharedInstance;                           \
+            return s_shared##Class;                            \
         }                                                      \
        /* EOF 'SingletonImplementations_Main(Class, factory)' */
 
-#define SingletonImplementations_Copy()                        \
+#define SingletonImplementations_Copy(Class)                   \
         - (id)copy {                                           \
-            return s_sharedInstance;                           \
+            return s_shared##Class;                            \
         }                                                      \
         - (id)mutableCopy {                                    \
-            return s_sharedInstance;                           \
+            return s_shared##Class;                            \
         }                                                      \
                      /* EOF 'SingletonImplementations_Copy()' */
 
@@ -43,19 +43,19 @@
 
 #define SingletonImplementations(Class, factory)               \
         SingletonImplementations_Main(Class, factory)          \
-        SingletonImplementations_Copy()                        \
+        SingletonImplementations_Copy(Class)                   \
             /* EOF 'SingletonImplementations(Class, factory)' */
 
 #else // MRC
 
-#define SingletonImplementations_MRC()                         \
+#define SingletonImplementations_MRC(Class)                    \
         - (instancetype)retain {                               \
-            return s_sharedInstance;                           \
+            return s_shared##Class;                            \
         }                                                      \
         - (oneway void)release {                               \
         }                                                      \
         - (instancetype)autorelease {                          \
-            return s_sharedInstance;                           \
+            return s_shared##Class;                            \
         }                                                      \
         - (NSUInteger)retainCount {                            \
             return MAXFLOAT;                                   \
@@ -64,8 +64,8 @@
 
 #define SingletonImplementations(Class, factory)               \
         SingletonImplementations_Main(Class, factory)          \
-        SingletonImplementations_Copy()                        \
-        SingletonImplementations_MRC()                         \
+        SingletonImplementations_Copy(Class)                   \
+        SingletonImplementations_MRC(Class)                    \
             /* EOF 'SingletonImplementations(Class, factory)' */
 
 #endif /* __has_feature(objc_arc) */
