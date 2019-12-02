@@ -229,14 +229,23 @@
 }
 
 - (BOOL)verify:(id<MKMVerifyKey>)PK {
-    if (_status > 1) {
+    if (_status > 0) {
         // already verify OK
         return YES;
     }
     NSData *data = self.data;
     NSData *signature = self.signature;
-    if ([data length] == 0 || [signature length] == 0) {
-        // data error
+    if ([data length] == 0) {
+        // NOTICE: if data is empty, signature should be empty at the same time
+        //         this happen while profile not found
+        if ([signature length] == 0) {
+            _status = 0;
+        } else {
+            // data signature error
+            _status = -1;
+        }
+    } else if ([signature length] == 0) {
+        // signature error
         _status = -1;
     } else if ([PK verify:data withSignature:signature]) {
         // signature matched
