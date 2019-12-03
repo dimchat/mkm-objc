@@ -126,7 +126,7 @@
 #pragma mark - Delegates
 
 - (nullable MKMMeta *)metaForID:(MKMID *)ID {
-    NSAssert([ID isValid], @"ID invalid: %@", ID);
+    NSAssert(MKMNetwork_IsPerson(ID.type), @"user ID error: %@", ID);
     return [_metaTable objectForKey:ID.address];
 }
 

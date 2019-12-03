@@ -100,16 +100,34 @@
 }
 
 - (BOOL)isEqual:(id)object {
-    if ([super isEqual:object]) {
-        return YES;
-    }
-    MKMID *ID = MKMIDFromString(object);
-    // check name
-    if (NSStringNotEquals(_name, ID.name)) {
+    if (![object isKindOfClass:[NSString class]]) {
+        // object empty
         return NO;
     }
-    // compare address
-    return [_address isEqual:ID.address];
+    if ([super isEqual:object]) {
+        // same object
+        return YES;
+    }
+    if ([object isKindOfClass:[MKMID class]]) {
+        // comparing with ID object
+        MKMID *ID = (MKMID *)object;
+        if (![_address isEqual:ID.address]) {
+            return NO;
+        }
+        if (_name) {
+            return [_name isEqual:ID.name];
+        } else {
+            return [ID.name length] == 0;
+        }
+    }
+    // comparing without terminal
+    NSArray *pair = [object componentsSeparatedByString:@"/"];
+    NSString *str1 = pair.firstObject;
+    if (_terminal.length == 0) {
+        return [_storeString isEqualToString:str1];
+    }
+    pair = [_storeString componentsSeparatedByString:@"/"];
+    return [pair.firstObject isEqualToString:str1];
 }
 
 - (void)setTerminal:(NSString *)terminal {
