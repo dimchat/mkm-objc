@@ -71,6 +71,7 @@ static inline BOOL contains_seed(MKMMetaType version) {
     return [self initWithDictionary:dict];
 }
 
+/* designated initializer */
 - (instancetype)initWithDictionary:(NSDictionary *)dict {
     if (self = [super initWithDictionary:dict]) {
         // lazy
@@ -224,15 +225,47 @@ static inline BOOL contains_seed(MKMMetaType version) {
  *  version:
  *      0x01 - MKM
  */
-@interface MKMMetaDefault : MKMMeta
+@interface MKMMetaDefault : MKMMeta {
+    
+    NSMutableDictionary<NSNumber *, MKMID *> *_idMap;
+}
 
 @end
 
 @implementation MKMMetaDefault
 
+/* designated initializer */
+- (instancetype)initWithDictionary:(NSDictionary *)dict {
+    if (self = [super initWithDictionary:dict]) {
+        _idMap = [[NSMutableDictionary alloc] init];
+    }
+    return self;
+}
+
+- (MKMID *)generateID:(MKMNetworkType)type {
+    NSNumber *key = @(type);
+    // check cache
+    MKMID *ID = [_idMap objectForKey:key];
+    if (!ID) {
+        // generate and cache it
+        ID = [super generateID:type];
+        [_idMap setObject:ID forKey:key];
+    }
+    return ID;
+}
+
 - (MKMAddress *)generateAddress:(MKMNetworkType)type {
-    NSAssert([self isValid], @"meta invalid: %@", self);
     NSAssert([self version] == MKMMetaVersion_MKM, @"meta version error");
+    if (![self isValid]) {
+        NSAssert(false, @"meta invalid: %@", self);
+        return nil;
+    }
+    // check cache
+    MKMID *ID = [_idMap objectForKey:@(type)];
+    if (ID) {
+        return ID.address;
+    }
+    // generate
     return [MKMAddressDefault generateWithData:self.fingerprint network:type];
 }
 
