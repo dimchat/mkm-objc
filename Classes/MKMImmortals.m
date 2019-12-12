@@ -35,6 +35,8 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
+#import "NSObject+JsON.h"
+
 #import "MKMImmortals.h"
 
 @interface MKMUser (Hacking)
@@ -45,10 +47,11 @@
 
 @interface MKMImmortals () {
     
-    NSMutableDictionary<MKMAddress *, MKMMeta *> *_metaTable;
-    NSMutableDictionary<MKMAddress *, MKMProfile *> *_profileTable;
-    
-    NSMutableDictionary<MKMAddress *, MKMUser *> *_userTable;
+    NSMutableDictionary<NSString *, MKMID *>      *_idTable;
+    NSMutableDictionary<MKMID *, MKMPrivateKey *> *_privateTable;
+    NSMutableDictionary<MKMID *, MKMMeta *>       *_metaTable;
+    NSMutableDictionary<MKMID *, MKMProfile *>    *_profileTable;
+    NSMutableDictionary<MKMID *, MKMUser *>       *_userTable;
 }
 
 @end
@@ -57,89 +60,151 @@
 
 - (instancetype)init {
     if (self = [super init]) {
+        _idTable      = [[NSMutableDictionary alloc] initWithCapacity:2];
+        _privateTable = [[NSMutableDictionary alloc] initWithCapacity:2];
         _metaTable    = [[NSMutableDictionary alloc] initWithCapacity:2];
         _profileTable = [[NSMutableDictionary alloc] initWithCapacity:2];
-        
         _userTable    = [[NSMutableDictionary alloc] initWithCapacity:2];
         
-        [self _loadBuiltInAccount:@"mkm_hulk"];
-        [self _loadBuiltInAccount:@"mkm_moki"];
+        [self _loadBuiltInAccount:MKMIDFromString(MKM_IMMORTAL_HULK_ID)];
+        [self _loadBuiltInAccount:MKMIDFromString(MKM_MONKEY_KING_ID)];
     }
     return self;
 }
 
-- (void)_loadBuiltInAccount:(NSString *)filename {
+- (void)_loadBuiltInAccount:(MKMID *)ID {
+    NSAssert([ID isValid], @"ID error: %@", ID);
+    if (!ID) {
+        return;
+    }
+    [_idTable setObject:ID forKey:ID];
+    
+    NSString *filename;
+    // load meta for ID
+    filename = [ID.name stringByAppendingString:@"_meta"];
+    [self _loadMeta:filename forID:ID];
+    
+    // load private key for ID
+    filename = [ID.name stringByAppendingString:@"_secret"];
+    [self _loadPrivateKey:filename forID:ID];
+    
+    // load profile for ID
+    filename = [ID.name stringByAppendingString:@"_profile"];
+    [self _loadProfile:filename forID:ID];
+}
+
+- (nullable NSDictionary *)_loadJSONFile:(NSString *)filename {
     NSBundle *bundle = [NSBundle bundleForClass:[self class]];//[NSBundle mainBundle];
-    NSString *path = [bundle pathForResource:filename ofType:@"plist"];
+    NSString *path = [bundle pathForResource:filename ofType:@"js"];
     NSFileManager *fm = [NSFileManager defaultManager];
     if (![fm fileExistsAtPath:path]) {
         NSAssert(false, @"file not exists: %@", path);
-        return ;
+        return nil;
     }
-    NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:path];
-    
-    // ID
-    MKMID *ID = MKMIDFromString([dict objectForKey:@"ID"]);
-    NSAssert([ID isValid], @"ID error: %@", ID);
-    
-    // meta
-    MKMMeta *meta = MKMMetaFromDictionary([dict objectForKey:@"meta"]);
-    if ([meta matchID:ID]) {
-        [_metaTable setObject:meta forKey:ID.address];
+    NSData *data = [NSData dataWithContentsOfFile:path];
+    NSAssert(data.length > 0, @"failed to load JSON file: %@", path);
+    return [data jsonDictionary];
+}
+
+- (nullable MKMMeta *)_loadMeta:(NSString *)filename forID:(MKMID *)ID {
+    NSDictionary *dict = [self _loadJSONFile:filename];
+    NSAssert(dict, @"failed to load meta file: %@", filename);
+    MKMMeta *meta = MKMMetaFromDictionary(dict);
+    NSAssert([meta matchID:ID], @"meta error: %@", dict);
+    if (!meta) {
+        return nil;
+    }
+    [_metaTable setObject:meta forKey:ID];
+    return meta;
+}
+
+- (nullable MKMPrivateKey *)_loadPrivateKey:(NSString *)filename forID:(MKMID *)ID {
+    NSDictionary *dict = [self _loadJSONFile:filename];
+    NSAssert(dict, @"failed to load secret file: %@", filename);
+    MKMPrivateKey *SK = MKMPrivateKeyFromDictionary(dict);
+    NSAssert([[_metaTable objectForKey:ID].key isMatch:SK], @"private key error: %@", dict);
+    if (!SK) {
+        return nil;
+    }
+    [_privateTable setObject:SK forKey:ID];
+    return SK;
+}
+
+- (nullable MKMProfile *)_loadProfile:(NSString *)filename forID:(MKMID *)ID {
+    NSDictionary *dict = [self _loadJSONFile:filename];
+    NSAssert(dict, @"failed to load profile: %@", filename);
+    MKMProfile *profile = MKMProfileFromDictionary(dict);
+    NSAssert([ID isEqual:profile.ID], @"profile error: %@", dict);
+    if (!profile) {
+        return nil;
+    }
+    // copy 'name'
+    NSString *name = [dict objectForKey:@"name"];
+    if (name) {
+        [profile setProperty:name forKey:@"name"];
     } else {
-        NSAssert(false, @"meta not match ID: %@, %@", ID, meta);
+        NSArray<NSString *> *array = [dict objectForKey:@"names"];
+        if (array.count > 0) {
+            [profile setProperty:array.firstObject forKey:@"name"];
+        }
     }
-    
-    // private key
-    MKMPrivateKey *SK = [dict objectForKey:@"privateKey"];
-    SK = MKMPrivateKeyFromDictionary(SK);
-    if ([meta matchID:ID] && [(id<MKMPublicKey>)meta.key isMatch:SK]) {
-        // store private key into keychain
-        [SK saveKeyWithIdentifier:ID.address];
+    // copy 'avarar'
+    NSString *avarar = [dict objectForKey:@"avarar"];
+    if (avarar) {
+        [profile setProperty:avarar forKey:@"avarar"];
     } else {
-        NSAssert(false, @"keys not match: %@, meta: %@", SK, meta);
-        SK = nil;
+        NSArray<NSString *> *array = [dict objectForKey:@"photos"];
+        if (array.count > 0) {
+            [profile setProperty:array.firstObject forKey:@"avarar"];
+        }
     }
-    
-    // profile
-    MKMProfile *profile = MKMProfileFromDictionary([dict objectForKey:@"profile"]);
-    if ([profile verify:meta.key]) {
-        [_profileTable setObject:profile forKey:ID.address];
-    } else if (![profile sign:SK]) {
-        NSAssert(false, @"profile not fould: %@", dict);
-    }
-    
-    // create user
-    MKMUser *user = [[MKMUser alloc] initWithID:ID];
-    user.dataSource = self;
-    //user.privateKey = SK;
-    [_userTable setObject:user forKey:ID.address];
-    
-    NSLog(@"loaded immortal account: %@", [user description]);
+    // sign and cache
+    MKMPrivateKey *key = [_privateTable objectForKey:ID];
+    NSAssert(key, @"failed to get private key for ID: %@", ID);
+    [profile sign:key];
+    [_profileTable setObject:profile forKey:ID];
+    return profile;
+}
+
+#pragma mark -
+
+- (nullable MKMID *)IDWithString:(NSString *)string {
+    return [_idTable objectForKey:string];
 }
 
 - (nullable MKMUser *)userWithID:(MKMID *)ID {
     NSAssert(MKMNetwork_IsPerson(ID.type), @"user ID error: %@", ID);
-    return [_userTable objectForKey:ID.address];
+    MKMUser *user = [_userTable objectForKey:ID];
+    if (!user) {
+        if ([_idTable objectForKey:ID]) {
+            user = [[MKMUser alloc] initWithID:ID];
+            user.dataSource = self;
+            [_userTable setObject:user forKey:ID];
+        }
+    }
+    return user;
 }
 
 #pragma mark - Delegates
 
 - (nullable MKMMeta *)metaForID:(MKMID *)ID {
     NSAssert(MKMNetwork_IsPerson(ID.type), @"user ID error: %@", ID);
-    return [_metaTable objectForKey:ID.address];
+    return [_metaTable objectForKey:ID];
 }
 
 - (nullable __kindof MKMProfile *)profileForID:(MKMID *)ID {
     NSAssert(MKMNetwork_IsPerson(ID.type), @"user ID error: %@", ID);
-    return [_profileTable objectForKey:ID.address];
+    return [_profileTable objectForKey:ID];
 }
 
 - (nullable NSArray<MKMID *> *)contactsOfUser:(MKMID *)user {
-    NSMutableArray<MKMID *> *list = [[NSMutableArray alloc] initWithCapacity:2];
-    [list addObject:MKMIDFromString(MKM_MONKEY_KING_ID)];
-    [list addObject:MKMIDFromString(MKM_IMMORTAL_HULK_ID)];
-    return list;
+    if (![_idTable objectForKey:user]) {
+        return nil;
+    }
+    NSArray *list = [_idTable allValues];
+    NSMutableArray *mArray = [list mutableCopy];
+    [mArray removeObject:user];
+    return mArray;
 }
 
 - (nullable id<MKMEncryptKey>)publicKeyForEncryption:(nonnull MKMID *)user {
@@ -147,12 +212,12 @@
 }
 
 - (nullable NSArray<MKMPrivateKey *> *)privateKeysForDecryption:(MKMID *)user {
-    MKMPrivateKey *key = [MKMPrivateKey loadKeyWithIdentifier:user.address];
-    return [[NSArray alloc] initWithObjects:key, nil];
+    MKMPrivateKey *key = [_privateTable objectForKey:user];
+    return @[key];
 }
 
 - (nullable MKMPrivateKey *)privateKeyForSignature:(MKMID *)user {
-    return [MKMPrivateKey loadKeyWithIdentifier:user.address];
+    return [_privateTable objectForKey:user];
 }
 
 - (nullable NSArray<id<MKMVerifyKey>> *)publicKeysForVerification:(nonnull MKMID *)user {

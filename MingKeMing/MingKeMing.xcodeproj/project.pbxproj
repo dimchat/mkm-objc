@@ -68,8 +68,6 @@
 		5276BF892361C5F600AEC8E4 /* MKMGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = E91F2AFB2301481C00BE05D0 /* MKMGroup.m */; };
 		5276BF8A2361C5F600AEC8E4 /* MKMSymmetricKey.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8D921CBBAF6009690F6 /* MKMSymmetricKey.m */; };
 		5276BF8C2361C5F600AEC8E4 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9F3AB6821CFA8EE009690F6 /* Security.framework */; };
-		5276BF8E2361C5F600AEC8E4 /* mkm_moki.plist in Resources */ = {isa = PBXBuildFile; fileRef = E9BBBDD9223ABFA200E6ACDA /* mkm_moki.plist */; };
-		5276BF8F2361C5F600AEC8E4 /* mkm_hulk.plist in Resources */ = {isa = PBXBuildFile; fileRef = E9BBBDD8223ABFA200E6ACDA /* mkm_hulk.plist */; };
 		E919AF8D238FCFB6004F7FF9 /* MKMTai.h in Headers */ = {isa = PBXBuildFile; fileRef = E919AF8B238FCFB6004F7FF9 /* MKMTai.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E919AF8E238FCFB6004F7FF9 /* MKMTai.h in Headers */ = {isa = PBXBuildFile; fileRef = E919AF8B238FCFB6004F7FF9 /* MKMTai.h */; };
 		E919AF8F238FCFB6004F7FF9 /* MKMTai.m in Sources */ = {isa = PBXBuildFile; fileRef = E919AF8C238FCFB6004F7FF9 /* MKMTai.m */; };
@@ -78,12 +76,16 @@
 		E91F2AFE2301481D00BE05D0 /* MKMGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = E91F2AFC2301481C00BE05D0 /* MKMGroup.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E93D437822A7ADF000422EDF /* MKMProfile.h in Headers */ = {isa = PBXBuildFile; fileRef = E93D437622A7ADEF00422EDF /* MKMProfile.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E93D437922A7ADF000422EDF /* MKMProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = E93D437722A7ADF000422EDF /* MKMProfile.m */; };
+		E94DEB9723A24D3E00FBFD3C /* hulk_meta.js in Resources */ = {isa = PBXBuildFile; fileRef = E94DEB9123A24D3E00FBFD3C /* hulk_meta.js */; };
+		E94DEB9823A24D3E00FBFD3C /* moki_meta.js in Resources */ = {isa = PBXBuildFile; fileRef = E94DEB9223A24D3E00FBFD3C /* moki_meta.js */; };
+		E94DEB9923A24D3E00FBFD3C /* moki_profile.js in Resources */ = {isa = PBXBuildFile; fileRef = E94DEB9323A24D3E00FBFD3C /* moki_profile.js */; };
+		E94DEB9A23A24D3E00FBFD3C /* hulk_profile.js in Resources */ = {isa = PBXBuildFile; fileRef = E94DEB9423A24D3E00FBFD3C /* hulk_profile.js */; };
+		E94DEB9B23A24D3E00FBFD3C /* hulk_secret.js in Resources */ = {isa = PBXBuildFile; fileRef = E94DEB9523A24D3E00FBFD3C /* hulk_secret.js */; };
+		E94DEB9C23A24D3E00FBFD3C /* moki_secret.js in Resources */ = {isa = PBXBuildFile; fileRef = E94DEB9623A24D3E00FBFD3C /* moki_secret.js */; };
 		E961082222C9E7600032D8A2 /* NSObject+Singleton.h in Headers */ = {isa = PBXBuildFile; fileRef = E961082122C9E7600032D8A2 /* NSObject+Singleton.h */; };
 		E9AFAB7A2236E0F5001F95C6 /* NSObject+Compare.h in Headers */ = {isa = PBXBuildFile; fileRef = E9AFAB782236E0F5001F95C6 /* NSObject+Compare.h */; };
 		E9BBBDD5223ABDE000E6ACDA /* MKMImmortals.h in Headers */ = {isa = PBXBuildFile; fileRef = E9BBBDD3223ABDDF00E6ACDA /* MKMImmortals.h */; };
 		E9BBBDD6223ABDE000E6ACDA /* MKMImmortals.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBBDD4223ABDDF00E6ACDA /* MKMImmortals.m */; };
-		E9BBBDDA223ABFA300E6ACDA /* mkm_hulk.plist in Resources */ = {isa = PBXBuildFile; fileRef = E9BBBDD8223ABFA200E6ACDA /* mkm_hulk.plist */; };
-		E9BBBDDB223ABFA300E6ACDA /* mkm_moki.plist in Resources */ = {isa = PBXBuildFile; fileRef = E9BBBDD9223ABFA200E6ACDA /* mkm_moki.plist */; };
 		E9F3A6A421CA4627009690F6 /* MingKeMing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9F3A69A21CA4627009690F6 /* MingKeMing.framework */; };
 		E9F3A6A921CA4627009690F6 /* MingKeMingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A6A821CA4627009690F6 /* MingKeMingTests.m */; };
 		E9F3A94221CBBAF7009690F6 /* MKMUser.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8D221CBBAF6009690F6 /* MKMUser.m */; };
@@ -160,12 +162,16 @@
 		E91F2AFC2301481C00BE05D0 /* MKMGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMGroup.h; sourceTree = "<group>"; };
 		E93D437622A7ADEF00422EDF /* MKMProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMProfile.h; sourceTree = "<group>"; };
 		E93D437722A7ADF000422EDF /* MKMProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMProfile.m; sourceTree = "<group>"; };
+		E94DEB9123A24D3E00FBFD3C /* hulk_meta.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = hulk_meta.js; sourceTree = "<group>"; };
+		E94DEB9223A24D3E00FBFD3C /* moki_meta.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = moki_meta.js; sourceTree = "<group>"; };
+		E94DEB9323A24D3E00FBFD3C /* moki_profile.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = moki_profile.js; sourceTree = "<group>"; };
+		E94DEB9423A24D3E00FBFD3C /* hulk_profile.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = hulk_profile.js; sourceTree = "<group>"; };
+		E94DEB9523A24D3E00FBFD3C /* hulk_secret.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = hulk_secret.js; sourceTree = "<group>"; };
+		E94DEB9623A24D3E00FBFD3C /* moki_secret.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = moki_secret.js; sourceTree = "<group>"; };
 		E961082122C9E7600032D8A2 /* NSObject+Singleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Singleton.h"; sourceTree = "<group>"; };
 		E9AFAB782236E0F5001F95C6 /* NSObject+Compare.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+Compare.h"; sourceTree = "<group>"; };
 		E9BBBDD3223ABDDF00E6ACDA /* MKMImmortals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMImmortals.h; sourceTree = "<group>"; };
 		E9BBBDD4223ABDDF00E6ACDA /* MKMImmortals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMImmortals.m; sourceTree = "<group>"; };
-		E9BBBDD8223ABFA200E6ACDA /* mkm_hulk.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = mkm_hulk.plist; sourceTree = "<group>"; };
-		E9BBBDD9223ABFA200E6ACDA /* mkm_moki.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = mkm_moki.plist; sourceTree = "<group>"; };
 		E9F3A69A21CA4627009690F6 /* MingKeMing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MingKeMing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9F3A69E21CA4627009690F6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E9F3A6A321CA4627009690F6 /* MingKeMingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MingKeMingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -257,8 +263,12 @@
 		E9BBBDD7223ABFA200E6ACDA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				E9BBBDD8223ABFA200E6ACDA /* mkm_hulk.plist */,
-				E9BBBDD9223ABFA200E6ACDA /* mkm_moki.plist */,
+				E94DEB9123A24D3E00FBFD3C /* hulk_meta.js */,
+				E94DEB9423A24D3E00FBFD3C /* hulk_profile.js */,
+				E94DEB9523A24D3E00FBFD3C /* hulk_secret.js */,
+				E94DEB9223A24D3E00FBFD3C /* moki_meta.js */,
+				E94DEB9323A24D3E00FBFD3C /* moki_profile.js */,
+				E94DEB9623A24D3E00FBFD3C /* moki_secret.js */,
 			);
 			name = Resources;
 			path = ../Resources;
@@ -630,8 +640,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5276BF8E2361C5F600AEC8E4 /* mkm_moki.plist in Resources */,
-				5276BF8F2361C5F600AEC8E4 /* mkm_hulk.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -639,8 +647,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E9BBBDDB223ABFA300E6ACDA /* mkm_moki.plist in Resources */,
-				E9BBBDDA223ABFA300E6ACDA /* mkm_hulk.plist in Resources */,
+				E94DEB9723A24D3E00FBFD3C /* hulk_meta.js in Resources */,
+				E94DEB9923A24D3E00FBFD3C /* moki_profile.js in Resources */,
+				E94DEB9823A24D3E00FBFD3C /* moki_meta.js in Resources */,
+				E94DEB9A23A24D3E00FBFD3C /* hulk_profile.js in Resources */,
+				E94DEB9B23A24D3E00FBFD3C /* hulk_secret.js in Resources */,
+				E94DEB9C23A24D3E00FBFD3C /* moki_secret.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

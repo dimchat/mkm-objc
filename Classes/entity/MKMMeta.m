@@ -195,7 +195,7 @@ static inline BOOL contains_seed(MKMMetaType version) {
     }
 }
 
-#pragma mark - ID & address
+#pragma mark ID & address
 
 - (BOOL)matchID:(MKMID *)ID {
     return [ID isEqual:[self generateID:ID.address.network]];

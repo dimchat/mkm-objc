@@ -125,11 +125,12 @@
     // comparing without terminal
     NSArray *pair = [object componentsSeparatedByString:@"/"];
     NSString *str1 = pair.firstObject;
+    NSAssert(str1.length > 0, @"ID error: %@", object);
     if (_terminal.length == 0) {
-        return [_storeString isEqualToString:str1];
+        return [str1 isEqualToString:_storeString];
     } else {
         pair = [_storeString componentsSeparatedByString:@"/"];
-        return [pair.firstObject isEqualToString:str1];
+        return [str1 isEqualToString:pair.firstObject];
     }
 }
 

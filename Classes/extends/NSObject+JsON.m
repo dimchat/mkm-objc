@@ -73,14 +73,14 @@
 
 - (NSString *)UTF8String {
     const unsigned char * bytes = self.bytes;
-    NSUInteger length = self.length;
-    while (length > 0) {
-        if (bytes[length-1] == 0) {
-            --length;
-        } else {
+    // rtrim '\0'
+    NSInteger pos = self.length - 1;
+    for (; pos >= 0; --pos) {
+        if (bytes[pos] != 0) {
             break;
         }
     }
+    NSUInteger length = pos + 1;
     return [[NSString alloc] initWithBytes:bytes length:length encoding:NSUTF8StringEncoding];
 }
 

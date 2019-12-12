@@ -184,14 +184,14 @@ static inline void print_id(MKMID *ID) {
     NSLog(@"%@ -> %@", base64, [dec UTF8String]);
 
     
-//    // 2
-//    key = MKMSymmetricKeyWithAlgorithm(SAAlgorithmAES);
-//    NSLog(@"key: %@", key);
-//    CT = [key encrypt:data];
-//    NSLog(@"key: %@", key);
-//    dec = [key decrypt:CT];
-//    NSLog(@"%@ -> %@ -> %@", string, [CT base64Encode], [dec UTF8String]);
-//    NSAssert([dec isEqual:data], @"en/decrypt error");
+    // 2
+    key = MKMSymmetricKeyWithAlgorithm(SCAlgorithmAES);
+    NSLog(@"key: %@", key);
+    CT = [key encrypt:data];
+    NSLog(@"key: %@", key);
+    dec = [key decrypt:CT];
+    NSLog(@"%@ -> %@ -> %@", string, [CT base64Encode], [dec UTF8String]);
+    NSAssert([dec isEqual:data], @"en/decrypt error");
     
 }
 
@@ -268,15 +268,15 @@ static inline void print_id(MKMID *ID) {
 
 //- (void)testMeta2 {
 //    MKMPrivateKey *SK = MKMPrivateKeyWithAlgorithm(ACAlgorithmRSA);
-//    
+//
 //    MKMMeta *meta = MKMMetaGenerate(MKMMetaVersion_BTC, SK, nil);
 //    MKMID *ID = [meta generateID:MKMNetwork_BTCMain];
-//    
+//
 //    NSLog(@"meta: %@", meta);
 //    print_id(ID);
-//    
+//
 //    NSAssert([meta matchID:ID], @"error");
-//    
+//
 //    NSString *satoshi = @"1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa";
 //    MKMID *ID2 = MKMIDFromString(satoshi);
 //    print_id(ID2);
@@ -288,30 +288,27 @@ static inline void print_id(MKMID *ID) {
     
     MKMID *ID = MKMIDFromString(MKM_IMMORTAL_HULK_ID);
     MKMUser *user = [immortals userWithID:ID];
-    
     NSLog(@"get user: %@", user);
-    //NSLog(@"SK: %@", user.privateKey);
-    //NSAssert([user.publicKey isMatch:user.privateKey], @"keys not match");
     
-//    NSString *string;
-//    NSData *data;
-//    string = @"WH/wAcu+HfpaLq+vRblNnYufkyjTm4FgYyzW3wBDeRtXs1TeDmRxKVu7"
-//    "nQI/sdIALGLXrY+O5mlRfhU8f8TuIBilZUlX/eIUpL4uSDYKVLaRG9pO"
-//    "crCHKevjUpId9x/8KBEiMIL5LB0Vo7sKrvrqosCnIgNfHbXMKvMzwcqZ"
-//    "EU8=";
-//    data = [string base64Decode];
-//    data = [user.privateKey decrypt:data];
-//    string = [data UTF8String];
-//    NSLog(@"RSA decrypt: %@", string);
-//    
-//    MKMSymmetricKey *pw;
-//    pw = [[MKMSymmetricKey alloc] initWithJSONString:string];
-//    
-//    string = @"9cjCKG99ULCCxbL2mkc/MgF1saeRqJaCc+S12+HCqmsuF7TWK61EwTQWZSKskUeF";
-//    data = [string base64Decode];
-//    data = [pw decrypt:data];
-//    string = [data UTF8String];
-//    NSLog(@"AES decrypt: %@", string);
+    NSString *string;
+    NSData *data;
+    string = @"WH/wAcu+HfpaLq+vRblNnYufkyjTm4FgYyzW3wBDeRtXs1TeDmRxKVu7"
+    "nQI/sdIALGLXrY+O5mlRfhU8f8TuIBilZUlX/eIUpL4uSDYKVLaRG9pO"
+    "crCHKevjUpId9x/8KBEiMIL5LB0Vo7sKrvrqosCnIgNfHbXMKvMzwcqZ"
+    "EU8=";
+    data = [string base64Decode];
+    data = [user decrypt:data];
+    string = [data UTF8String];
+    NSLog(@"RSA decrypt: %@", string);
+    NSDictionary *dict = [data jsonDictionary];
+    
+    MKMSymmetricKey *pw = MKMSymmetricKeyFromDictionary(dict);
+    
+    string = @"9cjCKG99ULCCxbL2mkc/MgF1saeRqJaCc+S12+HCqmsuF7TWK61EwTQWZSKskUeF";
+    data = [string base64Decode];
+    data = [pw decrypt:data];
+    string = [data UTF8String];
+    NSLog(@"AES decrypt: %@", string);
     
     ID = MKMAnyone();
     print_id(ID);
