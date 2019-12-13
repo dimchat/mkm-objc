@@ -182,12 +182,12 @@ static inline BOOL contains_seed(MKMMetaType version) {
     if (![self isValid]) {
         return NO;
     }
-    if ([PK isEqual:_key]) {
+    if ([PK isEqual:self.key]) {
         return YES;
     }
-    if (contains_seed(_version)) { // MKM, ExBTC, ExETH, ...
+    if (contains_seed(self.version)) { // MKM, ExBTC, ExETH, ...
         // check whether keys equal by verifying signature
-        return [PK verify:[_seed data] withSignature:_fingerprint];
+        return [PK verify:[self.seed data] withSignature:self.fingerprint];
     } else { // BTC, ETH, ...
         // ID with BTC address has no username
         // so we can just compare the key.data to check matching

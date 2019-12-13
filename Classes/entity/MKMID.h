@@ -53,24 +53,35 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (readonly, strong, nonatomic, nullable) NSString *name;
 @property (readonly, strong, nonatomic) MKMAddress *address;
+@property (readonly, strong, nonatomic, nullable) NSString *terminal;
 
 @property (readonly, nonatomic) MKMNetworkType type; // Network ID
 @property (readonly, nonatomic) UInt32 number;       // search number
-
-@property (strong, nonatomic, nullable) NSString *terminal;
 
 @property (readonly, nonatomic, getter=isValid) BOOL valid;
 
 /**
  *  Initialize an ID with string form "name@address[/terminal]"
  *
- * @param aString - ID string
+ * @param string - ID string
  * @return ID object
  */
-- (instancetype)initWithString:(NSString *)aString;
+- (instancetype)initWithString:(NSString *)string;
 
 /**
  *  Initialize an ID with username & address
+ *
+ * @param seed - username
+ * @param addr - hash(fingerprint)
+ * @param location - login point (optional)
+ * @return ID object
+ */
+- (instancetype)initWithName:(nullable NSString *)seed
+                     address:(MKMAddress *)addr
+                    terminal:(nullable NSString *)location;
+
+/**
+ *  Default ID form (name@address)
  *
  * @param seed - username
  * @param addr - hash(fingerprint)
