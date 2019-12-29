@@ -91,14 +91,14 @@
 - (id)jsonObject {
     NSError *error = nil;
     id obj = [NSJSONSerialization JSONObjectWithData:self options:NSJSONReadingAllowFragments error:&error];
-    NSAssert(!error, @"json error: %@", error);
+    //NSAssert(!error, @"json error: %@", error);
     return obj;
 }
 
 - (id)jsonMutableContainer {
     NSError *error = nil;
     id obj = [NSJSONSerialization JSONObjectWithData:self options:NSJSONReadingMutableContainers error:&error];
-    NSAssert(!error, @"json error: %@", error);
+    //NSAssert(!error, @"json error: %@", error);
     return obj;
 }
 
