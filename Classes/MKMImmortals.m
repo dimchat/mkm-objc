@@ -208,8 +208,7 @@
     if (!user) {
         if ([_idTable objectForKey:ID]) {
             user = [[MKMUser alloc] initWithID:ID];
-            user.dataSource = self;
-            [_userTable setObject:user forKey:ID];
+            [self cacheUser:user];
         }
     }
     return user;

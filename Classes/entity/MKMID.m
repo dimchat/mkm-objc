@@ -138,27 +138,31 @@
     if (!_address) {
         // split ID string
         NSArray<NSString *> *pair;
-        // get terminal
+        // terminal
         pair = [_storeString componentsSeparatedByString:@"/"];
-        if (pair.count > 1) {
-            assert(pair.count == 2);
-            assert(pair.lastObject.length > 0);
-            _terminal = pair.lastObject;
-        } else {
+        if (pair.count == 1) {
+            // no terminal
             _terminal = nil;
-        }
-        // get name & address
-        assert(pair.firstObject.length > 0);
-        pair = [pair.firstObject componentsSeparatedByString:@"@"];
-        assert(pair.firstObject.length > 0);
-        if (pair.count > 1) {
-            assert(pair.count == 2);
-            assert(pair.lastObject.length > 0);
-            _name = pair.firstObject;
-            _address = MKMAddressFromString(pair.lastObject);
         } else {
+            // got terminal
+            NSAssert(pair.count == 2, @"ID error: %@", _storeString);
+            NSAssert(pair.lastObject.length > 0, @"ID.terminal error: %@", _storeString);
+            _terminal = pair.lastObject;
+        }
+        // name & address
+        NSAssert(pair.firstObject.length > 0, @"ID error: %@", _storeString);
+        pair = [pair.firstObject componentsSeparatedByString:@"@"];
+        NSAssert(pair.firstObject.length > 0, @"ID error: %@", _storeString);
+        if (pair.count == 1) {
+            // got address without name
             _name = nil;
             _address = MKMAddressFromString(pair.firstObject);
+        } else {
+            // got name & address
+            NSAssert(pair.count == 2, @"ID error: %@", _storeString);
+            NSAssert(pair.lastObject.length > 0, @"ID.address error: %@", _storeString);
+            _name = pair.firstObject;
+            _address = MKMAddressFromString(pair.lastObject);
         }
     }
     return _address;
@@ -171,39 +175,17 @@
     return _terminal;
 }
 
-//- (void)setTerminal:(NSString *)terminal {
-//    if (NSStringNotEquals(_terminal, terminal)) {
-//        // 1. remove '/' from terminal
-//        NSArray *pair = [terminal componentsSeparatedByString:@"/"];
-//        NSAssert(pair.count == 1, @"terminal error: %@", terminal);
-//        terminal = pair.lastObject;
-//
-//        // 2. remove '/xxx' from ID
-//        pair = [_storeString componentsSeparatedByString:@"/"];
-//        NSAssert(pair.count <= 2, @"ID error: %@", _storeString);
-//        NSString *string = pair.firstObject;
-//
-//        // 3. update store string
-//        if (terminal.length > 0) {
-//            _storeString = [string stringByAppendingFormat:@"/%@", terminal];
-//        } else {
-//            _storeString = string;
-//        }
-//
-//        // 4. update terminal
-//        _terminal = terminal;
-//    }
-//}
-
 - (BOOL)isValid {
     return self.number > 0;
 }
 
 - (MKMNetworkType)type {
+    NSAssert(self.address, @"ID.address should not be empty: %@", _storeString);
     return self.address.network;
 }
 
 - (UInt32)number {
+    NSAssert(self.address, @"ID.address should not be empty: %@", _storeString);
     return self.address.code;
 }
 
@@ -212,6 +194,7 @@
 @implementation MKMID (Broadcast)
 
 - (BOOL)isBroadcast {
+    NSAssert(self.address, @"ID.address should not be empty: %@", _storeString);
     return [self.address isBroadcast];
 }
 
@@ -227,7 +210,7 @@
         // return ID object directly
         return ID;
     }
-    NSAssert([ID isKindOfClass:[NSString class]], @"ID should be a string: %@", ID);
+    NSAssert([ID isKindOfClass:[NSString class]], @"ID must be a string: %@", ID);
     return [[self alloc] initWithString:ID];
 }
 

@@ -54,6 +54,7 @@
 
 - (id<MKMVerifyKey>)metaKey {
     MKMMeta *meta = [self meta];
+    // if meta not exists, user won't be created
     NSAssert(meta, @"failed to get meta for user: %@", _ID);
     return [meta key];
 }
@@ -178,7 +179,7 @@
 
 - (nullable NSData *)decrypt:(NSData *)ciphertext {
     NSArray<id<MKMDecryptKey>> *keys = [self decryptKeys];
-    NSAssert([keys count] > 0, @"failed to get decrypt key for user: %@", _ID);
+    NSAssert([keys count] > 0, @"failed to get decrypt keys for user: %@", _ID);
     NSData *plaintext = nil;
     for (id<MKMDecryptKey> key in keys) {
         @try {

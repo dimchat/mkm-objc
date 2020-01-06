@@ -210,6 +210,7 @@
     
     // 2. update property value with name
     NSMutableDictionary *mDict = self.properties;
+    NSAssert(mDict, @"failed to get properties: %@", self);
     if (value) {
         [mDict setObject:value forKey:key];
     } else {
@@ -257,7 +258,7 @@
 }
 
 - (NSData *)sign:(id<MKMSignKey>)SK {
-    if (_status == 1) {
+    if (_status > 0) {
         // already signed/verified
         NSAssert([_data length] > 0, @"profile data error");
         NSAssert([_signature length] > 0, @"profile signature error");

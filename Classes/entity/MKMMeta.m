@@ -120,15 +120,21 @@ static inline BOOL contains_seed(MKMMetaType version) {
 
 - (nullable NSString *)seed {
     if (!_seed) {
-        _seed = [self objectForKey:@"seed"];
+        if (contains_seed([self version])) {
+            _seed = [self objectForKey:@"seed"];
+            NSAssert([_seed length] > 0, @"meta.seed should not be empty: %@", self);
+        }
     }
     return _seed;
 }
 
 - (nullable NSData *)fingerprint {
     if (!_fingerprint) {
-        NSString *base64 = [self objectForKey:@"fingerprint"];
-        _fingerprint = [base64 base64Decode];
+        if (contains_seed([self version])) {
+            NSString *base64 = [self objectForKey:@"fingerprint"];
+            NSAssert([base64 length] > 0, @"meta.fingerprint should not be empty: %@", self);
+            _fingerprint = [base64 base64Decode];
+        }
     }
     return _fingerprint;
 }
@@ -249,6 +255,7 @@ static inline BOOL contains_seed(MKMMetaType version) {
     if (!ID) {
         // generate and cache it
         ID = [super generateID:type];
+        NSAssert([ID isValid], @"failed to generate ID: %@", self);
         [_idMap setObject:ID forKey:key];
     }
     return ID;
@@ -257,7 +264,7 @@ static inline BOOL contains_seed(MKMMetaType version) {
 - (MKMAddress *)generateAddress:(MKMNetworkType)type {
     NSAssert([self version] == MKMMetaVersion_MKM, @"meta version error");
     if (![self isValid]) {
-        NSAssert(false, @"meta invalid: %@", self);
+        NSAssert(false, @"meta invalid: %@", _storeDictionary);
         return nil;
     }
     // check cache
