@@ -77,7 +77,7 @@ The ID format is ```name@address[/terminal]```.
 
 The **network type** of a person is ```8```, and group is ```16```:
 
-```python
+```objective-c
 typedef NS_ENUM(UInt8, MKMNetworkID) {
     /**
      *  Person Account
@@ -113,7 +113,7 @@ The **Name** field is a username, or just a random string for group:
 2. It should be composed by a-z, A-Z, 0-9, or charactors '_', '-', '.';
 3. It cannot contain key charactors('@', '/').
 
-```python
+```objective-c
 # Name examples
 user_name  = @"Albert.Moky";
 group_name = @"Group-9527";
@@ -176,32 +176,6 @@ static inline UInt32 user_number(NSData *cc) {
 When you get a meta for the entity ID from the network,
 you must verify it with the consensus algorithm before accept its **public key**.
 
-```objective-c
-/**
- *  Meta algorithm
- *      1. compare meta.seed with ID.name
- *      2. build address with meta, compare it with ID.address
- *      3. if matches, get public key from meta
- */
-- (BOOL)matchID:(MKMID *)ID {
-    return [ID isEqual:[self generateID:ID.address.network]];
-}
-
-- (BOOL)matchAddress:(MKMAddress *)address {
-    return [address isEqual:[self generateAddress:address.network]];
-}
-
-- (MKMID *)generateID:(MKMNetworkType)type {
-    MKMAddress *address = [self generateAddress:type];
-    return [[MKMID alloc] initWithName:_seed address:address];
-}
-
-- (MKMAddress *)generateAddress:(MKMNetworkType)type {
-    NSAssert(false, @"override me!");
-    return nil;
-}
-```
-
 ### <span id="id-terminal">1.3. Terminal</span>
 
 A resource identifier as **Login Point**.
@@ -214,7 +188,7 @@ A **Search Number** is defined for easy remember. Its value is converted from th
 
 ### ID
 
-```python
+```objective-c
 # ID examples
 ID1 = @"hulk@4YeVEN3aUnvC1DNUufCq1bs9zoBSJTzVEj";  // Immortal Hulk
 ID2 = @"moki@4WDfe3zZ4T7opFSi3iDAKiuTnUHjxmXekk";  // Monkey King

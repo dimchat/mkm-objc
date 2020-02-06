@@ -136,6 +136,10 @@ static inline void print_id(MKMID *ID) {
     enc = [data base64Encode];
     NSLog(@"base64(%@) = %@", string, enc);
     NSAssert([enc isEqualToString:@"bW9reQ=="], @"base 64 encode error");
+    
+    string = @"5Kd3NBUAdUnhyzenEwVLy9pBKxSwXvE9FMPyR4UKZvpe6E3AgLr";
+    data = [string base58Decode];
+    NSLog(@"base58 decode: %@", [data hexEncode]);
 }
 
 - (void)testKeys {
@@ -249,6 +253,9 @@ static inline void print_id(MKMID *ID) {
     CT = [(id<MKMEncryptKey>)PK encrypt:data];
     dec = [(id<MKMDecryptKey>)SK decrypt:CT];
     NSLog(@"sp: %@ -> %@ -> %@", string, [CT base64Encode], [dec UTF8String]);
+    
+    sig = [SK sign:data];
+    NSLog(@"sign(%@) = %@", [data UTF8String], [sig base64Encode]);
 }
 
 - (void)testMeta {
