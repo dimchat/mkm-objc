@@ -97,9 +97,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface MKMID (Broadcast)
+@interface MKMID (IDType)
 
-@property (readonly, nonatomic, getter=isBroadcast) BOOL broadcast;
+- (BOOL)isBroadcast;
+
+- (BOOL)isUser;
+- (BOOL)isGroup;
 
 @end
 

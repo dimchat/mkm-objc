@@ -95,7 +95,7 @@ static inline MKMAddress *everywhere(void) {
     return s_everywhere;
 }
 
-@implementation MKMAddress (Broadcast)
+@implementation MKMAddress (AddressType)
 
 - (BOOL)isBroadcast {
     if (self.network == MKMNetwork_Main) {
@@ -107,6 +107,14 @@ static inline MKMAddress *everywhere(void) {
         return [everywhere() isEqual:self];
     }
     return NO;
+}
+
+- (BOOL)isUser {
+    return MKMNetwork_IsUser([self network]);
+}
+
+- (BOOL)isGroup {
+    return MKMNetwork_IsGroup([self network]);
 }
 
 @end
@@ -228,7 +236,7 @@ static inline UInt32 user_number(NSData *cc) {
                                          userInfo:nil];
         }
         // Network ID
-        const char *bytes = [data bytes];
+        const unsigned char *bytes = (const unsigned char *)[data bytes];
         self.network = bytes[0];
         self.code = user_number(cc);
     }

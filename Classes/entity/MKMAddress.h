@@ -139,15 +139,6 @@ typedef UInt8 MKMNetworkType;
                                         ((network) == MKMNetwork_BTCMain))
 #define MKMNetwork_IsGroup(network)    ((network) & MKMNetwork_Group)
 
-#define MKMNetwork_IsPerson(network)   (((network) == MKMNetwork_Main) ||      \
-                                       ((network) == MKMNetwork_BTCMain))
-
-#define MKMNetwork_IsStation(network)  ((network) == MKMNetwork_Station)
-#define MKMNetwork_IsProvider(network) ((network) == MKMNetwork_Provider)
-
-#define MKMNetwork_IsThing(network)    ((network) & MKMNetwork_Thing)
-#define MKMNetwork_IsRobot(network)    ((network) == MKMNetwork_Robot)
-
 @interface MKMAddress : MKMString
 
 @property (readonly, nonatomic) MKMNetworkType network; // Network ID
@@ -164,9 +155,12 @@ NS_DESIGNATED_INITIALIZER;
 
 @end
 
-@interface MKMAddress (Broadcast)
+@interface MKMAddress (AddressType)
 
-@property (readonly, nonatomic, getter=isBroadcast) BOOL broadcast;
+- (BOOL)isBroadcast;
+
+- (BOOL)isUser;
+- (BOOL)isGroup;
 
 @end
 

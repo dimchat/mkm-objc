@@ -191,11 +191,21 @@
 
 @end
 
-@implementation MKMID (Broadcast)
+@implementation MKMID (IDType)
 
 - (BOOL)isBroadcast {
     NSAssert(self.address, @"ID.address should not be empty: %@", _storeString);
     return [self.address isBroadcast];
+}
+
+- (BOOL)isUser {
+    NSAssert(self.address, @"ID.address should not be empty: %@", _storeString);
+    return [self.address isUser];
+}
+
+- (BOOL)isGroup {
+    NSAssert(self.address, @"ID.address should not be empty: %@", _storeString);
+    return [self.address isGroup];
 }
 
 @end

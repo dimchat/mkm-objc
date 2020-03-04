@@ -51,8 +51,8 @@
 - (NSString *)base58Encode {
     NSString *output = nil;
     
-    const unsigned char * pbegin = (const unsigned char *)[self bytes];
-    const unsigned char * pend = pbegin + [self length];
+    const unsigned char *pbegin = (const unsigned char *)[self bytes];
+    const unsigned char *pend = pbegin + [self length];
     std::string str = EncodeBase58(pbegin, pend);
     output = [[NSString alloc] initWithCString:str.c_str()
                                       encoding:NSUTF8StringEncoding];
@@ -81,7 +81,7 @@
 }
 
 - (NSData *)ripemd160 {
-    unsigned char *bytes = (unsigned char *)[self bytes];
+    const unsigned char *bytes = (const unsigned char *)[self bytes];
     unsigned char digest[CRIPEMD160::OUTPUT_SIZE];
     CRIPEMD160().Write(bytes, (size_t)[self length]).Finalize(digest);
     return [[NSData alloc] initWithBytes:digest length:CRIPEMD160::OUTPUT_SIZE];

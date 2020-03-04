@@ -27,11 +27,11 @@
 - (NSString *)hexEncode {
     NSMutableString *output = nil;
     
-    const char *bytes = (const char *)[self bytes];
+    const unsigned char *bytes = (const unsigned char *)[self bytes];
     NSUInteger len = [self length];
     output = [[NSMutableString alloc] initWithCapacity:(len*2)];
     for (int i = 0; i < len; ++i) {
-        [output appendFormat:@"%02x", (unsigned char)bytes[i]];
+        [output appendFormat:@"%02x", bytes[i]];
     }
     
     return output;

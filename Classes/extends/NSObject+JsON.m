@@ -72,7 +72,7 @@
 @implementation NSData (Convert)
 
 - (NSString *)UTF8String {
-    const unsigned char * bytes = self.bytes;
+    const unsigned char *bytes = (const unsigned char *)[self bytes];
     // rtrim '\0'
     NSInteger pos = self.length - 1;
     for (; pos >= 0; --pos) {

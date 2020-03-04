@@ -203,7 +203,7 @@
 }
 
 - (nullable MKMUser *)userWithID:(MKMID *)ID {
-    NSAssert(MKMNetwork_IsUser(ID.type), @"user ID error: %@", ID);
+    NSAssert([ID isUser], @"user ID error: %@", ID);
     MKMUser *user = [_userTable objectForKey:ID];
     if (!user) {
         if ([_idTable objectForKey:ID]) {
@@ -225,7 +225,7 @@
 }
 
 - (nullable NSArray<MKMID *> *)contactsOfUser:(MKMID *)user {
-    NSAssert(MKMNetwork_IsUser(user.type), @"user ID error: %@", user);
+    NSAssert([user isUser], @"user ID error: %@", user);
     if (![_idTable objectForKey:user]) {
         return nil;
     }
@@ -236,13 +236,13 @@
 }
 
 - (nullable id<MKMEncryptKey>)publicKeyForEncryption:(nonnull MKMID *)user {
-    NSAssert(MKMNetwork_IsUser(user.type), @"user ID error: %@", user);
+    NSAssert([user isUser], @"user ID error: %@", user);
     // NOTICE: return nothing to use profile.key or meta.key
     return nil;
 }
 
 - (nullable NSArray<id<MKMDecryptKey>> *)privateKeysForDecryption:(MKMID *)user {
-    NSAssert(MKMNetwork_IsUser(user.type), @"user ID error: %@", user);
+    NSAssert([user isUser], @"user ID error: %@", user);
     MKMPrivateKey *key = [_privateTable objectForKey:user];
     if ([key conformsToProtocol:@protocol(MKMDecryptKey)]) {
         return @[(id<MKMDecryptKey>)key];
@@ -251,12 +251,12 @@
 }
 
 - (nullable id<MKMSignKey>)privateKeyForSignature:(MKMID *)user {
-    NSAssert(MKMNetwork_IsUser(user.type), @"user ID error: %@", user);
+    NSAssert([user isUser], @"user ID error: %@", user);
     return [_privateTable objectForKey:user];
 }
 
 - (nullable NSArray<id<MKMVerifyKey>> *)publicKeysForVerification:(nonnull MKMID *)user {
-    NSAssert(MKMNetwork_IsUser(user.type), @"user ID error: %@", user);
+    NSAssert([user isUser], @"user ID error: %@", user);
     // NOTICE: return nothing to use meta.key
     return nil;
 }

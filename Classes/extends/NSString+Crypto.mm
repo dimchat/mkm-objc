@@ -95,7 +95,7 @@ static inline char hex_char(char ch) {
 - (NSData *)base58Decode {
     NSData *output = nil;
     
-    const char * cstr = [self cStringUsingEncoding:NSUTF8StringEncoding];
+    const char *cstr = [self cStringUsingEncoding:NSUTF8StringEncoding];
     std::vector<unsigned char> vch;
     DecodeBase58(cstr, vch);
     std::string str(vch.begin(), vch.end());
