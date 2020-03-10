@@ -59,10 +59,6 @@
 
 @end
 
-static inline BOOL contains_seed(MKMMetaType version) {
-    return (version & MKMMetaVersion_MKM) == MKMMetaVersion_MKM;
-}
-
 @implementation MKMMeta
 
 - (instancetype)init {
@@ -110,6 +106,10 @@ static inline BOOL contains_seed(MKMMetaType version) {
     return _version;
 }
 
+- (BOOL)containsSeed {
+    return MKMMetaVersion_HasSeed([self version]);
+}
+
 - (__kindof id<MKMVerifyKey>)key {
     if (!_key) {
         NSDictionary *key = [self objectForKey:@"key"];
@@ -120,7 +120,7 @@ static inline BOOL contains_seed(MKMMetaType version) {
 
 - (nullable NSString *)seed {
     if (!_seed) {
-        if (contains_seed([self version])) {
+        if ([self containsSeed]) {
             _seed = [self objectForKey:@"seed"];
             NSAssert([_seed length] > 0, @"meta.seed should not be empty: %@", self);
         }
@@ -130,7 +130,7 @@ static inline BOOL contains_seed(MKMMetaType version) {
 
 - (nullable NSData *)fingerprint {
     if (!_fingerprint) {
-        if (contains_seed([self version])) {
+        if ([self containsSeed]) {
             NSString *base64 = [self objectForKey:@"fingerprint"];
             NSAssert([base64 length] > 0, @"meta.fingerprint should not be empty: %@", self);
             _fingerprint = [base64 base64Decode];
@@ -144,7 +144,7 @@ static inline BOOL contains_seed(MKMMetaType version) {
         id<MKMVerifyKey> key = [self key];
         if (!key) {
             _status = -1;
-        } else if (contains_seed([self version])) {
+        } else if ([self containsSeed]) {
             NSString *seed = [self seed];
             NSData *fingerprint = [self fingerprint];
             NSAssert([seed length] > 0, @"seed error");
@@ -168,7 +168,7 @@ static inline BOOL contains_seed(MKMMetaType version) {
                          privateKey:(id<MKMPrivateKey>)SK
                                seed:(nullable NSString *)name {
     NSDictionary *dict;
-    if (contains_seed(version)) { // MKM, ExBTC, ExETH, ...
+    if (MKMMetaVersion_HasSeed(version)) { // MKM, ExBTC, ExETH, ...
         NSData *CT = [SK sign:[name data]];
         NSString *fingerprint = [CT base64Encode];
         dict = @{@"version"    :@(version),
@@ -191,7 +191,7 @@ static inline BOOL contains_seed(MKMMetaType version) {
     if ([PK isEqual:self.key]) {
         return YES;
     }
-    if (contains_seed(self.version)) { // MKM, ExBTC, ExETH, ...
+    if ([self containsSeed]) { // MKM, ExBTC, ExETH, ...
         // check whether keys equal by verifying signature
         return [PK verify:[self.seed data] withSignature:self.fingerprint];
     } else { // BTC, ETH, ...

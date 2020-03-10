@@ -78,6 +78,8 @@ typedef NS_ENUM(UInt8, MKMMetaVersion) {
 typedef UInt8 MKMMetaType;
 #define MKMMetaDefaultVersion MKMMetaVersion_MKM
 
+#define MKMMetaVersion_HasSeed(ver)    ((ver) & MKMMetaVersion_MKM)
+
 @protocol MKMVerifyKey;
 @protocol MKMSignKey;
 
@@ -109,6 +111,8 @@ typedef UInt8 MKMMetaType;
  *      ....
  */
 @property (readonly, nonatomic) MKMMetaType version;
+
+@property (readonly, nonatomic, getter=containsSeed) BOOL hasSeed;
 
 /**
  *  Public key
