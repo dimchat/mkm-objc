@@ -127,6 +127,15 @@
     }
 }
 
+- (NSString *)description {
+    return _storeString;
+}
+
+- (NSString *)debugDescription {
+    return [NSString stringWithFormat:@"<%@: 0x%02X | %010u \"%@\">",
+            [self class], self.type, self.number, _storeString];
+}
+
 - (nullable NSString *)name {
     if (![self isValid]) {
         return nil;

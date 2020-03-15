@@ -71,6 +71,15 @@
     return self;
 }
 
+- (NSString *)description {
+    return _storeString;
+}
+
+- (NSString *)debugDescription {
+    return [NSString stringWithFormat:@"<%@: 0x%02X | %010u \"%@\">",
+            [self class], self.network, self.code, _storeString];
+}
+
 @end
 
 #pragma mark - Constant Addresses
