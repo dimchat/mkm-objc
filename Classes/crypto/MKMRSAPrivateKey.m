@@ -38,6 +38,8 @@
 #import "NSString+Crypto.h"
 #import "NSData+Crypto.h"
 
+#import "MKMBaseCoder.h"
+
 #import "MKMRSAKeyHelper.h"
 #import "MKMRSAPublicKey.h"
 
@@ -114,7 +116,7 @@
 
 - (NSData *)data {
     if (!_data) {
-        _data = [self.privateContent base64Decode];
+        _data = MKMBase64Decode(self.privateContent);
     }
     return _data;
 }
@@ -171,7 +173,7 @@
         NSString *privateContent = self.privateContent;
         if (privateContent) {
             // key from data
-            NSData *data = [privateContent base64Decode];
+            NSData *data = MKMBase64Decode(privateContent);
             _privateKeyRef = SecKeyRefFromPrivateData(data);
             break;
         }
@@ -203,7 +205,7 @@
         // 2.4. key to data
         NSData *privateKeyData = NSDataFromSecKeyRef(_privateKeyRef);
         if (privateKeyData) {
-            _privateContent = [privateKeyData base64Encode];
+            _privateContent = MKMBase64Encode(privateKeyData);
             NSString *pem = NSStringFromRSAPrivateKeyContent(_privateContent);
             [_storeDictionary setObject:pem forKey:@"data"];
         } else {
@@ -244,7 +246,7 @@
             SecKeyRef publicKeyRef = SecKeyCopyPublicKey(privateKeyRef);
             NSData *publicKeyData = NSDataFromSecKeyRef(publicKeyRef);
             CFRelease(publicKeyRef);
-            NSString *content = [publicKeyData base64Encode];
+            NSString *content = MKMBase64Encode(publicKeyData);
             _publicContent = NSStringFromRSAPublicKeyContent(content);
         }
         break;

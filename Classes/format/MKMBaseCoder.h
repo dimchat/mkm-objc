@@ -2,7 +2,7 @@
 //
 //  Ming-Ke-Ming : Decentralized User Identity Authentication
 //
-//                               Written in 2018 by Moky <albert.moky@gmail.com>
+//                               Written in 2020 by Moky <albert.moky@gmail.com>
 //
 // =============================================================================
 // The MIT License (MIT)
@@ -28,33 +28,60 @@
 // SOFTWARE.
 // =============================================================================
 //
-//  NSData+Crypto.h
+//  MKMBaseCoder.h
 //  MingKeMing
 //
-//  Created by Albert Moky on 2018/9/26.
-//  Copyright © 2018 DIM Group. All rights reserved.
+//  Created by Albert Moky on 2020/4/7.
+//  Copyright © 2020 DIM Group. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface NSData (Hash)
+@protocol MKMBaseCoder <NSObject>
 
-- (NSData *)sha256;
-- (NSData *)sha256d; // sha256(sha256(data))
+/**
+ *  Encode binary data to text string
+ *
+ * @param data - binary data
+ * @return Base58/64 string
+ */
+- (nullable NSString *)encode:(NSData *)data;
 
-- (NSData *)ripemd160;
+/**
+ *  Decode text string to binary data
+ *
+ * @param string - base58/64 string
+ * @return binary data
+ */
+- (nullable NSData *)decode:(NSString *)string;
 
 @end
 
-@interface NSData (AES)
+#pragma mark -
 
-- (nullable NSData *)AES256EncryptWithKey:(NSData *)key
-                     initializationVector:(nullable NSData *)iv;
+#define MKMBase58Encode(data)   [[MKMBase58 sharedInstance] encode:(data)]
+#define MKMBase58Decode(string) [[MKMBase58 sharedInstance] decode:(string)]
 
-- (nullable NSData *)AES256DecryptWithKey:(NSData *)key
-                     initializationVector:(nullable NSData *)iv;
+#define MKMBase64Encode(data)   [[MKMBase64 sharedInstance] encode:(data)]
+#define MKMBase64Decode(string) [[MKMBase64 sharedInstance] decode:(string)]
+
+@interface MKMBase58 : NSObject <MKMBaseCoder>
+
+// default coder
+@property (strong, nonatomic) id<MKMBaseCoder> coder;
+
++ (instancetype)sharedInstance;
+
+@end
+
+@interface MKMBase64 : NSObject <MKMBaseCoder>
+
+// default coder
+@property (strong, nonatomic) id<MKMBaseCoder> coder;
+
++ (instancetype)sharedInstance;
 
 @end
 

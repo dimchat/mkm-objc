@@ -38,6 +38,8 @@
 #import "NSObject+JsON.h"
 #import "NSData+Crypto.h"
 
+#import "MKMBaseCoder.h"
+
 #import "MKMRSAKeyHelper.h"
 
 #import "MKMRSAPrivateKey+PersistentStore.h"
@@ -83,8 +85,8 @@ static NSString *s_application_tag = @"chat.dim.rsa.private";
         NSString *algorithm = ACAlgorithmRSA;
         NSString *pkFmt = @"-----BEGIN PUBLIC KEY----- %@ -----END PUBLIC KEY-----";
         NSString *skFmt = @"-----BEGIN RSA PRIVATE KEY----- %@ -----END RSA PRIVATE KEY-----";
-        NSString *pkc = [NSString stringWithFormat:pkFmt, [pkData base64Encode]];
-        NSString *skc = [NSString stringWithFormat:skFmt, [skData base64Encode]];
+        NSString *pkc = [NSString stringWithFormat:pkFmt, MKMBase64Encode(pkData)];
+        NSString *skc = [NSString stringWithFormat:skFmt, MKMBase64Encode(skData)];
         NSString *content = [pkc stringByAppendingString:skc];
         NSDictionary *keyInfo = @{@"algorithm":algorithm,
                                   @"data"     :content,

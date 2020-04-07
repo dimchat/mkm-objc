@@ -39,6 +39,8 @@
 #import "NSString+Crypto.h"
 #import "NSData+Crypto.h"
 
+#import "MKMBaseCoder.h"
+
 #import "MKMRSAKeyHelper.h"
 #import "MKMRSAPrivateKey.h"
 
@@ -102,7 +104,7 @@
 
 - (NSData *)data {
     if (!_data) {
-        _data = [self.publicContent base64Decode];
+        _data = MKMBase64Decode(self.publicContent);
     }
     return _data;
 }
@@ -158,7 +160,7 @@
         NSString *publicContent = self.publicContent;
         if (publicContent) {
             // key from data
-            NSData *data = [publicContent base64Decode];
+            NSData *data = MKMBase64Decode(publicContent);
             _publicKeyRef = SecKeyRefFromPublicData(data);
         }
     }

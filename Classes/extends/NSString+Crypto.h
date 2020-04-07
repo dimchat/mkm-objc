@@ -43,9 +43,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSData *)hexDecode;
 
-- (NSData *)base58Decode;
-- (NSData *)base64Decode;
-
 @end
 
 NS_ASSUME_NONNULL_END

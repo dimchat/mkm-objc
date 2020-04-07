@@ -22,11 +22,6 @@
 		5276BF582361C5F600AEC8E4 /* MKMProfile.h in Headers */ = {isa = PBXBuildFile; fileRef = E93D437622A7ADEF00422EDF /* MKMProfile.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5276BF592361C5F600AEC8E4 /* MKMEntity.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A91121CBBAF6009690F6 /* MKMEntity.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5276BF5B2361C5F600AEC8E4 /* MingKeMing.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A93921CBBAF6009690F6 /* MingKeMing.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5276BF5C2361C5F600AEC8E4 /* endian.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A91E21CBBAF6009690F6 /* endian.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		5276BF5D2361C5F600AEC8E4 /* byteswap.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A91F21CBBAF6009690F6 /* byteswap.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		5276BF5E2361C5F600AEC8E4 /* ripemd160.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A91A21CBBAF6009690F6 /* ripemd160.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		5276BF5F2361C5F600AEC8E4 /* common.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A91B21CBBAF6009690F6 /* common.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		5276BF602361C5F600AEC8E4 /* base58.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A92121CBBAF6009690F6 /* base58.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5276BF612361C5F600AEC8E4 /* MKMUser.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A92321CBBAF6009690F6 /* MKMUser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5276BF622361C5F600AEC8E4 /* MKMAESKey.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8E621CBBAF6009690F6 /* MKMAESKey.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5276BF632361C5F600AEC8E4 /* MKMRSAKeyHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8E321CBBAF6009690F6 /* MKMRSAKeyHelper.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -50,7 +45,6 @@
 		5276BF772361C5F600AEC8E4 /* MKMUser.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8D221CBBAF6009690F6 /* MKMUser.m */; };
 		5276BF792361C5F600AEC8E4 /* MKMPublicKey.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8E721CBBAF6009690F6 /* MKMPublicKey.m */; };
 		5276BF7A2361C5F600AEC8E4 /* MKMDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8FC21CBBAF6009690F6 /* MKMDictionary.m */; };
-		5276BF7B2361C5F600AEC8E4 /* base58.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A92021CBBAF6009690F6 /* base58.cpp */; };
 		5276BF7C2361C5F600AEC8E4 /* NSData+Crypto.mm in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8F621CBBAF6009690F6 /* NSData+Crypto.mm */; };
 		5276BF7D2361C5F600AEC8E4 /* MKMPrivateKey.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8DC21CBBAF6009690F6 /* MKMPrivateKey.m */; };
 		5276BF7E2361C5F600AEC8E4 /* NSObject+JsON.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8F121CBBAF6009690F6 /* NSObject+JsON.m */; };
@@ -58,7 +52,6 @@
 		5276BF812361C5F600AEC8E4 /* MKMEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A90C21CBBAF6009690F6 /* MKMEntity.m */; };
 		5276BF822361C5F600AEC8E4 /* MKMRSAPublicKey.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8EB21CBBAF6009690F6 /* MKMRSAPublicKey.m */; };
 		5276BF832361C5F600AEC8E4 /* MKMAsymmetricKey.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8E521CBBAF6009690F6 /* MKMAsymmetricKey.m */; };
-		5276BF842361C5F600AEC8E4 /* ripemd160.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A91C21CBBAF6009690F6 /* ripemd160.cpp */; };
 		5276BF852361C5F600AEC8E4 /* NSString+Crypto.mm in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8F021CBBAF6009690F6 /* NSString+Crypto.mm */; };
 		5276BF862361C5F600AEC8E4 /* MKMRSAPrivateKey.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8E421CBBAF6009690F6 /* MKMRSAPrivateKey.m */; };
 		5276BF872361C5F600AEC8E4 /* NSArray+Merkle.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8ED21CBBAF6009690F6 /* NSArray+Merkle.m */; };
@@ -66,6 +59,24 @@
 		5276BF892361C5F600AEC8E4 /* MKMGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = E91F2AFB2301481C00BE05D0 /* MKMGroup.m */; };
 		5276BF8A2361C5F600AEC8E4 /* MKMSymmetricKey.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8D921CBBAF6009690F6 /* MKMSymmetricKey.m */; };
 		5276BF8C2361C5F600AEC8E4 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9F3AB6821CFA8EE009690F6 /* Security.framework */; };
+		E915CE6E243C67BC00B98FE3 /* MKMBaseCoder.h in Headers */ = {isa = PBXBuildFile; fileRef = E915CE6C243C67BC00B98FE3 /* MKMBaseCoder.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E915CE6F243C67BC00B98FE3 /* MKMBaseCoder.mm in Sources */ = {isa = PBXBuildFile; fileRef = E915CE6D243C67BC00B98FE3 /* MKMBaseCoder.mm */; };
+		E915CE70243C69F300B98FE3 /* MKMBaseCoder.h in Headers */ = {isa = PBXBuildFile; fileRef = E915CE6C243C67BC00B98FE3 /* MKMBaseCoder.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E915CE7C243C6C1F00B98FE3 /* ripemd160.h in Headers */ = {isa = PBXBuildFile; fileRef = E915CE74243C6C1F00B98FE3 /* ripemd160.h */; };
+		E915CE7D243C6C1F00B98FE3 /* common.h in Headers */ = {isa = PBXBuildFile; fileRef = E915CE75243C6C1F00B98FE3 /* common.h */; };
+		E915CE7E243C6C1F00B98FE3 /* ripemd160.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E915CE76243C6C1F00B98FE3 /* ripemd160.cpp */; };
+		E915CE7F243C6C1F00B98FE3 /* endian.h in Headers */ = {isa = PBXBuildFile; fileRef = E915CE78243C6C1F00B98FE3 /* endian.h */; };
+		E915CE80243C6C1F00B98FE3 /* byteswap.h in Headers */ = {isa = PBXBuildFile; fileRef = E915CE79243C6C1F00B98FE3 /* byteswap.h */; };
+		E915CE81243C6C1F00B98FE3 /* base58.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E915CE7A243C6C1F00B98FE3 /* base58.cpp */; };
+		E915CE82243C6C1F00B98FE3 /* base58.h in Headers */ = {isa = PBXBuildFile; fileRef = E915CE7B243C6C1F00B98FE3 /* base58.h */; };
+		E915CE83243C6C2800B98FE3 /* base58.h in Headers */ = {isa = PBXBuildFile; fileRef = E915CE7B243C6C1F00B98FE3 /* base58.h */; };
+		E915CE84243C6C2C00B98FE3 /* base58.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E915CE7A243C6C1F00B98FE3 /* base58.cpp */; };
+		E915CE85243C6C3000B98FE3 /* endian.h in Headers */ = {isa = PBXBuildFile; fileRef = E915CE78243C6C1F00B98FE3 /* endian.h */; };
+		E915CE86243C6C3300B98FE3 /* byteswap.h in Headers */ = {isa = PBXBuildFile; fileRef = E915CE79243C6C1F00B98FE3 /* byteswap.h */; };
+		E915CE87243C6C3700B98FE3 /* ripemd160.h in Headers */ = {isa = PBXBuildFile; fileRef = E915CE74243C6C1F00B98FE3 /* ripemd160.h */; };
+		E915CE88243C6C3A00B98FE3 /* common.h in Headers */ = {isa = PBXBuildFile; fileRef = E915CE75243C6C1F00B98FE3 /* common.h */; };
+		E915CE89243C6C3C00B98FE3 /* ripemd160.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E915CE76243C6C1F00B98FE3 /* ripemd160.cpp */; };
+		E915CE8A243C6E8100B98FE3 /* MKMBaseCoder.mm in Sources */ = {isa = PBXBuildFile; fileRef = E915CE6D243C67BC00B98FE3 /* MKMBaseCoder.mm */; };
 		E919AF8D238FCFB6004F7FF9 /* MKMTai.h in Headers */ = {isa = PBXBuildFile; fileRef = E919AF8B238FCFB6004F7FF9 /* MKMTai.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E919AF8E238FCFB6004F7FF9 /* MKMTai.h in Headers */ = {isa = PBXBuildFile; fileRef = E919AF8B238FCFB6004F7FF9 /* MKMTai.h */; };
 		E919AF8F238FCFB6004F7FF9 /* MKMTai.m in Sources */ = {isa = PBXBuildFile; fileRef = E919AF8C238FCFB6004F7FF9 /* MKMTai.m */; };
@@ -121,13 +132,6 @@
 		E9F3A97C21CBBAF7009690F6 /* MKMEntity.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A91121CBBAF6009690F6 /* MKMEntity.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E9F3A97D21CBBAF7009690F6 /* MKMID.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A91221CBBAF6009690F6 /* MKMID.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E9F3A97E21CBBAF7009690F6 /* MKMAddress.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A91321CBBAF6009690F6 /* MKMAddress.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E9F3A98221CBBAF7009690F6 /* ripemd160.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A91A21CBBAF6009690F6 /* ripemd160.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		E9F3A98321CBBAF7009690F6 /* common.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A91B21CBBAF6009690F6 /* common.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		E9F3A98421CBBAF7009690F6 /* ripemd160.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A91C21CBBAF6009690F6 /* ripemd160.cpp */; };
-		E9F3A98521CBBAF7009690F6 /* endian.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A91E21CBBAF6009690F6 /* endian.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		E9F3A98621CBBAF7009690F6 /* byteswap.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A91F21CBBAF6009690F6 /* byteswap.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		E9F3A98721CBBAF7009690F6 /* base58.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A92021CBBAF6009690F6 /* base58.cpp */; };
-		E9F3A98821CBBAF7009690F6 /* base58.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A92121CBBAF6009690F6 /* base58.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		E9F3A98A21CBBAF7009690F6 /* MKMUser.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A92321CBBAF6009690F6 /* MKMUser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E9F3A99F21CBBAF7009690F6 /* MingKeMing.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A93921CBBAF6009690F6 /* MingKeMing.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E9F3AB6921CFA8EE009690F6 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9F3AB6821CFA8EE009690F6 /* Security.framework */; };
@@ -146,6 +150,15 @@
 /* Begin PBXFileReference section */
 		5276BF932361C5F600AEC8E4 /* MingKeMing-Mac.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "MingKeMing-Mac.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5276BF942361C5F600AEC8E4 /* MingKeMing-Mac-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "MingKeMing-Mac-Info.plist"; path = "/Users/john/Documents/workspace/iphone/dimchat/mkm-objc/MingKeMing/MingKeMing-Mac-Info.plist"; sourceTree = "<absolute>"; };
+		E915CE6C243C67BC00B98FE3 /* MKMBaseCoder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MKMBaseCoder.h; sourceTree = "<group>"; };
+		E915CE6D243C67BC00B98FE3 /* MKMBaseCoder.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = MKMBaseCoder.mm; sourceTree = "<group>"; };
+		E915CE74243C6C1F00B98FE3 /* ripemd160.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ripemd160.h; sourceTree = "<group>"; };
+		E915CE75243C6C1F00B98FE3 /* common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = "<group>"; };
+		E915CE76243C6C1F00B98FE3 /* ripemd160.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ripemd160.cpp; sourceTree = "<group>"; };
+		E915CE78243C6C1F00B98FE3 /* endian.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = endian.h; sourceTree = "<group>"; };
+		E915CE79243C6C1F00B98FE3 /* byteswap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = byteswap.h; sourceTree = "<group>"; };
+		E915CE7A243C6C1F00B98FE3 /* base58.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = base58.cpp; sourceTree = "<group>"; };
+		E915CE7B243C6C1F00B98FE3 /* base58.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = base58.h; sourceTree = "<group>"; };
 		E919AF8B238FCFB6004F7FF9 /* MKMTai.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MKMTai.h; sourceTree = "<group>"; };
 		E919AF8C238FCFB6004F7FF9 /* MKMTai.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MKMTai.m; sourceTree = "<group>"; };
 		E91F2AFB2301481C00BE05D0 /* MKMGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMGroup.m; sourceTree = "<group>"; };
@@ -202,13 +215,6 @@
 		E9F3A91121CBBAF6009690F6 /* MKMEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMEntity.h; sourceTree = "<group>"; };
 		E9F3A91221CBBAF6009690F6 /* MKMID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMID.h; sourceTree = "<group>"; };
 		E9F3A91321CBBAF6009690F6 /* MKMAddress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMAddress.h; sourceTree = "<group>"; };
-		E9F3A91A21CBBAF6009690F6 /* ripemd160.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ripemd160.h; sourceTree = "<group>"; };
-		E9F3A91B21CBBAF6009690F6 /* common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = "<group>"; };
-		E9F3A91C21CBBAF6009690F6 /* ripemd160.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ripemd160.cpp; sourceTree = "<group>"; };
-		E9F3A91E21CBBAF6009690F6 /* endian.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = endian.h; sourceTree = "<group>"; };
-		E9F3A91F21CBBAF6009690F6 /* byteswap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = byteswap.h; sourceTree = "<group>"; };
-		E9F3A92021CBBAF6009690F6 /* base58.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = base58.cpp; sourceTree = "<group>"; };
-		E9F3A92121CBBAF6009690F6 /* base58.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = base58.h; sourceTree = "<group>"; };
 		E9F3A92321CBBAF6009690F6 /* MKMUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMUser.h; sourceTree = "<group>"; };
 		E9F3A93921CBBAF6009690F6 /* MingKeMing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MingKeMing.h; sourceTree = "<group>"; };
 		E9F3AB6821CFA8EE009690F6 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -242,6 +248,53 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E915CE6B243C676F00B98FE3 /* format */ = {
+			isa = PBXGroup;
+			children = (
+				E915CE6C243C67BC00B98FE3 /* MKMBaseCoder.h */,
+				E915CE6D243C67BC00B98FE3 /* MKMBaseCoder.mm */,
+			);
+			path = format;
+			sourceTree = "<group>";
+		};
+		E915CE71243C6C1F00B98FE3 /* bitcoin */ = {
+			isa = PBXGroup;
+			children = (
+				E915CE72243C6C1F00B98FE3 /* src */,
+			);
+			path = bitcoin;
+			sourceTree = "<group>";
+		};
+		E915CE72243C6C1F00B98FE3 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				E915CE73243C6C1F00B98FE3 /* crypto */,
+				E915CE77243C6C1F00B98FE3 /* compat */,
+				E915CE7A243C6C1F00B98FE3 /* base58.cpp */,
+				E915CE7B243C6C1F00B98FE3 /* base58.h */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		E915CE73243C6C1F00B98FE3 /* crypto */ = {
+			isa = PBXGroup;
+			children = (
+				E915CE74243C6C1F00B98FE3 /* ripemd160.h */,
+				E915CE75243C6C1F00B98FE3 /* common.h */,
+				E915CE76243C6C1F00B98FE3 /* ripemd160.cpp */,
+			);
+			path = crypto;
+			sourceTree = "<group>";
+		};
+		E915CE77243C6C1F00B98FE3 /* compat */ = {
+			isa = PBXGroup;
+			children = (
+				E915CE78243C6C1F00B98FE3 /* endian.h */,
+				E915CE79243C6C1F00B98FE3 /* byteswap.h */,
+			);
+			path = compat;
+			sourceTree = "<group>";
+		};
 		E9F3A69021CA4627009690F6 = {
 			isa = PBXGroup;
 			children = (
@@ -284,8 +337,9 @@
 		E9F3A8D121CBBAF6009690F6 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				E9F3A91721CBBAF6009690F6 /* bitcoin */,
+				E915CE71243C6C1F00B98FE3 /* bitcoin */,
 				E9F3A8EC21CBBAF6009690F6 /* extends */,
+				E915CE6B243C676F00B98FE3 /* format */,
 				E9F3A8FB21CBBAF6009690F6 /* types */,
 				E9F3A8D321CBBAF6009690F6 /* crypto */,
 				E9F3A90B21CBBAF6009690F6 /* entity */,
@@ -375,44 +429,6 @@
 			path = entity;
 			sourceTree = "<group>";
 		};
-		E9F3A91721CBBAF6009690F6 /* bitcoin */ = {
-			isa = PBXGroup;
-			children = (
-				E9F3A91821CBBAF6009690F6 /* src */,
-			);
-			path = bitcoin;
-			sourceTree = "<group>";
-		};
-		E9F3A91821CBBAF6009690F6 /* src */ = {
-			isa = PBXGroup;
-			children = (
-				E9F3A91921CBBAF6009690F6 /* crypto */,
-				E9F3A91D21CBBAF6009690F6 /* compat */,
-				E9F3A92021CBBAF6009690F6 /* base58.cpp */,
-				E9F3A92121CBBAF6009690F6 /* base58.h */,
-			);
-			path = src;
-			sourceTree = "<group>";
-		};
-		E9F3A91921CBBAF6009690F6 /* crypto */ = {
-			isa = PBXGroup;
-			children = (
-				E9F3A91A21CBBAF6009690F6 /* ripemd160.h */,
-				E9F3A91B21CBBAF6009690F6 /* common.h */,
-				E9F3A91C21CBBAF6009690F6 /* ripemd160.cpp */,
-			);
-			path = crypto;
-			sourceTree = "<group>";
-		};
-		E9F3A91D21CBBAF6009690F6 /* compat */ = {
-			isa = PBXGroup;
-			children = (
-				E9F3A91E21CBBAF6009690F6 /* endian.h */,
-				E9F3A91F21CBBAF6009690F6 /* byteswap.h */,
-			);
-			path = compat;
-			sourceTree = "<group>";
-		};
 		E9F3AB6721CFA8EE009690F6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -431,26 +447,27 @@
 				5276BF4C2361C5F600AEC8E4 /* MKMGroup.h in Headers */,
 				5276BF4D2361C5F600AEC8E4 /* MKMString.h in Headers */,
 				5276BF4E2361C5F600AEC8E4 /* MKMDictionary.h in Headers */,
+				E915CE88243C6C3A00B98FE3 /* common.h in Headers */,
 				5276BF4F2361C5F600AEC8E4 /* MKMSymmetricKey.h in Headers */,
 				5276BF502361C5F600AEC8E4 /* MKMPublicKey.h in Headers */,
 				5276BF512361C5F600AEC8E4 /* MKMCryptographyKey.h in Headers */,
+				E915CE83243C6C2800B98FE3 /* base58.h in Headers */,
 				5276BF522361C5F600AEC8E4 /* MKMPrivateKey.h in Headers */,
 				5276BF532361C5F600AEC8E4 /* MKMAsymmetricKey.h in Headers */,
 				5276BF542361C5F600AEC8E4 /* NSObject+Singleton.h in Headers */,
+				E915CE70243C69F300B98FE3 /* MKMBaseCoder.h in Headers */,
 				5276BF552361C5F600AEC8E4 /* MKMID.h in Headers */,
 				5276BF562361C5F600AEC8E4 /* MKMAddress.h in Headers */,
 				5276BF572361C5F600AEC8E4 /* MKMMeta.h in Headers */,
 				5276BF582361C5F600AEC8E4 /* MKMProfile.h in Headers */,
+				E915CE87243C6C3700B98FE3 /* ripemd160.h in Headers */,
+				E915CE86243C6C3300B98FE3 /* byteswap.h in Headers */,
 				5276BF592361C5F600AEC8E4 /* MKMEntity.h in Headers */,
 				5276BF5B2361C5F600AEC8E4 /* MingKeMing.h in Headers */,
-				5276BF5C2361C5F600AEC8E4 /* endian.h in Headers */,
-				5276BF5D2361C5F600AEC8E4 /* byteswap.h in Headers */,
-				5276BF5E2361C5F600AEC8E4 /* ripemd160.h in Headers */,
-				5276BF5F2361C5F600AEC8E4 /* common.h in Headers */,
-				5276BF602361C5F600AEC8E4 /* base58.h in Headers */,
 				5276BF612361C5F600AEC8E4 /* MKMUser.h in Headers */,
 				5276BF622361C5F600AEC8E4 /* MKMAESKey.h in Headers */,
 				5276BF632361C5F600AEC8E4 /* MKMRSAKeyHelper.h in Headers */,
+				E915CE85243C6C3000B98FE3 /* endian.h in Headers */,
 				5276BF642361C5F600AEC8E4 /* MKMRSAPublicKey.h in Headers */,
 				5276BF652361C5F600AEC8E4 /* MKMRSAPrivateKey.h in Headers */,
 				5276BF662361C5F600AEC8E4 /* MKMRSAPrivateKey+PersistentStore.h in Headers */,
@@ -472,24 +489,25 @@
 				E9F3A96C21CBBAF7009690F6 /* MKMString.h in Headers */,
 				E9F3A96B21CBBAF7009690F6 /* MKMDictionary.h in Headers */,
 				E9F3A94F21CBBAF7009690F6 /* MKMSymmetricKey.h in Headers */,
+				E915CE7D243C6C1F00B98FE3 /* common.h in Headers */,
 				E9F3A94C21CBBAF7009690F6 /* MKMPublicKey.h in Headers */,
 				E9F3A94A21CBBAF7009690F6 /* MKMCryptographyKey.h in Headers */,
+				E915CE80243C6C1F00B98FE3 /* byteswap.h in Headers */,
 				E9F3A95721CBBAF7009690F6 /* MKMPrivateKey.h in Headers */,
 				E9F3A94321CBBAF7009690F6 /* MKMAsymmetricKey.h in Headers */,
 				E961082222C9E7600032D8A2 /* NSObject+Singleton.h in Headers */,
+				E915CE7C243C6C1F00B98FE3 /* ripemd160.h in Headers */,
+				E915CE6E243C67BC00B98FE3 /* MKMBaseCoder.h in Headers */,
 				E9F3A97D21CBBAF7009690F6 /* MKMID.h in Headers */,
+				E915CE7F243C6C1F00B98FE3 /* endian.h in Headers */,
 				E9F3A97E21CBBAF7009690F6 /* MKMAddress.h in Headers */,
 				E919AF8D238FCFB6004F7FF9 /* MKMTai.h in Headers */,
 				E9F3A97821CBBAF7009690F6 /* MKMMeta.h in Headers */,
 				E93D437822A7ADF000422EDF /* MKMProfile.h in Headers */,
 				E9F3A97C21CBBAF7009690F6 /* MKMEntity.h in Headers */,
 				E9F3A99F21CBBAF7009690F6 /* MingKeMing.h in Headers */,
-				E9F3A98521CBBAF7009690F6 /* endian.h in Headers */,
-				E9F3A98621CBBAF7009690F6 /* byteswap.h in Headers */,
-				E9F3A98221CBBAF7009690F6 /* ripemd160.h in Headers */,
-				E9F3A98321CBBAF7009690F6 /* common.h in Headers */,
-				E9F3A98821CBBAF7009690F6 /* base58.h in Headers */,
 				E9F3A98A21CBBAF7009690F6 /* MKMUser.h in Headers */,
+				E915CE82243C6C1F00B98FE3 /* base58.h in Headers */,
 				E9F3A95521CBBAF7009690F6 /* MKMAESKey.h in Headers */,
 				E9F3A95221CBBAF7009690F6 /* MKMRSAKeyHelper.h in Headers */,
 				E9F3A94D21CBBAF7009690F6 /* MKMRSAPublicKey.h in Headers */,
@@ -632,6 +650,7 @@
 				5276BF712361C5F600AEC8E4 /* MKMAddress.m in Sources */,
 				5276BF722361C5F600AEC8E4 /* MKMRSAPrivateKey+PersistentStore.m in Sources */,
 				5276BF732361C5F600AEC8E4 /* MKMAESKey.m in Sources */,
+				E915CE84243C6C2C00B98FE3 /* base58.cpp in Sources */,
 				5276BF742361C5F600AEC8E4 /* MKMProfile.m in Sources */,
 				E919AF90238FCFB6004F7FF9 /* MKMTai.m in Sources */,
 				5276BF752361C5F600AEC8E4 /* NSDictionary+Binary.m in Sources */,
@@ -639,15 +658,15 @@
 				5276BF772361C5F600AEC8E4 /* MKMUser.m in Sources */,
 				5276BF792361C5F600AEC8E4 /* MKMPublicKey.m in Sources */,
 				5276BF7A2361C5F600AEC8E4 /* MKMDictionary.m in Sources */,
-				5276BF7B2361C5F600AEC8E4 /* base58.cpp in Sources */,
+				E915CE89243C6C3C00B98FE3 /* ripemd160.cpp in Sources */,
 				5276BF7C2361C5F600AEC8E4 /* NSData+Crypto.mm in Sources */,
 				5276BF7D2361C5F600AEC8E4 /* MKMPrivateKey.m in Sources */,
 				5276BF7E2361C5F600AEC8E4 /* NSObject+JsON.m in Sources */,
 				5276BF7F2361C5F600AEC8E4 /* MKMID.m in Sources */,
+				E915CE8A243C6E8100B98FE3 /* MKMBaseCoder.mm in Sources */,
 				5276BF812361C5F600AEC8E4 /* MKMEntity.m in Sources */,
 				5276BF822361C5F600AEC8E4 /* MKMRSAPublicKey.m in Sources */,
 				5276BF832361C5F600AEC8E4 /* MKMAsymmetricKey.m in Sources */,
-				5276BF842361C5F600AEC8E4 /* ripemd160.cpp in Sources */,
 				5276BF852361C5F600AEC8E4 /* NSString+Crypto.mm in Sources */,
 				5276BF862361C5F600AEC8E4 /* MKMRSAPrivateKey.m in Sources */,
 				5276BF872361C5F600AEC8E4 /* NSArray+Merkle.m in Sources */,
@@ -661,6 +680,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E915CE6F243C67BC00B98FE3 /* MKMBaseCoder.mm in Sources */,
 				E9F3A94421CBBAF7009690F6 /* MKMRSAKeyHelper.m in Sources */,
 				E9F3A95821CBBAF7009690F6 /* MKMCryptographyKey.m in Sources */,
 				E9F3A97921CBBAF7009690F6 /* MKMAddress.m in Sources */,
@@ -673,7 +693,7 @@
 				E9F3A94221CBBAF7009690F6 /* MKMUser.m in Sources */,
 				E9F3A95621CBBAF7009690F6 /* MKMPublicKey.m in Sources */,
 				E9F3A96921CBBAF7009690F6 /* MKMDictionary.m in Sources */,
-				E9F3A98721CBBAF7009690F6 /* base58.cpp in Sources */,
+				E915CE7E243C6C1F00B98FE3 /* ripemd160.cpp in Sources */,
 				E9F3A96421CBBAF7009690F6 /* NSData+Crypto.mm in Sources */,
 				E9F3A94B21CBBAF7009690F6 /* MKMPrivateKey.m in Sources */,
 				E9F3A95F21CBBAF7009690F6 /* NSObject+JsON.m in Sources */,
@@ -681,9 +701,9 @@
 				E9F3A97721CBBAF7009690F6 /* MKMEntity.m in Sources */,
 				E9F3A95A21CBBAF7009690F6 /* MKMRSAPublicKey.m in Sources */,
 				E9F3A95421CBBAF7009690F6 /* MKMAsymmetricKey.m in Sources */,
-				E9F3A98421CBBAF7009690F6 /* ripemd160.cpp in Sources */,
 				E9F3A95E21CBBAF7009690F6 /* NSString+Crypto.mm in Sources */,
 				E9F3A95321CBBAF7009690F6 /* MKMRSAPrivateKey.m in Sources */,
+				E915CE81243C6C1F00B98FE3 /* base58.cpp in Sources */,
 				E9F3A95B21CBBAF7009690F6 /* NSArray+Merkle.m in Sources */,
 				E9F3A97B21CBBAF7009690F6 /* MKMMeta.m in Sources */,
 				E91F2AFD2301481D00BE05D0 /* MKMGroup.m in Sources */,

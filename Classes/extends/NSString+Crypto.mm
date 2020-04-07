@@ -92,22 +92,4 @@ static inline char hex_char(char ch) {
     return output;
 }
 
-- (NSData *)base58Decode {
-    NSData *output = nil;
-    
-    const char *cstr = [self cStringUsingEncoding:NSUTF8StringEncoding];
-    std::vector<unsigned char> vch;
-    DecodeBase58(cstr, vch);
-    std::string str(vch.begin(), vch.end());
-    output = [[NSData alloc] initWithBytes:str.c_str() length:str.size()];
-    
-    return output;
-}
-
-- (NSData *)base64Decode {
-    NSDataBase64DecodingOptions opt;
-    opt = NSDataBase64DecodingIgnoreUnknownCharacters;
-    return [[NSData alloc] initWithBase64EncodedString:self options:opt];
-}
-
 @end

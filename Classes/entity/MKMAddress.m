@@ -39,6 +39,8 @@
 #import "NSString+Crypto.h"
 #import "NSData+Crypto.h"
 
+#import "MKMBaseCoder.h"
+
 #import "MKMAddress.h"
 
 @interface MKMAddress ()
@@ -227,7 +229,7 @@ static inline UInt32 user_number(NSData *cc) {
     NSAssert(aString.length >= 15, @"address invalid: %@", aString);
     if (self = [super initWithString:aString]) {
         // Parse string with BTC address format
-        NSData *data = [aString base58Decode];
+        NSData *data = MKMBase58Decode(aString);
         NSUInteger len = [data length];
         if (len != 25) {
             @throw [NSException exceptionWithName:NSRangeException
@@ -274,7 +276,7 @@ static inline UInt32 user_number(NSData *cc) {
     code = user_number(cc);
     // 4. addr = base58_encode(_h + cc)
     [data appendData:cc];
-    string = [data base58Encode];
+    string = MKMBase58Encode(data);
     
     if (self = [super initWithString:string]) {
         self.network = type;

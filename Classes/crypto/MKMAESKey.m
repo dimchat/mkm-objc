@@ -40,6 +40,8 @@
 #import "NSData+Crypto.h"
 #import "NSString+Crypto.h"
 
+#import "MKMBaseCoder.h"
+
 #import "MKMAESKey.h"
 
 static inline NSData *random_data(NSUInteger size) {
@@ -117,7 +119,7 @@ static inline NSData *random_data(NSUInteger size) {
         // data
         PW = [_storeDictionary objectForKey:@"data"];
         if (PW) {
-            _data = [PW base64Decode];
+            _data = MKMBase64Decode(PW);
             break;
         }
         
@@ -128,13 +130,13 @@ static inline NSData *random_data(NSUInteger size) {
         // random password
         NSUInteger keySize = [self keySize];
         _data = random_data(keySize);
-        PW = [_data base64Encode];
+        PW = MKMBase64Encode(_data);
         [_storeDictionary setObject:PW forKey:@"data"];
         
         // random initialization vector
         NSUInteger blockSize = [self blockSize];
         _iv = random_data(blockSize);
-        NSString *IV = [_iv base64Encode];
+        NSString *IV = MKMBase64Encode(_iv);
         [_storeDictionary setObject:IV forKey:@"iv"];
         
         // other parameters
@@ -149,7 +151,7 @@ static inline NSData *random_data(NSUInteger size) {
 - (NSData *)iv {
     if (!_iv) {
         NSString *iv = [_storeDictionary objectForKey:@"iv"];
-        _iv = [iv base64Decode];
+        _iv = MKMBase64Decode(iv);
     }
     return _iv;
 }

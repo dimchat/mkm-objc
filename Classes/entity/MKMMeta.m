@@ -40,6 +40,8 @@
 #import "NSString+Crypto.h"
 #import "NSData+Crypto.h"
 
+#import "MKMBaseCoder.h"
+
 #import "MKMPublicKey.h"
 #import "MKMPrivateKey.h"
 
@@ -133,7 +135,7 @@
         if ([self containsSeed]) {
             NSString *base64 = [self objectForKey:@"fingerprint"];
             NSAssert([base64 length] > 0, @"meta.fingerprint should not be empty: %@", self);
-            _fingerprint = [base64 base64Decode];
+            _fingerprint = MKMBase64Decode(base64);
         }
     }
     return _fingerprint;
@@ -170,7 +172,7 @@
     NSDictionary *dict;
     if (MKMMetaVersion_HasSeed(version)) { // MKM, ExBTC, ExETH, ...
         NSData *CT = [SK sign:[name data]];
-        NSString *fingerprint = [CT base64Encode];
+        NSString *fingerprint = MKMBase64Encode(CT);
         dict = @{@"version"    :@(version),
                  @"key"        :[SK publicKey],
                  @"seed"       :name,

@@ -40,6 +40,8 @@
 #import "NSData+Crypto.h"
 #import "NSString+Crypto.h"
 
+#import "MKMBaseCoder.h"
+
 #import "MKMPublicKey.h"
 #import "MKMPrivateKey.h"
 
@@ -114,7 +116,7 @@
         _signature = signature;
         
         [self setObject:[json UTF8String] forKey:@"data"];
-        [self setObject:[signature base64Encode] forKey:@"signature"];
+        [self setObject:MKMBase64Encode(signature) forKey:@"signature"];
         
         _status = 0; // 1 for valid, -1 for invalid
     }
@@ -172,7 +174,7 @@
 - (NSData *)signature {
     if (!_signature) {
         NSString *sig = [_storeDictionary objectForKey:@"signature"];
-        _signature = [sig base64Decode];
+        _signature = MKMBase64Decode(sig);
     }
     return _signature;
 }
@@ -269,7 +271,7 @@
     _signature = [SK sign:_data];
     // update 'data' & 'signature' fields
     [_storeDictionary setObject:[_data UTF8String] forKey:@"data"];
-    [_storeDictionary setObject:[_signature base64Encode] forKey:@"signature"];
+    [_storeDictionary setObject:MKMBase64Encode(_signature) forKey:@"signature"];
     return _signature;
 }
 

@@ -46,28 +46,6 @@
 
 #import "NSData+Crypto.h"
 
-@implementation NSData (Encode)
-
-- (NSString *)base58Encode {
-    NSString *output = nil;
-    
-    const unsigned char *pbegin = (const unsigned char *)[self bytes];
-    const unsigned char *pend = pbegin + [self length];
-    std::string str = EncodeBase58(pbegin, pend);
-    output = [[NSString alloc] initWithCString:str.c_str()
-                                      encoding:NSUTF8StringEncoding];
-    
-    return output;
-}
-
-- (NSString *)base64Encode {
-    NSDataBase64EncodingOptions opt;
-    opt = NSDataBase64EncodingEndLineWithCarriageReturn;
-    return [self base64EncodedStringWithOptions:opt];
-}
-
-@end
-
 @implementation NSData (Hash)
 
 - (NSData *)sha256 {
