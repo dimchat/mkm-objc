@@ -37,6 +37,8 @@
 
 #import "NSData+Crypto.h"
 
+#import "MKMDigest.h"
+
 #import "NSArray+Merkle.h"
 
 static inline NSData *merge_data(NSData *data1, NSData *data2) {
@@ -68,7 +70,7 @@ static inline NSData *merge_data(NSData *data1, NSData *data2) {
             NSAssert([item isKindOfClass:[NSData class]], @"error: %@", item);
             data = item;
         }
-        [mArray addObject:[data sha256d]];
+        [mArray addObject:MKMSHA256Digest(MKMSHA256Digest(data))];
     }
     
     NSData *data1, *data2;
@@ -87,7 +89,7 @@ static inline NSData *merge_data(NSData *data1, NSData *data2) {
             data2 = [mArray objectAtIndex:(pos+1)];
             // data = sha256(data1 + data2)
             data = merge_data(data1, data2);
-            data = [data sha256d];
+            data = MKMSHA256Digest(MKMSHA256Digest(data));
             [mArray replaceObjectAtIndex:(pos/2) withObject:data];
         }
         

@@ -43,27 +43,6 @@
 
 #import "NSData+Crypto.h"
 
-@implementation NSData (Hash)
-
-- (NSData *)sha256 {
-    unsigned char digest[CC_SHA256_DIGEST_LENGTH];
-    CC_SHA256([self bytes], (CC_LONG)[self length], digest);
-    return [[NSData alloc] initWithBytes:digest length:CC_SHA256_DIGEST_LENGTH];
-}
-
-- (NSData *)sha256d {
-    return [[self sha256] sha256];
-}
-
-- (NSData *)ripemd160 {
-    const unsigned char *bytes = (const unsigned char *)[self bytes];
-    unsigned char digest[CRIPEMD160::OUTPUT_SIZE];
-    CRIPEMD160().Write(bytes, (size_t)[self length]).Finalize(digest);
-    return [[NSData alloc] initWithBytes:digest length:CRIPEMD160::OUTPUT_SIZE];
-}
-
-@end
-
 @implementation NSData (AES)
 
 - (nullable NSData *)AES256EncryptWithKey:(NSData *)key

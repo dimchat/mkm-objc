@@ -2,7 +2,7 @@
 //
 //  Ming-Ke-Ming : Decentralized User Identity Authentication
 //
-//                               Written in 2018 by Moky <albert.moky@gmail.com>
+//                               Written in 2020 by Moky <albert.moky@gmail.com>
 //
 // =============================================================================
 // The MIT License (MIT)
@@ -28,24 +28,53 @@
 // SOFTWARE.
 // =============================================================================
 //
-//  NSData+Crypto.h
+//  MKMDigest.h
 //  MingKeMing
 //
-//  Created by Albert Moky on 2018/9/26.
-//  Copyright © 2018 DIM Group. All rights reserved.
+//  Created by Albert Moky on 2020/4/7.
+//  Copyright © 2020 DIM Group. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface NSData (AES)
+@protocol MKMDigest <NSObject>
 
-- (nullable NSData *)AES256EncryptWithKey:(NSData *)key
-                     initializationVector:(nullable NSData *)iv;
+- (NSData *)digest:(NSData *)data;
 
-- (nullable NSData *)AES256DecryptWithKey:(NSData *)key
-                     initializationVector:(nullable NSData *)iv;
+@end
+
+#pragma mark -
+
+#define MKMMD5Digest(data)       [[MKMMD5 sharedInstance] digest:(data)]
+#define MKMSHA256Digest(data)    [[MKMSHA256 sharedInstance] digest:(data)]
+#define MKMRipeMD160Digest(data) [[MKMRipeMD160 sharedInstance] digest:(data)]
+
+@interface MKMMD5 : NSObject <MKMDigest>
+
+// default hasher
+@property (strong, nonatomic) id<MKMDigest> hasher;
+
++ (instancetype)sharedInstance;
+
+@end
+
+@interface MKMSHA256 : NSObject <MKMDigest>
+
+// default hasher
+@property (strong, nonatomic) id<MKMDigest> hasher;
+
++ (instancetype)sharedInstance;
+
+@end
+
+@interface MKMRipeMD160 : NSObject <MKMDigest>
+
+// default hasher
+@property (strong, nonatomic) id<MKMDigest> hasher;
+
++ (instancetype)sharedInstance;
 
 @end
 

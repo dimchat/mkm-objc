@@ -38,6 +38,7 @@
 #import "NSObject+Singleton.h"
 #import "NSData+Crypto.h"
 
+#import "MKMDigest.h"
 #import "MKMBaseCoder.h"
 
 #import "MKMAddress.h"
@@ -205,7 +206,7 @@ static NSMutableArray<Class> *address_classes(void) {
  */
 static inline NSData * check_code(NSData *data) {
     assert([data length] == 21);
-    data = [[data sha256] sha256];
+    data = MKMSHA256Digest(MKMSHA256Digest(data));
     return [data subdataWithRange:NSMakeRange(0, 4)];
 }
 
@@ -265,7 +266,7 @@ static inline UInt32 user_number(NSData *cc) {
     UInt32 code = 0;
     
     // 1. hash = ripemd160(sha256(CT))
-    NSData *hash = [[key sha256] ripemd160];
+    NSData *hash = MKMRipeMD160Digest(MKMSHA256Digest(key));
     // 2. _h = network + hash
     NSMutableData *data;
     data = [[NSMutableData alloc] initWithBytes:&type length:1];
