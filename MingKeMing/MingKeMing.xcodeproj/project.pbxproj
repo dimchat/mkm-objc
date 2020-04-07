@@ -33,7 +33,6 @@
 		5276BF642361C5F600AEC8E4 /* MKMRSAPublicKey.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8DE21CBBAF6009690F6 /* MKMRSAPublicKey.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5276BF652361C5F600AEC8E4 /* MKMRSAPrivateKey.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8D621CBBAF6009690F6 /* MKMRSAPrivateKey.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5276BF662361C5F600AEC8E4 /* MKMRSAPrivateKey+PersistentStore.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8D721CBBAF6009690F6 /* MKMRSAPrivateKey+PersistentStore.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		5276BF672361C5F600AEC8E4 /* MKMImmortals.h in Headers */ = {isa = PBXBuildFile; fileRef = E9BBBDD3223ABDDF00E6ACDA /* MKMImmortals.h */; };
 		5276BF682361C5F600AEC8E4 /* NSDictionary+Binary.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8EE21CBBAF6009690F6 /* NSDictionary+Binary.h */; };
 		5276BF692361C5F600AEC8E4 /* NSArray+Merkle.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8F421CBBAF6009690F6 /* NSArray+Merkle.h */; };
 		5276BF6A2361C5F600AEC8E4 /* NSString+Crypto.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8F821CBBAF6009690F6 /* NSString+Crypto.h */; };
@@ -49,7 +48,6 @@
 		5276BF752361C5F600AEC8E4 /* NSDictionary+Binary.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8F321CBBAF6009690F6 /* NSDictionary+Binary.m */; };
 		5276BF762361C5F600AEC8E4 /* MKMString.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8FD21CBBAF6009690F6 /* MKMString.m */; };
 		5276BF772361C5F600AEC8E4 /* MKMUser.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8D221CBBAF6009690F6 /* MKMUser.m */; };
-		5276BF782361C5F600AEC8E4 /* MKMImmortals.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBBDD4223ABDDF00E6ACDA /* MKMImmortals.m */; };
 		5276BF792361C5F600AEC8E4 /* MKMPublicKey.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8E721CBBAF6009690F6 /* MKMPublicKey.m */; };
 		5276BF7A2361C5F600AEC8E4 /* MKMDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8FC21CBBAF6009690F6 /* MKMDictionary.m */; };
 		5276BF7B2361C5F600AEC8E4 /* base58.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A92021CBBAF6009690F6 /* base58.cpp */; };
@@ -76,16 +74,8 @@
 		E91F2AFE2301481D00BE05D0 /* MKMGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = E91F2AFC2301481C00BE05D0 /* MKMGroup.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E93D437822A7ADF000422EDF /* MKMProfile.h in Headers */ = {isa = PBXBuildFile; fileRef = E93D437622A7ADEF00422EDF /* MKMProfile.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E93D437922A7ADF000422EDF /* MKMProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = E93D437722A7ADF000422EDF /* MKMProfile.m */; };
-		E94DEB9723A24D3E00FBFD3C /* hulk_meta.js in Resources */ = {isa = PBXBuildFile; fileRef = E94DEB9123A24D3E00FBFD3C /* hulk_meta.js */; };
-		E94DEB9823A24D3E00FBFD3C /* moki_meta.js in Resources */ = {isa = PBXBuildFile; fileRef = E94DEB9223A24D3E00FBFD3C /* moki_meta.js */; };
-		E94DEB9923A24D3E00FBFD3C /* moki_profile.js in Resources */ = {isa = PBXBuildFile; fileRef = E94DEB9323A24D3E00FBFD3C /* moki_profile.js */; };
-		E94DEB9A23A24D3E00FBFD3C /* hulk_profile.js in Resources */ = {isa = PBXBuildFile; fileRef = E94DEB9423A24D3E00FBFD3C /* hulk_profile.js */; };
-		E94DEB9B23A24D3E00FBFD3C /* hulk_secret.js in Resources */ = {isa = PBXBuildFile; fileRef = E94DEB9523A24D3E00FBFD3C /* hulk_secret.js */; };
-		E94DEB9C23A24D3E00FBFD3C /* moki_secret.js in Resources */ = {isa = PBXBuildFile; fileRef = E94DEB9623A24D3E00FBFD3C /* moki_secret.js */; };
 		E961082222C9E7600032D8A2 /* NSObject+Singleton.h in Headers */ = {isa = PBXBuildFile; fileRef = E961082122C9E7600032D8A2 /* NSObject+Singleton.h */; };
 		E9AFAB7A2236E0F5001F95C6 /* NSObject+Compare.h in Headers */ = {isa = PBXBuildFile; fileRef = E9AFAB782236E0F5001F95C6 /* NSObject+Compare.h */; };
-		E9BBBDD5223ABDE000E6ACDA /* MKMImmortals.h in Headers */ = {isa = PBXBuildFile; fileRef = E9BBBDD3223ABDDF00E6ACDA /* MKMImmortals.h */; };
-		E9BBBDD6223ABDE000E6ACDA /* MKMImmortals.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBBDD4223ABDDF00E6ACDA /* MKMImmortals.m */; };
 		E9F3A6A421CA4627009690F6 /* MingKeMing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9F3A69A21CA4627009690F6 /* MingKeMing.framework */; };
 		E9F3A6A921CA4627009690F6 /* MingKeMingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A6A821CA4627009690F6 /* MingKeMingTests.m */; };
 		E9F3A94221CBBAF7009690F6 /* MKMUser.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8D221CBBAF6009690F6 /* MKMUser.m */; };
@@ -162,16 +152,8 @@
 		E91F2AFC2301481C00BE05D0 /* MKMGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMGroup.h; sourceTree = "<group>"; };
 		E93D437622A7ADEF00422EDF /* MKMProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMProfile.h; sourceTree = "<group>"; };
 		E93D437722A7ADF000422EDF /* MKMProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMProfile.m; sourceTree = "<group>"; };
-		E94DEB9123A24D3E00FBFD3C /* hulk_meta.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = hulk_meta.js; sourceTree = "<group>"; };
-		E94DEB9223A24D3E00FBFD3C /* moki_meta.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = moki_meta.js; sourceTree = "<group>"; };
-		E94DEB9323A24D3E00FBFD3C /* moki_profile.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = moki_profile.js; sourceTree = "<group>"; };
-		E94DEB9423A24D3E00FBFD3C /* hulk_profile.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = hulk_profile.js; sourceTree = "<group>"; };
-		E94DEB9523A24D3E00FBFD3C /* hulk_secret.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = hulk_secret.js; sourceTree = "<group>"; };
-		E94DEB9623A24D3E00FBFD3C /* moki_secret.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = moki_secret.js; sourceTree = "<group>"; };
 		E961082122C9E7600032D8A2 /* NSObject+Singleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Singleton.h"; sourceTree = "<group>"; };
 		E9AFAB782236E0F5001F95C6 /* NSObject+Compare.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+Compare.h"; sourceTree = "<group>"; };
-		E9BBBDD3223ABDDF00E6ACDA /* MKMImmortals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMImmortals.h; sourceTree = "<group>"; };
-		E9BBBDD4223ABDDF00E6ACDA /* MKMImmortals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMImmortals.m; sourceTree = "<group>"; };
 		E9F3A69A21CA4627009690F6 /* MingKeMing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MingKeMing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9F3A69E21CA4627009690F6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E9F3A6A321CA4627009690F6 /* MingKeMingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MingKeMingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -260,24 +242,9 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		E9BBBDD7223ABFA200E6ACDA /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				E94DEB9123A24D3E00FBFD3C /* hulk_meta.js */,
-				E94DEB9423A24D3E00FBFD3C /* hulk_profile.js */,
-				E94DEB9523A24D3E00FBFD3C /* hulk_secret.js */,
-				E94DEB9223A24D3E00FBFD3C /* moki_meta.js */,
-				E94DEB9323A24D3E00FBFD3C /* moki_profile.js */,
-				E94DEB9623A24D3E00FBFD3C /* moki_secret.js */,
-			);
-			name = Resources;
-			path = ../Resources;
-			sourceTree = "<group>";
-		};
 		E9F3A69021CA4627009690F6 = {
 			isa = PBXGroup;
 			children = (
-				E9BBBDD7223ABFA200E6ACDA /* Resources */,
 				E9F3A8D121CBBAF6009690F6 /* Classes */,
 				E9F3A69C21CA4627009690F6 /* MingKeMing */,
 				E9F3A6A721CA4627009690F6 /* MingKeMingTests */,
@@ -326,8 +293,6 @@
 				E91F2AFB2301481C00BE05D0 /* MKMGroup.m */,
 				E9F3A92321CBBAF6009690F6 /* MKMUser.h */,
 				E9F3A8D221CBBAF6009690F6 /* MKMUser.m */,
-				E9BBBDD3223ABDDF00E6ACDA /* MKMImmortals.h */,
-				E9BBBDD4223ABDDF00E6ACDA /* MKMImmortals.m */,
 				E9F3A93921CBBAF6009690F6 /* MingKeMing.h */,
 			);
 			name = Classes;
@@ -489,7 +454,6 @@
 				5276BF642361C5F600AEC8E4 /* MKMRSAPublicKey.h in Headers */,
 				5276BF652361C5F600AEC8E4 /* MKMRSAPrivateKey.h in Headers */,
 				5276BF662361C5F600AEC8E4 /* MKMRSAPrivateKey+PersistentStore.h in Headers */,
-				5276BF672361C5F600AEC8E4 /* MKMImmortals.h in Headers */,
 				5276BF682361C5F600AEC8E4 /* NSDictionary+Binary.h in Headers */,
 				5276BF692361C5F600AEC8E4 /* NSArray+Merkle.h in Headers */,
 				5276BF6A2361C5F600AEC8E4 /* NSString+Crypto.h in Headers */,
@@ -531,7 +495,6 @@
 				E9F3A94D21CBBAF7009690F6 /* MKMRSAPublicKey.h in Headers */,
 				E9F3A94521CBBAF7009690F6 /* MKMRSAPrivateKey.h in Headers */,
 				E9F3A94621CBBAF7009690F6 /* MKMRSAPrivateKey+PersistentStore.h in Headers */,
-				E9BBBDD5223ABDE000E6ACDA /* MKMImmortals.h in Headers */,
 				E9F3A95C21CBBAF7009690F6 /* NSDictionary+Binary.h in Headers */,
 				E9F3A96221CBBAF7009690F6 /* NSArray+Merkle.h in Headers */,
 				E9F3A96621CBBAF7009690F6 /* NSString+Crypto.h in Headers */,
@@ -647,12 +610,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E94DEB9723A24D3E00FBFD3C /* hulk_meta.js in Resources */,
-				E94DEB9923A24D3E00FBFD3C /* moki_profile.js in Resources */,
-				E94DEB9823A24D3E00FBFD3C /* moki_meta.js in Resources */,
-				E94DEB9A23A24D3E00FBFD3C /* hulk_profile.js in Resources */,
-				E94DEB9B23A24D3E00FBFD3C /* hulk_secret.js in Resources */,
-				E94DEB9C23A24D3E00FBFD3C /* moki_secret.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -680,7 +637,6 @@
 				5276BF752361C5F600AEC8E4 /* NSDictionary+Binary.m in Sources */,
 				5276BF762361C5F600AEC8E4 /* MKMString.m in Sources */,
 				5276BF772361C5F600AEC8E4 /* MKMUser.m in Sources */,
-				5276BF782361C5F600AEC8E4 /* MKMImmortals.m in Sources */,
 				5276BF792361C5F600AEC8E4 /* MKMPublicKey.m in Sources */,
 				5276BF7A2361C5F600AEC8E4 /* MKMDictionary.m in Sources */,
 				5276BF7B2361C5F600AEC8E4 /* base58.cpp in Sources */,
@@ -715,7 +671,6 @@
 				E9F3A96121CBBAF7009690F6 /* NSDictionary+Binary.m in Sources */,
 				E9F3A96A21CBBAF7009690F6 /* MKMString.m in Sources */,
 				E9F3A94221CBBAF7009690F6 /* MKMUser.m in Sources */,
-				E9BBBDD6223ABDE000E6ACDA /* MKMImmortals.m in Sources */,
 				E9F3A95621CBBAF7009690F6 /* MKMPublicKey.m in Sources */,
 				E9F3A96921CBBAF7009690F6 /* MKMDictionary.m in Sources */,
 				E9F3A98721CBBAF7009690F6 /* base58.cpp in Sources */,

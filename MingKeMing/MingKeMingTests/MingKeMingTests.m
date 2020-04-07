@@ -14,8 +14,6 @@
 #import "NSData+Crypto.h"
 #import "NSString+Crypto.h"
 
-#import "MKMImmortals.h"
-
 @interface NSData (Hex)
 
 - (NSString *)hexEncode;
@@ -288,41 +286,6 @@ static inline void print_id(MKMID *ID) {
 //    MKMID *ID2 = MKMIDFromString(satoshi);
 //    print_id(ID2);
 //}
-
-- (void)testAccount {
-    
-    MKMImmortals *immortals = [[MKMImmortals alloc] init];
-    
-    MKMID *ID = MKMIDFromString(MKM_IMMORTAL_HULK_ID);
-    MKMUser *user = [immortals userWithID:ID];
-    NSLog(@"get user: %@", user);
-    
-    NSString *string;
-    NSData *data;
-    string = @"WH/wAcu+HfpaLq+vRblNnYufkyjTm4FgYyzW3wBDeRtXs1TeDmRxKVu7"
-    "nQI/sdIALGLXrY+O5mlRfhU8f8TuIBilZUlX/eIUpL4uSDYKVLaRG9pO"
-    "crCHKevjUpId9x/8KBEiMIL5LB0Vo7sKrvrqosCnIgNfHbXMKvMzwcqZ"
-    "EU8=";
-    data = [string base64Decode];
-    data = [user decrypt:data];
-    string = [data UTF8String];
-    NSLog(@"RSA decrypt: %@", string);
-    NSDictionary *dict = [data jsonDictionary];
-    
-    MKMSymmetricKey *pw = MKMSymmetricKeyFromDictionary(dict);
-    
-    string = @"9cjCKG99ULCCxbL2mkc/MgF1saeRqJaCc+S12+HCqmsuF7TWK61EwTQWZSKskUeF";
-    data = [string base64Decode];
-    data = [pw decrypt:data];
-    string = [data UTF8String];
-    NSLog(@"AES decrypt: %@", string);
-    
-    ID = MKMAnyone();
-    print_id(ID);
-    
-    ID = MKMEveryone();
-    print_id(ID);
-}
 
 - (void)testRegister {
     MKMPrivateKey *SK;
