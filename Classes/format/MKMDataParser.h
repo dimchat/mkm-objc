@@ -2,7 +2,7 @@
 //
 //  Ming-Ke-Ming : Decentralized User Identity Authentication
 //
-//                               Written in 2018 by Moky <albert.moky@gmail.com>
+//                               Written in 2020 by Moky <albert.moky@gmail.com>
 //
 // =============================================================================
 // The MIT License (MIT)
@@ -28,26 +28,48 @@
 // SOFTWARE.
 // =============================================================================
 //
-//  NSObject+JsON.h
+//  MKMDataParser.h
 //  MingKeMing
 //
-//  Created by Albert Moky on 2018/9/28.
-//  Copyright © 2018 DIM Group. All rights reserved.
+//  Created by Albert Moky on 2020/4/7.
+//  Copyright © 2020 DIM Group. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface NSData (UTF8)
+@protocol MKMDataParser <NSObject>
 
-- (NSString *)UTF8String;
+/**
+ *  Encode object to bytes
+ *
+ * @param object - Dictionary, Array or String
+ * @return bytes
+ */
+- (nullable NSData *)encode:(id)object;
+
+/**
+ *  Decode bytes to object
+ *
+ * @param bytes - data bytes
+ * @return object
+ */
+- (nullable id)decode:(NSData *)bytes;
 
 @end
 
-@interface NSString (UTF8)
+#pragma mark -
 
-- (NSData *)data;
+#define MKMJSONEncode(container) [[MKMJSON sharedInstance] encode:(container)]
+#define MKMJSONDecode(json)      [[MKMJSON sharedInstance] decode:(json)]
+
+@interface MKMJSON : NSObject <MKMDataParser>
+
+// default parser
+@property (strong, nonatomic) id<MKMDataParser> parser;
+
++ (instancetype)sharedInstance;
 
 @end
 

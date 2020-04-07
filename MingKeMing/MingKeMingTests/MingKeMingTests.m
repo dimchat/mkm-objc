@@ -117,18 +117,6 @@ static inline void print_id(MKMID *ID) {
     NSLog(@"base58 decode: %@", [data hexEncode]);
 }
 
-- (void)testKeys {
-    NSDictionary *key = @{@"algorithm": @"RSA",
-                          @"data": @"-----BEGIN PUBLIC KEY-----\nMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDr2zVbMu4zFOdimKVD4DlW0Uol\nEtUocA9QESbKVdv8sjFY29JROrXNGHW0uD1cyGSLJyKVuDu7PnvgcUILeSpV+TEn\nNrMN5KSSTeWyOmh5n8NI5WqT3qpCk5vNMa4e/4/Yuh/Hy4d3KOmFO0cVa29e0GmV\nDHkGqw6f7uykdGVnNwIDAQAB\n-----END PUBLIC KEY-----"};
-    MKMPublicKey *PK = MKMPublicKeyFromDictionary(key);
-    NSLog(@"PK: %@", PK);
-    NSLog(@"PK.json: %@", [PK jsonString]);
-    NSString *data = [PK.data base64Encode];
-    NSLog(@"PK.data: %@", data);
-    
-    NSAssert([data isEqualToString:@"MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDr2zVbMu4zFOdimKVD4DlW0UolEtUocA9QESbKVdv8sjFY29JROrXNGHW0uD1cyGSLJyKVuDu7PnvgcUILeSpV+TEnNrMN5KSSTeWyOmh5n8NI5WqT3qpCk5vNMa4e/4/Yuh/Hy4d3KOmFO0cVa29e0GmVDHkGqw6f7uykdGVnNwIDAQAB"], @"data error");
-}
-
 - (void)testSymmetric {
     
     NSString *string = @"moky";
@@ -318,14 +306,6 @@ static inline void print_id(MKMID *ID) {
     time2 = [[NSDate alloc] init];
     NSTimeInterval ti = [time2 timeIntervalSinceDate:time1];
     NSLog(@"count: %lu, time: %lu, speed: %f", count, (unsigned long)ti, count/ti);
-}
-
-- (void)testMetaAndKey {
-    NSString *name = @"moky";
-    MKMPrivateKey *SK = MKMPrivateKeyWithAlgorithm(ACAlgorithmRSA);
-    MKMMeta *meta = MKMMetaGenerate(MKMMetaDefaultVersion, SK, name);
-    NSLog(@"meta: %@", [meta jsonString]);
-    NSLog(@"SK: %@", [SK jsonString]);
 }
 
 static inline void checkX(NSString *metaJson, NSString *skJson) {

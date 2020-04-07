@@ -37,6 +37,8 @@
 
 #import "NSObject+JsON.h"
 
+#import "MKMDataParser.h"
+
 #import "MKMID.h"
 #import "MKMProfile.h"
 
@@ -91,7 +93,7 @@
                            @"ID"   : self.ID,
                            @"name" : self.name,
                            };
-    return [info jsonString];
+    return [MKMJSONEncode(info) UTF8String];
 }
 
 - (MKMNetworkType)type {

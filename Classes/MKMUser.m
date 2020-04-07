@@ -37,6 +37,8 @@
 
 #import "NSObject+JsON.h"
 
+#import "MKMDataParser.h"
+
 #import "MKMPublicKey.h"
 #import "MKMPrivateKey.h"
 
@@ -134,10 +136,10 @@
 
 - (NSString *)debugDescription {
     NSString *desc = [super debugDescription];
-    NSDictionary *dict = [[desc data] jsonDictionary];
+    NSDictionary *dict = MKMJSONDecode([desc data]);
     NSMutableDictionary *info = [dict mutableCopy];
     [info setObject:@(self.contacts.count) forKey:@"contacts"];
-    return [info jsonString];
+    return [MKMJSONEncode(info) UTF8String];
 }
 
 - (NSArray<MKMID *> *)contacts {

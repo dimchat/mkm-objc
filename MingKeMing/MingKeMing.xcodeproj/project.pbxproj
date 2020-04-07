@@ -75,6 +75,10 @@
 		E915CE88243C6C3A00B98FE3 /* common.h in Headers */ = {isa = PBXBuildFile; fileRef = E915CE75243C6C1F00B98FE3 /* common.h */; };
 		E915CE89243C6C3C00B98FE3 /* ripemd160.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E915CE76243C6C1F00B98FE3 /* ripemd160.cpp */; };
 		E915CE8A243C6E8100B98FE3 /* MKMBaseCoder.mm in Sources */ = {isa = PBXBuildFile; fileRef = E915CE6D243C67BC00B98FE3 /* MKMBaseCoder.mm */; };
+		E915CE8D243C79AA00B98FE3 /* MKMDataParser.h in Headers */ = {isa = PBXBuildFile; fileRef = E915CE8B243C79AA00B98FE3 /* MKMDataParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E915CE8E243C79AA00B98FE3 /* MKMDataParser.m in Sources */ = {isa = PBXBuildFile; fileRef = E915CE8C243C79AA00B98FE3 /* MKMDataParser.m */; };
+		E915CE8F243C7C9700B98FE3 /* MKMDataParser.h in Headers */ = {isa = PBXBuildFile; fileRef = E915CE8B243C79AA00B98FE3 /* MKMDataParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E915CE90243C7C9C00B98FE3 /* MKMDataParser.m in Sources */ = {isa = PBXBuildFile; fileRef = E915CE8C243C79AA00B98FE3 /* MKMDataParser.m */; };
 		E919AF8D238FCFB6004F7FF9 /* MKMTai.h in Headers */ = {isa = PBXBuildFile; fileRef = E919AF8B238FCFB6004F7FF9 /* MKMTai.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E919AF8E238FCFB6004F7FF9 /* MKMTai.h in Headers */ = {isa = PBXBuildFile; fileRef = E919AF8B238FCFB6004F7FF9 /* MKMTai.h */; };
 		E919AF8F238FCFB6004F7FF9 /* MKMTai.m in Sources */ = {isa = PBXBuildFile; fileRef = E919AF8C238FCFB6004F7FF9 /* MKMTai.m */; };
@@ -155,6 +159,8 @@
 		E915CE79243C6C1F00B98FE3 /* byteswap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = byteswap.h; sourceTree = "<group>"; };
 		E915CE7A243C6C1F00B98FE3 /* base58.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = base58.cpp; sourceTree = "<group>"; };
 		E915CE7B243C6C1F00B98FE3 /* base58.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = base58.h; sourceTree = "<group>"; };
+		E915CE8B243C79AA00B98FE3 /* MKMDataParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MKMDataParser.h; sourceTree = "<group>"; };
+		E915CE8C243C79AA00B98FE3 /* MKMDataParser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MKMDataParser.m; sourceTree = "<group>"; };
 		E919AF8B238FCFB6004F7FF9 /* MKMTai.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MKMTai.h; sourceTree = "<group>"; };
 		E919AF8C238FCFB6004F7FF9 /* MKMTai.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MKMTai.m; sourceTree = "<group>"; };
 		E91F2AFB2301481C00BE05D0 /* MKMGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMGroup.m; sourceTree = "<group>"; };
@@ -247,6 +253,8 @@
 			children = (
 				E915CE6C243C67BC00B98FE3 /* MKMBaseCoder.h */,
 				E915CE6D243C67BC00B98FE3 /* MKMBaseCoder.mm */,
+				E915CE8B243C79AA00B98FE3 /* MKMDataParser.h */,
+				E915CE8C243C79AA00B98FE3 /* MKMDataParser.m */,
 			);
 			path = format;
 			sourceTree = "<group>";
@@ -465,6 +473,7 @@
 				5276BF662361C5F600AEC8E4 /* MKMRSAPrivateKey+PersistentStore.h in Headers */,
 				5276BF682361C5F600AEC8E4 /* NSDictionary+Binary.h in Headers */,
 				5276BF692361C5F600AEC8E4 /* NSArray+Merkle.h in Headers */,
+				E915CE8F243C7C9700B98FE3 /* MKMDataParser.h in Headers */,
 				5276BF6B2361C5F600AEC8E4 /* NSObject+Compare.h in Headers */,
 				5276BF6C2361C5F600AEC8E4 /* NSObject+JsON.h in Headers */,
 				5276BF6D2361C5F600AEC8E4 /* NSData+Crypto.h in Headers */,
@@ -505,6 +514,7 @@
 				E9F3A94521CBBAF7009690F6 /* MKMRSAPrivateKey.h in Headers */,
 				E9F3A94621CBBAF7009690F6 /* MKMRSAPrivateKey+PersistentStore.h in Headers */,
 				E9F3A95C21CBBAF7009690F6 /* NSDictionary+Binary.h in Headers */,
+				E915CE8D243C79AA00B98FE3 /* MKMDataParser.h in Headers */,
 				E9F3A96221CBBAF7009690F6 /* NSArray+Merkle.h in Headers */,
 				E9AFAB7A2236E0F5001F95C6 /* NSObject+Compare.h in Headers */,
 				E9F3A96521CBBAF7009690F6 /* NSObject+JsON.h in Headers */,
@@ -657,6 +667,7 @@
 				5276BF812361C5F600AEC8E4 /* MKMEntity.m in Sources */,
 				5276BF822361C5F600AEC8E4 /* MKMRSAPublicKey.m in Sources */,
 				5276BF832361C5F600AEC8E4 /* MKMAsymmetricKey.m in Sources */,
+				E915CE90243C7C9C00B98FE3 /* MKMDataParser.m in Sources */,
 				5276BF862361C5F600AEC8E4 /* MKMRSAPrivateKey.m in Sources */,
 				5276BF872361C5F600AEC8E4 /* NSArray+Merkle.m in Sources */,
 				5276BF882361C5F600AEC8E4 /* MKMMeta.m in Sources */,
@@ -691,6 +702,7 @@
 				E9F3A95A21CBBAF7009690F6 /* MKMRSAPublicKey.m in Sources */,
 				E9F3A95421CBBAF7009690F6 /* MKMAsymmetricKey.m in Sources */,
 				E9F3A95321CBBAF7009690F6 /* MKMRSAPrivateKey.m in Sources */,
+				E915CE8E243C79AA00B98FE3 /* MKMDataParser.m in Sources */,
 				E915CE81243C6C1F00B98FE3 /* base58.cpp in Sources */,
 				E9F3A95B21CBBAF7009690F6 /* NSArray+Merkle.m in Sources */,
 				E9F3A97B21CBBAF7009690F6 /* MKMMeta.m in Sources */,

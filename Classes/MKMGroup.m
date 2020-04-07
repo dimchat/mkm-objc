@@ -37,6 +37,8 @@
 
 #import "NSObject+JsON.h"
 
+#import "MKMDataParser.h"
+
 #import "MKMPublicKey.h"
 
 #import "MKMID.h"
@@ -74,10 +76,10 @@
 
 - (NSString *)debugDescription {
     NSString *desc = [super debugDescription];
-    NSDictionary *dict = [[desc data] jsonDictionary];
+    NSDictionary *dict = MKMJSONDecode([desc data]);
     NSMutableDictionary *info = [dict mutableCopy];
     [info setObject:@(self.members.count) forKey:@"members"];
-    return [info jsonString];
+    return [MKMJSONEncode(info) UTF8String];
 }
 
 - (MKMID *)founder {

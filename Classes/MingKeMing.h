@@ -70,6 +70,7 @@ FOUNDATION_EXPORT const unsigned char MingKeMingVersionString[];
 
 // Format
 #import <MingKeMing/MKMBaseCoder.h>
+#import <MingKeMing/MKMDataParser.h>
 
 // Entity
 #import <MingKeMing/MKMID.h>

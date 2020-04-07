@@ -40,6 +40,7 @@
 #import "NSData+Crypto.h"
 
 #import "MKMBaseCoder.h"
+#import "MKMDataParser.h"
 
 #import "MKMPublicKey.h"
 #import "MKMPrivateKey.h"
@@ -186,7 +187,7 @@
     if (!_properties) {
         NSData *data = [self data];
         if (data) {
-            NSDictionary *dict = [data jsonDictionary];
+            NSDictionary *dict = MKMJSONDecode(data);
             NSAssert(dict, @"profile data error: %@", data);
             _properties = [dict mutableCopy];
         } else {
@@ -266,7 +267,7 @@
         return _signature;
     }
     _status = 1;
-    _data = [self.properties jsonData];
+    _data = MKMJSONEncode(self.properties);
     _signature = [SK sign:_data];
     // update 'data' & 'signature' fields
     [_storeDictionary setObject:[_data UTF8String] forKey:@"data"];
