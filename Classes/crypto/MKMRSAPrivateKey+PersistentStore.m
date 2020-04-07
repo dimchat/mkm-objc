@@ -39,8 +39,7 @@
 
 #import "MKMBaseCoder.h"
 #import "MKMDataParser.h"
-
-#import "MKMRSAKeyHelper.h"
+#import "MKMKeyParser.h"
 
 #import "MKMRSAPrivateKey+PersistentStore.h"
 
@@ -74,20 +73,12 @@ static NSString *s_application_tag = @"chat.dim.rsa.private";
     CFTypeRef result = NULL;
     OSStatus status = SecItemCopyMatching((CFDictionaryRef)query, &result);
     if (status == errSecSuccess) { // noErr
-        // private key
         SecKeyRef privateKeyRef = (SecKeyRef)result;
-        NSData *skData = NSDataFromSecKeyRef(privateKeyRef);
-        // public key
         SecKeyRef publicKeyRef = SecKeyCopyPublicKey(privateKeyRef);
-        NSData *pkData = NSDataFromSecKeyRef(publicKeyRef);
-        CFRelease(publicKeyRef);
-        
+        NSString *skc = MKMPEMEncodePrivateKey(privateKeyRef);
+        NSString *pkc = MKMPEMEncodePublicKey(publicKeyRef);
+        NSString *content = [NSString stringWithFormat:@"%@\n%@", pkc, skc];
         NSString *algorithm = ACAlgorithmRSA;
-        NSString *pkFmt = @"-----BEGIN PUBLIC KEY----- %@ -----END PUBLIC KEY-----";
-        NSString *skFmt = @"-----BEGIN RSA PRIVATE KEY----- %@ -----END RSA PRIVATE KEY-----";
-        NSString *pkc = [NSString stringWithFormat:pkFmt, MKMBase64Encode(pkData)];
-        NSString *skc = [NSString stringWithFormat:skFmt, MKMBase64Encode(skData)];
-        NSString *content = [pkc stringByAppendingString:skc];
         NSDictionary *keyInfo = @{@"algorithm":algorithm,
                                   @"data"     :content,
                                   };

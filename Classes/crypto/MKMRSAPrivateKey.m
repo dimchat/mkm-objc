@@ -38,8 +38,8 @@
 #import "NSData+Crypto.h"
 
 #import "MKMBaseCoder.h"
+#import "MKMKeyParser.h"
 
-#import "MKMRSAKeyHelper.h"
 #import "MKMRSAPublicKey.h"
 
 #import "MKMRSAPrivateKey.h"
@@ -48,19 +48,15 @@
     
     NSUInteger _keySize;
     
-    NSString *_privateContent;
     SecKeyRef _privateKeyRef;
     
-    NSString *_publicContent;
     MKMRSAPublicKey *_publicKey;
 }
 
 @property (nonatomic) NSUInteger keySize;
 
-@property (strong, nonatomic) NSString *privateContent;
 @property (nonatomic) SecKeyRef privateKeyRef;
 
-@property (strong, nonatomic) NSString *publicContent;
 @property (strong, atomic, nullable) MKMRSAPublicKey *publicKey;
 
 @end
@@ -73,10 +69,8 @@
         // lazy
         _keySize = 0;
         
-        _privateContent = nil;
         _privateKeyRef = NULL;
         
-        _publicContent = nil;
         _publicKey = nil;
     }
     
@@ -99,11 +93,7 @@
     if (key) {
         key.data = _data;
         key.keySize = _keySize;
-        
-        key.privateContent = _privateContent;
         key.privateKeyRef = _privateKeyRef;
-        
-        key.publicContent = _publicContent;
         key.publicKey = _publicKey;
     }
     return key;
@@ -115,43 +105,28 @@
 
 - (NSData *)data {
     if (!_data) {
-        _data = MKMBase64Decode(self.privateContent);
+        _data = NSDataFromSecKeyRef(self.privateKeyRef);
     }
     return _data;
 }
 
 - (NSUInteger)keySize {
-    while (_keySize == 0) {
+    if (_keySize == 0) {
         // get from key
-        if (_privateKeyRef || self.privateContent) {
+        if (_privateKeyRef || [self objectForKey:@"data"]) {
             size_t bytes = SecKeyGetBlockSize(self.privateKeyRef);
             _keySize = bytes * sizeof(uint8_t);
-            break;
-        }
-        // get from dictionary
-        NSNumber *size = [_storeDictionary objectForKey:@"keySize"];
-        if (size == nil) {
-            _keySize = 1024 / 8; // 128
         } else {
-            _keySize = size.unsignedIntegerValue;
+            // get from dictionary
+            NSNumber *size = [_storeDictionary objectForKey:@"keySize"];
+            if (size == nil) {
+                _keySize = 1024 / 8; // 128
+            } else {
+                _keySize = size.unsignedIntegerValue;
+            }
         }
-        break;
     }
     return _keySize;
-}
-
-- (NSString *)privateContent {
-    if (!_privateContent) {
-        // RSA key data
-        NSString *data = [_storeDictionary objectForKey:@"data"];
-        if (!data) {
-            data = [_storeDictionary objectForKey:@"content"];
-        }
-        if (data) {
-            _privateContent = RSAPrivateKeyContentFromNSString(data);
-        }
-    }
-    return _privateContent;
 }
 
 - (void)setPrivateKeyRef:(SecKeyRef)privateKeyRef {
@@ -167,14 +142,13 @@
 }
 
 - (SecKeyRef)privateKeyRef {
-    while (!_privateKeyRef) {
+    if (!_privateKeyRef) {
         // 1. get private key from data content
-        NSString *privateContent = self.privateContent;
-        if (privateContent) {
+        NSString *pem = [_storeDictionary objectForKey:@"data"];
+        if (pem) {
             // key from data
-            NSData *data = MKMBase64Decode(privateContent);
-            _privateKeyRef = SecKeyRefFromPrivateData(data);
-            break;
+            _privateKeyRef = MKMPEMDecodePrivateKey(pem);
+            return _privateKeyRef;
         }
         
         // 2. generate key pairs
@@ -197,76 +171,34 @@
             NSAssert(false, @"RSA failed to generate key: %@", error);
             CFRelease(error);
             error = NULL;
-            break;
+            return nil;
         }
         NSAssert(_privateKeyRef, @"RSA private key ref should be set here");
         
         // 2.4. key to data
-        NSData *privateKeyData = NSDataFromSecKeyRef(_privateKeyRef);
-        if (privateKeyData) {
-            _privateContent = MKMBase64Encode(privateKeyData);
-            NSString *pem = NSStringFromRSAPrivateKeyContent(_privateContent);
-            [_storeDictionary setObject:pem forKey:@"data"];
-        } else {
-            NSAssert(false, @"RSA failed to get data from private key ref");
-        }
+        pem = MKMPEMEncodePrivateKey(_privateKeyRef);
+        [_storeDictionary setObject:pem forKey:@"data"];
         
         // 3. other parameters
         [_storeDictionary setObject:@"ECB" forKey:@"mode"];
         [_storeDictionary setObject:@"PKCS1" forKey:@"padding"];
         [_storeDictionary setObject:@"SHA256" forKey:@"digest"];
-        
-        break;
     }
     return _privateKeyRef;
 }
 
-- (NSString *)publicContent {
-    while (!_publicContent) {
-        // RSA key data
-        NSString *data = [_storeDictionary objectForKey:@"data"];
-        if (!data) {
-            data = [_storeDictionary objectForKey:@"content"];
-        }
-        if (data) {
-            // get public key content from data
-            NSRange range = [data rangeOfString:@"PUBLIC KEY"];
-            if (range.location != NSNotFound) {
-                // get public key from data string
-                NSString *content = RSAPublicKeyContentFromNSString(data);
-                _publicContent = NSStringFromRSAPublicKeyContent(content);
-                break;
-            }
-        }
-        
-        SecKeyRef privateKeyRef = self.privateKeyRef;
-        if (privateKeyRef) {
-            // get public key content from private key
-            SecKeyRef publicKeyRef = SecKeyCopyPublicKey(privateKeyRef);
-            NSData *publicKeyData = NSDataFromSecKeyRef(publicKeyRef);
-            CFRelease(publicKeyRef);
-            NSString *content = MKMBase64Encode(publicKeyData);
-            _publicContent = NSStringFromRSAPublicKeyContent(content);
-        }
-        break;
-    }
-    
-    NSAssert(_publicContent, @"RSA failed to get public content");
-    return _publicContent;
-}
-
 - (nullable __kindof MKMPublicKey *)publicKey {
     if (!_publicKey) {
-        NSString *publicContent = self.publicContent;
-        if (publicContent) {
-            NSDictionary *dict = @{@"algorithm":ACAlgorithmRSA,
-                                   @"data"     :publicContent,
-                                   @"mode"     :@"ECB",
-                                   @"padding"  :@"PKCS1",
-                                   @"digest"   :@"SHA256",
-                                   };
-            _publicKey = [[MKMRSAPublicKey alloc] initWithDictionary:dict];
-        }
+        // get public key content from private key
+        SecKeyRef publicKeyRef = SecKeyCopyPublicKey(self.privateKeyRef);
+        NSString *pem = MKMPEMEncodePublicKey(publicKeyRef);
+        NSDictionary *dict = @{@"algorithm":ACAlgorithmRSA,
+                               @"data"     :pem,
+                               @"mode"     :@"ECB",
+                               @"padding"  :@"PKCS1",
+                               @"digest"   :@"SHA256",
+                               };
+        _publicKey = [[MKMRSAPublicKey alloc] initWithDictionary:dict];
     }
     return _publicKey;
 }

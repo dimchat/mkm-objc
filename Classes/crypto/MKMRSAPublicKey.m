@@ -38,23 +38,25 @@
 #import "NSData+Crypto.h"
 
 #import "MKMBaseCoder.h"
+#import "MKMKeyParser.h"
 
-#import "MKMRSAKeyHelper.h"
 #import "MKMRSAPrivateKey.h"
 
 #import "MKMRSAPublicKey.h"
+
+static inline NSUInteger KeySizeFromSecKeyRef(SecKeyRef keyRef) {
+    size_t bytes = SecKeyGetBlockSize(keyRef);
+    return bytes * sizeof(uint8_t);
+}
 
 @interface MKMRSAPublicKey () {
     
     NSUInteger _keySize;
     
-    NSString *_publicContent;
     SecKeyRef _publicKeyRef;
 }
 
 @property (nonatomic) NSUInteger keySize;
-
-@property (strong, nonatomic) NSString *publicContent;
 
 @property (nonatomic) SecKeyRef publicKeyRef;
 
@@ -67,7 +69,6 @@
     if (self = [super initWithDictionary:keyInfo]) {
         // lazy
         _keySize = 0;
-        _publicContent = nil;
         _publicKeyRef = NULL;
     }
     
@@ -90,7 +91,6 @@
     if (key) {
         key.data = _data;
         key.keySize = _keySize;
-        key.publicContent = _publicContent;
         key.publicKeyRef = _publicKeyRef;
     }
     return key;
@@ -102,43 +102,27 @@
 
 - (NSData *)data {
     if (!_data) {
-        _data = MKMBase64Decode(self.publicContent);
+        _data = NSDataFromSecKeyRef(self.publicKeyRef);
     }
     return _data;
 }
 
 - (NSUInteger)keySize {
-    while (_keySize == 0) {
+    if (_keySize == 0) {
         // get from key
-        if (_publicKeyRef || self.publicContent) {
-            size_t bytes = SecKeyGetBlockSize(self.publicKeyRef);
-            _keySize = bytes * sizeof(uint8_t);
-            break;
-        }
-        // get from dictionary
-        NSNumber *size = [_storeDictionary objectForKey:@"keySize"];
-        if (size == nil) {
-            _keySize = 1024 / 8; // 128
+        if (_publicKeyRef || [_storeDictionary objectForKey:@"data"]) {
+            _keySize = KeySizeFromSecKeyRef(self.publicKeyRef);
         } else {
-            _keySize = size.unsignedIntegerValue;
+            // get from dictionary
+            NSNumber *size = [_storeDictionary objectForKey:@"keySize"];
+            if (size == nil) {
+                _keySize = 1024 / 8; // 128
+            } else {
+                _keySize = size.unsignedIntegerValue;
+            }
         }
-        break;
     }
     return _keySize;
-}
-
-- (NSString *)publicContent {
-    if (!_publicContent) {
-        // RSA key data
-        NSString *data = [_storeDictionary objectForKey:@"data"];
-        if (!data) {
-            data = [_storeDictionary objectForKey:@"content"];
-        }
-        if (data) {
-            _publicContent = RSAPublicKeyContentFromNSString(data);
-        }
-    }
-    return _publicContent;
 }
 
 - (void)setPublicKeyRef:(SecKeyRef)publicKeyRef {
@@ -155,12 +139,9 @@
 
 - (SecKeyRef)publicKeyRef {
     if (!_publicKeyRef) {
-        NSString *publicContent = self.publicContent;
-        if (publicContent) {
-            // key from data
-            NSData *data = MKMBase64Decode(publicContent);
-            _publicKeyRef = SecKeyRefFromPublicData(data);
-        }
+        NSString *pem = [_storeDictionary objectForKey:@"data"];
+        NSAssert(pem, @"Public key data not found: %@", self);
+        _publicKeyRef = MKMPEMDecodePublicKey(pem);
     }
     return _publicKeyRef;
 }

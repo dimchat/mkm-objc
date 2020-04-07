@@ -35,11 +35,7 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import <CommonCrypto/CommonDigest.h>
 #import <CommonCrypto/CommonCryptor.h>
-
-#import "base58.h"
-#import "ripemd160.h"
 
 #import "NSData+Crypto.h"
 

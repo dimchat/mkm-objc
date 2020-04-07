@@ -2,7 +2,7 @@
 //
 //  Ming-Ke-Ming : Decentralized User Identity Authentication
 //
-//                               Written in 2018 by Moky <albert.moky@gmail.com>
+//                               Written in 2020 by Moky <albert.moky@gmail.com>
 //
 // =============================================================================
 // The MIT License (MIT)
@@ -28,60 +28,18 @@
 // SOFTWARE.
 // =============================================================================
 //
-//  MKMRSAKeyHelper.m
+//  MKMKeyParser.m
 //  MingKeMing
 //
-//  Created by Albert Moky on 2018/11/25.
-//  Copyright © 2018 DIM Group. All rights reserved.
+//  Created by Albert Moky on 2020/4/7.
+//  Copyright © 2020 DIM Group. All rights reserved.
 //
 
-#import "MKMRSAKeyHelper.h"
+#import "NSObject+Singleton.h"
 
-#pragma mark SecKeyRef vs NSData
+#import "MKMBaseCoder.h"
 
-static inline SecKeyRef SecKeyRefFromData(NSData *data,
-                                          NSString *keyClass) {
-    // Set the private key query dictionary.
-    NSDictionary * dict;
-    dict = @{(id)kSecAttrKeyType :(id)kSecAttrKeyTypeRSA,
-             (id)kSecAttrKeyClass:keyClass,
-             };
-    CFErrorRef error = NULL;
-    SecKeyRef keyRef = SecKeyCreateWithData((CFDataRef)data,
-                                            (CFDictionaryRef)dict,
-                                            &error);
-    if (error) {
-        NSLog(@"RSA failed to create sec key with data: %@", data);
-        assert(keyRef == NULL); // the key ref should be empty when error
-        assert(false);
-        CFRelease(error);
-        error = NULL;
-    }
-    return keyRef;
-}
-
-SecKeyRef SecKeyRefFromPublicData(NSData *data) {
-    return SecKeyRefFromData(data, (__bridge id)kSecAttrKeyClassPublic);
-}
-
-SecKeyRef SecKeyRefFromPrivateData(NSData *data) {
-    return SecKeyRefFromData(data, (__bridge id)kSecAttrKeyClassPrivate);
-}
-
-NSData *NSDataFromSecKeyRef(SecKeyRef keyRef) {
-    CFErrorRef error = NULL;
-    CFDataRef dataRef = SecKeyCopyExternalRepresentation(keyRef, &error);
-    if (error) {
-        NSLog(@"RSA failed to copy data with sec key: %@", keyRef);
-        assert(dataRef == NULL); // the data ref should be empty when error
-        assert(false);
-        CFRelease(error);
-        error = NULL;
-    }
-    return (__bridge_transfer NSData *)dataRef;
-}
-
-#pragma mark RSA Key Content
+#import "MKMKeyParser.h"
 
 static inline NSString *RSAKeyContentFromNSString(NSString *content,
                                                   NSString *tag) {
@@ -124,7 +82,49 @@ NSString *RSAPrivateKeyContentFromNSString(NSString *content) {
     return RSAKeyContentFromNSString(content, @"PRIVATE");
 }
 
-NSString *NSStringFromRSAPublicKeyContent(NSString *content) {
+static inline SecKeyRef SecKeyRefFromData(NSData *data,
+                                          NSString *keyClass) {
+    // Set the private key query dictionary.
+    NSDictionary * dict;
+    dict = @{(id)kSecAttrKeyType :(id)kSecAttrKeyTypeRSA,
+             (id)kSecAttrKeyClass:keyClass,
+             };
+    CFErrorRef error = NULL;
+    SecKeyRef keyRef = SecKeyCreateWithData((CFDataRef)data,
+                                            (CFDictionaryRef)dict,
+                                            &error);
+    if (error) {
+        NSLog(@"RSA failed to create sec key with data: %@", data);
+        assert(keyRef == NULL); // the key ref should be empty when error
+        assert(false);
+        CFRelease(error);
+        error = NULL;
+    }
+    return keyRef;
+}
+
+static inline SecKeyRef SecKeyRefFromPublicData(NSData *data) {
+    return SecKeyRefFromData(data, (__bridge id)kSecAttrKeyClassPublic);
+}
+
+static inline SecKeyRef SecKeyRefFromPrivateData(NSData *data) {
+    return SecKeyRefFromData(data, (__bridge id)kSecAttrKeyClassPrivate);
+}
+
+NSData *NSDataFromSecKeyRef(SecKeyRef keyRef) {
+    CFErrorRef error = NULL;
+    CFDataRef dataRef = SecKeyCopyExternalRepresentation(keyRef, &error);
+    if (error) {
+        NSLog(@"RSA failed to copy data with sec key: %@", keyRef);
+        assert(dataRef == NULL); // the data ref should be empty when error
+        assert(false);
+        CFRelease(error);
+        error = NULL;
+    }
+    return (__bridge_transfer NSData *)dataRef;
+}
+
+static inline NSString *NSStringFromRSAPublicKeyContent(NSString *content) {
     NSMutableString *mString = [[NSMutableString alloc] init];
     [mString appendString:@"-----BEGIN PUBLIC KEY-----\n"];
     NSUInteger pos1, pos2, len = content.length;
@@ -141,7 +141,7 @@ NSString *NSStringFromRSAPublicKeyContent(NSString *content) {
     return mString;
 }
 
-NSString *NSStringFromRSAPrivateKeyContent(NSString *content) {
+static inline NSString *NSStringFromRSAPrivateKeyContent(NSString *content) {
     NSMutableString *mString = [[NSMutableString alloc] init];
     [mString appendString:@"-----BEGIN RSA PRIVATE KEY-----\n"];
     NSUInteger pos1, pos2, len = content.length;
@@ -157,3 +157,70 @@ NSString *NSStringFromRSAPrivateKeyContent(NSString *content) {
     [mString appendString:@"-----END RSA PRIVATE KEY-----\n"];
     return mString;
 }
+
+@interface PEM : NSObject <MKMKeyParser>
+
+@end
+
+@implementation PEM
+
+- (NSString *)encodePublicKey:(SecKeyRef)key {
+    NSData *data = NSDataFromSecKeyRef(key);
+    NSString *base64 = MKMBase64Encode(data);
+    return NSStringFromRSAPublicKeyContent(base64);
+}
+
+- (NSString *)encodePrivateKey:(SecKeyRef)key {
+    NSData *data = NSDataFromSecKeyRef(key);
+    NSString *base64 = MKMBase64Encode(data);
+    return NSStringFromRSAPrivateKeyContent(base64);
+}
+
+- (SecKeyRef)decodePublicKey:(NSString *)pem {
+    NSString *base64 = RSAPublicKeyContentFromNSString(pem);
+    NSData *data = MKMBase64Decode(base64);
+    return SecKeyRefFromPublicData(data);
+}
+
+- (SecKeyRef)decodePrivateKey:(NSString *)pem {
+    NSString *base64 = RSAPrivateKeyContentFromNSString(pem);
+    NSData *data = MKMBase64Decode(base64);
+    return SecKeyRefFromPrivateData(data);
+}
+
+@end
+
+#pragma mark -
+
+@implementation MKMPEM
+
+SingletonImplementations(MKMPEM, sharedInstance)
+
+- (instancetype)init {
+    if (self = [super init]) {
+        self.parser = [[PEM alloc] init];
+    }
+    return self;
+}
+
+- (NSString *)encodePublicKey:(SecKeyRef)key {
+    NSAssert(self.parser, @"PEM key parser not set yet");
+    return [self.parser encodePublicKey:key];
+}
+
+- (NSString *)encodePrivateKey:(SecKeyRef)key {
+    NSAssert(self.parser, @"PEM key parser not set yet");
+    return [self.parser encodePrivateKey:key];
+}
+
+- (SecKeyRef)decodePublicKey:(NSString *)pem {
+    NSAssert(self.parser, @"PEM key parser not set yet");
+    return [self.parser decodePublicKey:pem];
+}
+
+- (SecKeyRef)decodePrivateKey:(NSString *)pem {
+    NSAssert(self.parser, @"PEM key parser not set yet");
+    return [self.parser decodePrivateKey:pem];
+}
+
+@end
