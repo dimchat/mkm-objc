@@ -42,11 +42,6 @@
 
 #import "MKMRSAPublicKey.h"
 
-static inline NSUInteger KeySizeFromSecKeyRef(SecKeyRef keyRef) {
-    size_t bytes = SecKeyGetBlockSize(keyRef);
-    return bytes * sizeof(uint8_t);
-}
-
 @interface MKMRSAPublicKey () {
     
     NSUInteger _keySize;
@@ -109,7 +104,8 @@ static inline NSUInteger KeySizeFromSecKeyRef(SecKeyRef keyRef) {
     if (_keySize == 0) {
         // get from key
         if (_publicKeyRef || [_storeDictionary objectForKey:@"data"]) {
-            _keySize = KeySizeFromSecKeyRef(self.publicKeyRef);
+            size_t bytes = SecKeyGetBlockSize(self.publicKeyRef);
+            _keySize = bytes * sizeof(uint8_t);
         } else {
             // get from dictionary
             NSNumber *size = [_storeDictionary objectForKey:@"keySize"];

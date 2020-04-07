@@ -39,7 +39,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/**
+/*
  *  Compare objects
  *      when the two objects can be empty at the same time,
  *      use these functions to compare them
