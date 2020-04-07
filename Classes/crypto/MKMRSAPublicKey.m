@@ -36,7 +36,6 @@
 //
 
 #import "NSObject+JsON.h"
-#import "NSString+Crypto.h"
 #import "NSData+Crypto.h"
 
 #import "MKMBaseCoder.h"

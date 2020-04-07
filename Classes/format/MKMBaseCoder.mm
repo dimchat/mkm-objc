@@ -43,6 +43,75 @@
 
 #import "MKMBaseCoder.h"
 
+@interface Hex : NSObject <MKMBaseCoder>
+
+@end
+
+static inline char hex_char(char ch) {
+    if (ch >= '0' && ch <= '9') {
+        return ch - '0';
+    }
+    if (ch >= 'a' && ch <= 'f') {
+        return ch - 'a' + 10;
+    }
+    if (ch >= 'A' && ch <= 'F') {
+        return ch - 'A' + 10;
+    }
+    return 0;
+}
+
+@implementation Hex
+
+- (nullable NSString *)encode:(NSData *)data {
+    NSMutableString *output = nil;
+    
+    const unsigned char *bytes = (const unsigned char *)[data bytes];
+    NSUInteger len = [data length];
+    output = [[NSMutableString alloc] initWithCapacity:(len*2)];
+    for (int i = 0; i < len; ++i) {
+        [output appendFormat:@"%02x", bytes[i]];
+    }
+    
+    return output;
+}
+
+- (nullable NSData *)decode:(NSString *)string {
+    NSMutableData *output = nil;
+    
+    NSString *str = string;
+    // 1. remove ' ', ':', '-', '\n'
+    str = [str stringByReplacingOccurrencesOfString:@" " withString:@""];
+    str = [str stringByReplacingOccurrencesOfString:@":" withString:@""];
+    str = [str stringByReplacingOccurrencesOfString:@"-" withString:@""];
+    str = [str stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+    
+    // 2. skip '0x' prefix
+    char ch0, ch1;
+    NSUInteger pos = 0;
+    NSUInteger len = [string length];
+    if (len > 2) {
+        ch0 = [str characterAtIndex:0];
+        ch1 = [str characterAtIndex:1];
+        if (ch0 == '0' && (ch1 == 'x' || ch1 == 'X')) {
+            pos = 2;
+        }
+    }
+    
+    // 3. decode bytes
+    output = [[NSMutableData alloc] initWithCapacity:(len/2)];
+    unsigned char byte;
+    for (; (pos + 1) < len; pos += 2) {
+        ch0 = [str characterAtIndex:pos];
+        ch1 = [str characterAtIndex:(pos + 1)];
+        byte = hex_char(ch0) * 16 + hex_char(ch1);
+        [output appendBytes:&byte length:1];
+    }
+    
+    return output;
+}
+
+@end
+
 @interface Base58 : NSObject <MKMBaseCoder>
 
 @end
@@ -96,6 +165,29 @@
 @end
 
 #pragma mark -
+
+@implementation MKMHex
+
+SingletonImplementations(MKMHex, sharedInstance)
+
+- (instancetype)init {
+    if (self = [super init]) {
+        self.coder = [[Hex alloc] init];
+    }
+    return self;
+}
+
+- (nullable NSString *)encode:(NSData *)data {
+    NSAssert(self.coder, @"Hex coder not set yet");
+    return [self.coder encode:data];
+}
+
+- (nullable NSData *)decode:(NSString *)string {
+    NSAssert(self.coder, @"Hex coder not set yet");
+    return [self.coder decode:string];
+}
+
+@end
 
 @implementation MKMBase58
 

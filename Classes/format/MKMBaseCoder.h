@@ -61,11 +61,23 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark -
 
+#define MKMHexEncode(data)      [[MKMHex sharedInstance] encode:(data)]
+#define MKMHexDecode(string)    [[MKMHex sharedInstance] decode:(string)]
+
 #define MKMBase58Encode(data)   [[MKMBase58 sharedInstance] encode:(data)]
 #define MKMBase58Decode(string) [[MKMBase58 sharedInstance] decode:(string)]
 
 #define MKMBase64Encode(data)   [[MKMBase64 sharedInstance] encode:(data)]
 #define MKMBase64Decode(string) [[MKMBase64 sharedInstance] decode:(string)]
+
+@interface MKMHex : NSObject <MKMBaseCoder>
+
+// default coder
+@property (strong, nonatomic) id<MKMBaseCoder> coder;
+
++ (instancetype)sharedInstance;
+
+@end
 
 @interface MKMBase58 : NSObject <MKMBaseCoder>
 

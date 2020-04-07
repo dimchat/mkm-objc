@@ -30,7 +30,6 @@
 		5276BF662361C5F600AEC8E4 /* MKMRSAPrivateKey+PersistentStore.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8D721CBBAF6009690F6 /* MKMRSAPrivateKey+PersistentStore.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5276BF682361C5F600AEC8E4 /* NSDictionary+Binary.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8EE21CBBAF6009690F6 /* NSDictionary+Binary.h */; };
 		5276BF692361C5F600AEC8E4 /* NSArray+Merkle.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8F421CBBAF6009690F6 /* NSArray+Merkle.h */; };
-		5276BF6A2361C5F600AEC8E4 /* NSString+Crypto.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8F821CBBAF6009690F6 /* NSString+Crypto.h */; };
 		5276BF6B2361C5F600AEC8E4 /* NSObject+Compare.h in Headers */ = {isa = PBXBuildFile; fileRef = E9AFAB782236E0F5001F95C6 /* NSObject+Compare.h */; };
 		5276BF6C2361C5F600AEC8E4 /* NSObject+JsON.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8F721CBBAF6009690F6 /* NSObject+JsON.h */; };
 		5276BF6D2361C5F600AEC8E4 /* NSData+Crypto.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8EF21CBBAF6009690F6 /* NSData+Crypto.h */; };
@@ -52,7 +51,6 @@
 		5276BF812361C5F600AEC8E4 /* MKMEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A90C21CBBAF6009690F6 /* MKMEntity.m */; };
 		5276BF822361C5F600AEC8E4 /* MKMRSAPublicKey.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8EB21CBBAF6009690F6 /* MKMRSAPublicKey.m */; };
 		5276BF832361C5F600AEC8E4 /* MKMAsymmetricKey.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8E521CBBAF6009690F6 /* MKMAsymmetricKey.m */; };
-		5276BF852361C5F600AEC8E4 /* NSString+Crypto.mm in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8F021CBBAF6009690F6 /* NSString+Crypto.mm */; };
 		5276BF862361C5F600AEC8E4 /* MKMRSAPrivateKey.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8E421CBBAF6009690F6 /* MKMRSAPrivateKey.m */; };
 		5276BF872361C5F600AEC8E4 /* NSArray+Merkle.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8ED21CBBAF6009690F6 /* NSArray+Merkle.m */; };
 		5276BF882361C5F600AEC8E4 /* MKMMeta.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A91021CBBAF6009690F6 /* MKMMeta.m */; };
@@ -113,13 +111,11 @@
 		E9F3A95B21CBBAF7009690F6 /* NSArray+Merkle.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8ED21CBBAF6009690F6 /* NSArray+Merkle.m */; };
 		E9F3A95C21CBBAF7009690F6 /* NSDictionary+Binary.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8EE21CBBAF6009690F6 /* NSDictionary+Binary.h */; };
 		E9F3A95D21CBBAF7009690F6 /* NSData+Crypto.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8EF21CBBAF6009690F6 /* NSData+Crypto.h */; };
-		E9F3A95E21CBBAF7009690F6 /* NSString+Crypto.mm in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8F021CBBAF6009690F6 /* NSString+Crypto.mm */; };
 		E9F3A95F21CBBAF7009690F6 /* NSObject+JsON.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8F121CBBAF6009690F6 /* NSObject+JsON.m */; };
 		E9F3A96121CBBAF7009690F6 /* NSDictionary+Binary.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8F321CBBAF6009690F6 /* NSDictionary+Binary.m */; };
 		E9F3A96221CBBAF7009690F6 /* NSArray+Merkle.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8F421CBBAF6009690F6 /* NSArray+Merkle.h */; };
 		E9F3A96421CBBAF7009690F6 /* NSData+Crypto.mm in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8F621CBBAF6009690F6 /* NSData+Crypto.mm */; };
 		E9F3A96521CBBAF7009690F6 /* NSObject+JsON.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8F721CBBAF6009690F6 /* NSObject+JsON.h */; };
-		E9F3A96621CBBAF7009690F6 /* NSString+Crypto.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8F821CBBAF6009690F6 /* NSString+Crypto.h */; };
 		E9F3A96921CBBAF7009690F6 /* MKMDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8FC21CBBAF6009690F6 /* MKMDictionary.m */; };
 		E9F3A96A21CBBAF7009690F6 /* MKMString.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8FD21CBBAF6009690F6 /* MKMString.m */; };
 		E9F3A96B21CBBAF7009690F6 /* MKMDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8FE21CBBAF6009690F6 /* MKMDictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -196,13 +192,11 @@
 		E9F3A8ED21CBBAF6009690F6 /* NSArray+Merkle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Merkle.m"; sourceTree = "<group>"; };
 		E9F3A8EE21CBBAF6009690F6 /* NSDictionary+Binary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+Binary.h"; sourceTree = "<group>"; };
 		E9F3A8EF21CBBAF6009690F6 /* NSData+Crypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Crypto.h"; sourceTree = "<group>"; };
-		E9F3A8F021CBBAF6009690F6 /* NSString+Crypto.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "NSString+Crypto.mm"; sourceTree = "<group>"; };
 		E9F3A8F121CBBAF6009690F6 /* NSObject+JsON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+JsON.m"; sourceTree = "<group>"; };
 		E9F3A8F321CBBAF6009690F6 /* NSDictionary+Binary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Binary.m"; sourceTree = "<group>"; };
 		E9F3A8F421CBBAF6009690F6 /* NSArray+Merkle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Merkle.h"; sourceTree = "<group>"; };
 		E9F3A8F621CBBAF6009690F6 /* NSData+Crypto.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "NSData+Crypto.mm"; sourceTree = "<group>"; };
 		E9F3A8F721CBBAF6009690F6 /* NSObject+JsON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+JsON.h"; sourceTree = "<group>"; };
-		E9F3A8F821CBBAF6009690F6 /* NSString+Crypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Crypto.h"; sourceTree = "<group>"; };
 		E9F3A8FC21CBBAF6009690F6 /* MKMDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMDictionary.m; sourceTree = "<group>"; };
 		E9F3A8FD21CBBAF6009690F6 /* MKMString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMString.m; sourceTree = "<group>"; };
 		E9F3A8FE21CBBAF6009690F6 /* MKMDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMDictionary.h; sourceTree = "<group>"; };
@@ -393,8 +387,6 @@
 				E9F3A8F721CBBAF6009690F6 /* NSObject+JsON.h */,
 				E9F3A8F121CBBAF6009690F6 /* NSObject+JsON.m */,
 				E961082122C9E7600032D8A2 /* NSObject+Singleton.h */,
-				E9F3A8F821CBBAF6009690F6 /* NSString+Crypto.h */,
-				E9F3A8F021CBBAF6009690F6 /* NSString+Crypto.mm */,
 			);
 			path = extends;
 			sourceTree = "<group>";
@@ -473,7 +465,6 @@
 				5276BF662361C5F600AEC8E4 /* MKMRSAPrivateKey+PersistentStore.h in Headers */,
 				5276BF682361C5F600AEC8E4 /* NSDictionary+Binary.h in Headers */,
 				5276BF692361C5F600AEC8E4 /* NSArray+Merkle.h in Headers */,
-				5276BF6A2361C5F600AEC8E4 /* NSString+Crypto.h in Headers */,
 				5276BF6B2361C5F600AEC8E4 /* NSObject+Compare.h in Headers */,
 				5276BF6C2361C5F600AEC8E4 /* NSObject+JsON.h in Headers */,
 				5276BF6D2361C5F600AEC8E4 /* NSData+Crypto.h in Headers */,
@@ -515,7 +506,6 @@
 				E9F3A94621CBBAF7009690F6 /* MKMRSAPrivateKey+PersistentStore.h in Headers */,
 				E9F3A95C21CBBAF7009690F6 /* NSDictionary+Binary.h in Headers */,
 				E9F3A96221CBBAF7009690F6 /* NSArray+Merkle.h in Headers */,
-				E9F3A96621CBBAF7009690F6 /* NSString+Crypto.h in Headers */,
 				E9AFAB7A2236E0F5001F95C6 /* NSObject+Compare.h in Headers */,
 				E9F3A96521CBBAF7009690F6 /* NSObject+JsON.h in Headers */,
 				E9F3A95D21CBBAF7009690F6 /* NSData+Crypto.h in Headers */,
@@ -667,7 +657,6 @@
 				5276BF812361C5F600AEC8E4 /* MKMEntity.m in Sources */,
 				5276BF822361C5F600AEC8E4 /* MKMRSAPublicKey.m in Sources */,
 				5276BF832361C5F600AEC8E4 /* MKMAsymmetricKey.m in Sources */,
-				5276BF852361C5F600AEC8E4 /* NSString+Crypto.mm in Sources */,
 				5276BF862361C5F600AEC8E4 /* MKMRSAPrivateKey.m in Sources */,
 				5276BF872361C5F600AEC8E4 /* NSArray+Merkle.m in Sources */,
 				5276BF882361C5F600AEC8E4 /* MKMMeta.m in Sources */,
@@ -701,7 +690,6 @@
 				E9F3A97721CBBAF7009690F6 /* MKMEntity.m in Sources */,
 				E9F3A95A21CBBAF7009690F6 /* MKMRSAPublicKey.m in Sources */,
 				E9F3A95421CBBAF7009690F6 /* MKMAsymmetricKey.m in Sources */,
-				E9F3A95E21CBBAF7009690F6 /* NSString+Crypto.mm in Sources */,
 				E9F3A95321CBBAF7009690F6 /* MKMRSAPrivateKey.m in Sources */,
 				E915CE81243C6C1F00B98FE3 /* base58.cpp in Sources */,
 				E9F3A95B21CBBAF7009690F6 /* NSArray+Merkle.m in Sources */,

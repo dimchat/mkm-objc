@@ -38,7 +38,6 @@
 #import <CommonCrypto/CommonCryptor.h>
 
 #import "NSData+Crypto.h"
-#import "NSString+Crypto.h"
 
 #import "MKMBaseCoder.h"
 

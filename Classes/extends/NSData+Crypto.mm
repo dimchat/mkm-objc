@@ -42,7 +42,6 @@
 #import "ripemd160.h"
 
 #import "NSObject+JsON.h"
-#import "NSString+Crypto.h"
 
 #import "NSData+Crypto.h"
 

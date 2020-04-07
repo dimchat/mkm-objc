@@ -14,29 +14,6 @@
 #import "NSData+Crypto.h"
 #import "NSString+Crypto.h"
 
-@interface NSData (Hex)
-
-- (NSString *)hexEncode;
-
-@end
-
-@implementation NSData (Hex)
-
-- (NSString *)hexEncode {
-    NSMutableString *output = nil;
-    
-    const unsigned char *bytes = (const unsigned char *)[self bytes];
-    NSUInteger len = [self length];
-    output = [[NSMutableString alloc] initWithCapacity:(len*2)];
-    for (int i = 0; i < len; ++i) {
-        [output appendFormat:@"%02x", bytes[i]];
-    }
-    
-    return output;
-}
-
-@end
-
 static inline NSString *search_number(UInt32 code) {
     NSMutableString *number;
     number = [[NSMutableString alloc] initWithFormat:@"%010u", (unsigned int)code];;
