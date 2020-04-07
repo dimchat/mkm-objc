@@ -35,8 +35,6 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import "NSObject+JsON.h"
-
 #import "MKMDataParser.h"
 
 #import "MKMID.h"
@@ -93,7 +91,7 @@
                            @"ID"   : self.ID,
                            @"name" : self.name,
                            };
-    return [MKMJSONEncode(info) UTF8String];
+    return MKMUTF8Decode(MKMJSONEncode(info));
 }
 
 - (MKMNetworkType)type {

@@ -36,7 +36,6 @@
 //
 
 #import "NSObject+Singleton.h"
-#import "NSObject+JsON.h"
 #import "NSData+Crypto.h"
 
 #import "MKMBaseCoder.h"
@@ -115,7 +114,7 @@
         _data = json;
         _signature = signature;
         
-        [self setObject:[json UTF8String] forKey:@"data"];
+        [self setObject:MKMUTF8Decode(json) forKey:@"data"];
         [self setObject:MKMBase64Encode(signature) forKey:@"signature"];
         
         _status = 0; // 1 for valid, -1 for invalid
@@ -166,7 +165,7 @@
 - (NSData *)data {
     if (!_data) {
         NSString *json = [_storeDictionary objectForKey:@"data"];
-        _data = [json data];
+        _data = MKMUTF8Encode(json);
     }
     return _data;
 }
@@ -270,7 +269,7 @@
     _data = MKMJSONEncode(self.properties);
     _signature = [SK sign:_data];
     // update 'data' & 'signature' fields
-    [_storeDictionary setObject:[_data UTF8String] forKey:@"data"];
+    [_storeDictionary setObject:MKMUTF8Decode(_data) forKey:@"data"];
     [_storeDictionary setObject:MKMBase64Encode(_signature) forKey:@"signature"];
     return _signature;
 }

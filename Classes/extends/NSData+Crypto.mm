@@ -41,8 +41,6 @@
 #import "base58.h"
 #import "ripemd160.h"
 
-#import "NSObject+JsON.h"
-
 #import "NSData+Crypto.h"
 
 @implementation NSData (Hash)

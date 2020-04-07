@@ -35,10 +35,10 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import "NSObject+JsON.h"
 #import "NSData+Crypto.h"
 
 #import "MKMBaseCoder.h"
+#import "MKMDataParser.h"
 
 #import "MKMRSAKeyHelper.h"
 
@@ -58,7 +58,7 @@ static NSString *s_application_tag = @"chat.dim.rsa.private";
     MKMRSAPrivateKey *SK = nil;
     
     NSString *label = identifier;
-    NSData *tag = [s_application_tag data];
+    NSData *tag = MKMUTF8Encode(s_application_tag);
     
     NSDictionary *query;
     query = @{(id)kSecClass               :(id)kSecClassKey,
@@ -111,7 +111,7 @@ static NSString *s_application_tag = @"chat.dim.rsa.private";
     }
     
     NSString *label = identifier;
-    NSData *tag = [s_application_tag data];
+    NSData *tag = MKMUTF8Encode(s_application_tag);
     
     NSDictionary *query;
     query = @{(id)kSecClass               :(id)kSecClassKey,

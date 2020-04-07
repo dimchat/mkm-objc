@@ -64,7 +64,19 @@ NS_ASSUME_NONNULL_BEGIN
 #define MKMJSONEncode(container) [[MKMJSON sharedInstance] encode:(container)]
 #define MKMJSONDecode(json)      [[MKMJSON sharedInstance] decode:(json)]
 
+#define MKMUTF8Encode(string)    [[MKMUTF8 sharedInstance] encode:(string)]
+#define MKMUTF8Decode(bytes)     [[MKMUTF8 sharedInstance] decode:(bytes)]
+
 @interface MKMJSON : NSObject <MKMDataParser>
+
+// default parser
+@property (strong, nonatomic) id<MKMDataParser> parser;
+
++ (instancetype)sharedInstance;
+
+@end
+
+@interface MKMUTF8 : NSObject <MKMDataParser>
 
 // default parser
 @property (strong, nonatomic) id<MKMDataParser> parser;

@@ -35,8 +35,6 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import "NSObject+JsON.h"
-
 #import "MKMDataParser.h"
 
 #import "MKMPublicKey.h"
@@ -136,10 +134,10 @@
 
 - (NSString *)debugDescription {
     NSString *desc = [super debugDescription];
-    NSDictionary *dict = MKMJSONDecode([desc data]);
+    NSDictionary *dict = MKMJSONDecode(MKMUTF8Encode(desc));
     NSMutableDictionary *info = [dict mutableCopy];
     [info setObject:@(self.contacts.count) forKey:@"contacts"];
-    return [MKMJSONEncode(info) UTF8String];
+    return MKMUTF8Decode(MKMJSONEncode(info));
 }
 
 - (NSArray<MKMID *> *)contacts {

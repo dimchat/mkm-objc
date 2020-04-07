@@ -45,7 +45,7 @@
 
 @implementation JSON
 
-- (nullable NSData *)encode:(nonnull id)container {
+- (nullable NSData *)encode:(nonnull NSObject *)container {
     if (![NSJSONSerialization isValidJSONObject:container]) {
         NSAssert(false, @"object format not support for json: %@", container);
         return nil;
@@ -59,7 +59,7 @@
     return data;
 }
 
-- (nullable id)decode:(nonnull NSData *)json {
+- (nullable NSObject *)decode:(nonnull NSData *)json {
     static NSJSONReadingOptions opt = NSJSONReadingAllowFragments;
     //static NSJSONReadingOptions opt = NSJSONReadingMutableContainers;
     NSError *error = nil;
@@ -68,6 +68,31 @@
                                                error:&error];
     //NSAssert(!error, @"JSON decode error: %@", error);
     return obj;
+}
+
+@end
+
+@interface UTF8 : NSObject <MKMDataParser>
+
+@end
+
+@implementation UTF8
+
+- (nullable NSData *)encode:(nonnull NSString *)string {
+    return [string dataUsingEncoding:NSUTF8StringEncoding];
+}
+
+- (nullable NSString *)decode:(nonnull NSData *)data {
+    const unsigned char *bytes = (const unsigned char *)[data bytes];
+    // rtrim '\0'
+    NSInteger pos = data.length - 1;
+    for (; pos >= 0; --pos) {
+        if (bytes[pos] != 0) {
+            break;
+        }
+    }
+    NSUInteger length = pos + 1;
+    return [[NSString alloc] initWithBytes:bytes length:length encoding:NSUTF8StringEncoding];
 }
 
 @end
@@ -85,14 +110,37 @@ SingletonImplementations(MKMJSON, sharedInstance)
     return self;
 }
 
-- (nullable NSData *)encode:(nonnull id)container {
-    NSAssert(self.parser, @"JSON parser not set yet");
+- (nullable NSData *)encode:(nonnull NSObject *)container {
+    NSAssert(self.parser, @"JSON data parser not set yet");
     return [self.parser encode:container];
 }
 
-- (nullable id)decode:(nonnull NSData *)json {
-    NSAssert(self.parser, @"JSON parser not set yet");
+- (nullable NSObject *)decode:(nonnull NSData *)json {
+    NSAssert(self.parser, @"JSON data parser not set yet");
     return [self.parser decode:json];
+}
+
+@end
+
+@implementation MKMUTF8
+
+SingletonImplementations(MKMUTF8, sharedInstance)
+
+- (instancetype)init {
+    if (self = [super init]) {
+        self.parser = [[UTF8 alloc] init];
+    }
+    return self;
+}
+
+- (nullable NSData *)encode:(nonnull NSString *)string {
+    NSAssert(self.parser, @"UTF8 data parser not set yet");
+    return [self.parser encode:string];
+}
+
+- (nullable NSString *)decode:(nonnull NSData *)bytes {
+    NSAssert(self.parser, @"UTF8 data parser not set yet");
+    return [self.parser decode:bytes];
 }
 
 @end

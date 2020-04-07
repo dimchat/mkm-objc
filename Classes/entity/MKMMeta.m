@@ -36,10 +36,10 @@
 //
 
 #import "NSObject+Singleton.h"
-#import "NSObject+JsON.h"
 #import "NSData+Crypto.h"
 
 #import "MKMBaseCoder.h"
+#import "MKMDataParser.h"
 
 #import "MKMPublicKey.h"
 #import "MKMPrivateKey.h"
@@ -150,7 +150,7 @@
             NSData *fingerprint = [self fingerprint];
             NSAssert([seed length] > 0, @"seed error");
             NSAssert([fingerprint length] > 0, @"fingerprint error");
-            if ([key verify:[seed data] withSignature:fingerprint]) {
+            if ([key verify:MKMUTF8Encode(seed) withSignature:fingerprint]) {
                 // fingerprint matched
                 _status = 1;
             } else {
@@ -170,7 +170,7 @@
                                seed:(nullable NSString *)name {
     NSDictionary *dict;
     if (MKMMetaVersion_HasSeed(version)) { // MKM, ExBTC, ExETH, ...
-        NSData *CT = [SK sign:[name data]];
+        NSData *CT = [SK sign:MKMUTF8Encode(name)];
         NSString *fingerprint = MKMBase64Encode(CT);
         dict = @{@"version"    :@(version),
                  @"key"        :[SK publicKey],
@@ -194,7 +194,7 @@
     }
     if ([self containsSeed]) { // MKM, ExBTC, ExETH, ...
         // check whether keys equal by verifying signature
-        return [PK verify:[self.seed data] withSignature:self.fingerprint];
+        return [PK verify:MKMUTF8Encode(self.seed) withSignature:self.fingerprint];
     } else { // BTC, ETH, ...
         // ID with BTC address has no username
         // so we can just compare the key.data to check matching
