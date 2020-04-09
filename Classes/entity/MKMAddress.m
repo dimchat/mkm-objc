@@ -265,7 +265,7 @@ static inline UInt32 user_number(NSData *cc) {
     UInt32 code = 0;
     
     // 1. hash = ripemd160(sha256(CT))
-    NSData *hash = MKMRipeMD160Digest(MKMSHA256Digest(key));
+    NSData *hash = MKMRIPEMD160Digest(MKMSHA256Digest(key));
     // 2. _h = network + hash
     NSMutableData *data;
     data = [[NSMutableData alloc] initWithBytes:&type length:1];

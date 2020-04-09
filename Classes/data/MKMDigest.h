@@ -49,7 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #define MKMMD5Digest(data)       [[MKMMD5 sharedInstance] digest:(data)]
 #define MKMSHA256Digest(data)    [[MKMSHA256 sharedInstance] digest:(data)]
-#define MKMRipeMD160Digest(data) [[MKMRipeMD160 sharedInstance] digest:(data)]
+#define MKMRIPEMD160Digest(data) [[MKMRIPEMD160 sharedInstance] digest:(data)]
 
 @interface MKMMD5 : NSObject <MKMDigest>
 
@@ -69,7 +69,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface MKMRipeMD160 : NSObject <MKMDigest>
+@interface MKMRIPEMD160 : NSObject <MKMDigest>
 
 // default hasher
 @property (strong, nonatomic) id<MKMDigest> hasher;

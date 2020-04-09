@@ -71,11 +71,11 @@
 
 @end
 
-@interface RipeMD160 : NSObject <MKMDigest>
+@interface RIPEMD160 : NSObject <MKMDigest>
 
 @end
 
-@implementation RipeMD160
+@implementation RIPEMD160
 
 - (NSData *)digest:(NSData *)data {
     const unsigned char *bytes = (const unsigned char *)[data bytes];
@@ -124,13 +124,13 @@ SingletonImplementations(MKMSHA256, sharedInstance)
 
 @end
 
-@implementation MKMRipeMD160
+@implementation MKMRIPEMD160
 
-SingletonImplementations(MKMRipeMD160, sharedInstance)
+SingletonImplementations(MKMRIPEMD160, sharedInstance)
 
 - (instancetype)init {
     if (self = [super init]) {
-        self.hasher = [[RipeMD160 alloc] init];
+        self.hasher = [[RIPEMD160 alloc] init];
     }
     return self;
 }
