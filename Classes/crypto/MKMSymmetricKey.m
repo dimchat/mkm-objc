@@ -37,8 +37,6 @@
 
 #import "NSObject+Singleton.h"
 
-#import "MKMAESKey.h"
-
 #import "MKMSymmetricKey.h"
 
 @implementation MKMSymmetricKey
@@ -77,8 +75,6 @@ static NSMutableDictionary<NSString *, Class> *key_classes(void) {
     SingletonDispatchOnce(^{
         classes = [[NSMutableDictionary alloc] init];
         // AES
-        [classes setObject:[MKMAESKey class] forKey:SCAlgorithmAES];
-        [classes setObject:[MKMAESKey class] forKey:@"AES/CBC/PKCS7Padding"];
         // DES
         // ...
     });

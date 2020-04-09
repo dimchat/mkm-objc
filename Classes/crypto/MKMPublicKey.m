@@ -38,7 +38,6 @@
 #import "NSObject+Singleton.h"
 
 #import "MKMPrivateKey.h"
-#import "MKMRSAPublicKey.h"
 
 #import "MKMPublicKey.h"
 
@@ -68,9 +67,6 @@ static NSMutableDictionary<NSString *, Class> *key_classes(void) {
     SingletonDispatchOnce(^{
         classes = [[NSMutableDictionary alloc] init];
         // RSA
-        [classes setObject:[MKMRSAPublicKey class] forKey:ACAlgorithmRSA];
-        [classes setObject:[MKMRSAPublicKey class] forKey:@"SHA256withRSA"];
-        [classes setObject:[MKMRSAPublicKey class] forKey:@"RSA/ECB/PKCS1Padding"];
         // ECC
         // ...
     });
