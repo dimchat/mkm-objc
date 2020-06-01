@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'mkm-objc'
-  s.version          = '0.4.1'
+  s.version          = '0.4.2'
   s.summary          = 'A Common Account Module For Decentralized User Identity Authentication'
   s.homepage         = 'https://github.com/dimchat'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
