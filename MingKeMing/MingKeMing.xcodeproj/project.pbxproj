@@ -21,7 +21,6 @@
 		5276BF572361C5F600AEC8E4 /* MKMMeta.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A90D21CBBAF6009690F6 /* MKMMeta.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5276BF582361C5F600AEC8E4 /* MKMProfile.h in Headers */ = {isa = PBXBuildFile; fileRef = E93D437622A7ADEF00422EDF /* MKMProfile.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5276BF592361C5F600AEC8E4 /* MKMEntity.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A91121CBBAF6009690F6 /* MKMEntity.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5276BF5B2361C5F600AEC8E4 /* MingKeMing.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A93921CBBAF6009690F6 /* MingKeMing.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5276BF612361C5F600AEC8E4 /* MKMUser.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A92321CBBAF6009690F6 /* MKMUser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5276BF682361C5F600AEC8E4 /* NSDictionary+Binary.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8EE21CBBAF6009690F6 /* NSDictionary+Binary.h */; };
 		5276BF692361C5F600AEC8E4 /* NSArray+Merkle.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8F421CBBAF6009690F6 /* NSArray+Merkle.h */; };
@@ -44,6 +43,8 @@
 		5276BF882361C5F600AEC8E4 /* MKMMeta.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A91021CBBAF6009690F6 /* MKMMeta.m */; };
 		5276BF892361C5F600AEC8E4 /* MKMGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = E91F2AFB2301481C00BE05D0 /* MKMGroup.m */; };
 		5276BF8A2361C5F600AEC8E4 /* MKMSymmetricKey.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8D921CBBAF6009690F6 /* MKMSymmetricKey.m */; };
+		52FBA6322484EE5200B309F6 /* MingKeMing.h in Headers */ = {isa = PBXBuildFile; fileRef = 52FBA6312484EE5200B309F6 /* MingKeMing.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		52FBA6332484EE5200B309F6 /* MingKeMing.h in Headers */ = {isa = PBXBuildFile; fileRef = 52FBA6312484EE5200B309F6 /* MingKeMing.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E915CE7C243C6C1F00B98FE3 /* ripemd160.h in Headers */ = {isa = PBXBuildFile; fileRef = E915CE74243C6C1F00B98FE3 /* ripemd160.h */; };
 		E915CE7D243C6C1F00B98FE3 /* common.h in Headers */ = {isa = PBXBuildFile; fileRef = E915CE75243C6C1F00B98FE3 /* common.h */; };
 		E915CE7E243C6C1F00B98FE3 /* ripemd160.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E915CE76243C6C1F00B98FE3 /* ripemd160.cpp */; };
@@ -112,7 +113,6 @@
 		E9F3A97D21CBBAF7009690F6 /* MKMID.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A91221CBBAF6009690F6 /* MKMID.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E9F3A97E21CBBAF7009690F6 /* MKMAddress.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A91321CBBAF6009690F6 /* MKMAddress.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E9F3A98A21CBBAF7009690F6 /* MKMUser.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A92321CBBAF6009690F6 /* MKMUser.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E9F3A99F21CBBAF7009690F6 /* MingKeMing.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A93921CBBAF6009690F6 /* MingKeMing.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -128,6 +128,7 @@
 /* Begin PBXFileReference section */
 		5276BF932361C5F600AEC8E4 /* MingKeMing-Mac.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "MingKeMing-Mac.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5276BF942361C5F600AEC8E4 /* MingKeMing-Mac-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "MingKeMing-Mac-Info.plist"; path = "/Users/john/Documents/workspace/iphone/dimchat/mkm-objc/MingKeMing/MingKeMing-Mac-Info.plist"; sourceTree = "<absolute>"; };
+		52FBA6312484EE5200B309F6 /* MingKeMing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MingKeMing.h; sourceTree = "<group>"; };
 		E915CE74243C6C1F00B98FE3 /* ripemd160.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ripemd160.h; sourceTree = "<group>"; };
 		E915CE75243C6C1F00B98FE3 /* common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = "<group>"; };
 		E915CE76243C6C1F00B98FE3 /* ripemd160.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ripemd160.cpp; sourceTree = "<group>"; };
@@ -184,7 +185,6 @@
 		E9F3A91221CBBAF6009690F6 /* MKMID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMID.h; sourceTree = "<group>"; };
 		E9F3A91321CBBAF6009690F6 /* MKMAddress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMAddress.h; sourceTree = "<group>"; };
 		E9F3A92321CBBAF6009690F6 /* MKMUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMUser.h; sourceTree = "<group>"; };
-		E9F3A93921CBBAF6009690F6 /* MingKeMing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MingKeMing.h; sourceTree = "<group>"; };
 		E9F3AB6821CFA8EE009690F6 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -214,6 +214,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		52FBA6302484EE5200B309F6 /* Framework */ = {
+			isa = PBXGroup;
+			children = (
+				52FBA6312484EE5200B309F6 /* MingKeMing.h */,
+			);
+			name = Framework;
+			path = ../Framework;
+			sourceTree = "<group>";
+		};
 		E915CE71243C6C1F00B98FE3 /* bitcoin */ = {
 			isa = PBXGroup;
 			children = (
@@ -268,6 +277,7 @@
 		E9F3A69021CA4627009690F6 = {
 			isa = PBXGroup;
 			children = (
+				52FBA6302484EE5200B309F6 /* Framework */,
 				E9F3A8D121CBBAF6009690F6 /* Classes */,
 				E9F3A69C21CA4627009690F6 /* MingKeMing */,
 				E9F3A6A721CA4627009690F6 /* MingKeMingTests */,
@@ -317,7 +327,6 @@
 				E91F2AFB2301481C00BE05D0 /* MKMGroup.m */,
 				E9F3A92321CBBAF6009690F6 /* MKMUser.h */,
 				E9F3A8D221CBBAF6009690F6 /* MKMUser.m */,
-				E9F3A93921CBBAF6009690F6 /* MingKeMing.h */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -411,6 +420,7 @@
 				E915CE9C243C970D00B98FE3 /* MKMDataParser.h in Headers */,
 				E915CE83243C6C2800B98FE3 /* base58.h in Headers */,
 				5276BF522361C5F600AEC8E4 /* MKMPrivateKey.h in Headers */,
+				52FBA6332484EE5200B309F6 /* MingKeMing.h in Headers */,
 				5276BF532361C5F600AEC8E4 /* MKMAsymmetricKey.h in Headers */,
 				5276BF542361C5F600AEC8E4 /* NSObject+Singleton.h in Headers */,
 				5276BF552361C5F600AEC8E4 /* MKMID.h in Headers */,
@@ -421,7 +431,6 @@
 				E915CE86243C6C3300B98FE3 /* byteswap.h in Headers */,
 				E915CE9A243C970200B98FE3 /* MKMBaseCoder.h in Headers */,
 				5276BF592361C5F600AEC8E4 /* MKMEntity.h in Headers */,
-				5276BF5B2361C5F600AEC8E4 /* MingKeMing.h in Headers */,
 				5276BF612361C5F600AEC8E4 /* MKMUser.h in Headers */,
 				E915CE85243C6C3000B98FE3 /* endian.h in Headers */,
 				5276BF682361C5F600AEC8E4 /* NSDictionary+Binary.h in Headers */,
@@ -452,12 +461,12 @@
 				E9F3A97D21CBBAF7009690F6 /* MKMID.h in Headers */,
 				E915CE7F243C6C1F00B98FE3 /* endian.h in Headers */,
 				E9F3A97E21CBBAF7009690F6 /* MKMAddress.h in Headers */,
+				52FBA6322484EE5200B309F6 /* MingKeMing.h in Headers */,
 				E919AF8D238FCFB6004F7FF9 /* MKMTai.h in Headers */,
 				E9F3A97821CBBAF7009690F6 /* MKMMeta.h in Headers */,
 				E915CE98243C96C200B98FE3 /* MKMDataParser.h in Headers */,
 				E93D437822A7ADF000422EDF /* MKMProfile.h in Headers */,
 				E9F3A97C21CBBAF7009690F6 /* MKMEntity.h in Headers */,
-				E9F3A99F21CBBAF7009690F6 /* MingKeMing.h in Headers */,
 				E9F3A98A21CBBAF7009690F6 /* MKMUser.h in Headers */,
 				E915CE82243C6C1F00B98FE3 /* base58.h in Headers */,
 				E9F3A95C21CBBAF7009690F6 /* NSDictionary+Binary.h in Headers */,
@@ -847,7 +856,7 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = JUVC7SZJE7;
+				DEVELOPMENT_TEAM = EQ22GS36XN;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -873,7 +882,7 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = JUVC7SZJE7;
+				DEVELOPMENT_TEAM = EQ22GS36XN;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
