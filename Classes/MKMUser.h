@@ -36,6 +36,7 @@
 //
 
 #import "MKMEntity.h"
+#import "MKMCryptographyKey.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

@@ -17,6 +17,7 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '11.0'
 
   s.source_files = 'Classes/**/*'
+  s.public_header_files = 'Classes/*.h', 'Classes/crypto/*.h', 'Classes/data/*.h', 'Classes/entity/*.h', 'Classes/types/*.h'
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
