@@ -48,42 +48,24 @@ FOUNDATION_EXPORT const unsigned char MingKeMingVersionString[];
 #if !defined(__MING_KE_MING__)
 #define __MING_KE_MING__ 1
 
-//#import <MingKeMing/MKMSymmetricKey.h>
-//#import <MingKeMing/MKMPublicKey.h>
-//#import <MingKeMing/MKMPrivateKey.h>
-//
-//#import <MingKeMing/MKMBaseCoder.h>
-//#import <MingKeMing/MKMDataParser.h>
-//#import <MingKeMing/MKMDigest.h>
-//
-//// Entity
-//#import <MingKeMing/MKMID.h>
-//#import <MingKeMing/MKMAddress.h>
-//#import <MingKeMing/MKMMeta.h>
-//#import <MingKeMing/MKMProfile.h>
-//#import <MingKeMing/MKMEntity.h>
-//
-////-
-//#import <MingKeMing/MKMUser.h>
-//#import <MingKeMing/MKMGroup.h>
+#import <MingKeMing/MKMSymmetricKey.h>
+#import <MingKeMing/MKMPublicKey.h>
+#import <MingKeMing/MKMPrivateKey.h>
 
-#import "MKMSymmetricKey.h"
-#import "MKMPublicKey.h"
-#import "MKMPrivateKey.h"
-
-#import "MKMBaseCoder.h"
-#import "MKMDataParser.h"
-#import "MKMDigest.h"
+#import <MingKeMing/MKMBaseCoder.h>
+#import <MingKeMing/MKMDataParser.h>
+#import <MingKeMing/MKMDigest.h>
 
 // Entity
-#import "MKMID.h"
-#import "MKMAddress.h"
-#import "MKMMeta.h"
-#import "MKMProfile.h"
-#import "MKMEntity.h"
+#import <MingKeMing/MKMID.h>
+#import <MingKeMing/MKMAddress.h>
+#import <MingKeMing/MKMMeta.h>
+#import <MingKeMing/MKMProfile.h>
+#import <MingKeMing/MKMEntity.h>
 
 //-
-#import "MKMUser.h"
-#import "MKMGroup.h"
+#import <MingKeMing/MKMUser.h>
+#import <MingKeMing/MKMGroup.h>
+
 
 #endif /* ! __MING_KE_MING__ */
