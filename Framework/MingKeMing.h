@@ -48,40 +48,42 @@ FOUNDATION_EXPORT const unsigned char MingKeMingVersionString[];
 #if !defined(__MING_KE_MING__)
 #define __MING_KE_MING__ 1
 
-// Types
-//#import <MingKeMing/MKMString.h>
-//#import <MingKeMing/MKMDictionary.h>
+//#import <MingKeMing/MKMSymmetricKey.h>
+//#import <MingKeMing/MKMPublicKey.h>
+//#import <MingKeMing/MKMPrivateKey.h>
+//
+//#import <MingKeMing/MKMBaseCoder.h>
+//#import <MingKeMing/MKMDataParser.h>
+//#import <MingKeMing/MKMDigest.h>
+//
+//// Entity
+//#import <MingKeMing/MKMID.h>
+//#import <MingKeMing/MKMAddress.h>
+//#import <MingKeMing/MKMMeta.h>
+//#import <MingKeMing/MKMProfile.h>
+//#import <MingKeMing/MKMEntity.h>
+//
+////-
+//#import <MingKeMing/MKMUser.h>
+//#import <MingKeMing/MKMGroup.h>
 
-// Cryptography
-//#import <MingKeMing/MKMCryptographyKey.h>
-//-- Symmetric
-#import <MingKeMing/MKMSymmetricKey.h>
-//---- AES
-//#import <MingKeMing/MKMAESKey.h>
-//-- Asymmetric
-//#import <MingKeMing/MKMAsymmetricKey.h>
-#import <MingKeMing/MKMPublicKey.h>
-#import <MingKeMing/MKMPrivateKey.h>
-//---- RSA
-//#import <MingKeMing/MKMRSAKeyHelper.h>
-//#import <MingKeMing/MKMRSAPublicKey.h>
-//#import <MingKeMing/MKMRSAPrivateKey.h>
-//#import <MingKeMing/MKMRSAPrivateKey+PersistentStore.h>
+#import "MKMSymmetricKey.h"
+#import "MKMPublicKey.h"
+#import "MKMPrivateKey.h"
 
-// Format
-#import <MingKeMing/MKMBaseCoder.h>
-#import <MingKeMing/MKMDataParser.h>
-#import <MingKeMing/MKMDigest.h>
+#import "MKMBaseCoder.h"
+#import "MKMDataParser.h"
+#import "MKMDigest.h"
 
 // Entity
-#import <MingKeMing/MKMID.h>
-#import <MingKeMing/MKMAddress.h>
-#import <MingKeMing/MKMMeta.h>
-#import <MingKeMing/MKMProfile.h>
-#import <MingKeMing/MKMEntity.h>
+#import "MKMID.h"
+#import "MKMAddress.h"
+#import "MKMMeta.h"
+#import "MKMProfile.h"
+#import "MKMEntity.h"
 
 //-
-#import <MingKeMing/MKMUser.h>
-#import <MingKeMing/MKMGroup.h>
+#import "MKMUser.h"
+#import "MKMGroup.h"
 
 #endif /* ! __MING_KE_MING__ */
