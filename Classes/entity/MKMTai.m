@@ -164,7 +164,9 @@
 - (NSData *)data {
     if (!_data) {
         NSString *json = [_storeDictionary objectForKey:@"data"];
-        _data = MKMUTF8Encode(json);
+        if (json) {
+            _data = MKMUTF8Encode(json);
+        }
     }
     return _data;
 }
@@ -172,7 +174,9 @@
 - (NSData *)signature {
     if (!_signature) {
         NSString *sig = [_storeDictionary objectForKey:@"signature"];
-        _signature = MKMBase64Decode(sig);
+        if (sig) {
+            _signature = MKMBase64Decode(sig);
+        }
     }
     return _signature;
 }
