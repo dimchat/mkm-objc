@@ -7,7 +7,7 @@
 // =============================================================================
 // The MIT License (MIT)
 //
-// Copyright (c) 2019 Albert Moky
+// Copyright (c) 2018 Albert Moky
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -37,6 +37,14 @@
 
 #import "MKMDictionary.h"
 
+@interface MKMDictionary () {
+    
+    // inner dictionary
+    NSMutableDictionary<NSString *, id> *_storeDictionary;
+}
+
+@end
+
 @implementation MKMDictionary
 
 /* designated initializer */
@@ -51,6 +59,13 @@
 - (instancetype)init {
     if (self = [super init]) {
         _storeDictionary = [[NSMutableDictionary alloc] init];
+    }
+    return self;
+}
+
+- (instancetype)initWithCapacity:(NSUInteger)numItems {
+    if (self = [self init]) {
+        _storeDictionary = [[NSMutableDictionary alloc] initWithCapacity:numItems];
     }
     return self;
 }
@@ -76,18 +91,20 @@
 }
 
 - (BOOL)isEqual:(id)object {
-    if (![object isKindOfClass:[NSDictionary class]]) {
-        return NO;
+    if (self == object) {
+        return YES;
     }
-    return self == object || [_storeDictionary isEqualToDictionary:object];
+    if ([object conformsToProtocol:@protocol(MKMDictionary)]) {
+        return [_storeDictionary isEqualToDictionary:[object dictionary]];
+    }
+    if ([object isKindOfClass:[NSDictionary class]]) {
+        return [_storeDictionary isEqualToDictionary:object];
+    }
+    return NO;
 }
 
 - (NSUInteger)count {
     return [_storeDictionary count];
-}
-
-- (id)objectForKey:(NSString *)aKey {
-    return [_storeDictionary objectForKey:aKey];
 }
 
 - (NSEnumerator *)keyEnumerator {
@@ -98,21 +115,20 @@
     return [_storeDictionary objectEnumerator];
 }
 
-@end
+#pragma mark -
 
-@implementation MKMDictionary (Mutable)
-
-- (instancetype)initWithCapacity:(NSUInteger)numItems {
-    if (self = [self init]) {
-        _storeDictionary = [[NSMutableDictionary alloc] initWithCapacity:numItems];
-    }
-    return self;
+- (NSMutableDictionary *)dictionary {
+    return _storeDictionary;
 }
 
-// NOTICE: no need to implements mutable copy here
-//- (id)mutableCopy {
-//    return [self copy];
-//}
+- (NSMutableDictionary *)dictionary:(BOOL)deepCopy {
+    // TODO: implement deep copy
+    return [_storeDictionary mutableCopy];
+}
+
+- (id)objectForKey:(NSString *)aKey {
+    return [_storeDictionary objectForKey:aKey];
+}
 
 - (void)removeObjectForKey:(NSString *)aKey {
     [_storeDictionary removeObjectForKey:aKey];

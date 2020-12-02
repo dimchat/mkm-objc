@@ -7,7 +7,7 @@
 // =============================================================================
 // The MIT License (MIT)
 //
-// Copyright (c) 2019 Albert Moky
+// Copyright (c) 2018 Albert Moky
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -36,50 +36,3 @@
 //
 
 #import "MKMCryptographyKey.h"
-
-@implementation MKMCryptographyKey
-
-@synthesize data;
-
-- (instancetype)init {
-    NSAssert(false, @"DON'T call me");
-    NSDictionary *dict = nil;
-    return [self initWithDictionary:dict];
-}
-
-/* designated initializer */
-- (instancetype)initWithDictionary:(NSDictionary *)keyInfo {
-    if (self = [super initWithDictionary:keyInfo]) {
-        _data = nil;
-    }
-    return self;
-}
-
-@end
-
-@implementation MKMCryptographyKey (Runtime)
-
-+ (void)registerClass:(nullable Class)keyClass forAlgorithm:(NSString *)name {
-    NSAssert(false, @"override me!");
-}
-
-+ (nullable instancetype)getInstance:(id)key {
-    NSAssert(false, @"override me!");
-    return nil;
-}
-
-@end
-
-@implementation MKMCryptographyKey (PersistentStore)
-
-+ (nullable instancetype)loadKeyWithIdentifier:(NSString *)identifier {
-    NSAssert(false, @"override me!");
-    return nil;
-}
-
-- (BOOL)saveKeyWithIdentifier:(NSString *)identifier {
-    NSAssert(false, @"override me!");
-    return NO;
-}
-
-@end

@@ -7,7 +7,7 @@
 // =============================================================================
 // The MIT License (MIT)
 //
-// Copyright (c) 2019 Albert Moky
+// Copyright (c) 2018 Albert Moky
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -39,19 +39,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-#define SCAlgorithmAES @"AES"
-#define SCAlgorithmDES @"DES"
-
-// convert Dictionary to SymmetricKey
-#define MKMSymmetricKeyFromDictionary(key)                                     \
-            [MKMSymmetricKey getInstance:(key)]                                \
-                                  /* EOF 'MKMSymmetricKeyFromDictionary(key)' */
-
-// generate SymmetricKey
-#define MKMSymmetricKeyWithAlgorithm(name)                                     \
-            [MKMSymmetricKey getInstance:@{@"algorithm":(name)}]               \
-                                   /* EOF 'MKMSymmetricKeyWithAlgorithm(name) */
-
 /*
  *  Symmetric Cryptography Key
  *
@@ -61,7 +48,38 @@ NS_ASSUME_NONNULL_BEGIN
  *          ...
  *      }
  */
-@interface MKMSymmetricKey : MKMCryptographyKey <MKMSymmetricKey>
+@protocol MKMSymmetricKey <MKMEncryptKey, MKMDecryptKey>
+
+@end
+
+#define SCAlgorithmAES @"AES"
+#define SCAlgorithmDES @"DES"
+
+@interface MKMSymmetricKey : NSObject
+
++ (BOOL)symmetricKey:(id<MKMSymmetricKey>)key1 equals:(id<MKMSymmetricKey>)key2;
+
+@end
+
+#define MKMSymmetricKeyFromDictionary(key) [MKMSymmetricKey parse:(key)]
+
+#pragma mark - Creation
+
+@protocol MKMSymmetricKeyFactory <NSObject>
+
+- (nullable id<MKMSymmetricKey>)generateSymmetricKey:(NSString *)algorithm;
+
+- (nullable id<MKMSymmetricKey>)parseSymmetricKey:(NSDictionary *)key;
+
+@end
+
+@interface MKMSymmetricKey (Creation)
+
++ (void)setFactory:(id<MKMSymmetricKeyFactory>)factory;
+
++ (nullable id<MKMSymmetricKey>)generate:(NSString *)algorithm;
+
++ (nullable id<MKMSymmetricKey>)parse:(NSDictionary *)key;
 
 @end
 

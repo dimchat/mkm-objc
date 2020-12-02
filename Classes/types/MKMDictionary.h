@@ -7,7 +7,7 @@
 // =============================================================================
 // The MIT License (MIT)
 //
-// Copyright (c) 2019 Albert Moky
+// Copyright (c) 2018 Albert Moky
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -39,11 +39,25 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MKMDictionary : NSDictionary {
-    
-    // inner dictionary
-    NSMutableDictionary<NSString *, id> *_storeDictionary;
-}
+@protocol MKMDictionary <NSObject>
+
+/**
+ * Get inner dictionary
+ */
+@property (readonly, strong, nonatomic) NSMutableDictionary *dictionary;
+
+/**
+ *  Copy inner dictionary
+ */
+- (NSMutableDictionary *)dictionary:(BOOL)deepCopy;
+
+- (id)objectForKey:(NSString *)aKey;
+- (void)setObject:(id)anObject forKey:(NSString *)aKey;
+- (void)removeObjectForKey:(NSString *)aKey;
+
+@end
+
+@interface MKMDictionary : NSDictionary<MKMDictionary>
 
 - (instancetype)initWithDictionary:(NSDictionary *)dict
 NS_DESIGNATED_INITIALIZER;
@@ -51,21 +65,13 @@ NS_DESIGNATED_INITIALIZER;
 - (instancetype)init
 NS_DESIGNATED_INITIALIZER;
 
-- (NSUInteger)count;
-- (id)objectForKey:(NSString *)aKey;
-
-- (NSEnumerator *)keyEnumerator;
-- (NSEnumerator *)objectEnumerator;
-
-@end
-
-@interface MKMDictionary (Mutable)
-
 - (instancetype)initWithCapacity:(NSUInteger)numItems
 /* NS_DESIGNATED_INITIALIZER */;
 
-- (void)removeObjectForKey:(NSString *)aKey;
-- (void)setObject:(id)anObject forKey:(NSString *)aKey;
+- (NSUInteger)count;
+
+- (NSEnumerator *)keyEnumerator;
+- (NSEnumerator *)objectEnumerator;
 
 @end
 

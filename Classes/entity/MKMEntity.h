@@ -7,7 +7,7 @@
 // =============================================================================
 // The MIT License (MIT)
 //
-// Copyright (c) 2019 Albert Moky
+// Copyright (c) 2018 Albert Moky
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -35,34 +35,38 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import "MKMAddress.h"
+#import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class MKMID;
-@class MKMMeta;
-@class MKMProfile;
+@protocol MKMID;
+@protocol MKMMeta;
+@protocol MKMDocument;
 
 @protocol MKMEntityDataSource;
 
 @interface MKMEntity : NSObject <NSCopying> {
     
     // convenience for instance accessing
-    MKMID *_ID;
+    id<MKMID> _ID;
 }
 
-@property (readonly, copy, nonatomic) MKMID *ID;        // name@address
+@property (readonly, copy, nonatomic) id<MKMID> ID;     // name@address
 
 @property (readonly, nonatomic) MKMNetworkType type;    // Network ID
-@property (readonly, nonatomic) UInt32 number;          // search number
 
-@property (readonly, strong, nonatomic) MKMMeta *meta;
-@property (readonly, strong, nonatomic, nullable) __kindof MKMProfile *profile;
+@property (readonly, strong, nonatomic) id<MKMMeta> meta;
+
 @property (readonly, strong, nonatomic) NSString *name; // profile.name or seed
 
 @property (weak, nonatomic) __kindof id<MKMEntityDataSource> dataSource;
 
-- (instancetype)initWithID:(MKMID *)ID NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithID:(id<MKMID>)ID NS_DESIGNATED_INITIALIZER;
+
+/**
+ *  Get entity profile with document type
+ */
+- (nullable __kindof id<MKMDocument>)document:(nullable NSString *)type;
 
 @end
 
@@ -76,7 +80,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param ID - entity ID
  * @return meta object
  */
-- (nullable MKMMeta *)metaForID:(MKMID *)ID;
+- (nullable id<MKMMeta>)metaForID:(id<MKMID>)ID;
 
 /**
  *  Get profile for entity ID
@@ -84,7 +88,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param ID - entity ID
  * @return profile object
  */
-- (nullable __kindof MKMProfile *)profileForID:(MKMID *)ID;
+- (nullable __kindof id<MKMDocument>)documentForID:(id<MKMID>)ID withType:(nullable NSString *)type;
 
 @end
 

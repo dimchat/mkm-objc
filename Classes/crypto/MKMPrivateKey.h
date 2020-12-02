@@ -7,7 +7,7 @@
 // =============================================================================
 // The MIT License (MIT)
 //
-// Copyright (c) 2019 Albert Moky
+// Copyright (c) 2018 Albert Moky
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -39,17 +39,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-// convert Dictionary to PrivateKey
-#define MKMPrivateKeyFromDictionary(key)                                       \
-            [MKMPrivateKey getInstance:(key)]                                  \
-                                    /* EOF 'MKMPrivateKeyFromDictionary(key)' */
-
-// generate PrivateKey
-#define MKMPrivateKeyWithAlgorithm(name)                                       \
-            [MKMPrivateKey getInstance:@{@"algorithm":(name)}]                 \
-                                    /* EOF 'MKMPrivateKeyWithAlgorithm(name)' */
-
-@class MKMPublicKey;
+@protocol MKMPublicKey;
 
 /*
  *  AC Private Key
@@ -60,7 +50,40 @@ NS_ASSUME_NONNULL_BEGIN
  *          ...
  *      }
  */
-@interface MKMPrivateKey : MKMAsymmetricKey <MKMPrivateKey>
+@protocol MKMPrivateKey <MKMSignKey>
+
+/**
+ * Get public key from private key
+ */
+@property (readonly, atomic, nullable) id<MKMPublicKey> publicKey;
+
+@end
+
+@interface MKMPrivateKey : NSObject
+
++ (BOOL)privateKey:(id<MKMPrivateKey>)key1 equals:(id<MKMPrivateKey>)key2;
+
+@end
+
+#define MKMPrivateKeyFromDictionary(key) [MKMPrivateKey parse:(key)]
+
+#pragma mark - Creation
+
+@protocol MKMPrivateKeyFactory <NSObject>
+
+- (nullable id<MKMPrivateKey>)generatePrivateKey:(NSString *)algorithm;
+
+- (nullable id<MKMPrivateKey>)parsePrivateKey:(NSDictionary *)key;
+
+@end
+
+@interface MKMPrivateKey (Creation)
+
++ (void)setFactory:(id<MKMPrivateKeyFactory>)factory;
+
++ (nullable id<MKMPrivateKey>)generate:(NSString *)algorithm;
+
++ (nullable id<MKMPrivateKey>)parse:(NSDictionary *)key;
 
 @end
 

@@ -7,7 +7,7 @@
 // =============================================================================
 // The MIT License (MIT)
 //
-// Copyright (c) 2019 Albert Moky
+// Copyright (c) 2018 Albert Moky
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -47,17 +47,17 @@
 
 @interface MKMGroup () {
     
-    MKMID *_founder;
+    id<MKMID> _founder;
 }
 
-@property (strong, nonatomic) MKMID *founder;
+@property (strong, nonatomic) id<MKMID> founder;
 
 @end
 
 @implementation MKMGroup
 
 /* designated initializer */
-- (instancetype)initWithID:(MKMID *)ID {
+- (instancetype)initWithID:(id<MKMID>)ID {
     if (self = [super initWithID:ID]) {
         _founder = nil;
     }
@@ -80,7 +80,7 @@
     return MKMUTF8Decode(MKMJSONEncode(info));
 }
 
-- (MKMID *)founder {
+- (id<MKMID>)founder {
     if (!_founder) {
         NSAssert(self.dataSource, @"group data source not set yet");
         _founder = [self.dataSource founderOfGroup:_ID];
@@ -88,12 +88,12 @@
     return _founder;
 }
 
-- (MKMID *)owner {
+- (id<MKMID>)owner {
     NSAssert(self.dataSource, @"group data source not set yet");
     return [self.dataSource ownerOfGroup:_ID];
 }
 
-- (NSArray<MKMID *> *)members {
+- (NSArray<id<MKMID>> *)members {
     NSAssert(self.dataSource, @"group data source not set yet");
     NSArray *list = [self.dataSource membersOfGroup:_ID];
     return [list copy];

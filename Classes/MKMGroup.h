@@ -7,7 +7,7 @@
 // =============================================================================
 // The MIT License (MIT)
 //
-// Copyright (c) 2019 Albert Moky
+// Copyright (c) 2018 Albert Moky
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -41,10 +41,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MKMGroup : MKMEntity
 
-@property (readonly, strong, nonatomic) MKMID *founder;
-@property (readonly, strong, nonatomic) MKMID *owner;
+@property (readonly, strong, nonatomic) id<MKMID> founder;
+@property (readonly, strong, nonatomic) id<MKMID> owner;
 
-@property (readonly, copy, nonatomic) NSArray<MKMID *> *members;
+@property (readonly, copy, nonatomic) NSArray<id<MKMID>> *members;
 
 // +create(founder)
 // -setName(name)
@@ -66,7 +66,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param group - group ID
  * @return fonder ID
  */
-- (nullable MKMID *)founderOfGroup:(MKMID *)group;
+- (nullable id<MKMID>)founderOfGroup:(id<MKMID>)group;
 
 /**
  *  Get group owner
@@ -74,7 +74,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param group - group ID
  * @return owner ID
  */
-- (nullable MKMID *)ownerOfGroup:(MKMID *)group;
+- (nullable id<MKMID>)ownerOfGroup:(id<MKMID>)group;
 
 /**
  *  Get group members list
@@ -82,7 +82,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param group - group ID
  * @return members list (ID)
  */
-- (nullable NSArray<MKMID *> *)membersOfGroup:(MKMID *)group;
+- (nullable NSArray<id<MKMID>> *)membersOfGroup:(id<MKMID>)group;
 
 @end
 

@@ -7,7 +7,7 @@
 // =============================================================================
 // The MIT License (MIT)
 //
-// Copyright (c) 2019 Albert Moky
+// Copyright (c) 2018 Albert Moky
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -49,53 +49,62 @@ NS_ASSUME_NONNULL_BEGIN
  *          address  - a string to identify an entity
  *          terminal - entity login resource(device), OPTIONAL
  */
-@interface MKMID : MKMString
+@protocol MKMID <MKMString>
 
 @property (readonly, strong, nonatomic, nullable) NSString *name;
-@property (readonly, strong, nonatomic) MKMAddress *address;
+@property (readonly, strong, nonatomic) id<MKMAddress> address;
 @property (readonly, strong, nonatomic, nullable) NSString *terminal;
 
 @property (readonly, nonatomic) MKMNetworkType type; // Network ID
-@property (readonly, nonatomic) UInt32 number;       // search number
 
-@property (readonly, nonatomic, getter=isValid) BOOL valid;
+@end
+
+@interface MKMID : MKMString <MKMID>
 
 /**
  *  Initialize an ID with string form "name@address[/terminal]"
  *
  * @param string - ID string
- * @return ID object
- */
-- (instancetype)initWithString:(NSString *)string;
-
-/**
- *  Initialize an ID with username & address
- *
  * @param seed - username
- * @param addr - hash(fingerprint)
+ * @param address - hash(fingerprint)
  * @param location - login point (optional)
  * @return ID object
  */
-- (instancetype)initWithName:(nullable NSString *)seed
-                     address:(MKMAddress *)addr
-                    terminal:(nullable NSString *)location;
+- (instancetype)initWithString:(NSString *)string
+                          name:(nullable NSString *)seed
+                       address:(id<MKMAddress>)address
+                      terminal:(nullable NSString *)location
+NS_DESIGNATED_INITIALIZER;
+
+- (instancetype)initWithName:(NSString *)seed
+                     address:(id<MKMAddress>)address
+                    terminal:(NSString *)location;
 
 /**
  *  Default ID form (name@address)
- *
- * @param seed - username
- * @param addr - hash(fingerprint)
- * @return ID object
  */
-- (instancetype)initWithName:(nullable NSString *)seed
-                     address:(MKMAddress *)addr;
+- (instancetype)initWithName:(NSString *)seed
+                     address:(id<MKMAddress>)address;
 
 /**
  *  For ID without name(only contains address), likes BTC/ETH/...
  */
-- (instancetype)initWithAddress:(MKMAddress *)addr;
+- (instancetype)initWithAddress:(id<MKMAddress>)addr;
+
++ (BOOL)isUser:(id<MKMID>)identifier;
++ (BOOL)isGroup:(id<MKMID>)identifier;
+
++ (BOOL)isBroadcast:(id<MKMID>)identifier;
+
++ (MKMID *)anyone;
++ (MKMID *)everyone;
 
 @end
+
+#define MKMAnyone()         [MKMID anyone]
+#define MKMEveryone()       [MKMID everyone]
+
+#define MKMIDFromString(ID) [MKMID parse:(ID)]
 
 @interface MKMID (IDType)
 
@@ -106,24 +115,30 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-// convert String to ID
-#define MKMIDFromString(ID)                                                    \
-            [MKMID getInstance:(ID)]                                           \
-                                                 /* EOF 'MKMIDFromString(ID)' */
+#pragma mark - Creation
 
-/**
- *  ID for broadcast
- */
-#define MKMAnyone()                                                            \
-            MKMIDFromString(@"anyone@anywhere")                                \
-                                                         /* EOF 'MKMAnyone()' */
-#define MKMEveryone()                                                          \
-            MKMIDFromString(@"everyone@everywhere")                            \
-                                                       /* EOF 'MKMEveryone()' */
+@protocol MKMIDFactory <NSObject>
 
-@interface MKMID (Runtime)
+- (id<MKMID>)createID:(nullable NSString *)name
+              address:(id<MKMAddress>)address
+             terminal:(nullable NSString *)terminal;
 
-+ (nullable instancetype)getInstance:(id)ID;
+- (nullable id<MKMID>)parseID:(NSString *)identifier;
+
+@end
+
+@interface MKMID (Creation)
+
++ (void)setFactory:(id<MKMIDFactory>)factory;
+
++ (id<MKMID>)create:(nullable NSString *)name
+            address:(id<MKMAddress>)address
+           terminal:(nullable NSString *)terminal;
+
++ (nullable id<MKMID>)parse:(NSString *)identifier;
+
++ (NSArray<id<MKMID>> *)convert:(NSArray<NSString *> *)members;
++ (NSArray<NSString *> *)revert:(NSArray<id<MKMID>> *)members;
 
 @end
 

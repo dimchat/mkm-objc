@@ -7,7 +7,7 @@
 // =============================================================================
 // The MIT License (MIT)
 //
-// Copyright (c) 2019 Albert Moky
+// Copyright (c) 2018 Albert Moky
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -63,9 +63,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MKMUser (Local)
 
-@property (readonly, copy, nonatomic) NSArray<MKMID *> *contacts;
-
-- (BOOL)existsContact:(MKMID *)ID;
+@property (readonly, strong, nonatomic) NSArray<id<MKMID>> *contacts;
 
 /**
  *  Sign data with user's private key
@@ -85,8 +83,42 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+#pragma mark Interfaces for Visa
+
+@protocol MKMVisa;
+
+@interface MKMUser (Visa)
+
+- (nullable id<MKMVisa>)signVisa:(id<MKMVisa>)visa;
+
+- (BOOL)verifyVisa:(id<MKMVisa>)visa;
+
+@end
+
 #pragma mark - User Data Source
 
+/**
+ *  User Data Source
+ *  ~~~~~~~~~~~~~~~~
+ *
+ *  (Encryption/decryption)
+ *  1. public key for encryption
+ *     if visa.key not exists, means it is the same key with meta.key
+ *  2. private keys for decryption
+ *     the private keys paired with [visa.key, meta.key]
+ *
+ *  (Signature/Verification)
+ *  3. private key for signature
+ *     the private key paired with visa.key or meta.key
+ *  4. public keys for verification
+ *     [visa.key, meta.key]
+ *
+ *  (Visa Document)
+ *  5. private key for signature
+ *     the private key pared with meta.key
+ *  6. public key for verification
+ *     [meta.key]
+ */
 @protocol MKMUserDataSource <MKMEntityDataSource>
 
 /**
@@ -95,43 +127,42 @@ NS_ASSUME_NONNULL_BEGIN
  * @param user - user ID
  * @return contacts list (ID)
  */
-- (nullable NSArray<MKMID *> *)contactsOfUser:(MKMID *)user;
-
-/**
- *  Get user's public key for encryption
- *  (profile.key or meta.key)
- *
- * @param user - user ID
- * @return public key
- */
-- (nullable id<MKMEncryptKey>)publicKeyForEncryption:(MKMID *)user;
-
-/**
- *  Get user's private keys for decryption
- *  (which paired with [profile.key, meta.key])
- *
- * @param user - user ID
- * @return private key
- */
-- (nullable NSArray<id<MKMDecryptKey>> *)privateKeysForDecryption:(MKMID *)user;
-
-/**
- *  Get user's private key for signature
- *  (which paired with profile.key or meta.key)
- *
- * @param user - user ID
- * @return private key
- */
-- (nullable id<MKMSignKey>)privateKeyForSignature:(MKMID *)user;
+- (nullable NSArray<id<MKMID>> *)contactsOfUser:(id<MKMID>)user;
 
 /**
  *  Get user's public keys for verification
- *  [profile.key, meta.key]
+ *  [visa.key, meta.key]
  *
  * @param user - user ID
- * @return public key
+ * @return public keys
  */
-- (nullable NSArray<id<MKMVerifyKey>> *)publicKeysForVerification:(MKMID *)user;
+- (NSArray<id<MKMVerifyKey>> *)publicKeysForVerification:(id<MKMID>)user;
+
+/**
+ *  Get user's private keys for decryption
+ *  (which paired with [visa.key, meta.key])
+ *
+ * @param user - user ID
+ * @return private keys
+ */
+- (NSArray<id<MKMDecryptKey>> *)privateKeysForDecryption:(id<MKMID>)user;
+
+/**
+ *  Get user's private key for signature
+ *  (which paired with visa.key or meta.key)
+ *
+ * @param user - user ID
+ * @return private key
+ */
+- (id<MKMSignKey>)privateKeyForSignature:(id<MKMID>)user;
+
+/**
+ *  Get user's private key for signing visa
+ *
+ * @param user - user ID
+ * @return private key
+ */
+- (id<MKMSignKey>)privateKeyForVisaSignature:(id<MKMID>)user;
 
 @end
 

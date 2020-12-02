@@ -7,7 +7,7 @@
 // =============================================================================
 // The MIT License (MIT)
 //
-// Copyright (c) 2019 Albert Moky
+// Copyright (c) 2018 Albert Moky
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -39,8 +39,20 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol MKMCryptographyKey <NSObject>
+/*
+ *  Cryptography Key
+ *  ~~~~~~~~~~~~~~~~
+ *  Cryptography key with designated algorithm
+ *
+ *  key data format: {
+ *      algorithm : "RSA", // ECC, AES, ...
+ *      data      : "{BASE64_ENCODE}",
+ *      ...
+ *  }
+ */
+@protocol MKMCryptographyKey <MKMDictionary>
 
+@property (readonly, strong, nonatomic) NSString *algorithm;
 @property (readonly, strong, nonatomic) NSData *data;
 
 @end
@@ -65,67 +77,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@protocol MKMSymmetricKey <MKMEncryptKey, MKMDecryptKey>
+#pragma mark - Key Parser
 
-@end
+@protocol MKMCryptographyKeyParser <NSObject>
 
-@protocol MKMAsymmetricKey <MKMCryptographyKey>
-
-@end
-
-@protocol MKMSignKey <MKMAsymmetricKey>
-
-/**
- *  signature = sign(data, SK);
- */
-- (NSData *)sign:(NSData *)data;
-
-@end
-
-@protocol MKMVerifyKey <MKMAsymmetricKey>
-
-/**
- *  OK = verify(data, signature, PK)
- */
-- (BOOL)verify:(NSData *)data withSignature:(NSData *)signature;
-
-@end
-
-#pragma mark -
-
-/*
- *  Cryptography Key
- *
- *      keyInfo format: {
- *          algorithm: "RSA", // ECC, AES, ...
- *          data     : "{BASE64_ENCODE}",
- *          ...
- *      }
- */
-@interface MKMCryptographyKey : MKMDictionary <MKMCryptographyKey> {
-    
-    // key data, set by subclass
-    NSData *_data;
-}
-
-- (instancetype)initWithDictionary:(NSDictionary *)keyInfo
-NS_DESIGNATED_INITIALIZER;
-
-@end
-
-@interface MKMCryptographyKey (Runtime)
-
-+ (void)registerClass:(nullable Class)keyClass forAlgorithm:(NSString *)name;
-
-+ (nullable __kindof instancetype)getInstance:(id)key;
-
-@end
-
-@interface MKMCryptographyKey (PersistentStore)
-
-+ (nullable __kindof instancetype)loadKeyWithIdentifier:(NSString *)identifier;
-
-- (BOOL)saveKeyWithIdentifier:(NSString *)identifier;
+- (nullable id<MKMCryptographyKey>)parse:(NSDictionary *)key;
 
 @end
 

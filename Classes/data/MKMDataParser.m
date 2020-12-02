@@ -7,7 +7,7 @@
 // =============================================================================
 // The MIT License (MIT)
 //
-// Copyright (c) 2019 Albert Moky
+// Copyright (c) 2020 Albert Moky
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -34,8 +34,6 @@
 //  Created by Albert Moky on 2020/4/7.
 //  Copyright © 2020 DIM Group. All rights reserved.
 //
-
-#import "NSObject+Singleton.h"
 
 #import "MKMDataParser.h"
 
@@ -101,46 +99,50 @@
 
 @implementation MKMJSON
 
-SingletonImplementations(MKMJSON, sharedInstance)
+static id<MKMDataParser> s_json = nil;
 
-- (instancetype)init {
-    if (self = [super init]) {
-        self.parser = [[JSON alloc] init];
++ (id<MKMDataParser>)parser {
+    if (s_json == nil) {
+        s_json = [[JSON alloc] init];
     }
-    return self;
+    return s_json;
 }
 
-- (nullable NSData *)encode:(nonnull NSObject *)container {
-    NSAssert(self.parser, @"JSON data parser not set yet");
-    return [self.parser encode:container];
++ (void)setParser:(id<MKMDataParser>)parser {
+    s_json = parser;
 }
 
-- (nullable NSObject *)decode:(nonnull NSData *)json {
-    NSAssert(self.parser, @"JSON data parser not set yet");
-    return [self.parser decode:json];
++ (nullable NSData *)encode:(id)object {
+    return [[self parser] encode:object];
+}
+
++ (nullable id)decode:(NSData *)bytes {
+    return [[self parser] decode:bytes];
 }
 
 @end
 
 @implementation MKMUTF8
 
-SingletonImplementations(MKMUTF8, sharedInstance)
+static id<MKMDataParser> s_utf8 = nil;
 
-- (instancetype)init {
-    if (self = [super init]) {
-        self.parser = [[UTF8 alloc] init];
++ (id<MKMDataParser>)parser {
+    if (s_utf8 == nil) {
+        s_utf8 = [[UTF8 alloc] init];
     }
-    return self;
+    return s_utf8;
 }
 
-- (nullable NSData *)encode:(nonnull NSString *)string {
-    NSAssert(self.parser, @"UTF8 data parser not set yet");
-    return [self.parser encode:string];
++ (void)setParser:(id<MKMDataParser>)parser {
+    s_utf8 = parser;
 }
 
-- (nullable NSString *)decode:(nonnull NSData *)bytes {
-    NSAssert(self.parser, @"UTF8 data parser not set yet");
-    return [self.parser decode:bytes];
++ (nullable NSData *)encode:(id)object {
+    return [[self parser] encode:object];
+}
+
++ (nullable id)decode:(NSData *)bytes {
+    return [[self parser] decode:bytes];
 }
 
 @end

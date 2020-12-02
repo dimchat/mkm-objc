@@ -7,7 +7,7 @@
 // =============================================================================
 // The MIT License (MIT)
 //
-// Copyright (c) 2019 Albert Moky
+// Copyright (c) 2018 Albert Moky
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -35,20 +35,13 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import "NSObject+Singleton.h"
-
 #import "MKMPublicKey.h"
-#import "MKMPrivateKey.h"
 
 #import "MKMID.h"
-#import "MKMAddress.h"
-#import "MKMMeta.h"
-
-#import "MKMUser.h"
 
 #import "MKMProfile.h"
 
-@interface MKMProfile () {
+@interface MKMVisa () {
     
     // public key to encrypt message
     id<MKMEncryptKey> _key;
@@ -56,7 +49,7 @@
 
 @end
 
-@implementation MKMProfile
+@implementation MKMVisa
 
 - (instancetype)initWithDictionary:(NSDictionary *)dict {
     if (self = [super initWithDictionary:dict]) {
@@ -66,95 +59,20 @@
     return self;
 }
 
-- (NSString *)name {
-    NSString *string = (NSString *)[self propertyForKey:@"name"];
-    if (!string) {
-        NSArray *array = (NSArray *)[self propertyForKey:@"names"];
-        if ([array count] > 0) {
-            string = [array objectAtIndex:0];
-        }
-    }
-    return string;
-}
-
-- (void)setName:(NSString *)name {
-    [self setProperty:name forKey:@"name"];
-}
-
-@end
-
-static NSMutableArray<Class> *profile_classes(void) {
-    static NSMutableArray<Class> *classes = nil;
-    SingletonDispatchOnce(^{
-        classes = [[NSMutableArray alloc] init];
-        // extended profile...
-    });
-    return classes;
-}
-
-@implementation MKMProfile (Runtime)
-
-+ (void)registerClass:(Class)profileClass {
-    NSAssert(![profileClass isEqual:self], @"only subclass");
-    NSAssert([profileClass isSubclassOfClass:self], @"error: %@", profileClass);
-    NSMutableArray<Class> *classes = profile_classes();
-    if (profileClass && ![classes containsObject:profileClass]) {
-        // parse profile with new class first
-        [classes insertObject:profileClass atIndex:0];
-    }
-}
-
-+ (nullable instancetype)getInstance:(id)profile {
-    if (!profile) {
-        return nil;
-    }
-    if ([profile isKindOfClass:[MKMProfile class]]) {
-        // return Profile object directly
-        return profile;
-    }
-    NSAssert([profile isKindOfClass:[NSDictionary class]], @"profile error: %@", profile);
-    if ([self isEqual:[MKMProfile class]]) {
-        // try to create instance by each subclass
-        MKMProfile *tai = nil;
-        NSMutableArray<Class> *classes = profile_classes();
-        for (Class clazz in classes) {
-            @try {
-                tai = [clazz getInstance:profile];
-                if (tai) {
-                    // create by this subclass successfully
-                    break;
-                }
-            } @catch (NSException *exception) {
-                // profile not match? try next
-            } @finally {
-                //
-            }
-        }
-        if (tai) {
-            return tai;
-        }
-    }
-    // subclass
-    return [[self alloc] initWithDictionary:profile];
-}
-
-@end
-
-#pragma mark -
-
-@implementation MKMProfile (User)
-
 - (nullable id<MKMEncryptKey>)key {
     if (!_key) {
-        NSObject *dict = [self propertyForKey:@"key"];
-        _key = MKMPublicKeyFromDictionary(dict);
+        NSDictionary *dict = (NSDictionary *)[self propertyForKey:@"key"];
+        id<MKMPublicKey> pKey = MKMPublicKeyFromDictionary(dict);
+        if ([pKey conformsToProtocol:@protocol(MKMEncryptKey)]) {
+            _key = (id<MKMEncryptKey>) pKey;
+        }
     }
     return _key;
 }
 
 - (void)setKey:(id<MKMEncryptKey>)key {
-    _key = key;
     [self setProperty:key forKey:@"key"];
+    _key = key;
 }
 
 - (nullable NSString *)avatar {
@@ -167,14 +85,31 @@ static NSMutableArray<Class> *profile_classes(void) {
 
 @end
 
-@implementation MKMProfile (Group)
+#pragma mark -
 
-- (nullable NSString *)logo {
-    return (NSString *)[self propertyForKey:@"logo"];
+@interface MKMBulletin () {
+    
+    // Bot ID list as group assistants
+    NSArray<id<MKMID>> *_assistants;
 }
 
-- (void)setLogo:(NSString *)logo {
-    [self setProperty:logo forKey:@"logo"];
+@end
+
+@implementation MKMBulletin
+
+- (nullable NSArray<id<MKMID>> *)assistants {
+    if (!_assistants) {
+        NSArray<NSString *> *array = (NSArray<NSString *> *)[self propertyForKey:@"assistants"];
+        if (array.count > 0) {
+            _assistants = [MKMID convert:array];
+        }
+    }
+    return _assistants;
+}
+
+- (void)setAssistants:(NSArray<id<MKMID>> *)assistants {
+    [self setProperty:assistants forKey:@"assistants"];
+    _assistants = assistants;
 }
 
 @end

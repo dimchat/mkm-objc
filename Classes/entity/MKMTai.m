@@ -7,7 +7,7 @@
 // =============================================================================
 // The MIT License (MIT)
 //
-// Copyright (c) 2019 Albert Moky
+// Copyright (c) 2018 Albert Moky
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -35,8 +35,6 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import "NSObject+Singleton.h"
-
 #import "MKMBaseCoder.h"
 #import "MKMDataParser.h"
 
@@ -51,32 +49,30 @@
 
 #import "MKMProfile.h"
 
-@interface MKMTAI () {
+@interface MKMDocument () {
     
-    NSString *_ID;
-    id<MKMEncryptKey> _key;
+    id<MKMID> _ID;
     
-    NSMutableDictionary *_properties;
-    
-    NSData *_data;    // JsON.encode(properties)
+    NSData *_data;      // JsON.encode(properties)
     NSData *_signature; // User(ID).sign(data)
     
-    NSInteger _status;
+    NSMutableDictionary *_properties;
+
+    NSInteger _status; // 1 for valid, -1 for invalid
 }
 
-@property (strong, nonatomic) NSString *ID;
-@property (strong, nonatomic, nullable) id<MKMEncryptKey> key;
-
-@property (strong, nonatomic) NSMutableDictionary *properties;
+@property (strong, nonatomic) id<MKMID> ID;
 
 @property (strong, nonatomic) NSData *data;
 @property (strong, nonatomic) NSData *signature;
+
+@property (strong, nonatomic) NSMutableDictionary *properties;
 
 @property (nonatomic) NSInteger status;
 
 @end
 
-@implementation MKMTAI
+@implementation MKMDocument
 
 - (instancetype)init {
     NSAssert(false, @"DON'T call me");
@@ -90,12 +86,12 @@
         // lazi
         _ID = nil;
         
+        _data = nil;
+        _signature = nil;
+        
         _properties = nil;
-        
-        _data = nil; // JsON.encode(properties)
-        _signature = nil; // User(ID).sign(data)
-        
-        _status = 0; // 1 for valid, -1 for invalid
+
+        _status = 0;
     }
     return self;
 }
@@ -107,8 +103,6 @@
     if (self = [super initWithDictionary:@{@"ID": ID}]) {
         // ID
         _ID = ID;
-        
-        _properties = nil;
 
         _data = json;
         _signature = signature;
@@ -116,55 +110,50 @@
         [self setObject:MKMUTF8Decode(json) forKey:@"data"];
         [self setObject:MKMBase64Encode(signature) forKey:@"signature"];
         
-        _status = 0; // 1 for valid, -1 for invalid
+        _properties = nil;
+
+        // all documents must be verified before saving into local storage
+        _status = 1;
     }
     return self;
 }
 
 /* designated initializer */
 - (instancetype)initWithID:(MKMID *)ID {
-    NSAssert([ID isValid], @"profile ID error: %@", ID);
     if (self = [super initWithDictionary:@{@"ID": ID}]) {
         // ID
         _ID = ID;
         
+        _data = nil;
+        _signature = nil;
+        
         _properties = nil;
-        
-        _data = nil; // JsON.encode(properties)
-        _signature = nil; // User(ID).sign(data)
-        
-        _status = 0; // 1 for valid, -1 for invalid
+
+        _status = 0;
     }
     return self;
 }
 
 - (id)copyWithZone:(NSZone *)zone {
-    MKMTAI *profile = [super copyWithZone:zone];
+    MKMDocument *profile = [super copyWithZone:zone];
     if (profile) {
         profile.ID = _ID;
-        profile.properties = _properties;
         profile.data = _data;
         profile.signature = _signature;
+        profile.properties = _properties;
         profile.status = _status;
     }
     return profile;
 }
 
 - (BOOL)isValid {
-    return _status >= 0;
-}
-
-- (NSString *)ID {
-    if (!_ID) {
-        _ID = [_storeDictionary objectForKey:@"ID"];
-    }
-    return _ID;
+    return _status > 0;
 }
 
 - (NSData *)data {
     if (!_data) {
-        NSString *json = [_storeDictionary objectForKey:@"data"];
-        if (json) {
+        NSString *json = [self objectForKey:@"data"];
+        if (json.length > 0) {
             _data = MKMUTF8Encode(json);
         }
     }
@@ -173,8 +162,8 @@
 
 - (NSData *)signature {
     if (!_signature) {
-        NSString *sig = [_storeDictionary objectForKey:@"signature"];
-        if (sig) {
+        NSString *sig = [self objectForKey:@"signature"];
+        if (sig.length > 0) {
             _signature = MKMBase64Decode(sig);
         }
     }
@@ -228,11 +217,6 @@
     _signature = nil;
 }
 
-- (nullable id<MKMEncryptKey>)key {
-    NSAssert(false, @"override me!");
-    return nil;
-}
-
 - (BOOL)verify:(id<MKMVerifyKey>)PK {
     if (_status > 0) {
         // already verify OK
@@ -272,9 +256,58 @@
     _data = MKMJSONEncode(self.properties);
     _signature = [SK sign:_data];
     // update 'data' & 'signature' fields
-    [_storeDictionary setObject:MKMUTF8Decode(_data) forKey:@"data"];
-    [_storeDictionary setObject:MKMBase64Encode(_signature) forKey:@"signature"];
+    [self setObject:MKMUTF8Decode(_data) forKey:@"data"];
+    [self setObject:MKMBase64Encode(_signature) forKey:@"signature"];
     return _signature;
+}
+
+- (NSString *)type {
+    return [self objectForKey:@"type"];
+}
+
+- (id<MKMID>)ID {
+    if (!_ID) {
+        _ID = MKMIDFromString([self objectForKey:@"ID"]);
+    }
+    return _ID;
+}
+
+#pragma mark properties getter/setter
+
+- (NSString *)name {
+    return (NSString *)[self propertyForKey:@"name"];
+}
+
+- (void)setName:(NSString *)name {
+    [self setProperty:name forKey:@"name"];
+}
+
+@end
+
+@implementation MKMDocument (Creation)
+
+static id<MKMDocumentFactory> s_factory = nil;
+
++ (void)setFactory:(id<MKMDocumentFactory>)factory {
+    s_factory = factory;
+}
+
++ (id<MKMDocument>)create:(id<MKMID>)ID type:(NSString *)type data:(NSData *)data signature:(NSData *)CT {
+    return [s_factory createDocument:ID type:type data:data signature:CT];
+}
+
+// create a new empty profile with entity ID
++ (id<MKMDocument>)create:(id<MKMID>)ID type:(NSString *)type {
+    return [s_factory createDocument:ID type:type];
+}
+
++ (nullable id<MKMDocument>)parse:(NSDictionary *)doc {
+    if (doc.count == 0) {
+        return nil;
+    } else if ([doc conformsToProtocol:@protocol(MKMDocument)]) {
+        return (id<MKMDocument>)doc;
+    }
+    return [s_factory parseDocument:doc];
 }
 
 @end

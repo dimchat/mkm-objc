@@ -7,7 +7,7 @@
 // =============================================================================
 // The MIT License (MIT)
 //
-// Copyright (c) 2019 Albert Moky
+// Copyright (c) 2018 Albert Moky
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -39,12 +39,19 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-// convert Dictionary to PublicKey
-#define MKMPublicKeyFromDictionary(key)                                        \
-            [MKMPublicKey getInstance:(key)]                                   \
-                                     /* EOF 'MKMPublicKeyFromDictionary(key)' */
+/*
+ *  Asymmetric Cryptography Public Key
+ *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ *
+ *  key data format: {
+ *      algorithm : "RSA", // "ECC", ...
+ *      data      : "{BASE64_ENCODE}",
+ *      ...
+ *  }
+ */
+@protocol MKMPublicKey <MKMVerifyKey>
 
-@class MKMPrivateKey;
+@end
 
 /*
  *  AC Public Key
@@ -55,7 +62,25 @@ NS_ASSUME_NONNULL_BEGIN
  *          ...
  *      }
  */
-@interface MKMPublicKey : MKMAsymmetricKey <MKMPublicKey>
+@interface MKMPublicKey : NSObject
+
+@end
+
+#define MKMPublicKeyFromDictionary(key) [MKMPublicKey parse:(key)]
+
+#pragma mark - Creation
+
+@protocol MKMPublicKeyFactory <NSObject>
+
+- (nullable id<MKMPublicKey>)parsePublicKey:(NSDictionary *)key;
+
+@end
+
+@interface MKMPublicKey (Creation)
+
++ (void)setFactory:(id<MKMPublicKeyFactory>)factory;
+
++ (nullable id<MKMPublicKey>)parse:(NSDictionary *)key;
 
 @end
 

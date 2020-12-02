@@ -7,7 +7,7 @@
 // =============================================================================
 // The MIT License (MIT)
 //
-// Copyright (c) 2019 Albert Moky
+// Copyright (c) 2018 Albert Moky
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -36,6 +36,13 @@
 //
 
 #import "MKMString.h"
+
+@interface MKMString () {
+    
+    NSString *_storeString; // inner string
+}
+
+@end
 
 @implementation MKMString
 
@@ -70,10 +77,16 @@
 }
 
 - (BOOL)isEqual:(id)object {
-    if (![object isKindOfClass:[NSString class]]) {
-        return NO;
+    if (self == object) {
+        return YES;
     }
-    return self == object || [_storeString isEqualToString:object];
+    if ([object conformsToProtocol:@protocol(MKMString)]) {
+        return [_storeString isEqualToString:[object string]];
+    }
+    if ([object isKindOfClass:[NSString class]]) {
+        return [_storeString isEqualToString:object];
+    }
+    return NO;
 }
 
 - (NSUInteger)length {
@@ -82,6 +95,20 @@
 
 - (unichar)characterAtIndex:(NSUInteger)index {
     return [_storeString characterAtIndex:index];
+}
+
+#pragma mark -
+
+- (NSString *)description {
+    return _storeString;
+}
+
+- (NSString *)debugDescription {
+    return [NSString stringWithFormat:@"<%@: \"%@\">", [self class], _storeString];
+}
+
+- (NSString *)string {
+    return _storeString;
 }
 
 @end

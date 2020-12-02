@@ -7,7 +7,7 @@
 // =============================================================================
 // The MIT License (MIT)
 //
-// Copyright (c) 2019 Albert Moky
+// Copyright (c) 2018 Albert Moky
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -35,98 +35,23 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import "NSObject+Singleton.h"
-
-#import "MKMPrivateKey.h"
-
 #import "MKMPublicKey.h"
 
 @implementation MKMPublicKey
 
-- (BOOL)isMatch:(MKMPrivateKey *)SK {
-    // 1. if the SK has the same public key, return YES
-    if ([SK.publicKey isEqual:self]) {
-        return YES;
-    }
-    // 2. try to verify the SK's signature
-    static NSString *promise = @"Moky loves May Lee forever!";
-    NSData *data = [promise dataUsingEncoding:NSUTF8StringEncoding];
-    NSData *signature = [SK sign:data];
-    return [self verify:data withSignature:signature];
+static id<MKMPublicKeyFactory> s_factory = nil;
+
++ (void)setFactory:(id<MKMPublicKeyFactory>)factory {
+    s_factory = factory;
 }
 
-- (BOOL)verify:(NSData *)data withSignature:(NSData *)signature {
-    NSAssert(false, @"override me!");
-    return NO;
-}
-
-@end
-
-static NSMutableDictionary<NSString *, Class> *key_classes(void) {
-    static NSMutableDictionary<NSString *, Class> *classes = nil;
-    SingletonDispatchOnce(^{
-        classes = [[NSMutableDictionary alloc] init];
-        // RSA
-        // ECC
-        // ...
-    });
-    return classes;
-}
-
-@implementation MKMPublicKey (Runtime)
-
-+ (void)registerClass:(Class)keyClass forAlgorithm:(NSString *)name {
-    if (keyClass) {
-        NSAssert([keyClass isSubclassOfClass:self], @"error: %@", keyClass);
-        [key_classes() setObject:keyClass forKey:name];
-    } else {
-        [key_classes() removeObjectForKey:name];
-    }
-}
-
-+ (nullable instancetype)getInstance:(id)key {
-    if (!key) {
++ (nullable id<MKMPublicKey>)parse:(NSDictionary *)key {
+    if (key.count == 0) {
         return nil;
+    } else if ([key conformsToProtocol:@protocol(MKMPublicKey)]) {
+        return (id<MKMPublicKey>)key;
     }
-    if ([key isKindOfClass:[MKMPublicKey class]]) {
-        // return PublicKey object directly
-        return key;
-    }
-    NSAssert([key isKindOfClass:[NSDictionary class]], @"public key error: %@", key);
-    if ([self isEqual:[MKMPublicKey class]]) {
-        // create instance by subclass with key algorithm
-        NSString *algorithm = [key objectForKey:@"algorithm"];
-        Class clazz = [key_classes() objectForKey:algorithm];
-        if (clazz) {
-            return [clazz getInstance:key];
-        }
-        NSAssert(false, @"public key not support: %@", key);
-        return nil;
-    }
-    // subclass
-    return [[self alloc] initWithDictionary:key];
-}
-
-@end
-
-@implementation MKMPublicKey (PersistentStore)
-
-+ (nullable instancetype)loadKeyWithIdentifier:(NSString *)identifier {
-    if (![self isEqual:[MKMPublicKey class]]) {
-        // subclass
-        NSAssert(false, @"override me!");
-        return nil;
-    }
-    MKMPublicKey *key = nil;
-    NSArray<Class> *classes = [key_classes() allValues];
-    for (Class clazz in classes) {
-        key = [clazz loadKeyWithIdentifier:identifier];
-        if (key) {
-            // found
-            break;
-        }
-    }
-    return key;
+    return [s_factory parsePublicKey:key];
 }
 
 @end

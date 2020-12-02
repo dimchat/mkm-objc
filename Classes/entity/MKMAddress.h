@@ -7,7 +7,7 @@
 // =============================================================================
 // The MIT License (MIT)
 //
-// Copyright (c) 2019 Albert Moky
+// Copyright (c) 2018 Albert Moky
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -139,83 +139,46 @@ typedef UInt8 MKMNetworkType;
                                         ((network) == MKMNetwork_BTCMain))
 #define MKMNetwork_IsGroup(network)    ((network) & MKMNetwork_Group)
 
-@interface MKMAddress : MKMString
+@protocol MKMAddress <MKMString>
 
 @property (readonly, nonatomic) MKMNetworkType network; // Network ID
-@property (readonly, nonatomic) UInt32 code;            // Check Code
-
-/**
- *  Create address with string
- *
- * @param aString - Encoded address string
- * @return Address object
- */
-- (instancetype)initWithString:(NSString *)aString
-NS_DESIGNATED_INITIALIZER;
 
 @end
 
-@interface MKMAddress (AddressType)
+@interface MKMAddress : MKMString <MKMAddress>
 
-- (BOOL)isBroadcast;
+@property (readonly, nonatomic) MKMNetworkType network; // Network ID
 
-- (BOOL)isUser;
-- (BOOL)isGroup;
+- (instancetype)initWithString:(NSString *)address network:(MKMNetworkType)type;
 
-@end
++ (BOOL)isUser:(id<MKMAddress>)address;
++ (BOOL)isGroup:(id<MKMAddress>)address;
 
-// convert String to Address
-#define MKMAddressFromString(address)                                          \
-            [MKMAddress getInstance:(address)]                                 \
-                                       /* EOF 'MKMAddressFromString(address)' */
++ (BOOL)isBroadcast:(id<MKMAddress>)address;
 
-/**
- *  Address for broadcast
- */
-#define MKMAnywhere()                                                          \
-            MKMAddressFromString(@"anywhere")                                  \
-                                                       /* EOF 'MKMAnywhere()' */
-#define MKMEverywhere()                                                        \
-            MKMAddressFromString(@"everywhere")                                \
-                                                     /* EOF 'MKMEverywhere()' */
-
-@interface MKMAddress (Runtime)
-
-+ (void)registerClass:(Class)addressClass;
-
-+ (nullable instancetype)getInstance:(id)address;
++ (MKMAddress *)anywhere;
++ (MKMAddress *)everywhere;
 
 @end
 
-#pragma mark - Default Address Algorithm (BTC)
+#define MKMAnywhere()                 [MKMAddress anywhere]
+#define MKMEverywhere()               [MKMAddress everywhere]
 
-/*
- *  Address like BitCoin
- *
- *      data format: "network+digest+checkcode"
- *          network    --  1 byte
- *          digest     -- 20 bytes
- *          check_code --  4 bytes
- *
- *      algorithm:
- *          fingerprint = sign(seed, SK);
- *
- *          CT      = fingerprint; // or key.data for BTC address
- *          digest  = ripemd160(sha256(CT));
- *          code    = sha256(sha256(network + digest)).prefix(4);
- *          address = base58_encode(network + digest + code);
- *          number  = uint(code);
- */
-@interface MKMAddressDefault : MKMAddress
+#define MKMAddressFromString(address) [MKMAddress parse:(address)]
 
-/**
- *  Generate address with key data and network ID
- *
- * @param key - public key data
- * @param type - network ID
- * @return Address object
- */
-+ (instancetype)generateWithData:(NSData *)key network:(MKMNetworkType)type;
+#pragma mark - Creation
+
+@protocol MKMAddressFactory <NSObject>
+
+- (nullable id<MKMAddress>)parseAddress:(NSString *)address;
+
+@end
+
+@interface MKMAddress (Creation)
+
++ (void)setFactory:(id<MKMAddressFactory>)factory;
+
++ (nullable id<MKMAddress>)parse:(NSString *)address;
 
 @end
 

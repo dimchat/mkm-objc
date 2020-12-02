@@ -7,7 +7,7 @@
 // =============================================================================
 // The MIT License (MIT)
 //
-// Copyright (c) 2019 Albert Moky
+// Copyright (c) 2018 Albert Moky
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -39,36 +39,42 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MKMProfile : MKMTAI
+@protocol MKMEncryptKey;
 
-@property (strong, nonatomic) NSString *name;
+/**
+ *  User Document
+ *  ~~~~~~~~~~~~~
+ *  This interface is defined for authorizing other apps to login,
+ *  which can generate a temporary asymmetric key pair for messaging.
+ */
+@protocol MKMVisa <MKMDocument>
+
+// public key for other user to encrypt message
+@property (strong, nonatomic, nullable) id<MKMEncryptKey> key;
+
+// avatar URL
+@property (strong, nonatomic, nullable) NSString *avatar;
 
 @end
 
-// convert Dictionary to Profile
-#define MKMProfileFromDictionary(profile)  [MKMProfile getInstance:(profile)]
-
-@interface MKMProfile (Runtime)
-
-+ (void)registerClass:(Class)profileClass;
-
-+ (nullable instancetype)getInstance:(id)profile;
+@interface MKMVisa : MKMDocument <MKMVisa>
 
 @end
 
 #pragma mark -
 
-@interface MKMProfile (User)
+/**
+ *  Group Document
+ *  ~~~~~~~~~~~~~~
+ */
+@protocol MKMBulletin <MKMDocument>
 
-@property (strong, nonatomic, nullable) id<MKMEncryptKey> key;
-
-@property (strong, nonatomic, nullable) NSString *avatar;
+// Bot ID list as group assistants
+@property (strong, nonatomic, nullable) NSArray<id<MKMID>> *assistants;
 
 @end
 
-@interface MKMProfile (Group)
-
-@property (strong, nonatomic, nullable) NSString *logo;
+@interface MKMBulletin : MKMDocument <MKMBulletin>
 
 @end
 

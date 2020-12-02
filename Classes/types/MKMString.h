@@ -7,7 +7,7 @@
 // =============================================================================
 // The MIT License (MIT)
 //
-// Copyright (c) 2019 Albert Moky
+// Copyright (c) 2018 Albert Moky
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -39,16 +39,20 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MKMString : NSString {
-    
-    NSString *_storeString; // inner string
-}
+@protocol MKMString <NSObject>
+
+@property (readonly, strong, nonatomic) NSString *string;
+
+@end
+
+@interface MKMString : NSString <MKMString>
 
 - (instancetype)initWithString:(NSString *)aString
 NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)init
 NS_DESIGNATED_INITIALIZER;
+
 - (nullable instancetype)initWithCoder:(NSCoder *)aDecoder
 NS_DESIGNATED_INITIALIZER;
 

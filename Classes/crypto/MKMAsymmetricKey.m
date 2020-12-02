@@ -7,7 +7,7 @@
 // =============================================================================
 // The MIT License (MIT)
 //
-// Copyright (c) 2019 Albert Moky
+// Copyright (c) 2018 Albert Moky
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -38,5 +38,14 @@
 #import "MKMAsymmetricKey.h"
 
 @implementation MKMAsymmetricKey
+
+static NSString *promise = @"Moky loves May Lee forever!";
+
++ (BOOL)asymmetricKey:(id<MKMSignKey>)privateKey matches:(id<MKMVerifyKey>)publicKey {
+    // try to verify via signature
+    NSData *data = [promise dataUsingEncoding:NSUTF8StringEncoding];
+    NSData *signature = [privateKey sign:data];
+    return [publicKey verify:data withSignature:signature];
+}
 
 @end

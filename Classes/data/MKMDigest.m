@@ -7,7 +7,7 @@
 // =============================================================================
 // The MIT License (MIT)
 //
-// Copyright (c) 2019 Albert Moky
+// Copyright (c) 2020 Albert Moky
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -37,10 +37,6 @@
 
 #import <CommonCrypto/CommonDigest.h>
 
-#import "ripemd160.h"
-
-#import "NSObject+Singleton.h"
-
 #import "MKMDigest.h"
 
 @interface MD5 : NSObject <MKMDigest>
@@ -53,6 +49,20 @@
     unsigned char digest[CC_MD5_DIGEST_LENGTH];
     CC_MD5([data bytes], (CC_LONG)[data length], digest);
     return [[NSData alloc] initWithBytes:digest length:CC_MD5_DIGEST_LENGTH];
+}
+
+@end
+
+@interface SHA1 : NSObject <MKMDigest>
+
+@end
+
+@implementation SHA1
+
+- (NSData *)digest:(NSData *)data {
+    unsigned char digest[CC_SHA1_DIGEST_LENGTH];
+    CC_SHA1([data bytes], (CC_LONG)[data length], digest);
+    return [[NSData alloc] initWithBytes:digest length:CC_SHA1_DIGEST_LENGTH];
 }
 
 @end
@@ -71,73 +81,95 @@
 
 @end
 
-@interface RIPEMD160 : NSObject <MKMDigest>
-
-@end
-
-@implementation RIPEMD160
-
-- (NSData *)digest:(NSData *)data {
-    const unsigned char *bytes = (const unsigned char *)[data bytes];
-    unsigned char digest[CRIPEMD160::OUTPUT_SIZE];
-    CRIPEMD160().Write(bytes, (size_t)[data length]).Finalize(digest);
-    return [[NSData alloc] initWithBytes:digest length:CRIPEMD160::OUTPUT_SIZE];
-}
-
-@end
-
 #pragma mark -
 
 @implementation MKMMD5
 
-SingletonImplementations(MKMMD5, sharedInstance)
+static id<MKMDigest> s_md5 = nil;
 
-- (instancetype)init {
-    if (self = [super init]) {
-        self.hasher = [[MD5 alloc] init];
++ (id<MKMDigest>)hasher {
+    if (s_md5 == nil) {
+        s_md5 = [[MD5 alloc] init];
     }
-    return self;
+    return s_md5;
 }
 
-- (NSData *)digest:(NSData *)data {
-    NSAssert(self.hasher, @"MD5 hasher not set yet");
-    return [self.hasher digest:data];
++ (void)setDigest:(id<MKMDigest>)hasher {
+    s_md5 = hasher;
 }
 
-@end
-
-@implementation MKMSHA256
-
-SingletonImplementations(MKMSHA256, sharedInstance)
-
-- (instancetype)init {
-    if (self = [super init]) {
-        self.hasher = [[SHA256 alloc] init];
-    }
-    return self;
-}
-
-- (NSData *)digest:(NSData *)data {
-    NSAssert(self.hasher, @"SHA256 hasher not set yet");
-    return [self.hasher digest:data];
++ (NSData *)digest:(NSData *)data {
+    return [[self hasher] digest:data];
 }
 
 @end
 
 @implementation MKMRIPEMD160
 
-SingletonImplementations(MKMRIPEMD160, sharedInstance)
+static id<MKMDigest> s_ripemd160 = nil;
 
-- (instancetype)init {
-    if (self = [super init]) {
-        self.hasher = [[RIPEMD160 alloc] init];
-    }
-    return self;
++ (void)setDigest:(id<MKMDigest>)hasher {
+    s_ripemd160 = hasher;
 }
 
-- (NSData *)digest:(NSData *)data {
-    NSAssert(self.hasher, @"RIPEMD160 hasher not set yet");
-    return [self.hasher digest:data];
++ (NSData *)digest:(NSData *)data {
+    return [s_ripemd160 digest:data];
+}
+
+@end
+
+@implementation MKMSHA1
+
+static id<MKMDigest> s_sha1 = nil;
+
++ (id<MKMDigest>)hasher {
+    if (s_sha1 == nil) {
+        s_sha1 = [[SHA1 alloc] init];
+    }
+    return s_sha1;
+}
+
++ (void)setDigest:(id<MKMDigest>)hasher {
+    s_sha1 = hasher;
+}
+
++ (NSData *)digest:(NSData *)data {
+    return [[self hasher] digest:data];
+}
+
+@end
+
+@implementation MKMSHA256
+
+static id<MKMDigest> s_sha256 = nil;
+
++ (id<MKMDigest>)hasher {
+    if (s_sha256 == nil) {
+        s_sha256 = [[SHA256 alloc] init];
+    }
+    return s_sha256;
+}
+
++ (void)setDigest:(id<MKMDigest>)hasher {
+    s_sha256 = hasher;
+}
+
++ (NSData *)digest:(NSData *)data {
+    return [[self hasher] digest:data];
+}
+
+@end
+
+@implementation MKMKECCAK256
+
+static id<MKMDigest> s_keccak256 = nil;
+
++ (void)setDigest:(id<MKMDigest>)hasher {
+    s_keccak256 = hasher;
+}
+
++ (NSData *)digest:(NSData *)data {
+    return [s_keccak256 digest:data];
 }
 
 @end

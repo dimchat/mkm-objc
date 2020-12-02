@@ -7,7 +7,7 @@
 // =============================================================================
 // The MIT License (MIT)
 //
-// Copyright (c) 2019 Albert Moky
+// Copyright (c) 2020 Albert Moky
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -61,28 +61,26 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark -
 
-#define MKMJSONEncode(container) [[MKMJSON sharedInstance] encode:(container)]
-#define MKMJSONDecode(json)      [[MKMJSON sharedInstance] decode:(json)]
+@interface MKMJSON : NSObject
 
-#define MKMUTF8Encode(string)    [[MKMUTF8 sharedInstance] encode:(string)]
-#define MKMUTF8Decode(bytes)     [[MKMUTF8 sharedInstance] decode:(bytes)]
-
-@interface MKMJSON : NSObject <MKMDataParser>
-
-// default parser
-@property (strong, nonatomic) id<MKMDataParser> parser;
-
-+ (instancetype)sharedInstance;
++ (void)setParser:(id<MKMDataParser>)parser;
++ (nullable NSData *)encode:(id)object;
++ (nullable id)decode:(NSData *)bytes;
 
 @end
 
-@interface MKMUTF8 : NSObject <MKMDataParser>
+@interface MKMUTF8 : NSObject
 
-// default parser
-@property (strong, nonatomic) id<MKMDataParser> parser;
-
-+ (instancetype)sharedInstance;
++ (void)setParser:(id<MKMDataParser>)parser;
++ (nullable NSData *)encode:(NSString *)object;
++ (nullable NSString *)decode:(NSData *)bytes;
 
 @end
+
+#define MKMJSONEncode(string) [MKMJSON encode:(string)]
+#define MKMJSONDecode(string) [MKMJSON decode:(string)]
+
+#define MKMUTF8Encode(string) [MKMUTF8 encode:(string)]
+#define MKMUTF8Decode(string) [MKMUTF8 decode:(string)]
 
 NS_ASSUME_NONNULL_END

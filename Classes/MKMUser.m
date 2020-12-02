@@ -7,7 +7,7 @@
 // =============================================================================
 // The MIT License (MIT)
 //
-// Copyright (c) 2019 Albert Moky
+// Copyright (c) 2018 Albert Moky
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -48,39 +48,25 @@
 
 @implementation MKMUser
 
-- (nullable id<MKMUserDataSource>)dataSource {
-    return (id<MKMUserDataSource>)[super dataSource];
-}
-
-- (id<MKMVerifyKey>)metaKey {
-    MKMMeta *meta = [self meta];
-    // if meta not exists, user won't be created
-    NSAssert(meta, @"failed to get meta for user: %@", _ID);
-    return [meta key];
-}
-
-- (nullable id<MKMEncryptKey>)profileKey {
-    MKMProfile *profile = [self profile];
-    NSAssert(!profile || [profile isValid], @"profile not valid: %@", profile);
-    return [profile key];
+- (nullable id<MKMEncryptKey>)visaKey {
+    id<MKMVisa> profile = [self document:MKMDocument_Visa];
+    NSAssert(!profile || [profile isValid], @"visa not valid: %@", profile);
+    if ([profile conformsToProtocol:@protocol(MKMVisa)]) {
+        return [profile key];
+    }
+    return nil;
 }
 
 // NOTICE: meta.key will never changed, so use profile.key to encrypt
 //         is the better way
 - (nullable id<MKMEncryptKey>)encryptKey {
-    id<MKMEncryptKey> key;
-    // 0. get key from delegate
-    key = [self.dataSource publicKeyForEncryption:_ID];
-    if (key) {
-        return key;
-    }
-    // 1. get key from profile
-    key = [self profileKey];
+    // 1. get key from visa
+    id<MKMEncryptKey> key = [self visaKey];
     if (key) {
         return key;
     }
     // 2. get key from meta
-    id<MKMVerifyKey> mKey = [self metaKey];
+    id mKey = [self.meta key];
     if ([mKey conformsToProtocol:@protocol(MKMEncryptKey)]) {
         return (id<MKMEncryptKey>)mKey;
     }
@@ -91,22 +77,21 @@
 // NOTICE: I suggest using the private key paired with meta.key to sign message
 //         so here should return the meta.key
 - (nullable NSArray<id<MKMVerifyKey>> *)verifyKeys {
-    NSArray<id<MKMVerifyKey>> *keys;
     // 0. get keys from delegate
-    keys = [self.dataSource publicKeysForVerification:_ID];
+    NSArray<id<MKMVerifyKey>> *keys = [self.dataSource publicKeysForVerification:_ID];
     if ([keys count] > 0) {
         return keys;
     }
     NSMutableArray *mArray = [[NSMutableArray alloc] init];
-    /*
-    // 1. get key from profile
-    NSObject *pKey = [self profileKey];
+    
+    // 1. get key from visa
+    id pKey = [self visaKey];
     if ([pKey conformsToProtocol:@protocol(MKMVerifyKey)]) {
         [mArray addObject:pKey];
     }
-     */
+    
     // 2. get key from meta
-    id<MKMVerifyKey> mKey = [self metaKey];
+    id<MKMVerifyKey> mKey = [self.meta key];
     NSAssert(mKey, @"failed to get meta key for user: %@", _ID);
     [mArray addObject:mKey];
     return mArray;
@@ -140,45 +125,19 @@
     return MKMUTF8Decode(MKMJSONEncode(info));
 }
 
-- (NSArray<MKMID *> *)contacts {
+- (NSArray<id<MKMID>> *)contacts {
     NSAssert(self.dataSource, @"user data source not set yet");
-    NSArray *list = [self.dataSource contactsOfUser:_ID];
-    return [list copy];
-}
-
-- (BOOL)existsContact:(MKMID *)ID {
-    NSAssert(self.dataSource, @"user data source not set yet");
-    NSArray<MKMID *> *contacts = [self contacts];
-    NSInteger count = [contacts count];
-    if (count <= 0) {
-        return NO;
-    }
-    MKMID *contact;
-    while (--count >= 0) {
-        contact = [contacts objectAtIndex:count];
-        if ([contact isEqual:ID]) {
-            return YES;
-        }
-    }
-    return NO;
-}
-
-- (nullable id<MKMSignKey>)signKey {
-    return [self.dataSource privateKeyForSignature:_ID];
-}
-
-- (nullable NSArray<id<MKMDecryptKey>> *)decryptKeys {
-    return [self.dataSource privateKeysForDecryption:_ID];
+    return [self.dataSource contactsOfUser:_ID];
 }
 
 - (NSData *)sign:(NSData *)data {
-    id<MKMSignKey> key = [self signKey];
+    id<MKMSignKey> key = [self.dataSource privateKeyForSignature:_ID];
     NSAssert(key, @"failed to get sign key for user: %@", _ID);
     return [key sign:data];
 }
 
 - (nullable NSData *)decrypt:(NSData *)ciphertext {
-    NSArray<id<MKMDecryptKey>> *keys = [self decryptKeys];
+    NSArray<id<MKMDecryptKey>> *keys = [self.dataSource privateKeysForDecryption:_ID];
     NSAssert([keys count] > 0, @"failed to get decrypt keys for user: %@", _ID);
     NSData *plaintext = nil;
     for (id<MKMDecryptKey> key in keys) {
@@ -194,6 +153,31 @@
         }
     }
     return nil;
+}
+
+@end
+
+@implementation MKMUser (Visa)
+
+- (nullable id<MKMVisa>)signVisa:(id<MKMVisa>)visa {
+    if (![_ID isEqual:visa.ID]) {
+        // visa ID not match
+        return nil;
+    }
+    id<MKMSignKey> key = [self.dataSource privateKeyForVisaSignature:_ID];
+    NSAssert(key, @"failed to get sign key for user: %@", _ID);
+    [visa sign:key];
+    return visa;
+}
+
+- (BOOL)verifyVisa:(id<MKMVisa>)visa {
+    if (![_ID isEqual:visa.ID]) {
+        // visa ID not match
+        return NO;
+    }
+    // if meta not exists, user won't be created
+    id<MKMVerifyKey> key = [self.meta key];
+    return [visa verify:key];
 }
 
 @end

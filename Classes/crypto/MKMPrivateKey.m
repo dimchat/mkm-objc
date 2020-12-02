@@ -7,7 +7,7 @@
 // =============================================================================
 // The MIT License (MIT)
 //
-// Copyright (c) 2019 Albert Moky
+// Copyright (c) 2018 Albert Moky
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -35,103 +35,38 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import "NSObject+Singleton.h"
-
 #import "MKMPublicKey.h"
 
 #import "MKMPrivateKey.h"
 
 @implementation MKMPrivateKey
 
-- (BOOL)isEqual:(id)object {
-    // 1. if the two keys have same contents, return YES
-    if ([super isEqual:object]) {
-        return YES;
-    }
-    if (![object isKindOfClass:[MKMPrivateKey class]]) {
-        return NO;
-    }
-    // 2. try to verify by public key
-    return [self.publicKey isMatch:(MKMPrivateKey *)object];
-}
-
-- (nullable __kindof MKMPublicKey *)publicKey {
-    // implements in subclass
-    return nil;
-}
-
-- (NSData *)sign:(NSData *)data {
-    NSAssert(false, @"override me!");
-    return nil;
++ (BOOL)privateKey:(id<MKMPrivateKey>)key1 equals:(id<MKMPrivateKey>)key2 {
+    // check by public key
+    return [MKMAsymmetricKey asymmetricKey:key1 matches:[key2 publicKey]];
 }
 
 @end
 
-static NSMutableDictionary<NSString *, Class> *key_classes(void) {
-    static NSMutableDictionary<NSString *, Class> *classes = nil;
-    SingletonDispatchOnce(^{
-        classes = [[NSMutableDictionary alloc] init];
-        // RSA
-        // ECC
-        // ...
-    });
-    return classes;
+@implementation MKMPrivateKey (Creation)
+
+static id<MKMPrivateKeyFactory> s_factory = nil;
+
++ (void)setFactory:(id<MKMPrivateKeyFactory>)factory {
+    s_factory = factory;
 }
 
-@implementation MKMPrivateKey (Runtime)
-
-+ (void)registerClass:(Class)keyClass forAlgorithm:(NSString *)name {
-    if (keyClass) {
-        NSAssert([keyClass isSubclassOfClass:self], @"error: %@", keyClass);
-        [key_classes() setObject:keyClass forKey:name];
-    } else {
-        [key_classes() removeObjectForKey:name];
-    }
++ (nullable id<MKMPrivateKey>)generate:(NSString *)algorithm {
+    return [s_factory generatePrivateKey:algorithm];
 }
 
-+ (nullable instancetype)getInstance:(id)key {
-    if (!key) {
++ (nullable id<MKMPrivateKey>)parse:(NSDictionary *)key {
+    if (key.count == 0) {
         return nil;
+    } else if ([key conformsToProtocol:@protocol(MKMPrivateKey)]) {
+        return (id<MKMPrivateKey>)key;
     }
-    if ([key isKindOfClass:[MKMPrivateKey class]]) {
-        // return PrivateKey object directly
-        return key;
-    }
-    NSAssert([key isKindOfClass:[NSDictionary class]], @"private key error: %@", key);
-    if ([self isEqual:[MKMPrivateKey class]]) {
-        // create instance by subclass with key algorithm
-        NSString *algorithm = [key objectForKey:@"algorithm"];
-        Class clazz = [key_classes() objectForKey:algorithm];
-        if (clazz) {
-            return [clazz getInstance:key];
-        }
-        NSAssert(false, @"private key not support: %@", key);
-        return nil;
-    }
-    // subclass
-    return [[self alloc] initWithDictionary:key];
-}
-
-@end
-
-@implementation MKMPrivateKey (PersistentStore)
-
-+ (nullable instancetype)loadKeyWithIdentifier:(NSString *)identifier {
-    if (![self isEqual:[MKMPrivateKey class]]) {
-        // subclass
-        NSAssert(false, @"override me!");
-        return nil;
-    }
-    MKMPrivateKey *key = nil;
-    NSArray<Class> *classes = [key_classes() allValues];
-    for (Class clazz in classes) {
-        key = [clazz loadKeyWithIdentifier:identifier];
-        if (key) {
-            // found
-            break;
-        }
-    }
-    return key;
+    return [s_factory parsePrivateKey:key];
 }
 
 @end

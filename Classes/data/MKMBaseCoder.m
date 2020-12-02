@@ -7,7 +7,7 @@
 // =============================================================================
 // The MIT License (MIT)
 //
-// Copyright (c) 2019 Albert Moky
+// Copyright (c) 2020 Albert Moky
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -34,12 +34,6 @@
 //  Created by Albert Moky on 2020/4/7.
 //  Copyright © 2020 DIM Group. All rights reserved.
 //
-
-#import <CommonCrypto/CommonDigest.h>
-
-#import "base58.h"
-
-#import "NSObject+Singleton.h"
 
 #import "MKMBaseCoder.h"
 
@@ -112,38 +106,6 @@ static inline char hex_char(char ch) {
 
 @end
 
-@interface Base58 : NSObject <MKMBaseCoder>
-
-@end
-
-@implementation Base58
-
-- (nullable NSString *)encode:(NSData *)data {
-    NSString *output = nil;
-    
-    const unsigned char *pbegin = (const unsigned char *)[data bytes];
-    const unsigned char *pend = pbegin + [data length];
-    std::string str = EncodeBase58(pbegin, pend);
-    output = [[NSString alloc] initWithCString:str.c_str()
-                                      encoding:NSUTF8StringEncoding];
-    
-    return output;
-}
-
-- (nullable NSData *)decode:(NSString *)string {
-    NSData *output = nil;
-    
-    const char *cstr = [string cStringUsingEncoding:NSUTF8StringEncoding];
-    std::vector<unsigned char> vch;
-    DecodeBase58(cstr, vch);
-    std::string str(vch.begin(), vch.end());
-    output = [[NSData alloc] initWithBytes:str.c_str() length:str.size()];
-    
-    return output;
-}
-
-@end
-
 @interface Base64 : NSObject <MKMBaseCoder>
 
 @end
@@ -168,69 +130,68 @@ static inline char hex_char(char ch) {
 
 @implementation MKMHex
 
-SingletonImplementations(MKMHex, sharedInstance)
+static id<MKMBaseCoder> s_hex = nil;
 
-- (instancetype)init {
-    if (self = [super init]) {
-        self.coder = [[Hex alloc] init];
++ (id<MKMBaseCoder>)coder {
+    if (s_hex == nil) {
+        s_hex = [[Hex alloc] init];
     }
-    return self;
+    return s_hex;
 }
 
-- (nullable NSString *)encode:(NSData *)data {
-    NSAssert(self.coder, @"Hex coder not set yet");
-    return [self.coder encode:data];
++ (void)setCoder:(id<MKMBaseCoder>)coder {
+    s_hex = coder;
 }
 
-- (nullable NSData *)decode:(NSString *)string {
-    NSAssert(self.coder, @"Hex coder not set yet");
-    return [self.coder decode:string];
++ (nullable NSString *)encode:(NSData *)data {
+    return [[self coder] encode:data];
+}
+
++ (nullable NSData *)decode:(NSString *)string {
+    return [[self coder] decode:string];
 }
 
 @end
 
 @implementation MKMBase58
 
-SingletonImplementations(MKMBase58, sharedInstance)
+static id<MKMBaseCoder> s_base58 = nil;
 
-- (instancetype)init {
-    if (self = [super init]) {
-        self.coder = [[Base58 alloc] init];
-    }
-    return self;
++ (void)setCoder:(id<MKMBaseCoder>)coder {
+    s_base58 = coder;
 }
 
-- (nullable NSString *)encode:(NSData *)data {
-    NSAssert(self.coder, @"Base58 coder not set yet");
-    return [self.coder encode:data];
++ (nullable NSString *)encode:(NSData *)data {
+    return [s_base58 encode:data];
 }
 
-- (nullable NSData *)decode:(NSString *)string {
-    NSAssert(self.coder, @"Base58 coder not set yet");
-    return [self.coder decode:string];
++ (nullable NSData *)decode:(NSString *)string {
+    return [s_base58 decode:string];
 }
 
 @end
 
 @implementation MKMBase64
 
-SingletonImplementations(MKMBase64, sharedInstance)
+static id<MKMBaseCoder> s_base64 = nil;
 
-- (instancetype)init {
-    if (self = [super init]) {
-        self.coder = [[Base64 alloc] init];
++ (id<MKMBaseCoder>)coder {
+    if (s_base64 == nil) {
+        s_base64 = [[Base64 alloc] init];
     }
-    return self;
+    return s_base64;
 }
 
-- (nullable NSString *)encode:(NSData *)data {
-    NSAssert(self.coder, @"Base64 coder not set yet");
-    return [self.coder encode:data];
++ (void)setCoder:(id<MKMBaseCoder>)coder {
+    s_base64 = coder;
 }
 
-- (nullable NSData *)decode:(NSString *)string {
-    NSAssert(self.coder, @"Base64 coder not set yet");
-    return [self.coder decode:string];
++ (nullable NSString *)encode:(NSData *)data {
+    return [[self coder] encode:data];
+}
+
++ (nullable NSData *)decode:(NSString *)string {
+    return [[self coder] decode:string];
 }
 
 @end

@@ -7,7 +7,7 @@
 // =============================================================================
 // The MIT License (MIT)
 //
-// Copyright (c) 2019 Albert Moky
+// Copyright (c) 2018 Albert Moky
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -46,13 +46,12 @@
 
 - (instancetype)init {
     NSAssert(false, @"DON'T call me");
-    MKMID *ID = nil;
+    id<MKMID> ID = nil;
     return [self initWithID:ID];
 }
 
 /* designated initializer */
-- (instancetype)initWithID:(MKMID *)ID {
-    NSAssert([ID isValid], @"Invalid entity ID: %@", ID);
+- (instancetype)initWithID:(id<MKMID>)ID {
     if (self = [super init]) {
         _ID = ID;
         _dataSource = nil;
@@ -82,8 +81,8 @@
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"<%@: %p | p = %@; t = 0x%02X; n = %d>",
-            [self class], self, [self debugDescription], _ID.type, _ID.number];
+    return [NSString stringWithFormat:@"<%@: %p | p = %@; t = 0x%02X>",
+            [self class], self, [self debugDescription], _ID.type];
 }
 
 - (NSString *)debugDescription {
@@ -98,13 +97,9 @@
     return _ID.type;
 }
 
-- (UInt32)number {
-    return _ID.number;
-}
-
 - (NSString *)name {
     // get from profile
-    MKMProfile *profile = [self profile];
+    id<MKMDocument> profile = [self document:nil];
     NSString *nickname = [profile name];
     if ([nickname length] > 0) {
         return nickname;
@@ -113,14 +108,14 @@
     return _ID.name;
 }
 
-- (MKMMeta *)meta {
+- (id<MKMMeta>)meta {
     NSAssert(_dataSource, @"entity data source not set yet");
     return [_dataSource metaForID:_ID];
 }
 
-- (nullable __kindof MKMProfile *)profile {
+- (nullable __kindof id<MKMDocument>)document:(nullable NSString *)type {
     NSAssert(_dataSource, @"entity data source not set yet");
-    return [_dataSource profileForID:_ID];
+    return [_dataSource documentForID:_ID withType:type];
 }
 
 @end

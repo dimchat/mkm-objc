@@ -7,7 +7,7 @@
 // =============================================================================
 // The MIT License (MIT)
 //
-// Copyright (c) 2019 Albert Moky
+// Copyright (c) 2018 Albert Moky
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -39,29 +39,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-#define ACAlgorithmRSA @"RSA"
-#define ACAlgorithmECC @"ECC"
-
-@protocol MKMPrivateKey;
-
-@protocol MKMPublicKey <MKMVerifyKey>
-
-/**
- * Check whether paired
- */
-- (BOOL)isMatch:(id<MKMSignKey>)SK;
-
-@end
-
-@protocol MKMPrivateKey <MKMSignKey>
-
-/**
- * Get public key from private key
- */
-@property (readonly, atomic, nullable) __kindof id<MKMPublicKey> publicKey;
-
-@end
-
 /*
  *  Asymmetric Cryptography Key
  *
@@ -71,7 +48,38 @@ NS_ASSUME_NONNULL_BEGIN
  *          ...
  *      }
  */
-@interface MKMAsymmetricKey : MKMCryptographyKey <MKMAsymmetricKey>
+@protocol MKMAsymmetricKey <MKMCryptographyKey>
+
+@end
+
+#define ACAlgorithmRSA @"RSA"
+#define ACAlgorithmECC @"ECC"
+
+#pragma mark -
+
+@protocol MKMSignKey <MKMAsymmetricKey>
+
+/**
+ *  signature = sign(data, SK);
+ */
+- (NSData *)sign:(NSData *)data;
+
+@end
+
+@protocol MKMVerifyKey <MKMAsymmetricKey>
+
+/**
+ *  OK = verify(data, signature, PK)
+ */
+- (BOOL)verify:(NSData *)data withSignature:(NSData *)signature;
+
+@end
+
+#pragma mark - Pairing
+
+@interface MKMAsymmetricKey : NSObject
+
++ (BOOL)asymmetricKey:(id<MKMSignKey>)privateKey matches:(id<MKMVerifyKey>)publicKey;
 
 @end
 

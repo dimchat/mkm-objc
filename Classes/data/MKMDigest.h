@@ -7,7 +7,7 @@
 // =============================================================================
 // The MIT License (MIT)
 //
-// Copyright (c) 2019 Albert Moky
+// Copyright (c) 2020 Albert Moky
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -47,35 +47,45 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark -
 
-#define MKMMD5Digest(data)       [[MKMMD5 sharedInstance] digest:(data)]
-#define MKMSHA256Digest(data)    [[MKMSHA256 sharedInstance] digest:(data)]
-#define MKMRIPEMD160Digest(data) [[MKMRIPEMD160 sharedInstance] digest:(data)]
+@interface MKMMD5 : NSObject
 
-@interface MKMMD5 : NSObject <MKMDigest>
-
-// default hasher
-@property (strong, nonatomic) id<MKMDigest> hasher;
-
-+ (instancetype)sharedInstance;
++ (void)setDigest:(id<MKMDigest>)hasher;
++ (NSData *)digest:(NSData *)data;
 
 @end
 
-@interface MKMSHA256 : NSObject <MKMDigest>
+@interface MKMRIPEMD160 : NSObject
 
-// default hasher
-@property (strong, nonatomic) id<MKMDigest> hasher;
-
-+ (instancetype)sharedInstance;
++ (void)setDigest:(id<MKMDigest>)hasher;
++ (NSData *)digest:(NSData *)data;
 
 @end
 
-@interface MKMRIPEMD160 : NSObject <MKMDigest>
+@interface MKMSHA1 : NSObject
 
-// default hasher
-@property (strong, nonatomic) id<MKMDigest> hasher;
-
-+ (instancetype)sharedInstance;
++ (void)setDigest:(id<MKMDigest>)hasher;
++ (NSData *)digest:(NSData *)data;
 
 @end
+
+@interface MKMSHA256 : NSObject
+
++ (void)setDigest:(id<MKMDigest>)hasher;
++ (NSData *)digest:(NSData *)data;
+
+@end
+
+@interface MKMKECCAK256 : NSObject
+
++ (void)setDigest:(id<MKMDigest>)hasher;
++ (NSData *)digest:(NSData *)data;
+
+@end
+
+#define MKMMD5Digest(data)       [MKMMD5 digest:(data)]
+#define MKMRIPEMD160Digest(data) [MKMRIPEMD160 digest:(data)]
+#define MKMSHA1Digest(data)      [MKMSHA1 digest:(data)]
+#define MKMSHA256Digest(data)    [MKMSHA256 digest:(data)]
+#define MKMKECCAK256Digest(data) [MKMKECCAK256 digest:(data)]
 
 NS_ASSUME_NONNULL_END

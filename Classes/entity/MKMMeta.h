@@ -7,7 +7,7 @@
 // =============================================================================
 // The MIT License (MIT)
 //
-// Copyright (c) 2019 Albert Moky
+// Copyright (c) 2018 Albert Moky
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -36,6 +36,7 @@
 //
 
 #import "MKMDictionary.h"
+#import "MKMPrivateKey.h"
 
 #import "MKMAddress.h"
 
@@ -78,7 +79,7 @@ typedef NS_ENUM(UInt8, MKMMetaVersion) {
 typedef UInt8 MKMMetaType;
 #define MKMMetaDefaultVersion MKMMetaVersion_MKM
 
-#define MKMMetaVersion_HasSeed(ver)    ((ver) & MKMMetaVersion_MKM)
+#define MKMMeta_HasSeed(ver)    ((ver) & MKMMetaVersion_MKM)
 
 @protocol MKMVerifyKey;
 @protocol MKMSignKey;
@@ -98,7 +99,7 @@ typedef UInt8 MKMMetaType;
  *      algorithm:
  *          fingerprint = sign(seed, SK);
  */
-@interface MKMMeta : MKMDictionary
+@protocol MKMMeta <MKMDictionary>
 
 /**
  *  Meta algorithm version
@@ -110,16 +111,14 @@ typedef UInt8 MKMMetaType;
  *      0x05 - username@eth_address
  *      ....
  */
-@property (readonly, nonatomic) MKMMetaType version;
-
-@property (readonly, nonatomic, getter=containsSeed) BOOL hasSeed;
+@property (readonly, nonatomic) MKMMetaType type;
 
 /**
  *  Public key
  *
  *      RSA / ECC
  */
-@property (readonly, strong, nonatomic) __kindof id<MKMVerifyKey> key;
+@property (readonly, strong, nonatomic) id<MKMVerifyKey> key;
 
 /**
  *  Seed to generate fingerprint
@@ -144,50 +143,86 @@ typedef UInt8 MKMMetaType;
 @property (readonly, nonatomic, getter=isValid) BOOL valid;
 
 /**
+ *  Check whether meta match with entity ID
+ *  (must call this when received a new meta from network)
+ *
+ * @param ID - entity ID
+ * @return true on matched
+ */
+- (BOOL)matchID:(MKMID *)ID;
+
+/**
+ *  Check whether meta match with public key
+ *
+ * @param PK - public key
+ * @return true on matched
+ */
+- (BOOL)matchPublicKey:(id<MKMVerifyKey>)PK;
+
+@end
+
+@interface MKMMeta : MKMDictionary <MKMMeta>
+
+/**
  *  Create meta with dictionary
  */
 - (instancetype)initWithDictionary:(NSDictionary *)dict
 NS_DESIGNATED_INITIALIZER;
 
-/**
- *  Generate fingerprint, initialize meta data
- *
- * @param version - meta version for MKM or ExBTC
- * @param SK - private key to generate fingerprint
- * @param name - seed for fingerprint
- * @return Meta object
- */
-+ (instancetype)generateWithVersion:(MKMMetaType)version
-                         privateKey:(id<MKMPrivateKey>)SK
-                               seed:(nullable NSString *)name;
-
-- (BOOL)matchPublicKey:(id<MKMVerifyKey>)PK;
-
-#pragma mark - ID & address
-
-- (BOOL)matchID:(MKMID *)ID;
-- (BOOL)matchAddress:(MKMAddress *)address;
-
-- (MKMID *)generateID:(MKMNetworkType)type;
-- (MKMAddress *)generateAddress:(MKMNetworkType)type;
+- (instancetype)initWithType:(MKMMetaType)version
+                         key:(id<MKMVerifyKey>)PK
+                        seed:(NSString *)name
+                 fingerprint:(NSData *)CT
+NS_DESIGNATED_INITIALIZER;
 
 @end
 
-// convert Dictionary to Meta
-#define MKMMetaFromDictionary(meta)                                            \
-            [MKMMeta getInstance:(meta)]                                       \
-                                         /* EOF 'MKMMetaFromDictionary(meta)' */
+// create meta with data loaded from local storage
+#define MKMMetaCreate(t, PK, name, CT)                                         \
+            [MKMMeta createWithType:(t) key:(PK) seed:(name) fingerprint:(CT)] \
+                                      /* EOF 'MKMMetaCreate(t, PK, name, CT)' */
 
 // generate Meta
 #define MKMMetaGenerate(ver, SK, name)                                         \
-            [MKMMeta generateWithVersion:(ver) privateKey:(SK) seed:(name)]    \
+            [MKMMeta generateWithType:(ver) privateKey:(SK) seed:(name)]       \
                                       /* EOF 'MKMMetaGenerate(ver, SK, name)' */
 
-@interface MKMMeta (Runtime)
+// convert Dictionary to Meta
+#define MKMMetaFromDictionary(meta)                                            \
+            [MKMMeta parse:(meta)]                                             \
+                                         /* EOF 'MKMMetaFromDictionary(meta)' */
 
-+ (void)registerClass:(nullable Class)metaClass forVersion:(MKMMetaType)version;
+#pragma mark - Creation
 
-+ (nullable instancetype)getInstance:(id)meta;
+@protocol MKMMetaFactory <NSObject>
+
+- (id<MKMMeta>)createMetaWithType:(MKMMetaType)version
+                              key:(id<MKMPublicKey>)PK
+                             seed:(nullable NSString *)name
+                      fingerprint:(nullable NSData *)CT;
+
+- (id<MKMMeta>)generateMetaWithType:(MKMMetaType)version
+                         privateKey:(id<MKMPrivateKey>)SK
+                               seed:(nullable NSString *)name;
+
+- (nullable id<MKMMeta>)parseMeta:(NSDictionary *)meta;
+
+@end
+
+@interface MKMMeta (Creation)
+
++ (void)setFactory:(id<MKMMetaFactory>)factory;
+
++ (id<MKMMeta>)createWithType:(MKMMetaType)version
+                          key:(id<MKMPublicKey>)PK
+                         seed:(nullable NSString *)name
+                  fingerprint:(nullable NSData *)CT;
+
++ (id<MKMMeta>)generateWithType:(MKMMetaType)version
+                     privateKey:(id<MKMPrivateKey>)SK
+                           seed:(nullable NSString *)name;
+
++ (nullable id<MKMMeta>)parse:(NSDictionary *)meta;
 
 @end
 

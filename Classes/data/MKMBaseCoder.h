@@ -7,7 +7,7 @@
 // =============================================================================
 // The MIT License (MIT)
 //
-// Copyright (c) 2019 Albert Moky
+// Copyright (c) 2020 Albert Moky
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -61,40 +61,37 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark -
 
-#define MKMHexEncode(data)      [[MKMHex sharedInstance] encode:(data)]
-#define MKMHexDecode(string)    [[MKMHex sharedInstance] decode:(string)]
+@interface MKMHex : NSObject
 
-#define MKMBase58Encode(data)   [[MKMBase58 sharedInstance] encode:(data)]
-#define MKMBase58Decode(string) [[MKMBase58 sharedInstance] decode:(string)]
-
-#define MKMBase64Encode(data)   [[MKMBase64 sharedInstance] encode:(data)]
-#define MKMBase64Decode(string) [[MKMBase64 sharedInstance] decode:(string)]
-
-@interface MKMHex : NSObject <MKMBaseCoder>
-
-// default coder
-@property (strong, nonatomic) id<MKMBaseCoder> coder;
-
-+ (instancetype)sharedInstance;
++ (void)setCoder:(id<MKMBaseCoder>)coder;
++ (nullable NSString *)encode:(NSData *)data;
++ (nullable NSData *)decode:(NSString *)string;
 
 @end
 
-@interface MKMBase58 : NSObject <MKMBaseCoder>
+@interface MKMBase58 : NSObject
 
-// default coder
-@property (strong, nonatomic) id<MKMBaseCoder> coder;
++ (void)setCoder:(id<MKMBaseCoder>)coder;
++ (nullable NSString *)encode:(NSData *)data;
++ (nullable NSData *)decode:(NSString *)string;
 
-+ (instancetype)sharedInstance;
+@end
+
+@interface MKMBase64 : NSObject
+
++ (void)setCoder:(id<MKMBaseCoder>)coder;
++ (nullable NSString *)encode:(NSData *)data;
++ (nullable NSData *)decode:(NSString *)string;
 
 @end
 
-@interface MKMBase64 : NSObject <MKMBaseCoder>
+#define MKMHexEncode(data)      [MKMHex encode:(data)]
+#define MKMHexDecode(string)    [MKMHex decode:(string)]
 
-// default coder
-@property (strong, nonatomic) id<MKMBaseCoder> coder;
+#define MKMBase58Encode(data)   [MKMBase58 encode:(data)]
+#define MKMBase58Decode(string) [MKMBase58 decode:(string)]
 
-+ (instancetype)sharedInstance;
-
-@end
+#define MKMBase64Encode(data)   [MKMBase64 encode:(data)]
+#define MKMBase64Decode(string) [MKMBase64 decode:(string)]
 
 NS_ASSUME_NONNULL_END
