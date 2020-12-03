@@ -50,7 +50,11 @@
 /* designated initializer */
 - (instancetype)initWithDictionary:(NSDictionary *)dict {
     if (self = [super init]) {
-        _storeDictionary = [[NSMutableDictionary alloc] initWithDictionary:dict];
+        if ([dict isKindOfClass:[NSMutableDictionary class]]) {
+            _storeDictionary = (NSMutableDictionary *)dict;
+        } else {
+            _storeDictionary = [dict mutableCopy];
+        }
     }
     return self;
 }
@@ -135,7 +139,11 @@
 }
 
 - (void)setObject:(id)anObject forKey:(NSString *)aKey {
-    [_storeDictionary setObject:anObject forKey:aKey];
+    if (anObject) {
+        [_storeDictionary setObject:anObject forKey:aKey];
+    } else {
+        [_storeDictionary removeObjectForKey:aKey];
+    }
 }
 
 @end

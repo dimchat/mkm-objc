@@ -170,7 +170,7 @@ typedef UInt8 MKMNetworkType;
 
 @protocol MKMAddressFactory <NSObject>
 
-- (nullable id<MKMAddress>)parseAddress:(NSString *)address;
+- (nullable __kindof id<MKMAddress>)parseAddress:(NSString *)address;
 
 @end
 
@@ -178,7 +178,7 @@ typedef UInt8 MKMNetworkType;
 
 + (void)setFactory:(id<MKMAddressFactory>)factory;
 
-+ (nullable id<MKMAddress>)parse:(NSString *)address;
++ (nullable __kindof id<MKMAddress>)parse:(NSString *)address;
 
 @end
 

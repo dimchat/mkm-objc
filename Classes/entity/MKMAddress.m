@@ -43,10 +43,9 @@
 @implementation BroadcastAddress
 @end
 
-@interface MKMAddress () {
-    
-    MKMNetworkType _type;
-}
+@interface MKMAddress ()
+
+@property (nonatomic) MKMNetworkType network;
 
 @end
 
@@ -57,6 +56,14 @@
         _network = type;
     }
     return self;
+}
+
+- (id)copyWithZone:(NSZone *)zone {
+    MKMAddress *address = [super copyWithZone:zone];
+    if (address) {
+        address.network = _network;
+    }
+    return address;
 }
 
 + (BOOL)isUser:(id<MKMAddress>)address {
@@ -104,7 +111,7 @@ static id<MKMAddressFactory> s_factory = nil;
     s_factory = factory;
 }
 
-+ (nullable id<MKMAddress>)parse:(NSString *)address {
++ (nullable __kindof id<MKMAddress>)parse:(NSString *)address {
     if (address.length == 0) {
         return nil;
     } else if ([address conformsToProtocol:@protocol(MKMAddress)]) {

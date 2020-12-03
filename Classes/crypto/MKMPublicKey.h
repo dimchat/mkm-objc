@@ -72,7 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol MKMPublicKeyFactory <NSObject>
 
-- (nullable id<MKMPublicKey>)parsePublicKey:(NSDictionary *)key;
+- (nullable __kindof id<MKMPublicKey>)parsePublicKey:(NSDictionary *)key;
 
 @end
 
@@ -80,7 +80,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (void)setFactory:(id<MKMPublicKeyFactory>)factory;
 
-+ (nullable id<MKMPublicKey>)parse:(NSDictionary *)key;
++ (nullable __kindof id<MKMPublicKey>)parse:(NSDictionary *)key;
 
 @end
 

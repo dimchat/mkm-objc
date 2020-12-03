@@ -99,7 +99,7 @@
 
 - (nullable NSArray<id<MKMID>> *)assistants {
     if (!_assistants) {
-        NSArray<NSString *> *array = (NSArray<NSString *> *)[self propertyForKey:@"assistants"];
+        NSArray *array = (NSArray *)[self propertyForKey:@"assistants"];
         if (array.count > 0) {
             _assistants = [MKMID convert:array];
         }

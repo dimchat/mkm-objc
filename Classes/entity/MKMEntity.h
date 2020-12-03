@@ -57,8 +57,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (readonly, strong, nonatomic) id<MKMMeta> meta;
 
-@property (readonly, strong, nonatomic) NSString *name; // profile.name or seed
-
 @property (weak, nonatomic) __kindof id<MKMEntityDataSource> dataSource;
 
 - (instancetype)initWithID:(id<MKMID>)ID NS_DESIGNATED_INITIALIZER;
@@ -88,7 +86,8 @@ NS_ASSUME_NONNULL_BEGIN
  * @param ID - entity ID
  * @return profile object
  */
-- (nullable __kindof id<MKMDocument>)documentForID:(id<MKMID>)ID withType:(nullable NSString *)type;
+- (nullable __kindof id<MKMDocument>)documentForID:(id<MKMID>)ID
+                                          withType:(nullable NSString *)type;
 
 @end
 

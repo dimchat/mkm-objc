@@ -149,7 +149,7 @@ typedef UInt8 MKMMetaType;
  * @param ID - entity ID
  * @return true on matched
  */
-- (BOOL)matchID:(MKMID *)ID;
+- (BOOL)matchID:(id<MKMID>)ID;
 
 /**
  *  Check whether meta match with public key
@@ -196,16 +196,16 @@ NS_DESIGNATED_INITIALIZER;
 
 @protocol MKMMetaFactory <NSObject>
 
-- (id<MKMMeta>)createMetaWithType:(MKMMetaType)version
-                              key:(id<MKMPublicKey>)PK
-                             seed:(nullable NSString *)name
-                      fingerprint:(nullable NSData *)CT;
+- (__kindof id<MKMMeta>)createMetaWithType:(MKMMetaType)version
+                                       key:(id<MKMPublicKey>)PK
+                                      seed:(nullable NSString *)name
+                               fingerprint:(nullable NSData *)CT;
 
-- (id<MKMMeta>)generateMetaWithType:(MKMMetaType)version
-                         privateKey:(id<MKMPrivateKey>)SK
-                               seed:(nullable NSString *)name;
+- (__kindof id<MKMMeta>)generateMetaWithType:(MKMMetaType)version
+                                  privateKey:(id<MKMPrivateKey>)SK
+                                        seed:(nullable NSString *)name;
 
-- (nullable id<MKMMeta>)parseMeta:(NSDictionary *)meta;
+- (nullable __kindof id<MKMMeta>)parseMeta:(NSDictionary *)meta;
 
 @end
 
@@ -213,16 +213,16 @@ NS_DESIGNATED_INITIALIZER;
 
 + (void)setFactory:(id<MKMMetaFactory>)factory;
 
-+ (id<MKMMeta>)createWithType:(MKMMetaType)version
-                          key:(id<MKMPublicKey>)PK
-                         seed:(nullable NSString *)name
-                  fingerprint:(nullable NSData *)CT;
++ (__kindof id<MKMMeta>)createWithType:(MKMMetaType)version
+                                   key:(id<MKMPublicKey>)PK
+                                  seed:(nullable NSString *)name
+                           fingerprint:(nullable NSData *)CT;
 
-+ (id<MKMMeta>)generateWithType:(MKMMetaType)version
-                     privateKey:(id<MKMPrivateKey>)SK
-                           seed:(nullable NSString *)name;
++ (__kindof id<MKMMeta>)generateWithType:(MKMMetaType)version
+                              privateKey:(id<MKMPrivateKey>)SK
+                                    seed:(nullable NSString *)name;
 
-+ (nullable id<MKMMeta>)parse:(NSDictionary *)meta;
++ (nullable __kindof id<MKMMeta>)parse:(NSDictionary *)meta;
 
 @end
 

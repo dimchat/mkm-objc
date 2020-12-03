@@ -81,31 +81,16 @@
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"<%@: %p | p = %@; t = 0x%02X>",
-            [self class], self, [self debugDescription], _ID.type];
+    return [NSString stringWithFormat:@"<%@: %p | 0x%02X %@>",
+            [self class], self, _ID.type, _ID];
 }
 
 - (NSString *)debugDescription {
-    NSDictionary *info = @{
-                           @"ID"   : self.ID,
-                           @"name" : self.name,
-                           };
-    return MKMUTF8Decode(MKMJSONEncode(info));
+    return [self description];
 }
 
 - (MKMNetworkType)type {
     return _ID.type;
-}
-
-- (NSString *)name {
-    // get from profile
-    id<MKMDocument> profile = [self document:nil];
-    NSString *nickname = [profile name];
-    if ([nickname length] > 0) {
-        return nickname;
-    }
-    // get from ID.name
-    return _ID.name;
 }
 
 - (id<MKMMeta>)meta {

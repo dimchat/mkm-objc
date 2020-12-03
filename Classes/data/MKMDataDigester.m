@@ -28,7 +28,7 @@
 // SOFTWARE.
 // =============================================================================
 //
-//  MKMDigest.m
+//  MKMDataDigester.m
 //  MingKeMing
 //
 //  Created by Albert Moky on 2020/4/7.
@@ -37,9 +37,9 @@
 
 #import <CommonCrypto/CommonDigest.h>
 
-#import "MKMDigest.h"
+#import "MKMDataDigester.h"
 
-@interface MD5 : NSObject <MKMDigest>
+@interface MD5 : NSObject <MKMDataDigester>
 
 @end
 
@@ -53,7 +53,7 @@
 
 @end
 
-@interface SHA1 : NSObject <MKMDigest>
+@interface SHA1 : NSObject <MKMDataDigester>
 
 @end
 
@@ -67,7 +67,7 @@
 
 @end
 
-@interface SHA256 : NSObject <MKMDigest>
+@interface SHA256 : NSObject <MKMDataDigester>
 
 @end
 
@@ -85,16 +85,16 @@
 
 @implementation MKMMD5
 
-static id<MKMDigest> s_md5 = nil;
+static id<MKMDataDigester> s_md5 = nil;
 
-+ (id<MKMDigest>)hasher {
++ (id<MKMDataDigester>)hasher {
     if (s_md5 == nil) {
         s_md5 = [[MD5 alloc] init];
     }
     return s_md5;
 }
 
-+ (void)setDigest:(id<MKMDigest>)hasher {
++ (void)setDigest:(id<MKMDataDigester>)hasher {
     s_md5 = hasher;
 }
 
@@ -106,9 +106,9 @@ static id<MKMDigest> s_md5 = nil;
 
 @implementation MKMRIPEMD160
 
-static id<MKMDigest> s_ripemd160 = nil;
+static id<MKMDataDigester> s_ripemd160 = nil;
 
-+ (void)setDigest:(id<MKMDigest>)hasher {
++ (void)setDigest:(id<MKMDataDigester>)hasher {
     s_ripemd160 = hasher;
 }
 
@@ -120,16 +120,16 @@ static id<MKMDigest> s_ripemd160 = nil;
 
 @implementation MKMSHA1
 
-static id<MKMDigest> s_sha1 = nil;
+static id<MKMDataDigester> s_sha1 = nil;
 
-+ (id<MKMDigest>)hasher {
++ (id<MKMDataDigester>)hasher {
     if (s_sha1 == nil) {
         s_sha1 = [[SHA1 alloc] init];
     }
     return s_sha1;
 }
 
-+ (void)setDigest:(id<MKMDigest>)hasher {
++ (void)setDigest:(id<MKMDataDigester>)hasher {
     s_sha1 = hasher;
 }
 
@@ -141,16 +141,16 @@ static id<MKMDigest> s_sha1 = nil;
 
 @implementation MKMSHA256
 
-static id<MKMDigest> s_sha256 = nil;
+static id<MKMDataDigester> s_sha256 = nil;
 
-+ (id<MKMDigest>)hasher {
++ (id<MKMDataDigester>)hasher {
     if (s_sha256 == nil) {
         s_sha256 = [[SHA256 alloc] init];
     }
     return s_sha256;
 }
 
-+ (void)setDigest:(id<MKMDigest>)hasher {
++ (void)setDigest:(id<MKMDataDigester>)hasher {
     s_sha256 = hasher;
 }
 
@@ -162,9 +162,9 @@ static id<MKMDigest> s_sha256 = nil;
 
 @implementation MKMKECCAK256
 
-static id<MKMDigest> s_keccak256 = nil;
+static id<MKMDataDigester> s_keccak256 = nil;
 
-+ (void)setDigest:(id<MKMDigest>)hasher {
++ (void)setDigest:(id<MKMDataDigester>)hasher {
     s_keccak256 = hasher;
 }
 

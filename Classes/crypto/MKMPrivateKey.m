@@ -56,11 +56,11 @@ static id<MKMPrivateKeyFactory> s_factory = nil;
     s_factory = factory;
 }
 
-+ (nullable id<MKMPrivateKey>)generate:(NSString *)algorithm {
++ (nullable __kindof id<MKMPrivateKey>)generate:(NSString *)algorithm {
     return [s_factory generatePrivateKey:algorithm];
 }
 
-+ (nullable id<MKMPrivateKey>)parse:(NSDictionary *)key {
++ (nullable __kindof id<MKMPrivateKey>)parse:(NSDictionary *)key {
     if (key.count == 0) {
         return nil;
     } else if ([key conformsToProtocol:@protocol(MKMPrivateKey)]) {

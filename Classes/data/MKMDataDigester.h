@@ -28,7 +28,7 @@
 // SOFTWARE.
 // =============================================================================
 //
-//  MKMBaseCoder.h
+//  MKMDataDigester.h
 //  MingKeMing
 //
 //  Created by Albert Moky on 2020/4/7.
@@ -39,59 +39,53 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol MKMBaseCoder <NSObject>
+@protocol MKMDataDigester <NSObject>
 
-/**
- *  Encode binary data to text string
- *
- * @param data - binary data
- * @return Base58/64 string
- */
-- (nullable NSString *)encode:(NSData *)data;
-
-/**
- *  Decode text string to binary data
- *
- * @param string - base58/64 string
- * @return binary data
- */
-- (nullable NSData *)decode:(NSString *)string;
+- (NSData *)digest:(NSData *)data;
 
 @end
 
 #pragma mark -
 
-@interface MKMHex : NSObject
+@interface MKMMD5 : NSObject
 
-+ (void)setCoder:(id<MKMBaseCoder>)coder;
-+ (nullable NSString *)encode:(NSData *)data;
-+ (nullable NSData *)decode:(NSString *)string;
-
-@end
-
-@interface MKMBase58 : NSObject
-
-+ (void)setCoder:(id<MKMBaseCoder>)coder;
-+ (nullable NSString *)encode:(NSData *)data;
-+ (nullable NSData *)decode:(NSString *)string;
++ (void)setDigest:(id<MKMDataDigester>)hasher;
++ (NSData *)digest:(NSData *)data;
 
 @end
 
-@interface MKMBase64 : NSObject
+@interface MKMRIPEMD160 : NSObject
 
-+ (void)setCoder:(id<MKMBaseCoder>)coder;
-+ (nullable NSString *)encode:(NSData *)data;
-+ (nullable NSData *)decode:(NSString *)string;
++ (void)setDigest:(id<MKMDataDigester>)hasher;
++ (NSData *)digest:(NSData *)data;
 
 @end
 
-#define MKMHexEncode(data)      [MKMHex encode:(data)]
-#define MKMHexDecode(string)    [MKMHex decode:(string)]
+@interface MKMSHA1 : NSObject
 
-#define MKMBase58Encode(data)   [MKMBase58 encode:(data)]
-#define MKMBase58Decode(string) [MKMBase58 decode:(string)]
++ (void)setDigest:(id<MKMDataDigester>)hasher;
++ (NSData *)digest:(NSData *)data;
 
-#define MKMBase64Encode(data)   [MKMBase64 encode:(data)]
-#define MKMBase64Decode(string) [MKMBase64 decode:(string)]
+@end
+
+@interface MKMSHA256 : NSObject
+
++ (void)setDigest:(id<MKMDataDigester>)hasher;
++ (NSData *)digest:(NSData *)data;
+
+@end
+
+@interface MKMKECCAK256 : NSObject
+
++ (void)setDigest:(id<MKMDataDigester>)hasher;
++ (NSData *)digest:(NSData *)data;
+
+@end
+
+#define MKMMD5Digest(data)       [MKMMD5 digest:(data)]
+#define MKMRIPEMD160Digest(data) [MKMRIPEMD160 digest:(data)]
+#define MKMSHA1Digest(data)      [MKMSHA1 digest:(data)]
+#define MKMSHA256Digest(data)    [MKMSHA256 digest:(data)]
+#define MKMKECCAK256Digest(data) [MKMKECCAK256 digest:(data)]
 
 NS_ASSUME_NONNULL_END

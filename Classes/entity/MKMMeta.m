@@ -35,7 +35,7 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import "MKMBaseCoder.h"
+#import "MKMDataCoder.h"
 #import "MKMDataParser.h"
 
 #import "MKMPublicKey.h"
@@ -45,15 +45,14 @@
 
 #import "MKMMeta.h"
 
-@interface MKMMeta () {
-    
-    MKMMetaType _type;
-    id<MKMVerifyKey> _key;
-    NSString *_seed;
-    NSData *_fingerprint;
-    
-    NSInteger _status; // valid status
-}
+@interface MKMMeta ()
+
+@property (nonatomic) MKMMetaType type;
+@property (strong, nonatomic) id<MKMVerifyKey> key;
+@property (strong, nonatomic, nullable) NSString *seed;
+@property (strong, nonatomic, nullable) NSData *fingerprint;
+
+@property (nonatomic) NSInteger status;; // valid status
 
 @end
 
@@ -106,6 +105,18 @@
         _fingerprint = fingerprint;
     }
     return self;
+}
+
+- (id)copyWithZone:(NSZone *)zone {
+    MKMMeta *meta = [super copyWithZone:zone];
+    if (meta) {
+        meta.type = _type;
+        meta.key = _key;
+        meta.seed = _seed;
+        meta.fingerprint = _fingerprint;
+        meta.status = _status;
+    }
+    return meta;
 }
 
 - (MKMNetworkType)type {
@@ -175,7 +186,7 @@
     return _status == 1;
 }
 
-- (BOOL)matchID:(MKMID *)ID {
+- (BOOL)matchID:(id<MKMID>)ID {
     NSAssert(false, @"override me!");
     return NO;
 }
@@ -209,20 +220,20 @@ static id<MKMMetaFactory> s_factory = nil;
     s_factory = factory;
 }
 
-+ (id<MKMMeta>)createWithType:(MKMMetaType)version
-                          key:(id<MKMPublicKey>)PK
-                         seed:(nullable NSString *)name
-                  fingerprint:(nullable NSData *)CT {
++ (__kindof id<MKMMeta>)createWithType:(MKMMetaType)version
+                                   key:(id<MKMPublicKey>)PK
+                                  seed:(nullable NSString *)name
+                           fingerprint:(nullable NSData *)CT {
     return [s_factory createMetaWithType:version key:PK seed:name fingerprint:CT];
 }
 
-+ (id<MKMMeta>)generateWithType:(MKMMetaType)version
-                     privateKey:(id<MKMPrivateKey>)SK
-                           seed:(nullable NSString *)name {
++ (__kindof id<MKMMeta>)generateWithType:(MKMMetaType)version
+                              privateKey:(id<MKMPrivateKey>)SK
+                                    seed:(nullable NSString *)name {
     return [s_factory generateMetaWithType:version privateKey:SK seed:name];
 }
 
-+ (nullable id<MKMMeta>)parse:(NSDictionary *)meta {
++ (nullable __kindof id<MKMMeta>)parse:(NSDictionary *)meta {
     if (meta.count == 0) {
         return nil;
     } else if ([meta conformsToProtocol:@protocol(MKMMeta)]) {

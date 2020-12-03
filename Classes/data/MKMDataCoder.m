@@ -28,16 +28,16 @@
 // SOFTWARE.
 // =============================================================================
 //
-//  MKMBaseCoder.m
+//  MKMDataCoder.m
 //  MingKeMing
 //
 //  Created by Albert Moky on 2020/4/7.
 //  Copyright © 2020 DIM Group. All rights reserved.
 //
 
-#import "MKMBaseCoder.h"
+#import "MKMDataCoder.h"
 
-@interface Hex : NSObject <MKMBaseCoder>
+@interface Hex : NSObject <MKMDataCoder>
 
 @end
 
@@ -106,7 +106,7 @@ static inline char hex_char(char ch) {
 
 @end
 
-@interface Base64 : NSObject <MKMBaseCoder>
+@interface Base64 : NSObject <MKMDataCoder>
 
 @end
 
@@ -130,16 +130,16 @@ static inline char hex_char(char ch) {
 
 @implementation MKMHex
 
-static id<MKMBaseCoder> s_hex = nil;
+static id<MKMDataCoder> s_hex = nil;
 
-+ (id<MKMBaseCoder>)coder {
++ (id<MKMDataCoder>)coder {
     if (s_hex == nil) {
         s_hex = [[Hex alloc] init];
     }
     return s_hex;
 }
 
-+ (void)setCoder:(id<MKMBaseCoder>)coder {
++ (void)setCoder:(id<MKMDataCoder>)coder {
     s_hex = coder;
 }
 
@@ -155,9 +155,9 @@ static id<MKMBaseCoder> s_hex = nil;
 
 @implementation MKMBase58
 
-static id<MKMBaseCoder> s_base58 = nil;
+static id<MKMDataCoder> s_base58 = nil;
 
-+ (void)setCoder:(id<MKMBaseCoder>)coder {
++ (void)setCoder:(id<MKMDataCoder>)coder {
     s_base58 = coder;
 }
 
@@ -173,16 +173,16 @@ static id<MKMBaseCoder> s_base58 = nil;
 
 @implementation MKMBase64
 
-static id<MKMBaseCoder> s_base64 = nil;
+static id<MKMDataCoder> s_base64 = nil;
 
-+ (id<MKMBaseCoder>)coder {
++ (id<MKMDataCoder>)coder {
     if (s_base64 == nil) {
         s_base64 = [[Base64 alloc] init];
     }
     return s_base64;
 }
 
-+ (void)setCoder:(id<MKMBaseCoder>)coder {
++ (void)setCoder:(id<MKMDataCoder>)coder {
     s_base64 = coder;
 }
 

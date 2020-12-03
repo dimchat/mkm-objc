@@ -35,7 +35,7 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import "MKMBaseCoder.h"
+#import "MKMDataCoder.h"
 #import "MKMDataParser.h"
 
 #import "MKMPublicKey.h"
@@ -49,26 +49,16 @@
 
 #import "MKMProfile.h"
 
-@interface MKMDocument () {
-    
-    id<MKMID> _ID;
-    
-    NSData *_data;      // JsON.encode(properties)
-    NSData *_signature; // User(ID).sign(data)
-    
-    NSMutableDictionary *_properties;
-
-    NSInteger _status; // 1 for valid, -1 for invalid
-}
+@interface MKMDocument ()
 
 @property (strong, nonatomic) id<MKMID> ID;
 
-@property (strong, nonatomic) NSData *data;
-@property (strong, nonatomic) NSData *signature;
+@property (strong, nonatomic) NSData *data;      // JsON.encode(properties)
+@property (strong, nonatomic) NSData *signature; // User(ID).sign(data)
 
 @property (strong, nonatomic) NSMutableDictionary *properties;
 
-@property (nonatomic) NSInteger status;
+@property (nonatomic) NSInteger status;          // 1 for valid, -1 for invalid
 
 @end
 
@@ -97,7 +87,7 @@
 }
 
 /* designated initializer */
-- (instancetype)initWithID:(MKMID *)ID
+- (instancetype)initWithID:(id<MKMID>)ID
                       data:(NSData *)json
                  signature:(NSData *)signature {
     if (self = [super initWithDictionary:@{@"ID": ID}]) {
@@ -119,7 +109,7 @@
 }
 
 /* designated initializer */
-- (instancetype)initWithID:(MKMID *)ID {
+- (instancetype)initWithID:(id<MKMID>)ID {
     if (self = [super initWithDictionary:@{@"ID": ID}]) {
         // ID
         _ID = ID;
@@ -292,16 +282,16 @@ static id<MKMDocumentFactory> s_factory = nil;
     s_factory = factory;
 }
 
-+ (id<MKMDocument>)create:(id<MKMID>)ID type:(NSString *)type data:(NSData *)data signature:(NSData *)CT {
++ (__kindof id<MKMDocument>)create:(id<MKMID>)ID type:(NSString *)type data:(NSData *)data signature:(NSData *)CT {
     return [s_factory createDocument:ID type:type data:data signature:CT];
 }
 
 // create a new empty profile with entity ID
-+ (id<MKMDocument>)create:(id<MKMID>)ID type:(NSString *)type {
++ (__kindof id<MKMDocument>)create:(id<MKMID>)ID type:(NSString *)type {
     return [s_factory createDocument:ID type:type];
 }
 
-+ (nullable id<MKMDocument>)parse:(NSDictionary *)doc {
++ (nullable __kindof id<MKMDocument>)parse:(NSDictionary *)doc {
     if (doc.count == 0) {
         return nil;
     } else if ([doc conformsToProtocol:@protocol(MKMDocument)]) {

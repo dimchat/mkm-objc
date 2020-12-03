@@ -147,13 +147,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithDictionary:(NSDictionary *)dict
 NS_DESIGNATED_INITIALIZER;
 
-- (instancetype)initWithID:(MKMID *)ID
+- (instancetype)initWithID:(id<MKMID>)ID
                       data:(NSData *)json
                  signature:(NSData *)signature
 NS_DESIGNATED_INITIALIZER;
 
 // create a new empty profile with entity ID
-- (instancetype)initWithID:(MKMID *)ID
+- (instancetype)initWithID:(id<MKMID>)ID
 NS_DESIGNATED_INITIALIZER;
 
 @end
@@ -177,12 +177,16 @@ NS_DESIGNATED_INITIALIZER;
 
 @protocol MKMDocumentFactory <NSObject>
 
-- (id<MKMDocument>)createDocument:(id<MKMID>)ID type:(NSString *)type data:(NSData *)data signature:(NSData *)CT;
+- (__kindof id<MKMDocument>)createDocument:(id<MKMID>)ID
+                                      type:(NSString *)type
+                                      data:(NSData *)data
+                                 signature:(NSData *)CT;
 
 // create a new empty profile with entity ID
-- (id<MKMDocument>)createDocument:(id<MKMID>)ID type:(NSString *)type;
+- (__kindof id<MKMDocument>)createDocument:(id<MKMID>)ID
+                                      type:(NSString *)type;
 
-- (nullable id<MKMDocument>)parseDocument:(NSDictionary *)doc;
+- (nullable __kindof id<MKMDocument>)parseDocument:(NSDictionary *)doc;
 
 @end
 
@@ -190,12 +194,16 @@ NS_DESIGNATED_INITIALIZER;
 
 + (void)setFactory:(id<MKMDocumentFactory>)factory;
 
-+ (id<MKMDocument>)create:(id<MKMID>)ID type:(NSString *)type data:(NSData *)data signature:(NSData *)CT;
++ (__kindof id<MKMDocument>)create:(id<MKMID>)ID
+                              type:(NSString *)type
+                              data:(NSData *)data
+                         signature:(NSData *)CT;
 
 // create a new empty profile with entity ID
-+ (id<MKMDocument>)create:(id<MKMID>)ID type:(NSString *)type;
++ (__kindof id<MKMDocument>)create:(id<MKMID>)ID
+                              type:(NSString *)type;
 
-+ (nullable id<MKMDocument>)parse:(NSDictionary *)doc;
++ (nullable __kindof id<MKMDocument>)parse:(NSDictionary *)doc;
 
 @end
 

@@ -77,10 +77,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-#define MKMJSONEncode(string) [MKMJSON encode:(string)]
+#define MKMJSONEncode(object) [MKMJSON encode:(object)]
 #define MKMJSONDecode(string) [MKMJSON decode:(string)]
 
 #define MKMUTF8Encode(string) [MKMUTF8 encode:(string)]
-#define MKMUTF8Decode(string) [MKMUTF8 decode:(string)]
+#define MKMUTF8Decode(data)   [MKMUTF8 decode:(data)]
 
 NS_ASSUME_NONNULL_END

@@ -59,11 +59,11 @@ static id<MKMSymmetricKeyFactory> s_factory = nil;
     s_factory = factory;
 }
 
-+ (nullable id<MKMSymmetricKey>)generate:(NSString *)algorithm {
++ (nullable __kindof id<MKMSymmetricKey>)generate:(NSString *)algorithm {
     return [s_factory generateSymmetricKey:algorithm];
 }
 
-+ (nullable id<MKMSymmetricKey>)parse:(NSDictionary *)key {
++ (nullable __kindof id<MKMSymmetricKey>)parse:(NSDictionary *)key {
     if (key.count == 0) {
         return nil;
     } else if ([key conformsToProtocol:@protocol(MKMSymmetricKey)]) {

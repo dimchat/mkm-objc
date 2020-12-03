@@ -45,7 +45,7 @@ static id<MKMPublicKeyFactory> s_factory = nil;
     s_factory = factory;
 }
 
-+ (nullable id<MKMPublicKey>)parse:(NSDictionary *)key {
++ (nullable __kindof id<MKMPublicKey>)parse:(NSDictionary *)key {
     if (key.count == 0) {
         return nil;
     } else if ([key conformsToProtocol:@protocol(MKMPublicKey)]) {

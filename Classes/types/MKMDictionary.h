@@ -44,12 +44,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Get inner dictionary
  */
-@property (readonly, strong, nonatomic) NSMutableDictionary *dictionary;
+@property (readonly, strong, nonatomic) NSMutableDictionary<NSString *, id> *dictionary;
 
 /**
  *  Copy inner dictionary
  */
-- (NSMutableDictionary *)dictionary:(BOOL)deepCopy;
+- (NSMutableDictionary<NSString *, id> *)dictionary:(BOOL)deepCopy;
 
 - (id)objectForKey:(NSString *)aKey;
 - (void)setObject:(id)anObject forKey:(NSString *)aKey;
@@ -57,9 +57,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface MKMDictionary : NSDictionary<MKMDictionary>
+@interface MKMDictionary : NSDictionary<NSString *, id> <MKMDictionary>
 
-- (instancetype)initWithDictionary:(NSDictionary *)dict
+- (instancetype)initWithDictionary:(NSDictionary<NSString *, id> *)dict
 NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)init

@@ -37,12 +37,11 @@
 
 #import "MKMID.h"
 
-@interface MKMID () {
-    
-    NSString *_name;
-    id<MKMAddress> _address;
-    NSString *_terminal;
-}
+@interface MKMID ()
+
+@property (strong, nonatomic, nullable) NSString *name;
+@property (strong, nonatomic) id<MKMAddress> address;
+@property (strong, nonatomic, nullable) NSString *terminal;
 
 @end
 
@@ -119,6 +118,16 @@ static inline NSString *concat(NSString *name, id<MKMAddress> address, NSString 
                            name:nil
                         address:address
                        terminal:nil];
+}
+
+- (id)copyWithZone:(NSZone *)zone {
+    MKMID *identifier = [super copyWithZone:zone];
+    if (identifier) {
+        identifier.name = _name;
+        identifier.address = _address;
+        identifier.terminal = _terminal;
+    }
+    return identifier;
 }
 
 - (BOOL)isEqual:(id)object {
