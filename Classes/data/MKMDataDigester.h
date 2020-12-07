@@ -49,35 +49,35 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MKMMD5 : NSObject
 
-+ (void)setDigest:(id<MKMDataDigester>)hasher;
++ (void)setDigester:(id<MKMDataDigester>)hasher;
 + (NSData *)digest:(NSData *)data;
 
 @end
 
 @interface MKMRIPEMD160 : NSObject
 
-+ (void)setDigest:(id<MKMDataDigester>)hasher;
++ (void)setDigester:(id<MKMDataDigester>)hasher;
 + (NSData *)digest:(NSData *)data;
 
 @end
 
 @interface MKMSHA1 : NSObject
 
-+ (void)setDigest:(id<MKMDataDigester>)hasher;
++ (void)setDigester:(id<MKMDataDigester>)hasher;
 + (NSData *)digest:(NSData *)data;
 
 @end
 
 @interface MKMSHA256 : NSObject
 
-+ (void)setDigest:(id<MKMDataDigester>)hasher;
++ (void)setDigester:(id<MKMDataDigester>)hasher;
 + (NSData *)digest:(NSData *)data;
 
 @end
 
 @interface MKMKECCAK256 : NSObject
 
-+ (void)setDigest:(id<MKMDataDigester>)hasher;
++ (void)setDigester:(id<MKMDataDigester>)hasher;
 + (NSData *)digest:(NSData *)data;
 
 @end

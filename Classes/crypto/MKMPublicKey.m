@@ -50,6 +50,8 @@ static id<MKMPublicKeyFactory> s_factory = nil;
         return nil;
     } else if ([key conformsToProtocol:@protocol(MKMPublicKey)]) {
         return (id<MKMPublicKey>)key;
+    } else if ([key conformsToProtocol:@protocol(MKMDictionary)]) {
+        key = [(id<MKMDictionary>)key dictionary];
     }
     return [s_factory parsePublicKey:key];
 }

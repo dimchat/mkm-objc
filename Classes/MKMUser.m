@@ -49,11 +49,11 @@
 @implementation MKMUser
 
 - (nullable id<MKMEncryptKey>)visaKey {
-    id<MKMVisa> profile = [self document:MKMDocument_Visa];
-    NSAssert(!profile || [profile isValid], @"visa not valid: %@", profile);
-    if ([profile conformsToProtocol:@protocol(MKMVisa)]) {
-        return [profile key];
+    id<MKMVisa> doc = [self documentWithType:MKMDocument_Visa];
+    if ([doc isValid] && [doc conformsToProtocol:@protocol(MKMVisa)]) {
+        return [doc key];
     }
+    // visa document not found or not valid
     return nil;
 }
 
@@ -87,12 +87,16 @@
     // 1. get key from visa
     id pKey = [self visaKey];
     if ([pKey conformsToProtocol:@protocol(MKMVerifyKey)]) {
+        // the sender may use communication key to sign message.data,
+        // so try to verify it with visa.key here
         [mArray addObject:pKey];
     }
     
     // 2. get key from meta
     id<MKMVerifyKey> mKey = [self.meta key];
     NSAssert(mKey, @"failed to get meta key for user: %@", _ID);
+    // the sender may use identity key to sign message.data,
+    // try to verify it with meta.key
     [mArray addObject:mKey];
     return mArray;
 }
@@ -101,6 +105,7 @@
     NSArray<id<MKMVerifyKey>> *keys = [self verifyKeys];
     for (id<MKMVerifyKey> key in keys) {
         if ([key verify:data withSignature:signature]) {
+            // matched!
             return YES;
         }
     }
@@ -131,27 +136,32 @@
 }
 
 - (NSData *)sign:(NSData *)data {
+    // NOTICE: I suggest use the private key which paired to visa.key
+    //         to sign message
     id<MKMSignKey> key = [self.dataSource privateKeyForSignature:_ID];
     NSAssert(key, @"failed to get sign key for user: %@", _ID);
     return [key sign:data];
 }
 
 - (nullable NSData *)decrypt:(NSData *)ciphertext {
+    // NOTICE: if you provide a public key in visa for encryption
+    //         here you should return the private key paired with visa.key
     NSArray<id<MKMDecryptKey>> *keys = [self.dataSource privateKeysForDecryption:_ID];
     NSAssert([keys count] > 0, @"failed to get decrypt keys for user: %@", _ID);
     NSData *plaintext = nil;
     for (id<MKMDecryptKey> key in keys) {
+        // try decrypting it with each private key
         @try {
             plaintext = [key decrypt:ciphertext];
             if ([plaintext length] > 0) {
+                // OK!
                 return plaintext;
             }
         } @catch (NSException *exception) {
             // this key not match, try next one
-        } @finally {
-            //
         }
     }
+    // decryption failed
     return nil;
 }
 

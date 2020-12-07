@@ -152,8 +152,8 @@ NS_DESIGNATED_INITIALIZER;
                  signature:(NSData *)signature
 NS_DESIGNATED_INITIALIZER;
 
-// create a new empty profile with entity ID
-- (instancetype)initWithID:(id<MKMID>)ID
+// create a new empty profile with entity ID & document type
+- (instancetype)initWithID:(id<MKMID>)ID type:(NSString *)type
 NS_DESIGNATED_INITIALIZER;
 
 @end

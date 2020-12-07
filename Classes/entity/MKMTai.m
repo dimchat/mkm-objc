@@ -38,14 +38,9 @@
 #import "MKMDataCoder.h"
 #import "MKMDataParser.h"
 
-#import "MKMPublicKey.h"
-#import "MKMPrivateKey.h"
+#import "MKMAsymmetricKey.h"
 
 #import "MKMID.h"
-#import "MKMAddress.h"
-#import "MKMMeta.h"
-
-#import "MKMUser.h"
 
 #import "MKMProfile.h"
 
@@ -73,7 +68,7 @@
 /* designated initializer */
 - (instancetype)initWithDictionary:(NSDictionary *)dict {
     if (self = [super initWithDictionary:dict]) {
-        // lazi
+        // lazy
         _ID = nil;
         
         _data = nil;
@@ -109,7 +104,7 @@
 }
 
 /* designated initializer */
-- (instancetype)initWithID:(id<MKMID>)ID {
+- (instancetype)initWithID:(id<MKMID>)ID type:(NSString *)type {
     if (self = [super initWithDictionary:@{@"ID": ID}]) {
         // ID
         _ID = ID;
@@ -117,7 +112,12 @@
         _data = nil;
         _signature = nil;
         
-        _properties = nil;
+        if (type.length > 0) {
+            _properties = [[NSMutableDictionary alloc] init];
+            [_properties setObject:type forKey:@"type"];
+        } else {
+            _properties = nil;
+        }
 
         _status = 0;
     }
@@ -274,6 +274,8 @@
 
 @end
 
+#pragma mark - Creation
+
 @implementation MKMDocument (Creation)
 
 static id<MKMDocumentFactory> s_factory = nil;
@@ -296,6 +298,8 @@ static id<MKMDocumentFactory> s_factory = nil;
         return nil;
     } else if ([doc conformsToProtocol:@protocol(MKMDocument)]) {
         return (id<MKMDocument>)doc;
+    } else if ([doc conformsToProtocol:@protocol(MKMDictionary)]) {
+        doc = [(id<MKMDictionary>)doc dictionary];
     }
     return [s_factory parseDocument:doc];
 }

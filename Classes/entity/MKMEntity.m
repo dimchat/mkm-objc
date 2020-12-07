@@ -71,13 +71,16 @@
 
 - (BOOL)isEqual:(id)object {
     if (self == object) {
+        // same object
         return YES;
     }
-    if (![object isKindOfClass:[MKMEntity class]]) {
-        return NO;
+    if ([object isKindOfClass:[MKMEntity class]]) {
+        // check with ID
+        MKMEntity *entity = (MKMEntity *)object;
+        return [entity.ID isEqual:_ID];
     }
-    MKMEntity *entity = (MKMEntity *)object;
-    return [entity.ID isEqual:_ID];
+    // nil or unknown object
+    return NO;
 }
 
 - (NSString *)description {
@@ -98,7 +101,7 @@
     return [_dataSource metaForID:_ID];
 }
 
-- (nullable __kindof id<MKMDocument>)document:(nullable NSString *)type {
+- (nullable __kindof id<MKMDocument>)documentWithType:(nullable NSString *)type {
     NSAssert(_dataSource, @"entity data source not set yet");
     return [_dataSource documentForID:_ID withType:type];
 }

@@ -65,6 +65,8 @@ static id<MKMPrivateKeyFactory> s_factory = nil;
         return nil;
     } else if ([key conformsToProtocol:@protocol(MKMPrivateKey)]) {
         return (id<MKMPrivateKey>)key;
+    } else if ([key conformsToProtocol:@protocol(MKMDictionary)]) {
+        key = [(id<MKMDictionary>)key dictionary];
     }
     return [s_factory parsePrivateKey:key];
 }

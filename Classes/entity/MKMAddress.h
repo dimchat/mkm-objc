@@ -147,15 +147,17 @@ typedef UInt8 MKMNetworkType;
 
 @interface MKMAddress : MKMString <MKMAddress>
 
-@property (readonly, nonatomic) MKMNetworkType network; // Network ID
-
-- (instancetype)initWithString:(NSString *)address network:(MKMNetworkType)type;
+- (instancetype)initWithString:(NSString *)address network:(MKMNetworkType)type
+NS_DESIGNATED_INITIALIZER;
 
 + (BOOL)isUser:(id<MKMAddress>)address;
 + (BOOL)isGroup:(id<MKMAddress>)address;
 
 + (BOOL)isBroadcast:(id<MKMAddress>)address;
 
+/**
+ *  Address for broadcast
+ */
 + (MKMAddress *)anywhere;
 + (MKMAddress *)everywhere;
 
@@ -171,6 +173,13 @@ typedef UInt8 MKMNetworkType;
 @protocol MKMAddressFactory <NSObject>
 
 - (nullable __kindof id<MKMAddress>)parseAddress:(NSString *)address;
+
+@end
+
+@interface MKMAddressFactory : NSObject <MKMAddressFactory>
+
+// override for creating address from string
+- (nullable __kindof id<MKMAddress>)createAddress:(NSString *)address;
 
 @end
 

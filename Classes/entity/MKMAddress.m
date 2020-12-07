@@ -51,6 +51,25 @@
 
 @implementation MKMAddress
 
+- (instancetype)init {
+    NSAssert(false, @"DON'T call me!");
+    NSString *string = nil;
+    return [self initWithString:string network:0];
+}
+
+- (nullable instancetype)initWithCoder:(NSCoder *)aDecoder {
+    NSAssert(false, @"DON'T call me!");
+    NSString *string = nil;
+    return [self initWithString:string network:0];
+}
+
+- (instancetype)initWithString:(NSString *)aString {
+    NSAssert(false, @"DON'T call me!");
+    NSString *string = nil;
+    return [self initWithString:string network:0];
+}
+
+/* designated initializer */
 - (instancetype)initWithString:(NSString *)address network:(MKMNetworkType)type {
     if (self = [super initWithString:address]) {
         _network = type;
@@ -103,6 +122,50 @@ static MKMAddress *s_everywhere = nil;
 
 @end
 
+#pragma mark - Creation
+
+@interface MKMAddressFactory () {
+    
+    NSMutableDictionary<NSString *, id<MKMAddress>> *_addresses;
+}
+
+@end
+
+@implementation MKMAddressFactory
+
+- (instancetype)init {
+    if (self = [super init]) {
+        _addresses = [[NSMutableDictionary alloc] init];
+    }
+    return self;
+}
+
+- (nullable __kindof id<MKMAddress>)parseAddress:(NSString *)address {
+    MKMAddress *anywhere = MKMAnywhere();
+    if ([anywhere isEqual:address]) {
+        return anywhere;
+    }
+    MKMAddress *everywhere = MKMEverywhere();
+    if ([everywhere isEqual:address]) {
+        return everywhere;
+    }
+    id<MKMAddress> addr = [_addresses objectForKey:address];
+    if (!addr) {
+        addr = [self createAddress:address];
+        if (addr) {
+            [_addresses setObject:addr forKey:address];
+        }
+    }
+    return addr;
+}
+
+- (nullable __kindof id<MKMAddress>)createAddress:(NSString *)address {
+    NSAssert(false, @"override me!");
+    return nil;
+}
+
+@end
+
 @implementation MKMAddress (Creation)
 
 static id<MKMAddressFactory> s_factory = nil;
@@ -116,8 +179,12 @@ static id<MKMAddressFactory> s_factory = nil;
         return nil;
     } else if ([address conformsToProtocol:@protocol(MKMAddress)]) {
         return (id<MKMAddress>)address;
+    } else if ([address isKindOfClass:[MKMString class]]) {
+        MKMString *str = (MKMString *)address;
+        return [s_factory parseAddress:[str string]];
+    } else {
+        return [s_factory parseAddress:address];
     }
-    return [s_factory parseAddress:address];
 }
 
 @end

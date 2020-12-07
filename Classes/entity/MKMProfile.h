@@ -59,6 +59,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MKMVisa : MKMDocument <MKMVisa>
 
+- (instancetype)initWithID:(id<MKMID>)ID;
+
 @end
 
 #pragma mark -
@@ -75,6 +77,8 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface MKMBulletin : MKMDocument <MKMBulletin>
+
+- (instancetype)initWithID:(id<MKMID>)ID;
 
 @end
 

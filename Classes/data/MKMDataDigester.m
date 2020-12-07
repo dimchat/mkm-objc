@@ -87,19 +87,19 @@
 
 static id<MKMDataDigester> s_md5 = nil;
 
-+ (id<MKMDataDigester>)hasher {
++ (id<MKMDataDigester>)digester {
     if (s_md5 == nil) {
         s_md5 = [[MD5 alloc] init];
     }
     return s_md5;
 }
 
-+ (void)setDigest:(id<MKMDataDigester>)hasher {
++ (void)setDigester:(id<MKMDataDigester>)hasher {
     s_md5 = hasher;
 }
 
 + (NSData *)digest:(NSData *)data {
-    return [[self hasher] digest:data];
+    return [[self digester] digest:data];
 }
 
 @end
@@ -108,7 +108,7 @@ static id<MKMDataDigester> s_md5 = nil;
 
 static id<MKMDataDigester> s_ripemd160 = nil;
 
-+ (void)setDigest:(id<MKMDataDigester>)hasher {
++ (void)setDigester:(id<MKMDataDigester>)hasher {
     s_ripemd160 = hasher;
 }
 
@@ -122,19 +122,19 @@ static id<MKMDataDigester> s_ripemd160 = nil;
 
 static id<MKMDataDigester> s_sha1 = nil;
 
-+ (id<MKMDataDigester>)hasher {
++ (id<MKMDataDigester>)digester {
     if (s_sha1 == nil) {
         s_sha1 = [[SHA1 alloc] init];
     }
     return s_sha1;
 }
 
-+ (void)setDigest:(id<MKMDataDigester>)hasher {
++ (void)setDigester:(id<MKMDataDigester>)hasher {
     s_sha1 = hasher;
 }
 
 + (NSData *)digest:(NSData *)data {
-    return [[self hasher] digest:data];
+    return [[self digester] digest:data];
 }
 
 @end
@@ -143,19 +143,19 @@ static id<MKMDataDigester> s_sha1 = nil;
 
 static id<MKMDataDigester> s_sha256 = nil;
 
-+ (id<MKMDataDigester>)hasher {
++ (id<MKMDataDigester>)digester {
     if (s_sha256 == nil) {
         s_sha256 = [[SHA256 alloc] init];
     }
     return s_sha256;
 }
 
-+ (void)setDigest:(id<MKMDataDigester>)hasher {
++ (void)setDigester:(id<MKMDataDigester>)hasher {
     s_sha256 = hasher;
 }
 
 + (NSData *)digest:(NSData *)data {
-    return [[self hasher] digest:data];
+    return [[self digester] digest:data];
 }
 
 @end
@@ -164,7 +164,7 @@ static id<MKMDataDigester> s_sha256 = nil;
 
 static id<MKMDataDigester> s_keccak256 = nil;
 
-+ (void)setDigest:(id<MKMDataDigester>)hasher {
++ (void)setDigester:(id<MKMDataDigester>)hasher {
     s_keccak256 = hasher;
 }
 

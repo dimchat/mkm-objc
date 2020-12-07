@@ -36,9 +36,6 @@
 //
 
 #import "MKMDictionary.h"
-#import "MKMPrivateKey.h"
-
-#import "MKMAddress.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -193,6 +190,9 @@ NS_DESIGNATED_INITIALIZER;
                                          /* EOF 'MKMMetaFromDictionary(meta)' */
 
 #pragma mark - Creation
+
+@protocol MKMPublicKey;
+@protocol MKMPrivateKey;
 
 @protocol MKMMetaFactory <NSObject>
 

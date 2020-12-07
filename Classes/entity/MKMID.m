@@ -84,6 +84,7 @@ static inline NSString *concat(NSString *name, id<MKMAddress> address, NSString 
     return [self initWithString:string name:nil address:address terminal:nil];
 }
 
+/* designated initializer */
 - (instancetype)initWithString:(NSString *)string
                           name:(nullable NSString *)seed
                        address:(id<MKMAddress>)address
@@ -168,18 +169,6 @@ static inline NSString *concat(NSString *name, id<MKMAddress> address, NSString 
     }
 }
 
-- (nullable NSString *)name {
-    return _name;
-}
-
-- (id<MKMAddress>)address {
-    return _address;
-}
-
-- (nullable NSString *)terminal {
-    return _terminal;
-}
-
 - (MKMNetworkType)type {
     return _address.network;
 }
@@ -237,11 +226,21 @@ static MKMID *s_everyone = nil;
 
 #pragma mark - Creation
 
-@interface IDFactory : NSObject <MKMIDFactory>
+@interface MKMIDFactory () {
+    
+    NSMutableDictionary<NSString *, id<MKMID>> *_identifiers;
+}
 
 @end
 
-@implementation IDFactory
+@implementation MKMIDFactory
+
+- (instancetype)init {
+    if (self = [super init]) {
+        _identifiers = [[NSMutableDictionary alloc] init];
+    }
+    return self;
+}
 
 - (id<MKMID>)createID:(nullable NSString *)name
               address:(id<MKMAddress>)address
@@ -252,22 +251,31 @@ static MKMID *s_everyone = nil;
                                 terminal:terminal];
 }
 
-- (nullable id<MKMID>)parseID:(NSString *)identifier {
+- (nullable __kindof id<MKMID>)createID:(NSString *)identifier {
     NSString *name;
     id<MKMAddress> address;
     NSString *terminal;
     // split ID string
     NSArray<NSString *> *pair = [identifier componentsSeparatedByString:@"/"];
+    // terminal
     if (pair.count == 1) {
         terminal = nil;
     } else {
+        NSAssert(pair.count == 2, @"ID error: %@", identifier);
+        NSAssert(pair.lastObject.length > 0, @"ID.terminal error: %@", identifier);
         terminal = pair.lastObject;
     }
+    // name @ address
     pair = [pair.firstObject componentsSeparatedByString:@"@"];
+    NSAssert(pair.firstObject.length > 0, @"ID error: %@", identifier);
     if (pair.count == 1) {
+        // got address without name
         name = nil;
         address = MKMAddressFromString(pair.firstObject);
     } else {
+        // got name & address
+        NSAssert(pair.count == 2, @"ID error: %@", identifier);
+        NSAssert(pair.lastObject.length > 0, @"ID.address error: %@", identifier);
         name = pair.firstObject;
         address = MKMAddressFromString(pair.lastObject);
     }
@@ -280,6 +288,25 @@ static MKMID *s_everyone = nil;
                                 terminal:terminal];
 }
 
+- (nullable id<MKMID>)parseID:(NSString *)identifier {
+    MKMID *anyone = MKMAnyone();
+    if ([anyone isEqual:identifier]) {
+        return anyone;
+    }
+    MKMID *everyone = MKMEveryone();
+    if ([everyone isEqual:identifier]) {
+        return everyone;
+    }
+    id<MKMID> ID = [_identifiers objectForKey:identifier];
+    if (!ID) {
+        ID = [self createID:identifier];
+        if (ID) {
+            [_identifiers setObject:ID forKey:identifier];
+        }
+    }
+    return ID;
+}
+
 @end
 
 @implementation MKMID (Creation)
@@ -288,7 +315,7 @@ static id<MKMIDFactory> s_factory = nil;
 
 + (id<MKMIDFactory>)factory {
     if (s_factory == nil) {
-        s_factory = [[IDFactory alloc] init];
+        s_factory = [[MKMIDFactory alloc] init];
     }
     return s_factory;
 }
@@ -308,8 +335,12 @@ static id<MKMIDFactory> s_factory = nil;
         return nil;
     } else if ([identifier conformsToProtocol:@protocol(MKMID)]) {
         return (id<MKMID>)identifier;
+    } else if ([identifier isKindOfClass:[MKMString class]]) {
+        MKMString *str = (MKMString *)identifier;
+        return [[self factory] parseID:[str string]];
+    } else {
+        return [[self factory] parseID:identifier];
     }
-    return [[self factory] parseID:identifier];
 }
 
 + (NSArray<id<MKMID>> *)convert:(NSArray<NSString *> *)members {

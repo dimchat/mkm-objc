@@ -81,7 +81,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol MKMCryptographyKeyParser <NSObject>
 
-- (nullable id<MKMCryptographyKey>)parse:(NSDictionary *)key;
+- (nullable __kindof id<MKMCryptographyKey>)parse:(NSDictionary *)key;
 
 @end
 

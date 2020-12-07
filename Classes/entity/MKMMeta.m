@@ -39,7 +39,6 @@
 #import "MKMDataParser.h"
 
 #import "MKMPublicKey.h"
-#import "MKMPrivateKey.h"
 
 #import "MKMID.h"
 
@@ -52,7 +51,7 @@
 @property (strong, nonatomic, nullable) NSString *seed;
 @property (strong, nonatomic, nullable) NSData *fingerprint;
 
-@property (nonatomic) NSInteger status;; // valid status
+@property (nonatomic) NSInteger status;; // 1 for valid, -1 for invalid
 
 @end
 
@@ -73,7 +72,7 @@
         _seed = nil;
         _fingerprint = nil;
         
-        _status = 0; // 1 for valid, -1 for invalid
+        _status = 0;
     }
     return self;
 }
@@ -103,6 +102,8 @@
             [self setObject:base64 forKey:@"fingerprint"];
         }
         _fingerprint = fingerprint;
+        
+        _status = 0;
     }
     return self;
 }
@@ -212,6 +213,8 @@
 
 @end
 
+#pragma mark - Creation
+
 @implementation MKMMeta (Creation)
 
 static id<MKMMetaFactory> s_factory = nil;
@@ -238,6 +241,8 @@ static id<MKMMetaFactory> s_factory = nil;
         return nil;
     } else if ([meta conformsToProtocol:@protocol(MKMMeta)]) {
         return (id<MKMMeta>)meta;
+    } else if ([meta conformsToProtocol:@protocol(MKMDictionary)]) {
+        meta = [(id<MKMDictionary>)meta dictionary];
     }
     return [s_factory parseMeta:meta];
 }

@@ -96,6 +96,9 @@ NS_DESIGNATED_INITIALIZER;
 
 + (BOOL)isBroadcast:(id<MKMID>)identifier;
 
+/**
+ *  ID for broadcast
+ */
 + (MKMID *)anyone;
 + (MKMID *)everyone;
 
@@ -124,6 +127,10 @@ NS_DESIGNATED_INITIALIZER;
              terminal:(nullable NSString *)terminal;
 
 - (nullable id<MKMID>)parseID:(NSString *)identifier;
+
+@end
+
+@interface MKMIDFactory : NSObject <MKMIDFactory>
 
 @end
 

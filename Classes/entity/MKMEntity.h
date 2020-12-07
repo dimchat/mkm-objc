@@ -64,7 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Get entity profile with document type
  */
-- (nullable __kindof id<MKMDocument>)document:(nullable NSString *)type;
+- (nullable __kindof id<MKMDocument>)documentWithType:(nullable NSString *)type;
 
 @end
 

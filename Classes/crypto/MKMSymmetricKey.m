@@ -68,6 +68,8 @@ static id<MKMSymmetricKeyFactory> s_factory = nil;
         return nil;
     } else if ([key conformsToProtocol:@protocol(MKMSymmetricKey)]) {
         return (id<MKMSymmetricKey>)key;
+    } else if ([key conformsToProtocol:@protocol(MKMDictionary)]) {
+        key = [(id<MKMDictionary>)key dictionary];
     }
     return [s_factory parseSymmetricKey:key];
 }

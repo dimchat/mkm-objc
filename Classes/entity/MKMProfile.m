@@ -59,6 +59,28 @@
     return self;
 }
 
+- (instancetype)initWithID:(id<MKMID>)ID
+                      data:(NSData *)json
+                 signature:(NSData *)signature {
+    if (self = [super initWithID:ID data:json signature:signature]) {
+        // lazy
+        _key = nil;
+    }
+    return self;
+}
+
+- (instancetype)initWithID:(id<MKMID>)ID type:(NSString *)type {
+    if (self = [super initWithID:ID type:type]) {
+        // lazy
+        _key = nil;
+    }
+    return self;
+}
+
+- (instancetype)initWithID:(id<MKMID>)ID {
+    return [self initWithID:ID type:MKMDocument_Visa];
+}
+
 - (nullable id<MKMEncryptKey>)key {
     if (!_key) {
         NSDictionary *dict = (NSDictionary *)[self propertyForKey:@"key"];
@@ -96,6 +118,36 @@
 @end
 
 @implementation MKMBulletin
+
+- (instancetype)initWithDictionary:(NSDictionary *)dict {
+    if (self = [super initWithDictionary:dict]) {
+        // lazy
+        _assistants = nil;
+    }
+    return self;
+}
+
+- (instancetype)initWithID:(id<MKMID>)ID
+                      data:(NSData *)json
+                 signature:(NSData *)signature {
+    if (self = [super initWithID:ID data:json signature:signature]) {
+        // lazy
+        _assistants = nil;
+    }
+    return self;
+}
+
+- (instancetype)initWithID:(id<MKMID>)ID type:(NSString *)type {
+    if (self = [super initWithID:ID type:type]) {
+        // lazy
+        _assistants = nil;
+    }
+    return self;
+}
+
+- (instancetype)initWithID:(id<MKMID>)ID {
+    return [self initWithID:ID type:MKMDocument_Bulletin];
+}
 
 - (nullable NSArray<id<MKMID>> *)assistants {
     if (!_assistants) {
