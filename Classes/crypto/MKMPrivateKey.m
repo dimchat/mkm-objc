@@ -46,6 +46,16 @@
     return [MKMAsymmetricKey asymmetricKey:key1 matches:[key2 publicKey]];
 }
 
+- (id<MKMPublicKey>)publicKey {
+    NSAssert(false, @"implement me!");
+    return nil;
+}
+
+- (NSData *)sign:(NSData *)data {
+    NSAssert(false, @"implement me!");
+    return nil;
+}
+
 @end
 
 @implementation MKMPrivateKey (Creation)

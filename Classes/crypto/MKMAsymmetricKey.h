@@ -77,7 +77,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Pairing
 
-@interface MKMAsymmetricKey : NSObject
+@interface MKMAsymmetricKey : MKMCryptographyKey <MKMAsymmetricKey>
 
 + (BOOL)asymmetricKey:(id<MKMSignKey>)privateKey matches:(id<MKMVerifyKey>)publicKey;
 

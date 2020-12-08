@@ -55,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
 #define SCAlgorithmAES @"AES"
 #define SCAlgorithmDES @"DES"
 
-@interface MKMSymmetricKey : NSObject
+@interface MKMSymmetricKey : MKMCryptographyKey <MKMSymmetricKey>
 
 + (BOOL)symmetricKey:(id<MKMSymmetricKey>)key1 equals:(id<MKMSymmetricKey>)key2;
 

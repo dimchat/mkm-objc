@@ -84,7 +84,7 @@
     if (!_founder) {
         NSAssert(self.dataSource, @"group data source not set yet");
         _founder = [self.dataSource founderOfGroup:_ID];
-        if (!_founder && [MKMID isBroadcast:_ID]) {
+        if (!_founder && MKMIDIsBroadcast(_ID)) {
             // founder of broadcast group
             NSString *founder;
             NSString *name = [_ID name];
@@ -107,7 +107,7 @@
 - (id<MKMID>)owner {
     NSAssert(self.dataSource, @"group data source not set yet");
     id<MKMID> admin = [self.dataSource ownerOfGroup:_ID];
-    if (!admin && [MKMID isBroadcast:_ID]) {
+    if (!admin && MKMIDIsBroadcast(_ID)) {
         // owner of broadcast group
         NSString *owner;
         NSString *name = [_ID name];
@@ -130,7 +130,7 @@
     NSAssert(self.dataSource, @"group data source not set yet");
     NSArray *list = [self.dataSource membersOfGroup:_ID];
     // check for broadcast
-    if (!list && [MKMID isBroadcast:_ID]) {
+    if (!list && MKMIDIsBroadcast(_ID)) {
         NSString *member;
         NSString *owner;
         NSString *name = [_ID name];

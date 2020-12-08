@@ -56,4 +56,9 @@ static id<MKMPublicKeyFactory> s_factory = nil;
     return [s_factory parsePublicKey:key];
 }
 
+- (BOOL)verify:(NSData *)data withSignature:(NSData *)signature {
+    NSAssert(false, @"implement me!");
+    return NO;
+}
+
 @end

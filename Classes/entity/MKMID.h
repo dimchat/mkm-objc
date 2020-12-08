@@ -104,10 +104,14 @@ NS_DESIGNATED_INITIALIZER;
 
 @end
 
-#define MKMAnyone()         [MKMID anyone]
-#define MKMEveryone()       [MKMID everyone]
+#define MKMAnyone()          [MKMID anyone]
+#define MKMEveryone()        [MKMID everyone]
 
-#define MKMIDFromString(ID) [MKMID parse:(ID)]
+#define MKMIDFromString(ID)  [MKMID parse:(ID)]
+
+#define MKMIDIsUser(ID)      [MKMID isUser:(ID)]
+#define MKMIDIsGroup(ID)     [MKMID isGroup:(ID)]
+#define MKMIDIsBroadcast(ID) [MKMID isBroadcast:(ID)]
 
 @interface MKMID (IDType)
 
@@ -144,8 +148,8 @@ NS_DESIGNATED_INITIALIZER;
 
 + (nullable id<MKMID>)parse:(NSString *)identifier;
 
-+ (NSArray<id<MKMID>> *)convert:(NSArray<NSString *> *)members;
-+ (NSArray<NSString *> *)revert:(NSArray<id<MKMID>> *)members;
++ (NSMutableArray<id<MKMID>> *)convert:(NSArray<NSString *> *)members;
++ (NSMutableArray<NSString *> *)revert:(NSArray<id<MKMID>> *)members;
 
 @end
 

@@ -55,11 +55,11 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Get public key from private key
  */
-@property (readonly, atomic, nullable) id<MKMPublicKey> publicKey;
+@property (readonly, strong, atomic) id<MKMPublicKey> publicKey;
 
 @end
 
-@interface MKMPrivateKey : NSObject
+@interface MKMPrivateKey : MKMAsymmetricKey <MKMPrivateKey>
 
 + (BOOL)privateKey:(id<MKMPrivateKey>)key1 equals:(id<MKMPrivateKey>)key2;
 

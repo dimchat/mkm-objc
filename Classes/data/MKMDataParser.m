@@ -43,7 +43,7 @@
 
 @implementation JSON
 
-- (nullable NSData *)encode:(nonnull NSObject *)container {
+- (nullable NSData *)encode:(NSObject *)container {
     if (![NSJSONSerialization isValidJSONObject:container]) {
         NSAssert(false, @"object format not support for json: %@", container);
         return nil;
@@ -57,7 +57,7 @@
     return data;
 }
 
-- (nullable NSObject *)decode:(nonnull NSData *)json {
+- (nullable NSObject *)decode:(NSData *)json {
     static NSJSONReadingOptions opt = NSJSONReadingAllowFragments;
     //static NSJSONReadingOptions opt = NSJSONReadingMutableContainers;
     NSError *error = nil;
@@ -76,11 +76,11 @@
 
 @implementation UTF8
 
-- (nullable NSData *)encode:(nonnull NSString *)string {
+- (nullable NSData *)encode:(NSString *)string {
     return [string dataUsingEncoding:NSUTF8StringEncoding];
 }
 
-- (nullable NSString *)decode:(nonnull NSData *)data {
+- (nullable NSString *)decode:(NSData *)data {
     const unsigned char *bytes = (const unsigned char *)[data bytes];
     // rtrim '\0'
     NSInteger pos = data.length - 1;

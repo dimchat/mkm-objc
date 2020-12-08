@@ -49,6 +49,16 @@ static NSString *promise = @"Moky loves May Lee forever!";
     return [plaintext isEqualToData:data];
 }
 
+- (NSData *)encrypt:(NSData *)plaintext {
+    NSAssert(false, @"implement me!");
+    return nil;
+}
+
+- (nullable NSData *)decrypt:(NSData *)ciphertext {
+    NSAssert(false, @"implement me!");
+    return nil;
+}
+
 @end
 
 @implementation MKMSymmetricKey (Creation)

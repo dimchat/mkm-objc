@@ -163,10 +163,14 @@ NS_DESIGNATED_INITIALIZER;
 
 @end
 
-#define MKMAnywhere()                 [MKMAddress anywhere]
-#define MKMEverywhere()               [MKMAddress everywhere]
+#define MKMAnywhere()                  [MKMAddress anywhere]
+#define MKMEverywhere()                [MKMAddress everywhere]
 
-#define MKMAddressFromString(address) [MKMAddress parse:(address)]
+#define MKMAddressFromString(address)  [MKMAddress parse:(address)]
+
+#define MKMAddressIsUser(address)      [MKMAddress isUser:(address)]
+#define MKMAddressIsGroup(address)     [MKMAddress isGroup:(address)]
+#define MKMAddressIsBroadcast(address) [MKMAddress isBroadcast:(address)]
 
 #pragma mark - Creation
 

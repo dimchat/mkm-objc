@@ -36,3 +36,16 @@
 //
 
 #import "MKMCryptographyKey.h"
+
+@implementation MKMCryptographyKey
+
+- (NSString *)algorithm {
+    return [self objectForKey:@"algorithm"];
+}
+
+- (NSData *)data {
+    NSAssert(false, @"implement me!");
+    return nil;
+}
+
+@end

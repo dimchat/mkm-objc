@@ -174,15 +174,15 @@ static inline NSString *concat(NSString *name, id<MKMAddress> address, NSString 
 }
 
 + (BOOL)isUser:(id<MKMID>)identifier {
-    return [MKMAddress isUser:identifier.address];
+    return MKMAddressIsUser(identifier.address);
 }
 
 + (BOOL)isGroup:(id<MKMID>)identifier {
-    return [MKMAddress isGroup:identifier.address];
+    return MKMAddressIsGroup(identifier.address);
 }
 
 + (BOOL)isBroadcast:(id<MKMID>)identifier {
-    return [MKMAddress isBroadcast:identifier.address];
+    return MKMAddressIsBroadcast(identifier.address);
 }
 
 static MKMID *s_anyone = nil;
@@ -211,15 +211,15 @@ static MKMID *s_everyone = nil;
 @implementation MKMID (IDType)
 
 - (BOOL)isBroadcast {
-    return [MKMAddress isBroadcast:_address];
+    return MKMAddressIsBroadcast(_address);
 }
 
 - (BOOL)isUser {
-    return [MKMAddress isUser:_address];
+    return MKMAddressIsUser(_address);
 }
 
 - (BOOL)isGroup {
-    return [MKMAddress isGroup:_address];
+    return MKMAddressIsGroup(_address);
 }
 
 @end
@@ -343,7 +343,7 @@ static id<MKMIDFactory> s_factory = nil;
     }
 }
 
-+ (NSArray<id<MKMID>> *)convert:(NSArray<NSString *> *)members {
++ (NSMutableArray<id<MKMID>> *)convert:(NSArray<NSString *> *)members {
     NSMutableArray<id<MKMID>> *array = [[NSMutableArray alloc] initWithCapacity:members.count];
     id<MKMID> ID;
     for (NSString *item in members) {
@@ -355,7 +355,7 @@ static id<MKMIDFactory> s_factory = nil;
     return array;
 }
 
-+ (NSArray<NSString *> *)revert:(NSArray<id<MKMID>> *)members {
++ (NSMutableArray<NSString *> *)revert:(NSArray<id<MKMID>> *)members {
     NSMutableArray<NSString *> *array = [[NSMutableArray alloc] initWithCapacity:members.count];
     for (id<MKMID> item in members) {
         [array addObject:[item string]];
