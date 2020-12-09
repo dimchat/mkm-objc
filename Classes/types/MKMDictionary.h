@@ -75,4 +75,10 @@ NS_DESIGNATED_INITIALIZER;
 
 @end
 
+@interface NSMutableDictionary (Copy)
+
++ (NSMutableDictionary *)copy:(NSDictionary *)dict circularly:(BOOL)deepCopy;
+
+@end
+
 NS_ASSUME_NONNULL_END

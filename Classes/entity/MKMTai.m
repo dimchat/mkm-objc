@@ -170,7 +170,11 @@
         if (data) {
             NSDictionary *dict = MKMJSONDecode(data);
             NSAssert(dict, @"profile data error: %@", data);
-            _properties = [dict mutableCopy];
+            if ([dict isKindOfClass:[NSMutableDictionary class]]) {
+                _properties = (NSMutableDictionary *)dict;
+            } else {
+                _properties = [dict mutableCopy];
+            }
         } else {
             _properties = [[NSMutableDictionary alloc] init];
         }

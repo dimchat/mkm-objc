@@ -75,7 +75,12 @@
 - (NSString *)debugDescription {
     NSString *desc = [super debugDescription];
     NSDictionary *dict = MKMJSONDecode(MKMUTF8Encode(desc));
-    NSMutableDictionary *info = [dict mutableCopy];
+    NSMutableDictionary *info;
+    if ([dict isKindOfClass:[NSMutableDictionary class]]) {
+        info = (NSMutableDictionary *)dict;
+    } else {
+        info = [dict mutableCopy];
+    }
     [info setObject:@(self.members.count) forKey:@"members"];
     return MKMUTF8Decode(MKMJSONEncode(info));
 }

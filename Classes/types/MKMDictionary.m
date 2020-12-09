@@ -126,8 +126,7 @@
 }
 
 - (NSMutableDictionary *)dictionary:(BOOL)deepCopy {
-    // TODO: implement deep copy
-    return [_storeDictionary mutableCopy];
+    return [NSMutableDictionary copy:_storeDictionary circularly:deepCopy];
 }
 
 - (id)objectForKey:(NSString *)aKey {
@@ -144,6 +143,24 @@
     } else {
         [_storeDictionary removeObjectForKey:aKey];
     }
+}
+
+@end
+
+@implementation NSMutableDictionary (Copy)
+
++ (NSMutableDictionary *)copy:(NSDictionary *)dict circularly:(BOOL)deepCopy {
+    //  flag: deepCopy
+    //      If YES, each object in otherDictionary receives a copyWithZone:
+    //      message to create a copy of the object—objects must conform to
+    //      the NSCopying protocol. In a managed memory environment, this is
+    //      instead of the retain message the object would otherwise receive.
+    //      The object copy is then added to the returned dictionary.
+    //
+    //      If NO, then in a managed memory environment each object in
+    //      otherDictionary simply receives a retain message when it is added
+    //      to the returned dictionary.
+    return [[NSMutableDictionary alloc] initWithDictionary:dict copyItems:deepCopy];
 }
 
 @end
