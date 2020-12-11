@@ -102,9 +102,12 @@
 static id<MKMDataParser> s_json = nil;
 
 + (id<MKMDataParser>)parser {
-    if (s_json == nil) {
-        s_json = [[JSON alloc] init];
-    }
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        if (!s_json) {
+            s_json = [[JSON alloc] init];
+        }
+    });
     return s_json;
 }
 
@@ -127,9 +130,12 @@ static id<MKMDataParser> s_json = nil;
 static id<MKMDataParser> s_utf8 = nil;
 
 + (id<MKMDataParser>)parser {
-    if (s_utf8 == nil) {
-        s_utf8 = [[UTF8 alloc] init];
-    }
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        if (!s_utf8) {
+            s_utf8 = [[UTF8 alloc] init];
+        }
+    });
     return s_utf8;
 }
 

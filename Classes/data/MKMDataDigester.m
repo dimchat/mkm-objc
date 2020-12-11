@@ -88,9 +88,12 @@
 static id<MKMDataDigester> s_md5 = nil;
 
 + (id<MKMDataDigester>)digester {
-    if (s_md5 == nil) {
-        s_md5 = [[MD5 alloc] init];
-    }
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        if (!s_md5) {
+            s_md5 = [[MD5 alloc] init];
+        }
+    });
     return s_md5;
 }
 
@@ -123,9 +126,12 @@ static id<MKMDataDigester> s_ripemd160 = nil;
 static id<MKMDataDigester> s_sha1 = nil;
 
 + (id<MKMDataDigester>)digester {
-    if (s_sha1 == nil) {
-        s_sha1 = [[SHA1 alloc] init];
-    }
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        if (!s_sha1) {
+            s_sha1 = [[SHA1 alloc] init];
+        }
+    });
     return s_sha1;
 }
 
@@ -144,9 +150,12 @@ static id<MKMDataDigester> s_sha1 = nil;
 static id<MKMDataDigester> s_sha256 = nil;
 
 + (id<MKMDataDigester>)digester {
-    if (s_sha256 == nil) {
-        s_sha256 = [[SHA256 alloc] init];
-    }
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        if (!s_sha256) {
+            s_sha256 = [[SHA256 alloc] init];
+        }
+    });
     return s_sha256;
 }
 

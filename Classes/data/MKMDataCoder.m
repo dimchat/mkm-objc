@@ -133,9 +133,12 @@ static inline char hex_char(char ch) {
 static id<MKMDataCoder> s_hex = nil;
 
 + (id<MKMDataCoder>)coder {
-    if (s_hex == nil) {
-        s_hex = [[Hex alloc] init];
-    }
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        if (!s_hex) {
+            s_hex = [[Hex alloc] init];
+        }
+    });
     return s_hex;
 }
 
@@ -176,9 +179,12 @@ static id<MKMDataCoder> s_base58 = nil;
 static id<MKMDataCoder> s_base64 = nil;
 
 + (id<MKMDataCoder>)coder {
-    if (s_base64 == nil) {
-        s_base64 = [[Base64 alloc] init];
-    }
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        if (!s_base64) {
+            s_base64 = [[Base64 alloc] init];
+        }
+    });
     return s_base64;
 }
 

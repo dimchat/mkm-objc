@@ -188,7 +188,7 @@
 }
 
 - (BOOL)matchID:(id<MKMID>)ID {
-    NSAssert(false, @"override me!");
+    NSAssert(false, @"implement me!");
     return NO;
 }
 

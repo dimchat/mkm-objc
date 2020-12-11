@@ -163,7 +163,7 @@
         }
         list = mArray;
     } else {
-        list = [list copy];
+        list = [list mutableCopy];
     }
     return list;
 }
