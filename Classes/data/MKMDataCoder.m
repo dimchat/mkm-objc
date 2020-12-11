@@ -37,75 +37,6 @@
 
 #import "MKMDataCoder.h"
 
-@interface Hex : NSObject <MKMDataCoder>
-
-@end
-
-static inline char hex_char(char ch) {
-    if (ch >= '0' && ch <= '9') {
-        return ch - '0';
-    }
-    if (ch >= 'a' && ch <= 'f') {
-        return ch - 'a' + 10;
-    }
-    if (ch >= 'A' && ch <= 'F') {
-        return ch - 'A' + 10;
-    }
-    return 0;
-}
-
-@implementation Hex
-
-- (nullable NSString *)encode:(NSData *)data {
-    NSMutableString *output = nil;
-    
-    const unsigned char *bytes = (const unsigned char *)[data bytes];
-    NSUInteger len = [data length];
-    output = [[NSMutableString alloc] initWithCapacity:(len*2)];
-    for (int i = 0; i < len; ++i) {
-        [output appendFormat:@"%02x", bytes[i]];
-    }
-    
-    return output;
-}
-
-- (nullable NSData *)decode:(NSString *)string {
-    NSMutableData *output = nil;
-    
-    NSString *str = string;
-    // 1. remove ' ', ':', '-', '\n'
-    str = [str stringByReplacingOccurrencesOfString:@" " withString:@""];
-    str = [str stringByReplacingOccurrencesOfString:@":" withString:@""];
-    str = [str stringByReplacingOccurrencesOfString:@"-" withString:@""];
-    str = [str stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-    
-    // 2. skip '0x' prefix
-    char ch0, ch1;
-    NSUInteger pos = 0;
-    NSUInteger len = [string length];
-    if (len > 2) {
-        ch0 = [str characterAtIndex:0];
-        ch1 = [str characterAtIndex:1];
-        if (ch0 == '0' && (ch1 == 'x' || ch1 == 'X')) {
-            pos = 2;
-        }
-    }
-    
-    // 3. decode bytes
-    output = [[NSMutableData alloc] initWithCapacity:(len/2)];
-    unsigned char byte;
-    for (; (pos + 1) < len; pos += 2) {
-        ch0 = [str characterAtIndex:pos];
-        ch1 = [str characterAtIndex:(pos + 1)];
-        byte = hex_char(ch0) * 16 + hex_char(ch1);
-        [output appendBytes:&byte length:1];
-    }
-    
-    return output;
-}
-
-@end
-
 @interface Base64 : NSObject <MKMDataCoder>
 
 @end
@@ -132,26 +63,16 @@ static inline char hex_char(char ch) {
 
 static id<MKMDataCoder> s_hex = nil;
 
-+ (id<MKMDataCoder>)coder {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        if (!s_hex) {
-            s_hex = [[Hex alloc] init];
-        }
-    });
-    return s_hex;
-}
-
 + (void)setCoder:(id<MKMDataCoder>)coder {
     s_hex = coder;
 }
 
 + (nullable NSString *)encode:(NSData *)data {
-    return [[self coder] encode:data];
+    return [s_hex encode:data];
 }
 
 + (nullable NSData *)decode:(NSString *)string {
-    return [[self coder] decode:string];
+    return [s_hex decode:string];
 }
 
 @end
