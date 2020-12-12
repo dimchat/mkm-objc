@@ -65,8 +65,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-#define MKMPrivateKeyWithAlgorithm(name) [MKMPrivateKey generate:(name)]
-#define MKMPrivateKeyFromDictionary(key) [MKMPrivateKey parse:(key)]
+#define MKMPrivateKeysEqual(key1, key2)                                        \
+            [MKMPrivateKey privateKey:(key1) equals:(key2)]                    \
+                                     /* EOF 'MKMPrivateKeysEqual(key1, key2)' */
+
+#define MKMPrivateKeyWithAlgorithm(name)                                       \
+            [MKMPrivateKey generate:(name)]                                    \
+                                    /* EOF 'MKMPrivateKeyWithAlgorithm(name)' */
+
+#define MKMPrivateKeyFromDictionary(key)                                       \
+            [MKMPrivateKey parse:(key)]                                        \
+                                    /* EOF 'MKMPrivateKeyFromDictionary(key)' */
 
 #pragma mark - Creation
 

@@ -61,8 +61,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-#define MKMSymmetricKeyWithAlgorithm(name) [MKMSymmetricKey generate:(name)]
-#define MKMSymmetricKeyFromDictionary(key) [MKMSymmetricKey parse:(key)]
+#define MKMSymmetricKeysEqual(key1, key2)                                      \
+            [MKMSymmetricKey symmetricKey:(key1) equals:(key2)]                \
+                                   /* EOF 'MKMSymmetricKeysEqual(key1, key2)' */
+
+#define MKMSymmetricKeyWithAlgorithm(name)                                     \
+            [MKMSymmetricKey generate:(name)]                                  \
+                                  /* EOF 'MKMSymmetricKeyWithAlgorithm(name)' */
+
+#define MKMSymmetricKeyFromDictionary(key)                                     \
+            [MKMSymmetricKey parse:(key)]                                      \
+                                  /* EOF 'MKMSymmetricKeyFromDictionary(key)' */
 
 #pragma mark - Creation
 

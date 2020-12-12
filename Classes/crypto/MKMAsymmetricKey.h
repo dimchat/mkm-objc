@@ -83,4 +83,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+#define MKMAsymmetricKeysMatched(SK, PK)                                       \
+            [MKMAsymmetricKey asymmetricKey:(SK) matches:(PK)]                 \
+                                    /* EOF 'MKMAsymmetricKeysMatched(SK, PK)' */
+
 NS_ASSUME_NONNULL_END

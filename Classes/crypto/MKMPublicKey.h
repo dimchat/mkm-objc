@@ -66,7 +66,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-#define MKMPublicKeyFromDictionary(key) [MKMPublicKey parse:(key)]
+#define MKMPublicKeyFromDictionary(key)                                        \
+            [MKMPublicKey parse:(key)]                                         \
+                                     /* EOF 'MKMPublicKeyFromDictionary(key)' */
 
 #pragma mark - Creation
 
