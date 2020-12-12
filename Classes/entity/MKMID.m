@@ -78,10 +78,8 @@ static inline NSString *concat(NSString *name, id<MKMAddress> address, NSString 
 }
 
 - (instancetype)initWithString:(NSString *)aString {
-    NSAssert(false, @"DON'T call me!");
-    NSString *string = nil;
     id<MKMAddress> address = nil;
-    return [self initWithString:string name:nil address:address terminal:nil];
+    return [self initWithString:aString name:nil address:address terminal:nil];
 }
 
 /* designated initializer */
