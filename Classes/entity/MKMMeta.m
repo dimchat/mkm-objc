@@ -108,7 +108,7 @@
     return self;
 }
 
-- (id)copyWithZone:(NSZone *)zone {
+- (id)copyWithZone:(nullable NSZone *)zone {
     MKMMeta *meta = [super copyWithZone:zone];
     if (meta) {
         meta.type = _type;

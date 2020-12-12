@@ -70,7 +70,7 @@
     return self;
 }
 
-- (id)copyWithZone:(NSZone *)zone {
+- (id)copyWithZone:(nullable NSZone *)zone {
     id string = [[self class] allocWithZone:zone];
     string = [string initWithString:_storeString];
     return string;

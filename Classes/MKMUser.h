@@ -136,7 +136,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param user - user ID
  * @return public keys
  */
-- (NSArray<id<MKMVerifyKey>> *)publicKeysForVerification:(id<MKMID>)user;
+- (nullable NSArray<id<MKMVerifyKey>> *)publicKeysForVerification:(id<MKMID>)user;
 
 /**
  *  Get user's private keys for decryption

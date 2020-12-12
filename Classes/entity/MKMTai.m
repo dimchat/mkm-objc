@@ -124,7 +124,7 @@
     return self;
 }
 
-- (id)copyWithZone:(NSZone *)zone {
+- (id)copyWithZone:(nullable NSZone *)zone {
     MKMDocument *profile = [super copyWithZone:zone];
     if (profile) {
         profile.ID = _ID;

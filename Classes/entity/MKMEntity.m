@@ -60,7 +60,7 @@
     return self;
 }
 
-- (id)copyWithZone:(NSZone *)zone {
+- (id)copyWithZone:(nullable NSZone *)zone {
     MKMEntity *entity = [[self class] allocWithZone:zone];
     entity = [entity initWithID:_ID];
     if (entity) {
@@ -103,7 +103,7 @@
 
 - (nullable __kindof id<MKMDocument>)documentWithType:(nullable NSString *)type {
     NSAssert(_dataSource, @"entity data source not set yet");
-    return [_dataSource documentForID:_ID withType:type];
+    return [_dataSource documentForID:_ID type:type];
 }
 
 @end

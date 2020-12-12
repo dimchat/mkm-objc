@@ -88,7 +88,7 @@
     return [self initWithDictionary:dict];
 }
 
-- (id)copyWithZone:(NSZone *)zone {
+- (id)copyWithZone:(nullable NSZone *)zone {
     id dict = [[self class] allocWithZone:zone];
     dict = [dict initWithDictionary:_storeDictionary];
     return dict;

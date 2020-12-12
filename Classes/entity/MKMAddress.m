@@ -77,7 +77,7 @@
     return self;
 }
 
-- (id)copyWithZone:(NSZone *)zone {
+- (id)copyWithZone:(nullable NSZone *)zone {
     MKMAddress *address = [super copyWithZone:zone];
     if (address) {
         address.network = _network;

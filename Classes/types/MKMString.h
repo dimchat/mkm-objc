@@ -39,7 +39,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol MKMString <NSObject>
+@protocol MKMString <NSObject, NSCopying>
 
 @property (readonly, strong, nonatomic) NSString *string;
 

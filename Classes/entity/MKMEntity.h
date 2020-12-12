@@ -87,7 +87,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @return profile object
  */
 - (nullable __kindof id<MKMDocument>)documentForID:(id<MKMID>)ID
-                                          withType:(nullable NSString *)type;
+                                              type:(nullable NSString *)type;
 
 @end
 

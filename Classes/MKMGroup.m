@@ -64,7 +64,7 @@
     return self;
 }
 
-- (id)copyWithZone:(NSZone *)zone {
+- (id)copyWithZone:(nullable NSZone *)zone {
     MKMGroup *group = [super copyWithZone:zone];
     if (group) {
         group.founder = _founder;

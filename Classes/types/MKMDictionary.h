@@ -39,7 +39,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol MKMDictionary <NSObject>
+@protocol MKMDictionary <NSObject, NSCopying>
 
 /**
  * Get inner dictionary

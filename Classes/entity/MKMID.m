@@ -121,7 +121,7 @@ static inline NSString *concat(NSString *name, id<MKMAddress> address, NSString 
                        terminal:nil];
 }
 
-- (id)copyWithZone:(NSZone *)zone {
+- (id)copyWithZone:(nullable NSZone *)zone {
     MKMID *identifier = [super copyWithZone:zone];
     if (identifier) {
         identifier.name = _name;
