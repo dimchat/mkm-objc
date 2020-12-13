@@ -64,9 +64,7 @@
 }
 
 - (instancetype)initWithString:(NSString *)aString {
-    NSAssert(false, @"DON'T call me!");
-    NSString *string = nil;
-    return [self initWithString:string network:0];
+    return [self initWithString:aString network:0];
 }
 
 /* designated initializer */
