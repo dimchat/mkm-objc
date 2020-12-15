@@ -140,6 +140,24 @@ typedef UInt8 MKMMetaType;
 @property (readonly, nonatomic, getter=isValid) BOOL valid;
 
 /**
+ *  Generate address
+ *
+ * @param type - ID.type
+ * @return Address
+ */
+- (nullable __kindof id<MKMAddress>)generateAddress:(MKMNetworkType)type;
+
+/**
+ *  Generate ID with terminal
+ *
+ * @param type - ID.type
+ * @param terminal - ID.terminal
+ * @return ID
+ */
+- (nullable id<MKMID>)generateID:(MKMNetworkType)type
+                        terminal:(nullable NSString *)terminal;
+
+/**
  *  Check whether meta match with entity ID
  *  (must call this when received a new meta from network)
  *

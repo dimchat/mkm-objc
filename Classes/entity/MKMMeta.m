@@ -187,9 +187,34 @@
     return _status == 1;
 }
 
-- (BOOL)matchID:(id<MKMID>)ID {
+- (nullable __kindof id<MKMAddress>)generateAddress:(MKMNetworkType)type {
     NSAssert(false, @"implement me!");
-    return NO;
+    return nil;
+}
+
+- (nullable id<MKMID>)generateID:(MKMNetworkType)type
+                        terminal:(nullable NSString *)terminal {
+    id<MKMAddress> address = [self generateAddress:type];
+    if (!address) {
+        NSAssert(false, @"failed to generate address with type: %d", type);
+        return nil;
+    }
+    return [[MKMID alloc] initWithName:self.seed address:address terminal:terminal];
+}
+
+- (BOOL)matchID:(id<MKMID>)ID {
+    // check ID.name
+    NSString *seed = self.seed;
+    if (seed.length == 0) {
+        if (ID.name.length > 0) {
+            return NO;
+        }
+    } else if (![seed isEqualToString:ID.name]) {
+        return NO;
+    }
+    // check ID.address
+    id<MKMAddress> address = [self generateAddress:ID.type];
+    return [ID.address isEqual:address];
 }
 
 - (BOOL)matchPublicKey:(id<MKMVerifyKey>)PK {
