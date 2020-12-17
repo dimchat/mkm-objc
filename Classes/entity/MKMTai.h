@@ -135,7 +135,6 @@ NS_ASSUME_NONNULL_BEGIN
 //
 //  Document types
 //
-#define MKMDocument_Any      @""
 #define MKMDocument_Visa     @"visa"      // for login/communication
 #define MKMDocument_Profile  @"profile"   // for user info
 #define MKMDocument_Bulletin @"bulletin"  // for group info
@@ -155,6 +154,10 @@ NS_DESIGNATED_INITIALIZER;
 // create a new empty profile with entity ID & document type
 - (instancetype)initWithID:(id<MKMID>)ID type:(NSString *)type
 NS_DESIGNATED_INITIALIZER;
+
++ (NSString *)type:(NSDictionary *)doc;
+
++ (id<MKMID>)ID:(NSDictionary *)doc;
 
 @end
 
@@ -177,22 +180,40 @@ NS_DESIGNATED_INITIALIZER;
 
 @protocol MKMDocumentFactory <NSObject>
 
+/**
+ *  Create document with data & signature loaded from local storage
+ *
+ * @param ID - entity ID
+ * @param data - document data
+ * @param CT - document signature
+ * @return Document
+ */
 - (__kindof id<MKMDocument>)createDocument:(id<MKMID>)ID
-                                      type:(NSString *)type
                                       data:(NSData *)data
                                  signature:(NSData *)CT;
 
-// create a new empty profile with entity ID
-- (__kindof id<MKMDocument>)createDocument:(id<MKMID>)ID
-                                      type:(NSString *)type;
+/**
+ *  Create a new empty document with entity ID
+ *
+ * @param ID - entity ID
+ * @return Document
+ */
+- (__kindof id<MKMDocument>)createDocument:(id<MKMID>)ID;
 
+/**
+ *  Parse map object to entity document
+ *
+ * @param doc - info
+ * @return Document
+ */
 - (nullable __kindof id<MKMDocument>)parseDocument:(NSDictionary *)doc;
 
 @end
 
 @interface MKMDocument (Creation)
 
-+ (void)setFactory:(id<MKMDocumentFactory>)factory;
++ (id<MKMDocumentFactory>)factoryForType:(NSString *)type;
++ (void)setFactory:(id<MKMDocumentFactory>)factory forType:(NSString *)type;
 
 + (__kindof id<MKMDocument>)create:(id<MKMID>)ID
                               type:(NSString *)type

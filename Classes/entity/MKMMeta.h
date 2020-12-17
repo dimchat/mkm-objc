@@ -145,7 +145,7 @@ typedef UInt8 MKMMetaType;
  * @param type - ID.type
  * @return Address
  */
-- (nullable __kindof id<MKMAddress>)generateAddress:(MKMNetworkType)type;
+- (nullable id<MKMAddress>)generateAddress:(MKMNetworkType)type;
 
 /**
  *  Generate ID with terminal
@@ -177,6 +177,14 @@ typedef UInt8 MKMMetaType;
 @end
 
 @interface MKMMeta : MKMDictionary <MKMMeta>
+
++ (MKMMetaType)type:(NSDictionary *)meta;
+
++ (id<MKMVerifyKey>)key:(NSDictionary *)meta;
+
++ (nullable NSString *)seed:(NSDictionary *)meta;
+
++ (nullable NSData *)fingerprint:(NSDictionary *)meta;
 
 /**
  *  Create meta with dictionary
@@ -214,33 +222,53 @@ NS_DESIGNATED_INITIALIZER;
 
 @protocol MKMMetaFactory <NSObject>
 
-- (__kindof id<MKMMeta>)createMetaWithType:(MKMMetaType)version
-                                       key:(id<MKMPublicKey>)PK
-                                      seed:(nullable NSString *)name
-                               fingerprint:(nullable NSData *)CT;
+/**
+ *  Create meta
+ *
+ * @param PK - public key
+ * @param name - ID.name
+ * @param CT - sKey.sign(seed)
+ * @return Meta
+ */
+- (id<MKMMeta>)createMetaWithPublicKey:(id<MKMPublicKey>)PK
+                                  seed:(nullable NSString *)name
+                           fingerprint:(nullable NSData *)CT;
 
-- (__kindof id<MKMMeta>)generateMetaWithType:(MKMMetaType)version
-                                  privateKey:(id<MKMPrivateKey>)SK
-                                        seed:(nullable NSString *)name;
+/**
+ *  Generate meta
+ *
+ * @param SK - private key
+ * @param name - ID.name
+ * @return Meta
+ */
+- (id<MKMMeta>)generateMetaWithPrivateKey:(id<MKMPrivateKey>)SK
+                                     seed:(nullable NSString *)name;
 
-- (nullable __kindof id<MKMMeta>)parseMeta:(NSDictionary *)meta;
+/**
+ *  Parse map object to meta
+ *
+ * @param meta - meta info
+ * @return Meta
+ */
+- (nullable id<MKMMeta>)parseMeta:(NSDictionary *)meta;
 
 @end
 
 @interface MKMMeta (Creation)
 
-+ (void)setFactory:(id<MKMMetaFactory>)factory;
++ (id<MKMMetaFactory>)factoryForType:(MKMMetaType)type;
++ (void)setFactory:(id<MKMMetaFactory>)factory forType:(MKMMetaType)type;
 
-+ (__kindof id<MKMMeta>)createWithType:(MKMMetaType)version
-                                   key:(id<MKMPublicKey>)PK
-                                  seed:(nullable NSString *)name
-                           fingerprint:(nullable NSData *)CT;
++ (id<MKMMeta>)createWithType:(MKMMetaType)version
+                          key:(id<MKMPublicKey>)PK
+                         seed:(nullable NSString *)name
+                  fingerprint:(nullable NSData *)CT;
 
-+ (__kindof id<MKMMeta>)generateWithType:(MKMMetaType)version
-                              privateKey:(id<MKMPrivateKey>)SK
-                                    seed:(nullable NSString *)name;
++ (id<MKMMeta>)generateWithType:(MKMMetaType)version
+                     privateKey:(id<MKMPrivateKey>)SK
+                           seed:(nullable NSString *)name;
 
-+ (nullable __kindof id<MKMMeta>)parse:(NSDictionary *)meta;
++ (nullable id<MKMMeta>)parse:(NSDictionary *)meta;
 
 @end
 

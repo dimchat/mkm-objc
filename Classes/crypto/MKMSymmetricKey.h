@@ -77,19 +77,31 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol MKMSymmetricKeyFactory <NSObject>
 
-- (nullable __kindof id<MKMSymmetricKey>)generateSymmetricKey:(NSString *)algorithm;
+/**
+ *  Generate key
+ *
+ * @return SymmetricKey
+ */
+- (nullable id<MKMSymmetricKey>)generateSymmetricKey;
 
-- (nullable __kindof id<MKMSymmetricKey>)parseSymmetricKey:(NSDictionary *)key;
+/**
+ *  Parse map object to key
+ *
+ * @param key - key info
+ * @return SymmetricKey
+ */
+- (nullable id<MKMSymmetricKey>)parseSymmetricKey:(NSDictionary *)key;
 
 @end
 
 @interface MKMSymmetricKey (Creation)
 
-+ (void)setFactory:(id<MKMSymmetricKeyFactory>)factory;
++ (nullable id<MKMSymmetricKeyFactory>)factoryForAlgorithm:(NSString *)algorithm;
++ (void)setFactory:(id<MKMSymmetricKeyFactory>)factory forAlgorithm:(NSString *)algorithm;
 
-+ (nullable __kindof id<MKMSymmetricKey>)generate:(NSString *)algorithm;
++ (nullable id<MKMSymmetricKey>)generate:(NSString *)algorithm;
 
-+ (nullable __kindof id<MKMSymmetricKey>)parse:(NSDictionary *)key;
++ (nullable id<MKMSymmetricKey>)parse:(NSDictionary *)key;
 
 @end
 

@@ -60,17 +60,33 @@
 
 @implementation MKMPrivateKey (Creation)
 
-static id<MKMPrivateKeyFactory> s_factory = nil;
+static NSMutableDictionary<NSString *, id<MKMPrivateKeyFactory>> *s_factories = nil;
 
-+ (void)setFactory:(id<MKMPrivateKeyFactory>)factory {
-    s_factory = factory;
+static NSMutableDictionary<NSString *, id<MKMPrivateKeyFactory>> *factories(void) {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        if (!s_factories) {
+            s_factories = [[NSMutableDictionary alloc] init];
+        }
+    });
+    return s_factories;
 }
 
-+ (nullable __kindof id<MKMPrivateKey>)generate:(NSString *)algorithm {
-    return [s_factory generatePrivateKey:algorithm];
++ (nullable id<MKMPrivateKeyFactory>)factoryForAlgorithm:(NSString *)algorithm {
+    return [factories() objectForKey:algorithm];
 }
 
-+ (nullable __kindof id<MKMPrivateKey>)parse:(NSDictionary *)key {
++ (void)setFactory:(id<MKMPrivateKeyFactory>)factory forAlgorithm:(NSString *)algorithm {
+    [factories() setObject:factory forKey:algorithm];
+}
+
++ (nullable id<MKMPrivateKey>)generate:(NSString *)algorithm {
+    id<MKMPrivateKeyFactory> factory = [self factoryForAlgorithm:algorithm];
+    NSAssert(factory, @"key algorithm not found: %@", algorithm);
+    return [factory generatePrivateKey];
+}
+
++ (nullable id<MKMPrivateKey>)parse:(NSDictionary *)key {
     if (key.count == 0) {
         return nil;
     } else if ([key conformsToProtocol:@protocol(MKMPrivateKey)]) {
@@ -78,7 +94,14 @@ static id<MKMPrivateKeyFactory> s_factory = nil;
     } else if ([key conformsToProtocol:@protocol(MKMDictionary)]) {
         key = [(id<MKMDictionary>)key dictionary];
     }
-    return [s_factory parsePrivateKey:key];
+    NSString *algorithm = [MKMCryptographyKey algorithm:key];
+    NSAssert(algorithm, @"failed to get algorithm name for key: %@", key);
+    id<MKMPrivateKeyFactory> factory = [self factoryForAlgorithm:algorithm];
+    if (!factory) {
+        factory = [self factoryForAlgorithm:@"*"]; // unknown
+        NSAssert(factory, @"cannot parse key: %@", key);
+    }
+    return [factory parsePrivateKey:key];
 }
 
 @end

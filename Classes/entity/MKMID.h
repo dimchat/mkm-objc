@@ -122,14 +122,35 @@ NS_DESIGNATED_INITIALIZER;
 
 @end
 
+@interface MKMID (Array)
+
++ (NSMutableArray<id<MKMID>> *)convert:(NSArray<NSString *> *)members;
++ (NSMutableArray<NSString *> *)revert:(NSArray<id<MKMID>> *)members;
+
+@end
+
 #pragma mark - Creation
 
 @protocol MKMIDFactory <NSObject>
 
+/**
+ *  Create ID
+ *
+ * @param name     - ID.name
+ * @param address  - ID.address
+ * @param terminal - ID.terminal
+ * @return ID
+ */
 - (id<MKMID>)createID:(nullable NSString *)name
               address:(id<MKMAddress>)address
              terminal:(nullable NSString *)terminal;
 
+/**
+ *  Parse string object to ID
+ *
+ * @param identifier - ID string
+ * @return ID
+ */
 - (nullable id<MKMID>)parseID:(NSString *)identifier;
 
 @end
@@ -140,6 +161,7 @@ NS_DESIGNATED_INITIALIZER;
 
 @interface MKMID (Creation)
 
++ (id<MKMIDFactory>)factory;
 + (void)setFactory:(id<MKMIDFactory>)factory;
 
 + (id<MKMID>)create:(nullable NSString *)name
@@ -147,9 +169,6 @@ NS_DESIGNATED_INITIALIZER;
            terminal:(nullable NSString *)terminal;
 
 + (nullable id<MKMID>)parse:(NSString *)identifier;
-
-+ (NSMutableArray<id<MKMID>> *)convert:(NSArray<NSString *> *)members;
-+ (NSMutableArray<NSString *> *)revert:(NSArray<id<MKMID>> *)members;
 
 @end
 

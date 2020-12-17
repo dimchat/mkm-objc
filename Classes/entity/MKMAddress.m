@@ -172,6 +172,10 @@ static id<MKMAddressFactory> s_factory = nil;
     s_factory = factory;
 }
 
++ (id<MKMAddressFactory>)factory {
+    return s_factory;
+}
+
 + (nullable __kindof id<MKMAddress>)parse:(NSString *)address {
     if (address.length == 0) {
         return nil;
@@ -179,9 +183,9 @@ static id<MKMAddressFactory> s_factory = nil;
         return (id<MKMAddress>)address;
     } else if ([address isKindOfClass:[MKMString class]]) {
         MKMString *str = (MKMString *)address;
-        return [s_factory parseAddress:[str string]];
+        return [[self factory] parseAddress:[str string]];
     } else {
-        return [s_factory parseAddress:address];
+        return [[self factory] parseAddress:address];
     }
 }
 

@@ -39,8 +39,12 @@
 
 @implementation MKMCryptographyKey
 
++ (NSString *)algorithm:(NSDictionary *)key {
+    return [key objectForKey:@"algorithm"];
+}
+
 - (NSString *)algorithm {
-    return [self objectForKey:@"algorithm"];
+    return [MKMCryptographyKey algorithm:self.dictionary];
 }
 
 - (NSData *)data {

@@ -222,6 +222,30 @@ static MKMID *s_everyone = nil;
 
 @end
 
+@implementation MKMID (Array)
+
++ (NSMutableArray<id<MKMID>> *)convert:(NSArray<NSString *> *)members {
+    NSMutableArray<id<MKMID>> *array = [[NSMutableArray alloc] initWithCapacity:members.count];
+    id<MKMID> ID;
+    for (NSString *item in members) {
+        ID = [self parse:item];
+        if (ID) {
+            [array addObject:ID];
+        }
+    }
+    return array;
+}
+
++ (NSMutableArray<NSString *> *)revert:(NSArray<id<MKMID>> *)members {
+    NSMutableArray<NSString *> *array = [[NSMutableArray alloc] initWithCapacity:members.count];
+    for (id<MKMID> item in members) {
+        [array addObject:[item string]];
+    }
+    return array;
+}
+
+@end
+
 #pragma mark - Creation
 
 @interface MKMIDFactory () {
@@ -312,9 +336,12 @@ static MKMID *s_everyone = nil;
 static id<MKMIDFactory> s_factory = nil;
 
 + (id<MKMIDFactory>)factory {
-    if (s_factory == nil) {
-        s_factory = [[MKMIDFactory alloc] init];
-    }
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        if (s_factory == nil) {
+            s_factory = [[MKMIDFactory alloc] init];
+        }
+    });
     return s_factory;
 }
 
@@ -339,26 +366,6 @@ static id<MKMIDFactory> s_factory = nil;
     } else {
         return [[self factory] parseID:identifier];
     }
-}
-
-+ (NSMutableArray<id<MKMID>> *)convert:(NSArray<NSString *> *)members {
-    NSMutableArray<id<MKMID>> *array = [[NSMutableArray alloc] initWithCapacity:members.count];
-    id<MKMID> ID;
-    for (NSString *item in members) {
-        ID = [self parse:item];
-        if (ID) {
-            [array addObject:ID];
-        }
-    }
-    return array;
-}
-
-+ (NSMutableArray<NSString *> *)revert:(NSArray<id<MKMID>> *)members {
-    NSMutableArray<NSString *> *array = [[NSMutableArray alloc] initWithCapacity:members.count];
-    for (id<MKMID> item in members) {
-        [array addObject:[item string]];
-    }
-    return array;
 }
 
 @end

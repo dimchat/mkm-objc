@@ -176,6 +176,12 @@ NS_DESIGNATED_INITIALIZER;
 
 @protocol MKMAddressFactory <NSObject>
 
+/**
+ *  Parse string object to address
+ *
+ * @param address - address string
+ * @return Address
+ */
 - (nullable __kindof id<MKMAddress>)parseAddress:(NSString *)address;
 
 @end
@@ -189,6 +195,7 @@ NS_DESIGNATED_INITIALIZER;
 
 @interface MKMAddress (Creation)
 
++ (id<MKMAddressFactory>)factory;
 + (void)setFactory:(id<MKMAddressFactory>)factory;
 
 + (nullable __kindof id<MKMAddress>)parse:(NSString *)address;

@@ -59,6 +59,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MKMCryptographyKey : MKMDictionary <MKMCryptographyKey>
 
+/**
+ *  Get key algorithm name
+ *
+ * @return algorithm name
+ */
++ (NSString *)algorithm:(NSDictionary *)key;
+
 @end
 
 @protocol MKMEncryptKey <MKMCryptographyKey>

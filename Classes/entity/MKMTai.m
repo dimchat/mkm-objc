@@ -255,13 +255,21 @@
     return _signature;
 }
 
++ (NSString *)type:(NSDictionary *)doc {
+    return [doc objectForKey:@"type"];
+}
+
 - (NSString *)type {
-    return [self objectForKey:@"type"];
+    return [MKMDocument type:self.dictionary];
+}
+
++ (id<MKMID>)ID:(NSDictionary *)doc {
+    return MKMIDFromString([doc objectForKey:@"ID"]);
 }
 
 - (id<MKMID>)ID {
     if (!_ID) {
-        _ID = MKMIDFromString([self objectForKey:@"ID"]);
+        _ID = [MKMDocument ID:self.dictionary];
     }
     return _ID;
 }
@@ -282,19 +290,36 @@
 
 @implementation MKMDocument (Creation)
 
-static id<MKMDocumentFactory> s_factory = nil;
+static NSMutableDictionary<NSString *, id<MKMDocumentFactory>> *s_factories = nil;
 
-+ (void)setFactory:(id<MKMDocumentFactory>)factory {
-    s_factory = factory;
+static NSMutableDictionary<NSString *, id<MKMDocumentFactory>> *factories(void) {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        if (!s_factories) {
+            s_factories = [[NSMutableDictionary alloc] init];
+        }
+    });
+    return s_factories;
+}
+
++ (id<MKMDocumentFactory>)factoryForType:(NSString *)type {
+    return [factories() objectForKey:type];
+}
+
++ (void)setFactory:(id<MKMDocumentFactory>)factory forType:(NSString *)type {
+    [factories() setObject:factory forKey:type];
 }
 
 + (__kindof id<MKMDocument>)create:(id<MKMID>)ID type:(NSString *)type data:(NSData *)data signature:(NSData *)CT {
-    return [s_factory createDocument:ID type:type data:data signature:CT];
+    id<MKMDocumentFactory> factory = [self factoryForType:type];
+    NSAssert(factory, @"document type not found: %@", type);
+    return [factory createDocument:ID data:data signature:CT];
 }
 
-// create a new empty profile with entity ID
 + (__kindof id<MKMDocument>)create:(id<MKMID>)ID type:(NSString *)type {
-    return [s_factory createDocument:ID type:type];
+    id<MKMDocumentFactory> factory = [self factoryForType:type];
+    NSAssert(factory, @"document type not found: %@", type);
+    return [factory createDocument:ID];
 }
 
 + (nullable __kindof id<MKMDocument>)parse:(NSDictionary *)doc {
@@ -305,7 +330,13 @@ static id<MKMDocumentFactory> s_factory = nil;
     } else if ([doc conformsToProtocol:@protocol(MKMDictionary)]) {
         doc = [(id<MKMDictionary>)doc dictionary];
     }
-    return [s_factory parseDocument:doc];
+    NSString *type = [MKMDocument type:doc];
+    id<MKMDocumentFactory> factory = [self factoryForType:type];
+    if (!factory) {
+        factory = [self factoryForType:@"*"]; // unknown
+        NSAssert(factory, @"cannot parse document: %@", doc);
+    }
+    return [factory parseDocument:doc];
 }
 
 @end

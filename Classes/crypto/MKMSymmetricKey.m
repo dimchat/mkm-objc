@@ -63,17 +63,33 @@ static NSString *promise = @"Moky loves May Lee forever!";
 
 @implementation MKMSymmetricKey (Creation)
 
-static id<MKMSymmetricKeyFactory> s_factory = nil;
+static NSMutableDictionary<NSString *, id<MKMSymmetricKeyFactory>> *s_factories = nil;
 
-+ (void)setFactory:(id<MKMSymmetricKeyFactory>)factory {
-    s_factory = factory;
+static NSMutableDictionary<NSString *, id<MKMSymmetricKeyFactory>> *factories(void) {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        if (!s_factories) {
+            s_factories = [[NSMutableDictionary alloc] init];
+        }
+    });
+    return s_factories;
 }
 
-+ (nullable __kindof id<MKMSymmetricKey>)generate:(NSString *)algorithm {
-    return [s_factory generateSymmetricKey:algorithm];
++ (nullable id<MKMSymmetricKeyFactory>)factoryForAlgorithm:(NSString *)algorithm {
+    return [factories() objectForKey:algorithm];
 }
 
-+ (nullable __kindof id<MKMSymmetricKey>)parse:(NSDictionary *)key {
++ (void)setFactory:(id<MKMSymmetricKeyFactory>)factory forAlgorithm:(NSString *)algorithm {
+    [factories() setObject:factory forKey:algorithm];
+}
+
++ (nullable id<MKMSymmetricKey>)generate:(NSString *)algorithm {
+    id<MKMSymmetricKeyFactory> factory = [self factoryForAlgorithm:algorithm];
+    NSAssert(factory, @"key algorithm not found: %@", algorithm);
+    return [factory generateSymmetricKey];
+}
+
++ (nullable id<MKMSymmetricKey>)parse:(NSDictionary *)key {
     if (key.count == 0) {
         return nil;
     } else if ([key conformsToProtocol:@protocol(MKMSymmetricKey)]) {
@@ -81,7 +97,14 @@ static id<MKMSymmetricKeyFactory> s_factory = nil;
     } else if ([key conformsToProtocol:@protocol(MKMDictionary)]) {
         key = [(id<MKMDictionary>)key dictionary];
     }
-    return [s_factory parseSymmetricKey:key];
+    NSString *algorithm = [MKMCryptographyKey algorithm:key];
+    NSAssert(algorithm, @"failed to get algorithm name for key: %@", key);
+    id<MKMSymmetricKeyFactory> factory = [self factoryForAlgorithm:algorithm];
+    if (!factory) {
+        factory = [self factoryForAlgorithm:@"*"]; // unknown
+        NSAssert(factory, @"cannot parse key: %@", key);
+    }
+    return [factory parseSymmetricKey:key];
 }
 
 @end

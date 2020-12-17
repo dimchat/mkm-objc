@@ -74,15 +74,22 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol MKMPublicKeyFactory <NSObject>
 
-- (nullable __kindof id<MKMPublicKey>)parsePublicKey:(NSDictionary *)key;
+/**
+ *  Parse map object to key
+ *
+ * @param key - key info
+ * @return PublicKey
+ */
+- (nullable id<MKMPublicKey>)parsePublicKey:(NSDictionary *)key;
 
 @end
 
 @interface MKMPublicKey (Creation)
 
-+ (void)setFactory:(id<MKMPublicKeyFactory>)factory;
++ (nullable id<MKMPublicKeyFactory>)factoryForAlgorithm:(NSString *)algorithm;
++ (void)setFactory:(id<MKMPublicKeyFactory>)factory forAlgorithm:(NSString *)algorithm;
 
-+ (nullable __kindof id<MKMPublicKey>)parse:(NSDictionary *)key;
++ (nullable id<MKMPublicKey>)parse:(NSDictionary *)key;
 
 @end
 

@@ -39,10 +39,33 @@
 
 @implementation MKMPublicKey
 
-static id<MKMPublicKeyFactory> s_factory = nil;
+- (BOOL)verify:(NSData *)data withSignature:(NSData *)signature {
+    NSAssert(false, @"implement me!");
+    return NO;
+}
 
-+ (void)setFactory:(id<MKMPublicKeyFactory>)factory {
-    s_factory = factory;
+@end
+
+@implementation MKMPublicKey (Creation)
+
+static NSMutableDictionary<NSString *, id<MKMPublicKeyFactory>> *s_factories = nil;
+
+static NSMutableDictionary<NSString *, id<MKMPublicKeyFactory>> *factories(void) {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        if (!s_factories) {
+            s_factories = [[NSMutableDictionary alloc] init];
+        }
+    });
+    return s_factories;
+}
+
++ (nullable id<MKMPublicKeyFactory>)factoryForAlgorithm:(NSString *)algorithm {
+    return [factories() objectForKey:algorithm];
+}
+
++ (void)setFactory:(id<MKMPublicKeyFactory>)factory forAlgorithm:(NSString *)algorithm {
+    [factories() setObject:factory forKey:algorithm];
 }
 
 + (nullable __kindof id<MKMPublicKey>)parse:(NSDictionary *)key {
@@ -53,12 +76,14 @@ static id<MKMPublicKeyFactory> s_factory = nil;
     } else if ([key conformsToProtocol:@protocol(MKMDictionary)]) {
         key = [(id<MKMDictionary>)key dictionary];
     }
-    return [s_factory parsePublicKey:key];
-}
-
-- (BOOL)verify:(NSData *)data withSignature:(NSData *)signature {
-    NSAssert(false, @"implement me!");
-    return NO;
+    NSString *algorithm = [MKMCryptographyKey algorithm:key];
+    NSAssert(algorithm, @"failed to get algorithm name for key: %@", key);
+    id<MKMPublicKeyFactory> factory = [self factoryForAlgorithm:algorithm];
+    if (!factory) {
+        factory = [self factoryForAlgorithm:@"*"]; // unknown
+        NSAssert(factory, @"cannot parse key: %@", key);
+    }
+    return [factory parsePublicKey:key];
 }
 
 @end

@@ -120,41 +120,63 @@
     return meta;
 }
 
-- (MKMNetworkType)type {
++ (MKMMetaType)type:(NSDictionary *)meta {
+    NSNumber *version = [meta objectForKey:@"type"];
+    if (!version) {
+        // compatible with v1.0
+        version = [meta objectForKey:@"version"];
+        NSAssert(version, @"meta type not found: %@", meta);
+    }
+    return [version unsignedCharValue];
+}
+
+- (MKMMetaType)type {
     if (_type == 0) {
-        NSNumber *version = [self objectForKey:@"version"];
-        if (version == nil) {
-            version = [self objectForKey:@"type"];
-        }
-        _type = [version unsignedCharValue];
+        _type = [MKMMeta type:self.dictionary];
     }
     return _type;
 }
 
++ (id<MKMVerifyKey>)key:(NSDictionary *)meta {
+    NSDictionary *key = [meta objectForKey:@"key"];
+    NSAssert([key isKindOfClass:[NSDictionary class]], @"meta key not found: %@", meta);
+    return MKMPublicKeyFromDictionary(key);
+}
+
 - (id<MKMVerifyKey>)key {
     if (!_key) {
-        NSDictionary *key = [self objectForKey:@"key"];
-        _key = MKMPublicKeyFromDictionary(key);
+        _key = [MKMMeta key:self.dictionary];
     }
     return _key;
+}
+
++ (nullable NSString *)seed:(NSDictionary *)meta {
+    return [meta objectForKey:@"seed"];
 }
 
 - (nullable NSString *)seed {
     if (!_seed) {
         if (MKMMeta_HasSeed(self.type)) {
-            _seed = [self objectForKey:@"seed"];
+            _seed = [MKMMeta seed:self.dictionary];
             NSAssert([_seed length] > 0, @"meta.seed should not be empty: %@", self);
         }
     }
     return _seed;
 }
 
++ (nullable NSData *)fingerprint:(NSDictionary *)meta {
+    NSString *base64 = [meta objectForKey:@"fingerprint"];
+    if (base64.length == 0) {
+        return nil;
+    }
+    return MKMBase64Decode(base64);
+}
+
 - (nullable NSData *)fingerprint {
     if (!_fingerprint) {
         if (MKMMeta_HasSeed(self.type)) {
-            NSString *base64 = [self objectForKey:@"fingerprint"];
-            NSAssert([base64 length] > 0, @"meta.fingerprint should not be empty: %@", self);
-            _fingerprint = MKMBase64Decode(base64);
+            _fingerprint = [MKMMeta fingerprint:self.dictionary];
+            NSAssert(_fingerprint.length > 0, @"meta.fingerprint should not be empty: %@", self);
         }
     }
     return _fingerprint;
@@ -187,7 +209,7 @@
     return _status == 1;
 }
 
-- (nullable __kindof id<MKMAddress>)generateAddress:(MKMNetworkType)type {
+- (nullable id<MKMAddress>)generateAddress:(MKMNetworkType)type {
     NSAssert(false, @"implement me!");
     return nil;
 }
@@ -242,26 +264,44 @@
 
 @implementation MKMMeta (Creation)
 
-static id<MKMMetaFactory> s_factory = nil;
+static NSMutableDictionary<NSNumber *, id<MKMMetaFactory>> *s_factories = nil;
 
-+ (void)setFactory:(id<MKMMetaFactory>)factory {
-    s_factory = factory;
+static NSMutableDictionary<NSNumber *, id<MKMMetaFactory>> *factories(void) {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        if (!s_factories) {
+            s_factories = [[NSMutableDictionary alloc] init];
+        }
+    });
+    return s_factories;
 }
 
-+ (__kindof id<MKMMeta>)createWithType:(MKMMetaType)version
-                                   key:(id<MKMPublicKey>)PK
-                                  seed:(nullable NSString *)name
-                           fingerprint:(nullable NSData *)CT {
-    return [s_factory createMetaWithType:version key:PK seed:name fingerprint:CT];
++ (id<MKMMetaFactory>)factoryForType:(MKMMetaType)type {
+    return [factories() objectForKey:@(type)];
 }
 
-+ (__kindof id<MKMMeta>)generateWithType:(MKMMetaType)version
-                              privateKey:(id<MKMPrivateKey>)SK
-                                    seed:(nullable NSString *)name {
-    return [s_factory generateMetaWithType:version privateKey:SK seed:name];
++ (void)setFactory:(id<MKMMetaFactory>)factory forType:(MKMMetaType)type {
+    [factories() setObject:factory forKey:@(type)];
 }
 
-+ (nullable __kindof id<MKMMeta>)parse:(NSDictionary *)meta {
++ (id<MKMMeta>)createWithType:(MKMMetaType)version
+                          key:(id<MKMPublicKey>)PK
+                         seed:(nullable NSString *)name
+                  fingerprint:(nullable NSData *)CT {
+    id<MKMMetaFactory> factory = [self factoryForType:version];
+    NSAssert(factory, @"meta type not found: %d", version);
+    return [factory createMetaWithPublicKey:PK seed:name fingerprint:CT];
+}
+
++ (id<MKMMeta>)generateWithType:(MKMMetaType)version
+                     privateKey:(id<MKMPrivateKey>)SK
+                           seed:(nullable NSString *)name {
+    id<MKMMetaFactory> factory = [self factoryForType:version];
+    NSAssert(factory, @"meta type not found: %d", version);
+    return [factory generateMetaWithPrivateKey:SK seed:name];
+}
+
++ (nullable id<MKMMeta>)parse:(NSDictionary *)meta {
     if (meta.count == 0) {
         return nil;
     } else if ([meta conformsToProtocol:@protocol(MKMMeta)]) {
@@ -269,7 +309,13 @@ static id<MKMMetaFactory> s_factory = nil;
     } else if ([meta conformsToProtocol:@protocol(MKMDictionary)]) {
         meta = [(id<MKMDictionary>)meta dictionary];
     }
-    return [s_factory parseMeta:meta];
+    MKMMetaType type = [self type:meta];
+    id<MKMMetaFactory> factory = [self factoryForType:type];
+    if (!factory) {
+        factory = [self factoryForType:0];  // unknown
+        NSAssert(factory, @"cannot parse meta: %@", meta);
+    }
+    return [factory parseMeta:meta];
 }
 
 @end
