@@ -43,6 +43,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (readonly, strong, nonatomic) NSString *string;
 
+- (BOOL)isEqualIgnoreCase:(NSString *)other;
+
 @end
 
 @interface MKMString : NSString <MKMString>
@@ -58,6 +60,12 @@ NS_DESIGNATED_INITIALIZER;
 
 - (NSUInteger)length;
 - (unichar)characterAtIndex:(NSUInteger)index;
+
+@end
+
+@interface MKMString (Comparison)
+
++ (BOOL)string:(NSString *)str1 equalsIgnoreCase:(NSString *)str2;
 
 @end
 

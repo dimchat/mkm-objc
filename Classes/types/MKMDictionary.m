@@ -99,12 +99,9 @@
         return YES;
     }
     if ([object conformsToProtocol:@protocol(MKMDictionary)]) {
-        return [_storeDictionary isEqualToDictionary:[object dictionary]];
+        object = [object dictionary];
     }
-    if ([object isKindOfClass:[NSDictionary class]]) {
-        return [_storeDictionary isEqualToDictionary:object];
-    }
-    return NO;
+    return [_storeDictionary isEqualToDictionary:object];
 }
 
 - (NSUInteger)count {
@@ -126,7 +123,7 @@
 }
 
 - (NSMutableDictionary *)dictionary:(BOOL)deepCopy {
-    return [NSMutableDictionary copy:_storeDictionary circularly:deepCopy];
+    return [MKMDictionary copy:_storeDictionary circularly:deepCopy];
 }
 
 - (id)objectForKey:(NSString *)aKey {
@@ -147,7 +144,7 @@
 
 @end
 
-@implementation NSMutableDictionary (Copy)
+@implementation MKMDictionary (Copy)
 
 + (NSMutableDictionary *)copy:(NSDictionary *)dict circularly:(BOOL)deepCopy {
     //  flag: deepCopy

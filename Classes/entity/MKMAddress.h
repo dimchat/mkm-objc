@@ -150,17 +150,6 @@ typedef UInt8 MKMNetworkType;
 - (instancetype)initWithString:(NSString *)address network:(MKMNetworkType)type
 NS_DESIGNATED_INITIALIZER;
 
-+ (BOOL)isUser:(id<MKMAddress>)address;
-+ (BOOL)isGroup:(id<MKMAddress>)address;
-
-+ (BOOL)isBroadcast:(id<MKMAddress>)address;
-
-/**
- *  Address for broadcast
- */
-+ (MKMAddress *)anywhere;
-+ (MKMAddress *)everywhere;
-
 @end
 
 #define MKMAnywhere()                  [MKMAddress anywhere]
@@ -171,6 +160,30 @@ NS_DESIGNATED_INITIALIZER;
 #define MKMAddressIsUser(address)      [MKMAddress isUser:(address)]
 #define MKMAddressIsGroup(address)     [MKMAddress isGroup:(address)]
 #define MKMAddressIsBroadcast(address) [MKMAddress isBroadcast:(address)]
+
+@interface MKMAddress (Broadcast)
+
+/**
+ *  Address for broadcast
+ */
++ (MKMAddress *)anywhere;
++ (MKMAddress *)everywhere;
+
+@end
+
+@interface MKMAddress (NetworkType)
+
++ (BOOL)isBroadcast:(id<MKMAddress>)address;
+
++ (BOOL)isUser:(id<MKMAddress>)address;
++ (BOOL)isGroup:(id<MKMAddress>)address;
+
+- (BOOL)isBroadcast;
+
+- (BOOL)isUser;
+- (BOOL)isGroup;
+
+@end
 
 #pragma mark - Creation
 

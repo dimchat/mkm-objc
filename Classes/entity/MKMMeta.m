@@ -209,7 +209,7 @@
     return _status == 1;
 }
 
-- (nullable id<MKMAddress>)generateAddress:(MKMNetworkType)type {
+- (nullable __kindof id<MKMAddress>)generateAddress:(MKMNetworkType)type {
     NSAssert(false, @"implement me!");
     return nil;
 }
@@ -284,24 +284,24 @@ static NSMutableDictionary<NSNumber *, id<MKMMetaFactory>> *factories(void) {
     [factories() setObject:factory forKey:@(type)];
 }
 
-+ (id<MKMMeta>)createWithType:(MKMMetaType)version
-                          key:(id<MKMPublicKey>)PK
-                         seed:(nullable NSString *)name
-                  fingerprint:(nullable NSData *)CT {
++ (__kindof id<MKMMeta>)createWithType:(MKMMetaType)version
+                                   key:(id<MKMPublicKey>)PK
+                                  seed:(nullable NSString *)name
+                           fingerprint:(nullable NSData *)CT {
     id<MKMMetaFactory> factory = [self factoryForType:version];
     NSAssert(factory, @"meta type not found: %d", version);
     return [factory createMetaWithPublicKey:PK seed:name fingerprint:CT];
 }
 
-+ (id<MKMMeta>)generateWithType:(MKMMetaType)version
-                     privateKey:(id<MKMPrivateKey>)SK
-                           seed:(nullable NSString *)name {
++ (__kindof id<MKMMeta>)generateWithType:(MKMMetaType)version
+                              privateKey:(id<MKMPrivateKey>)SK
+                                    seed:(nullable NSString *)name {
     id<MKMMetaFactory> factory = [self factoryForType:version];
     NSAssert(factory, @"meta type not found: %d", version);
     return [factory generateMetaWithPrivateKey:SK seed:name];
 }
 
-+ (nullable id<MKMMeta>)parse:(NSDictionary *)meta {
++ (nullable __kindof id<MKMMeta>)parse:(NSDictionary *)meta {
     if (meta.count == 0) {
         return nil;
     } else if ([meta conformsToProtocol:@protocol(MKMMeta)]) {

@@ -89,83 +89,18 @@
     if (!_founder) {
         NSAssert(self.dataSource, @"group data source not set yet");
         _founder = [self.dataSource founderOfGroup:_ID];
-        if (!_founder && MKMIDIsBroadcast(_ID)) {
-            // founder of broadcast group
-            NSString *founder;
-            NSString *name = [_ID name];
-            NSUInteger len = [name length];
-            if (len == 0 || (len == 8 && [name isEqualToString:@"everyone"])) {
-                // Consensus: the founder of group 'everyone@everywhere'
-                //            'Albert Moky'
-                founder = @"moky@anywhere";
-            } else {
-                // DISCUSS: who should be the founder of group 'xxx@everywhere'?
-                //          'anyone@anywhere', or 'xxx.founder@anywhere'
-                founder = [name stringByAppendingString:@".founder@anywhere"];
-            }
-            _founder = MKMIDFromString(founder);
-        }
     }
     return _founder;
 }
 
 - (id<MKMID>)owner {
     NSAssert(self.dataSource, @"group data source not set yet");
-    id<MKMID> admin = [self.dataSource ownerOfGroup:_ID];
-    if (!admin && MKMIDIsBroadcast(_ID)) {
-        // owner of broadcast group
-        NSString *owner;
-        NSString *name = [_ID name];
-        NSUInteger len = [name length];
-        if (len == 0 || (len == 8 && [name isEqualToString:@"everyone"])) {
-            // Consensus: the owner of group 'everyone@everywhere'
-            //            'anyone@anywhere'
-            owner = @"anyone@anywhere";
-        } else {
-            // DISCUSS: who should be the owner of group 'xxx@everywhere'?
-            //          'anyone@anywhere', or 'xxx.owner@anywhere'
-            owner = [name stringByAppendingString:@".owner@anywhere"];
-        }
-        admin = MKMIDFromString(owner);
-    }
-    return admin;
+    return [self.dataSource ownerOfGroup:_ID];
 }
 
 - (NSArray<id<MKMID>> *)members {
     NSAssert(self.dataSource, @"group data source not set yet");
-    NSArray *list = [self.dataSource membersOfGroup:_ID];
-    // check for broadcast
-    if (!list && MKMIDIsBroadcast(_ID)) {
-        NSString *member;
-        NSString *owner;
-        NSString *name = [_ID name];
-        NSUInteger len = [name length];
-        if (len == 0 || (len == 8 && [name isEqualToString:@"everyone"])) {
-            // Consensus: the member of group 'everyone@everywhere'
-            //            'anyone@anywhere'
-            member = @"anyone@anywhere";
-            owner = @"anyone@anywhere";
-        } else {
-            // DISCUSS: who should be the member of group 'xxx@everywhere'?
-            //          'anyone@anywhere', or 'xxx.member@anywhere'
-            member = [name stringByAppendingString:@".member@anywhere"];
-            owner = [name stringByAppendingString:@".owner@anywhere"];
-        }
-        // add owner first
-        NSMutableArray *mArray = [[NSMutableArray alloc] init];
-        id<MKMID>admin = MKMIDFromString(owner);
-        if (admin) {
-            [mArray addObject:admin];
-        }
-        id<MKMID>ID = MKMIDFromString(member);
-        if (ID && ![ID isEqual:admin]) {
-            [mArray addObject:ID];
-        }
-        list = mArray;
-    } else {
-        list = [list mutableCopy];
-    }
-    return list;
+    return [self.dataSource membersOfGroup:_ID];
 }
 
 @end

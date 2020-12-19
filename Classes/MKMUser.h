@@ -114,10 +114,10 @@ NS_ASSUME_NONNULL_BEGIN
  *     [visa.key, meta.key]
  *
  *  (Visa Document)
- *  5. private key for signature
+ *  5. private key for visa signature
  *     the private key pared with meta.key
- *  6. public key for verification
- *     [meta.key]
+ *  6. public key for visa verification
+ *     meta.key only
  */
 @protocol MKMUserDataSource <MKMEntityDataSource>
 
@@ -128,6 +128,15 @@ NS_ASSUME_NONNULL_BEGIN
  * @return contacts list (ID)
  */
 - (nullable NSArray<id<MKMID>> *)contactsOfUser:(id<MKMID>)user;
+
+/**
+ *  Get user's public key for encryption
+ *  (profile.key or meta.key)
+ *
+ * @param user - user ID
+ * @return visa.key or meta.key
+ */
+- (nullable id<MKMEncryptKey>)publicKeyForEncryption:(id<MKMID>)user;
 
 /**
  *  Get user's public keys for verification

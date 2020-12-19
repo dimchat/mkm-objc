@@ -83,13 +83,13 @@ static NSMutableDictionary<NSString *, id<MKMSymmetricKeyFactory>> *factories(vo
     [factories() setObject:factory forKey:algorithm];
 }
 
-+ (nullable id<MKMSymmetricKey>)generate:(NSString *)algorithm {
++ (__kindof id<MKMSymmetricKey>)generate:(NSString *)algorithm {
     id<MKMSymmetricKeyFactory> factory = [self factoryForAlgorithm:algorithm];
     NSAssert(factory, @"key algorithm not found: %@", algorithm);
     return [factory generateSymmetricKey];
 }
 
-+ (nullable id<MKMSymmetricKey>)parse:(NSDictionary *)key {
++ (nullable __kindof id<MKMSymmetricKey>)parse:(NSDictionary *)key {
     if (key.count == 0) {
         return nil;
     } else if ([key conformsToProtocol:@protocol(MKMSymmetricKey)]) {

@@ -44,15 +44,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly, strong, nonatomic) id<MKMID> founder;
 @property (readonly, strong, nonatomic) id<MKMID> owner;
 
+// NOTICE: the owner must be a member
+//         (usually the first one)
 @property (readonly, copy, nonatomic) NSArray<id<MKMID>> *members;
 
-// +create(founder)
-// -setName(name)
-// -abdicate(member, owner)
-// -invite(user, admin)
-// -expel(member, admin)
-// -join(user)
-// -quit(member)
+@property (readonly, copy, nonatomic) NSArray<id<MKMID>> *assistants;
 
 @end
 
@@ -83,6 +79,14 @@ NS_ASSUME_NONNULL_BEGIN
  * @return members list (ID)
  */
 - (nullable NSArray<id<MKMID>> *)membersOfGroup:(id<MKMID>)group;
+
+/**
+ *  Get assistants for this group
+ *
+ * @param group - group ID
+ * @return robot ID list
+ */
+- (nullable NSArray<id<MKMID>> *)assistantsOfGroup:(id<MKMID>)group;
 
 @end
 

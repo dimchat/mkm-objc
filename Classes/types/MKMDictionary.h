@@ -75,7 +75,7 @@ NS_DESIGNATED_INITIALIZER;
 
 @end
 
-@interface NSMutableDictionary (Copy)
+@interface MKMDictionary (Copy)
 
 + (NSMutableDictionary *)copy:(NSDictionary *)dict circularly:(BOOL)deepCopy;
 

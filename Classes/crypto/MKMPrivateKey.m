@@ -80,13 +80,13 @@ static NSMutableDictionary<NSString *, id<MKMPrivateKeyFactory>> *factories(void
     [factories() setObject:factory forKey:algorithm];
 }
 
-+ (nullable id<MKMPrivateKey>)generate:(NSString *)algorithm {
++ (__kindof id<MKMPrivateKey>)generate:(NSString *)algorithm {
     id<MKMPrivateKeyFactory> factory = [self factoryForAlgorithm:algorithm];
     NSAssert(factory, @"key algorithm not found: %@", algorithm);
     return [factory generatePrivateKey];
 }
 
-+ (nullable id<MKMPrivateKey>)parse:(NSDictionary *)key {
++ (nullable __kindof id<MKMPrivateKey>)parse:(NSDictionary *)key {
     if (key.count == 0) {
         return nil;
     } else if ([key conformsToProtocol:@protocol(MKMPrivateKey)]) {

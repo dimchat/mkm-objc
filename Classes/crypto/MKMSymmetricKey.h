@@ -82,7 +82,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return SymmetricKey
  */
-- (nullable id<MKMSymmetricKey>)generateSymmetricKey;
+- (__kindof id<MKMSymmetricKey>)generateSymmetricKey;
 
 /**
  *  Parse map object to key
@@ -90,7 +90,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param key - key info
  * @return SymmetricKey
  */
-- (nullable id<MKMSymmetricKey>)parseSymmetricKey:(NSDictionary *)key;
+- (nullable __kindof id<MKMSymmetricKey>)parseSymmetricKey:(NSDictionary *)key;
 
 @end
 
@@ -99,9 +99,9 @@ NS_ASSUME_NONNULL_BEGIN
 + (nullable id<MKMSymmetricKeyFactory>)factoryForAlgorithm:(NSString *)algorithm;
 + (void)setFactory:(id<MKMSymmetricKeyFactory>)factory forAlgorithm:(NSString *)algorithm;
 
-+ (nullable id<MKMSymmetricKey>)generate:(NSString *)algorithm;
++ (__kindof id<MKMSymmetricKey>)generate:(NSString *)algorithm;
 
-+ (nullable id<MKMSymmetricKey>)parse:(NSDictionary *)key;
++ (nullable __kindof id<MKMSymmetricKey>)parse:(NSDictionary *)key;
 
 @end
 

@@ -80,7 +80,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param key - key info
  * @return PublicKey
  */
-- (nullable id<MKMPublicKey>)parsePublicKey:(NSDictionary *)key;
+- (nullable __kindof id<MKMPublicKey>)parsePublicKey:(NSDictionary *)key;
 
 @end
 
@@ -89,7 +89,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (nullable id<MKMPublicKeyFactory>)factoryForAlgorithm:(NSString *)algorithm;
 + (void)setFactory:(id<MKMPublicKeyFactory>)factory forAlgorithm:(NSString *)algorithm;
 
-+ (nullable id<MKMPublicKey>)parse:(NSDictionary *)key;
++ (nullable __kindof id<MKMPublicKey>)parse:(NSDictionary *)key;
 
 @end
 

@@ -86,7 +86,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return PrivateKey
  */
-- (nullable id<MKMPrivateKey>)generatePrivateKey;
+- (__kindof id<MKMPrivateKey>)generatePrivateKey;
 
 /**
  *  Parse map object to key
@@ -94,7 +94,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param key - key info
  * @return PrivateKey
  */
-- (nullable id<MKMPrivateKey>)parsePrivateKey:(NSDictionary *)key;
+- (nullable __kindof id<MKMPrivateKey>)parsePrivateKey:(NSDictionary *)key;
 
 @end
 
@@ -103,9 +103,9 @@ NS_ASSUME_NONNULL_BEGIN
 + (nullable id<MKMPrivateKeyFactory>)factoryForAlgorithm:(NSString *)algorithm;
 + (void)setFactory:(id<MKMPrivateKeyFactory>)factory forAlgorithm:(NSString *)algorithm;
 
-+ (nullable id<MKMPrivateKey>)generate:(NSString *)algorithm;
++ (__kindof id<MKMPrivateKey>)generate:(NSString *)algorithm;
 
-+ (nullable id<MKMPrivateKey>)parse:(NSDictionary *)key;
++ (nullable __kindof id<MKMPrivateKey>)parse:(NSDictionary *)key;
 
 @end
 

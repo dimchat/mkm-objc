@@ -40,7 +40,7 @@
 @interface MKMID ()
 
 @property (strong, nonatomic, nullable) NSString *name;
-@property (strong, nonatomic) id<MKMAddress> address;
+@property (strong, nonatomic) __kindof id<MKMAddress> address;
 @property (strong, nonatomic, nullable) NSString *terminal;
 
 @end
@@ -130,40 +130,24 @@ static inline NSString *concat(NSString *name, id<MKMAddress> address, NSString 
 }
 
 - (BOOL)isEqual:(id)object {
-    if ([super isEqual:object]) {
+    if (self == object) {
         return YES;
     }
     if ([object conformsToProtocol:@protocol(MKMID)]) {
-        id<MKMID> other = (id<MKMID>)object;
-        // check address
-        if ([_address isEqual:other.address]) {
-            // check name
-            if (_name.length == 0) {
-                return other.name.length == 0;
-            } else {
-                return [_name isEqualToString:other.name];
-            }
-        } else {
-            return NO;
-        }
+        // compare with name & address
+        return [MKMID identifier:self equals:object];
     }
-    NSString *other;
     if ([object conformsToProtocol:@protocol(MKMString)]) {
-        other = [(id<MKMString>)object string];
-    } else if ([object isKindOfClass:[NSString class]]) {
-        other = (NSString *)object;
-    } else {
-        NSAssert(!object, @"ID error: %@", object);
-        return NO;
+        object = [(id<MKMString>)object string];
     }
     // comparing without terminal
-    NSArray<NSString *> *pair = [other componentsSeparatedByString:@"/"];
-    other = pair.firstObject;
+    NSArray<NSString *> *pair = [object componentsSeparatedByString:@"/"];
+    NSAssert(pair.firstObject.length > 0, @"ID error: %@", object);
     if (_terminal.length == 0) {
-        return [other isEqualToString:self.string];
+        return [pair.firstObject isEqualToString:self.string];
     } else {
         pair = [self.string componentsSeparatedByString:@"/"];
-        return [other isEqualToString:pair.firstObject];
+        return [pair.firstObject isEqualToString:pair.firstObject];
     }
 }
 
@@ -171,17 +155,26 @@ static inline NSString *concat(NSString *name, id<MKMAddress> address, NSString 
     return _address.network;
 }
 
-+ (BOOL)isUser:(id<MKMID>)identifier {
-    return MKMAddressIsUser(identifier.address);
+@end
+
+@implementation MKMID (Comparison)
+
++ (BOOL)identifier:(id<MKMID>)ID1 equals:(id<MKMID>)ID2 {
+    // check ID.address
+    if ([ID1.address isEqual:ID2.address]) {
+        // check ID.name
+        if (ID1.name.length == 0) {
+            return ID2.name.length == 0;
+        } else {
+            return [ID1.name isEqualToString:ID2.name];
+        }
+    }
+    return NO;
 }
 
-+ (BOOL)isGroup:(id<MKMID>)identifier {
-    return MKMAddressIsGroup(identifier.address);
-}
+@end
 
-+ (BOOL)isBroadcast:(id<MKMID>)identifier {
-    return MKMAddressIsBroadcast(identifier.address);
-}
+@implementation MKMID (Broadcast)
 
 static MKMID *s_anyone = nil;
 static MKMID *s_everyone = nil;
@@ -206,7 +199,19 @@ static MKMID *s_everyone = nil;
 
 @end
 
-@implementation MKMID (IDType)
+@implementation MKMID (NetworkType)
+
++ (BOOL)isBroadcast:(id<MKMID>)identifier {
+    return MKMAddressIsBroadcast(identifier.address);
+}
+
++ (BOOL)isUser:(id<MKMID>)identifier {
+    return MKMAddressIsUser(identifier.address);
+}
+
++ (BOOL)isGroup:(id<MKMID>)identifier {
+    return MKMAddressIsGroup(identifier.address);
+}
 
 - (BOOL)isBroadcast {
     return MKMAddressIsBroadcast(_address);

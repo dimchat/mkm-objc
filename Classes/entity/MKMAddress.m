@@ -83,17 +83,9 @@
     return address;
 }
 
-+ (BOOL)isUser:(id<MKMAddress>)address {
-    return MKMNetwork_IsUser([address network]);
-}
+@end
 
-+ (BOOL)isGroup:(id<MKMAddress>)address {
-    return MKMNetwork_IsGroup([address network]);
-}
-
-+ (BOOL)isBroadcast:(id<MKMAddress>)address {
-    return [address isKindOfClass:[BroadcastAddress class]];
-}
+@implementation MKMAddress (Broadcast)
 
 static MKMAddress *s_anywhere = nil;
 static MKMAddress *s_everywhere = nil;
@@ -116,6 +108,34 @@ static MKMAddress *s_everywhere = nil;
         }
     }
     return s_everywhere;
+}
+
+@end
+
+@implementation MKMAddress (NetworkType)
+
++ (BOOL)isBroadcast:(id<MKMAddress>)address {
+    return [address isKindOfClass:[BroadcastAddress class]];
+}
+
++ (BOOL)isUser:(id<MKMAddress>)address {
+    return MKMNetwork_IsUser([address network]);
+}
+
++ (BOOL)isGroup:(id<MKMAddress>)address {
+    return MKMNetwork_IsGroup([address network]);
+}
+
+- (BOOL)isBroadcast {
+    return [self isKindOfClass:[BroadcastAddress class]];
+}
+
+- (BOOL)isUser {
+    return MKMNetwork_IsUser(_network);
+}
+
+- (BOOL)isGroup {
+    return MKMNetwork_IsGroup(_network);
 }
 
 @end
@@ -181,12 +201,11 @@ static id<MKMAddressFactory> s_factory = nil;
         return nil;
     } else if ([address conformsToProtocol:@protocol(MKMAddress)]) {
         return (id<MKMAddress>)address;
-    } else if ([address isKindOfClass:[MKMString class]]) {
-        MKMString *str = (MKMString *)address;
-        return [[self factory] parseAddress:[str string]];
-    } else {
-        return [[self factory] parseAddress:address];
     }
+    if ([address isKindOfClass:[MKMString class]]) {
+        address = [(MKMString *)address string];
+    }
+    return [[self factory] parseAddress:address];
 }
 
 @end

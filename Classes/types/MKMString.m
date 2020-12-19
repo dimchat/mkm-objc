@@ -76,17 +76,28 @@
     return string;
 }
 
+- (NSString *)string {
+    return _storeString;
+}
+
+- (BOOL)isEqualIgnoreCase:(NSString *)other {
+    if (self == other) {
+        return YES;
+    }
+    if ([other conformsToProtocol:@protocol(MKMString)]) {
+        other = [(MKMString *)other string];
+    }
+    return [MKMString string:_storeString equalsIgnoreCase:other];
+}
+
 - (BOOL)isEqual:(id)object {
     if (self == object) {
         return YES;
     }
     if ([object conformsToProtocol:@protocol(MKMString)]) {
-        return [_storeString isEqualToString:[object string]];
+        object = [object string];
     }
-    if ([object isKindOfClass:[NSString class]]) {
-        return [_storeString isEqualToString:object];
-    }
-    return NO;
+    return [_storeString isEqualToString:object];
 }
 
 - (NSUInteger)length {
@@ -107,8 +118,13 @@
     return [NSString stringWithFormat:@"<%@: \"%@\">", [self class], _storeString];
 }
 
-- (NSString *)string {
-    return _storeString;
+@end
+
+@implementation MKMString (Comparison)
+
++ (BOOL)string:(NSString *)str1 equalsIgnoreCase:(NSString *)str2 {
+    NSAssert(str1 && str2, @"strings should not be empty: %@, %@", str1, str2);
+    return [str1 caseInsensitiveCompare:str2] == NSOrderedSame;
 }
 
 @end

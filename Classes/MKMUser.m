@@ -48,61 +48,10 @@
 
 @implementation MKMUser
 
-- (nullable id<MKMEncryptKey>)visaKey {
-    id<MKMVisa> doc = [self documentWithType:MKMDocument_Visa];
-    if ([doc isValid] && [doc conformsToProtocol:@protocol(MKMVisa)]) {
-        return [doc key];
-    }
-    // visa document not found or not valid
-    return nil;
-}
-
-// NOTICE: meta.key will never changed, so use profile.key to encrypt
-//         is the better way
-- (nullable id<MKMEncryptKey>)encryptKey {
-    // 1. get key from visa
-    id<MKMEncryptKey> key = [self visaKey];
-    if (key) {
-        return key;
-    }
-    // 2. get key from meta
-    id mKey = [self.meta key];
-    if ([mKey conformsToProtocol:@protocol(MKMEncryptKey)]) {
-        return (id<MKMEncryptKey>)mKey;
-    }
-    NSAssert(false, @"failed to get encrypt key for user: %@", _ID);
-    return nil;
-}
-
-// NOTICE: I suggest using the private key paired with meta.key to sign message
-//         so here should return the meta.key
-- (nullable NSArray<id<MKMVerifyKey>> *)verifyKeys {
-    // 0. get keys from delegate
-    NSArray<id<MKMVerifyKey>> *keys = [self.dataSource publicKeysForVerification:_ID];
-    if ([keys count] > 0) {
-        return keys;
-    }
-    NSMutableArray *mArray = [[NSMutableArray alloc] init];
-    
-    // 1. get key from visa
-    id pKey = [self visaKey];
-    if ([pKey conformsToProtocol:@protocol(MKMVerifyKey)]) {
-        // the sender may use communication key to sign message.data,
-        // so try to verify it with visa.key here
-        [mArray addObject:pKey];
-    }
-    
-    // 2. get key from meta
-    id<MKMVerifyKey> mKey = [self.meta key];
-    NSAssert(mKey, @"failed to get meta key for user: %@", _ID);
-    // the sender may use identity key to sign message.data,
-    // try to verify it with meta.key
-    [mArray addObject:mKey];
-    return mArray;
-}
-
 - (BOOL)verify:(NSData *)data withSignature:(NSData *)signature {
-    NSArray<id<MKMVerifyKey>> *keys = [self verifyKeys];
+    // NOTICE: I suggest using the private key paired with meta.key to sign message
+    //         so here should return the meta.key
+    NSArray<id<MKMVerifyKey>> *keys = [self.dataSource publicKeysForVerification:_ID];
     for (id<MKMVerifyKey> key in keys) {
         if ([key verify:data withSignature:signature]) {
             // matched!
@@ -113,7 +62,9 @@
 }
 
 - (NSData *)encrypt:(NSData *)plaintext {
-    id<MKMEncryptKey> key = [self encryptKey];
+    // NOTICE: meta.key will never changed, so use profile.key to encrypt
+    //         is the better way
+    id<MKMEncryptKey> key = [self.dataSource publicKeyForEncryption:_ID];
     NSAssert(key, @"failed to get encrypt key for user: %@", _ID);
     return [key encrypt:plaintext];
 }
@@ -192,6 +143,7 @@
     }
     // if meta not exists, user won't be created
     id<MKMVerifyKey> key = [self.meta key];
+    NSAssert(key, @"failed to get verify key for visa: %@", _ID);
     return [visa verify:key];
 }
 
