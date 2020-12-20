@@ -292,22 +292,19 @@
 
 static NSMutableDictionary<NSString *, id<MKMDocumentFactory>> *s_factories = nil;
 
-static NSMutableDictionary<NSString *, id<MKMDocumentFactory>> *factories(void) {
++ (void)setFactory:(id<MKMDocumentFactory>)factory forType:(NSString *)type {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        if (!s_factories) {
+        //if (!s_factories) {
             s_factories = [[NSMutableDictionary alloc] init];
-        }
+        //}
     });
-    return s_factories;
+    [s_factories setObject:factory forKey:type];
 }
 
 + (id<MKMDocumentFactory>)factoryForType:(NSString *)type {
-    return [factories() objectForKey:type];
-}
-
-+ (void)setFactory:(id<MKMDocumentFactory>)factory forType:(NSString *)type {
-    [factories() setObject:factory forKey:type];
+    NSAssert(s_factories, @"document factories not set yet");
+    return [s_factories objectForKey:type];
 }
 
 + (__kindof id<MKMDocument>)create:(id<MKMID>)ID type:(NSString *)type data:(NSData *)data signature:(NSData *)CT {

@@ -266,22 +266,19 @@
 
 static NSMutableDictionary<NSNumber *, id<MKMMetaFactory>> *s_factories = nil;
 
-static NSMutableDictionary<NSNumber *, id<MKMMetaFactory>> *factories(void) {
++ (void)setFactory:(id<MKMMetaFactory>)factory forType:(MKMMetaType)type {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        if (!s_factories) {
+        //if (!s_factories) {
             s_factories = [[NSMutableDictionary alloc] init];
-        }
+        //}
     });
-    return s_factories;
+    [s_factories setObject:factory forKey:@(type)];
 }
 
 + (id<MKMMetaFactory>)factoryForType:(MKMMetaType)type {
-    return [factories() objectForKey:@(type)];
-}
-
-+ (void)setFactory:(id<MKMMetaFactory>)factory forType:(MKMMetaType)type {
-    [factories() setObject:factory forKey:@(type)];
+    NSAssert(s_factories, @"meta factories not set yet");
+    return [s_factories objectForKey:@(type)];
 }
 
 + (__kindof id<MKMMeta>)createWithType:(MKMMetaType)version

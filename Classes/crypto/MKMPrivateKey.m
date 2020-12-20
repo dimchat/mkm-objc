@@ -62,22 +62,19 @@
 
 static NSMutableDictionary<NSString *, id<MKMPrivateKeyFactory>> *s_factories = nil;
 
-static NSMutableDictionary<NSString *, id<MKMPrivateKeyFactory>> *factories(void) {
++ (void)setFactory:(id<MKMPrivateKeyFactory>)factory forAlgorithm:(NSString *)algorithm {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        if (!s_factories) {
+        //if (!s_factories) {
             s_factories = [[NSMutableDictionary alloc] init];
-        }
+        //}
     });
-    return s_factories;
+    [s_factories setObject:factory forKey:algorithm];
 }
 
 + (nullable id<MKMPrivateKeyFactory>)factoryForAlgorithm:(NSString *)algorithm {
-    return [factories() objectForKey:algorithm];
-}
-
-+ (void)setFactory:(id<MKMPrivateKeyFactory>)factory forAlgorithm:(NSString *)algorithm {
-    [factories() setObject:factory forKey:algorithm];
+    NSAssert(s_factories, @"private key factories not set yet");
+    return [s_factories objectForKey:algorithm];
 }
 
 + (__kindof id<MKMPrivateKey>)generate:(NSString *)algorithm {
