@@ -131,7 +131,7 @@
         return nil;
     }
     id<MKMSignKey> key = [self.dataSource privateKeyForVisaSignature:_ID];
-    NSAssert(key, @"failed to get sign key for user: %@", _ID);
+    NSAssert(key, @"failed to get visa sign key for user: %@", _ID);
     [visa sign:key];
     return visa;
 }

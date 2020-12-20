@@ -46,7 +46,7 @@
     return [MKMAsymmetricKey asymmetricKey:key1 matches:[key2 publicKey]];
 }
 
-- (id<MKMPublicKey>)publicKey {
+- (__kindof id<MKMPublicKey>)publicKey {
     NSAssert(false, @"implement me!");
     return nil;
 }

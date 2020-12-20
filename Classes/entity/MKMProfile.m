@@ -84,9 +84,9 @@
 - (nullable id<MKMEncryptKey>)key {
     if (!_key) {
         NSDictionary *dict = (NSDictionary *)[self propertyForKey:@"key"];
-        id<MKMPublicKey> pKey = MKMPublicKeyFromDictionary(dict);
-        if ([pKey conformsToProtocol:@protocol(MKMEncryptKey)]) {
-            _key = (id<MKMEncryptKey>) pKey;
+        id pubKey = MKMPublicKeyFromDictionary(dict);
+        if ([pubKey conformsToProtocol:@protocol(MKMEncryptKey)]) {
+            _key = pubKey;
         }
     }
     return _key;

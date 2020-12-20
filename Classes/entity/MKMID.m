@@ -137,8 +137,14 @@ static inline NSString *concat(NSString *name, id<MKMAddress> address, NSString 
         // compare with name & address
         return [MKMID identifier:self equals:object];
     }
+    NSString *str;
     if ([object conformsToProtocol:@protocol(MKMString)]) {
-        object = [(id<MKMString>)object string];
+        str = [object string];
+    } else if ([object isKindOfClass:[NSString class]]) {
+        str = object;
+    } else {
+        NSAssert(!object, @"ID error: %@", object);
+        return NO;
     }
     // comparing without terminal
     NSArray<NSString *> *pair = [object componentsSeparatedByString:@"/"];
