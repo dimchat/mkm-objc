@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5276BF4C2361C5F600AEC8E4 /* MKMGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = E91F2AFC2301481C00BE05D0 /* MKMGroup.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5276BF4D2361C5F600AEC8E4 /* MKMString.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8FF21CBBAF6009690F6 /* MKMString.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5276BF4E2361C5F600AEC8E4 /* MKMDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8FE21CBBAF6009690F6 /* MKMDictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5276BF4F2361C5F600AEC8E4 /* MKMSymmetricKey.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8E021CBBAF6009690F6 /* MKMSymmetricKey.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -15,25 +14,12 @@
 		5276BF512361C5F600AEC8E4 /* MKMCryptographyKey.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8DB21CBBAF6009690F6 /* MKMCryptographyKey.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5276BF522361C5F600AEC8E4 /* MKMPrivateKey.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8E821CBBAF6009690F6 /* MKMPrivateKey.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5276BF532361C5F600AEC8E4 /* MKMAsymmetricKey.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8D421CBBAF6009690F6 /* MKMAsymmetricKey.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5276BF552361C5F600AEC8E4 /* MKMID.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A91221CBBAF6009690F6 /* MKMID.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5276BF562361C5F600AEC8E4 /* MKMAddress.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A91321CBBAF6009690F6 /* MKMAddress.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5276BF572361C5F600AEC8E4 /* MKMMeta.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A90D21CBBAF6009690F6 /* MKMMeta.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5276BF582361C5F600AEC8E4 /* MKMProfile.h in Headers */ = {isa = PBXBuildFile; fileRef = E93D437622A7ADEF00422EDF /* MKMProfile.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5276BF592361C5F600AEC8E4 /* MKMEntity.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A91121CBBAF6009690F6 /* MKMEntity.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5276BF612361C5F600AEC8E4 /* MKMUser.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A92321CBBAF6009690F6 /* MKMUser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5276BF702361C5F600AEC8E4 /* MKMCryptographyKey.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8E921CBBAF6009690F6 /* MKMCryptographyKey.m */; };
-		5276BF712361C5F600AEC8E4 /* MKMAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A90E21CBBAF6009690F6 /* MKMAddress.m */; };
-		5276BF742361C5F600AEC8E4 /* MKMProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = E93D437722A7ADF000422EDF /* MKMProfile.m */; };
 		5276BF762361C5F600AEC8E4 /* MKMString.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8FD21CBBAF6009690F6 /* MKMString.m */; };
-		5276BF772361C5F600AEC8E4 /* MKMUser.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8D221CBBAF6009690F6 /* MKMUser.m */; };
 		5276BF792361C5F600AEC8E4 /* MKMPublicKey.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8E721CBBAF6009690F6 /* MKMPublicKey.m */; };
 		5276BF7A2361C5F600AEC8E4 /* MKMDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8FC21CBBAF6009690F6 /* MKMDictionary.m */; };
 		5276BF7D2361C5F600AEC8E4 /* MKMPrivateKey.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8DC21CBBAF6009690F6 /* MKMPrivateKey.m */; };
-		5276BF7F2361C5F600AEC8E4 /* MKMID.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A90F21CBBAF6009690F6 /* MKMID.m */; };
-		5276BF812361C5F600AEC8E4 /* MKMEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A90C21CBBAF6009690F6 /* MKMEntity.m */; };
 		5276BF832361C5F600AEC8E4 /* MKMAsymmetricKey.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8E521CBBAF6009690F6 /* MKMAsymmetricKey.m */; };
-		5276BF882361C5F600AEC8E4 /* MKMMeta.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A91021CBBAF6009690F6 /* MKMMeta.m */; };
-		5276BF892361C5F600AEC8E4 /* MKMGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = E91F2AFB2301481C00BE05D0 /* MKMGroup.m */; };
 		5276BF8A2361C5F600AEC8E4 /* MKMSymmetricKey.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8D921CBBAF6009690F6 /* MKMSymmetricKey.m */; };
 		52FBA6322484EE5200B309F6 /* MingKeMing.h in Headers */ = {isa = PBXBuildFile; fileRef = 52FBA6312484EE5200B309F6 /* MingKeMing.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		52FBA6332484EE5200B309F6 /* MingKeMing.h in Headers */ = {isa = PBXBuildFile; fileRef = 52FBA6312484EE5200B309F6 /* MingKeMing.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -49,17 +35,28 @@
 		E915CEA1243C978600B98FE3 /* MKMDataDigester.m in Sources */ = {isa = PBXBuildFile; fileRef = E915CE9F243C978600B98FE3 /* MKMDataDigester.m */; };
 		E915CEA2243C979700B98FE3 /* MKMDataDigester.h in Headers */ = {isa = PBXBuildFile; fileRef = E915CE9E243C978600B98FE3 /* MKMDataDigester.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E915CEA3243C979700B98FE3 /* MKMDataDigester.m in Sources */ = {isa = PBXBuildFile; fileRef = E915CE9F243C978600B98FE3 /* MKMDataDigester.m */; };
-		E919AF8D238FCFB6004F7FF9 /* MKMTai.h in Headers */ = {isa = PBXBuildFile; fileRef = E919AF8B238FCFB6004F7FF9 /* MKMTai.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E919AF8E238FCFB6004F7FF9 /* MKMTai.h in Headers */ = {isa = PBXBuildFile; fileRef = E919AF8B238FCFB6004F7FF9 /* MKMTai.h */; };
-		E919AF8F238FCFB6004F7FF9 /* MKMTai.m in Sources */ = {isa = PBXBuildFile; fileRef = E919AF8C238FCFB6004F7FF9 /* MKMTai.m */; };
-		E919AF90238FCFB6004F7FF9 /* MKMTai.m in Sources */ = {isa = PBXBuildFile; fileRef = E919AF8C238FCFB6004F7FF9 /* MKMTai.m */; };
-		E91F2AFD2301481D00BE05D0 /* MKMGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = E91F2AFB2301481C00BE05D0 /* MKMGroup.m */; };
-		E91F2AFE2301481D00BE05D0 /* MKMGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = E91F2AFC2301481C00BE05D0 /* MKMGroup.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E93D437822A7ADF000422EDF /* MKMProfile.h in Headers */ = {isa = PBXBuildFile; fileRef = E93D437622A7ADEF00422EDF /* MKMProfile.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E93D437922A7ADF000422EDF /* MKMProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = E93D437722A7ADF000422EDF /* MKMProfile.m */; };
+		E97E138D259B118C0016A68C /* MKMID.h in Headers */ = {isa = PBXBuildFile; fileRef = E97E1383259B118B0016A68C /* MKMID.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E97E138E259B118C0016A68C /* MKMID.h in Headers */ = {isa = PBXBuildFile; fileRef = E97E1383259B118B0016A68C /* MKMID.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E97E138F259B118C0016A68C /* MKMID.m in Sources */ = {isa = PBXBuildFile; fileRef = E97E1384259B118B0016A68C /* MKMID.m */; };
+		E97E1390259B118C0016A68C /* MKMID.m in Sources */ = {isa = PBXBuildFile; fileRef = E97E1384259B118B0016A68C /* MKMID.m */; };
+		E97E1391259B118C0016A68C /* MKMTai.m in Sources */ = {isa = PBXBuildFile; fileRef = E97E1385259B118B0016A68C /* MKMTai.m */; };
+		E97E1392259B118C0016A68C /* MKMTai.m in Sources */ = {isa = PBXBuildFile; fileRef = E97E1385259B118B0016A68C /* MKMTai.m */; };
+		E97E1393259B118C0016A68C /* MKMMeta.h in Headers */ = {isa = PBXBuildFile; fileRef = E97E1386259B118B0016A68C /* MKMMeta.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E97E1394259B118C0016A68C /* MKMMeta.h in Headers */ = {isa = PBXBuildFile; fileRef = E97E1386259B118B0016A68C /* MKMMeta.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E97E1395259B118C0016A68C /* MKMAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = E97E1387259B118B0016A68C /* MKMAddress.m */; };
+		E97E1396259B118C0016A68C /* MKMAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = E97E1387259B118B0016A68C /* MKMAddress.m */; };
+		E97E1397259B118C0016A68C /* MKMMeta.m in Sources */ = {isa = PBXBuildFile; fileRef = E97E1388259B118B0016A68C /* MKMMeta.m */; };
+		E97E1398259B118C0016A68C /* MKMMeta.m in Sources */ = {isa = PBXBuildFile; fileRef = E97E1388259B118B0016A68C /* MKMMeta.m */; };
+		E97E1399259B118C0016A68C /* MKMProfile.h in Headers */ = {isa = PBXBuildFile; fileRef = E97E1389259B118B0016A68C /* MKMProfile.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E97E139A259B118C0016A68C /* MKMProfile.h in Headers */ = {isa = PBXBuildFile; fileRef = E97E1389259B118B0016A68C /* MKMProfile.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E97E139B259B118C0016A68C /* MKMProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = E97E138A259B118C0016A68C /* MKMProfile.m */; };
+		E97E139C259B118C0016A68C /* MKMProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = E97E138A259B118C0016A68C /* MKMProfile.m */; };
+		E97E139D259B118C0016A68C /* MKMTai.h in Headers */ = {isa = PBXBuildFile; fileRef = E97E138B259B118C0016A68C /* MKMTai.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E97E139E259B118C0016A68C /* MKMTai.h in Headers */ = {isa = PBXBuildFile; fileRef = E97E138B259B118C0016A68C /* MKMTai.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E97E139F259B118C0016A68C /* MKMAddress.h in Headers */ = {isa = PBXBuildFile; fileRef = E97E138C259B118C0016A68C /* MKMAddress.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E97E13A0259B118C0016A68C /* MKMAddress.h in Headers */ = {isa = PBXBuildFile; fileRef = E97E138C259B118C0016A68C /* MKMAddress.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E9F3A6A421CA4627009690F6 /* MingKeMing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9F3A69A21CA4627009690F6 /* MingKeMing.framework */; };
 		E9F3A6A921CA4627009690F6 /* MingKeMingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A6A821CA4627009690F6 /* MingKeMingTests.m */; };
-		E9F3A94221CBBAF7009690F6 /* MKMUser.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8D221CBBAF6009690F6 /* MKMUser.m */; };
 		E9F3A94321CBBAF7009690F6 /* MKMAsymmetricKey.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8D421CBBAF6009690F6 /* MKMAsymmetricKey.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E9F3A94821CBBAF7009690F6 /* MKMSymmetricKey.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8D921CBBAF6009690F6 /* MKMSymmetricKey.m */; };
 		E9F3A94A21CBBAF7009690F6 /* MKMCryptographyKey.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8DB21CBBAF6009690F6 /* MKMCryptographyKey.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -74,15 +71,6 @@
 		E9F3A96A21CBBAF7009690F6 /* MKMString.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8FD21CBBAF6009690F6 /* MKMString.m */; };
 		E9F3A96B21CBBAF7009690F6 /* MKMDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8FE21CBBAF6009690F6 /* MKMDictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E9F3A96C21CBBAF7009690F6 /* MKMString.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8FF21CBBAF6009690F6 /* MKMString.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E9F3A97721CBBAF7009690F6 /* MKMEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A90C21CBBAF6009690F6 /* MKMEntity.m */; };
-		E9F3A97821CBBAF7009690F6 /* MKMMeta.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A90D21CBBAF6009690F6 /* MKMMeta.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E9F3A97921CBBAF7009690F6 /* MKMAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A90E21CBBAF6009690F6 /* MKMAddress.m */; };
-		E9F3A97A21CBBAF7009690F6 /* MKMID.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A90F21CBBAF6009690F6 /* MKMID.m */; };
-		E9F3A97B21CBBAF7009690F6 /* MKMMeta.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A91021CBBAF6009690F6 /* MKMMeta.m */; };
-		E9F3A97C21CBBAF7009690F6 /* MKMEntity.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A91121CBBAF6009690F6 /* MKMEntity.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E9F3A97D21CBBAF7009690F6 /* MKMID.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A91221CBBAF6009690F6 /* MKMID.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E9F3A97E21CBBAF7009690F6 /* MKMAddress.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A91321CBBAF6009690F6 /* MKMAddress.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E9F3A98A21CBBAF7009690F6 /* MKMUser.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A92321CBBAF6009690F6 /* MKMUser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -105,18 +93,21 @@
 		E915CE95243C96C200B98FE3 /* MKMDataCoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMDataCoder.h; sourceTree = "<group>"; };
 		E915CE9E243C978600B98FE3 /* MKMDataDigester.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MKMDataDigester.h; sourceTree = "<group>"; };
 		E915CE9F243C978600B98FE3 /* MKMDataDigester.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MKMDataDigester.m; sourceTree = "<group>"; };
-		E919AF8B238FCFB6004F7FF9 /* MKMTai.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MKMTai.h; sourceTree = "<group>"; };
-		E919AF8C238FCFB6004F7FF9 /* MKMTai.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MKMTai.m; sourceTree = "<group>"; };
-		E91F2AFB2301481C00BE05D0 /* MKMGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMGroup.m; sourceTree = "<group>"; };
-		E91F2AFC2301481C00BE05D0 /* MKMGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMGroup.h; sourceTree = "<group>"; };
-		E93D437622A7ADEF00422EDF /* MKMProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMProfile.h; sourceTree = "<group>"; };
-		E93D437722A7ADF000422EDF /* MKMProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMProfile.m; sourceTree = "<group>"; };
+		E97E1383259B118B0016A68C /* MKMID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMID.h; sourceTree = "<group>"; };
+		E97E1384259B118B0016A68C /* MKMID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMID.m; sourceTree = "<group>"; };
+		E97E1385259B118B0016A68C /* MKMTai.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMTai.m; sourceTree = "<group>"; };
+		E97E1386259B118B0016A68C /* MKMMeta.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMMeta.h; sourceTree = "<group>"; };
+		E97E1387259B118B0016A68C /* MKMAddress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMAddress.m; sourceTree = "<group>"; };
+		E97E1388259B118B0016A68C /* MKMMeta.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMMeta.m; sourceTree = "<group>"; };
+		E97E1389259B118B0016A68C /* MKMProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMProfile.h; sourceTree = "<group>"; };
+		E97E138A259B118C0016A68C /* MKMProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMProfile.m; sourceTree = "<group>"; };
+		E97E138B259B118C0016A68C /* MKMTai.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMTai.h; sourceTree = "<group>"; };
+		E97E138C259B118C0016A68C /* MKMAddress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMAddress.h; sourceTree = "<group>"; };
 		E9F3A69A21CA4627009690F6 /* MingKeMing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MingKeMing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9F3A69E21CA4627009690F6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E9F3A6A321CA4627009690F6 /* MingKeMingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MingKeMingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9F3A6A821CA4627009690F6 /* MingKeMingTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MingKeMingTests.m; sourceTree = "<group>"; };
 		E9F3A6AA21CA4627009690F6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E9F3A8D221CBBAF6009690F6 /* MKMUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMUser.m; sourceTree = "<group>"; };
 		E9F3A8D421CBBAF6009690F6 /* MKMAsymmetricKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMAsymmetricKey.h; sourceTree = "<group>"; };
 		E9F3A8D921CBBAF6009690F6 /* MKMSymmetricKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMSymmetricKey.m; sourceTree = "<group>"; };
 		E9F3A8DB21CBBAF6009690F6 /* MKMCryptographyKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMCryptographyKey.h; sourceTree = "<group>"; };
@@ -131,15 +122,6 @@
 		E9F3A8FD21CBBAF6009690F6 /* MKMString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMString.m; sourceTree = "<group>"; };
 		E9F3A8FE21CBBAF6009690F6 /* MKMDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMDictionary.h; sourceTree = "<group>"; };
 		E9F3A8FF21CBBAF6009690F6 /* MKMString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMString.h; sourceTree = "<group>"; };
-		E9F3A90C21CBBAF6009690F6 /* MKMEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMEntity.m; sourceTree = "<group>"; };
-		E9F3A90D21CBBAF6009690F6 /* MKMMeta.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMMeta.h; sourceTree = "<group>"; };
-		E9F3A90E21CBBAF6009690F6 /* MKMAddress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMAddress.m; sourceTree = "<group>"; };
-		E9F3A90F21CBBAF6009690F6 /* MKMID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMID.m; sourceTree = "<group>"; };
-		E9F3A91021CBBAF6009690F6 /* MKMMeta.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMMeta.m; sourceTree = "<group>"; };
-		E9F3A91121CBBAF6009690F6 /* MKMEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMEntity.h; sourceTree = "<group>"; };
-		E9F3A91221CBBAF6009690F6 /* MKMID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMID.h; sourceTree = "<group>"; };
-		E9F3A91321CBBAF6009690F6 /* MKMAddress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMAddress.h; sourceTree = "<group>"; };
-		E9F3A92321CBBAF6009690F6 /* MKMUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMUser.h; sourceTree = "<group>"; };
 		E9F3AB6821CFA8EE009690F6 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -237,11 +219,16 @@
 				E9F3A8FB21CBBAF6009690F6 /* types */,
 				E915CE91243C96C200B98FE3 /* data */,
 				E9F3A8D321CBBAF6009690F6 /* crypto */,
-				E9F3A90B21CBBAF6009690F6 /* entity */,
-				E91F2AFC2301481C00BE05D0 /* MKMGroup.h */,
-				E91F2AFB2301481C00BE05D0 /* MKMGroup.m */,
-				E9F3A92321CBBAF6009690F6 /* MKMUser.h */,
-				E9F3A8D221CBBAF6009690F6 /* MKMUser.m */,
+				E97E138C259B118C0016A68C /* MKMAddress.h */,
+				E97E1387259B118B0016A68C /* MKMAddress.m */,
+				E97E1383259B118B0016A68C /* MKMID.h */,
+				E97E1384259B118B0016A68C /* MKMID.m */,
+				E97E1386259B118B0016A68C /* MKMMeta.h */,
+				E97E1388259B118B0016A68C /* MKMMeta.m */,
+				E97E1389259B118B0016A68C /* MKMProfile.h */,
+				E97E138A259B118C0016A68C /* MKMProfile.m */,
+				E97E138B259B118C0016A68C /* MKMTai.h */,
+				E97E1385259B118B0016A68C /* MKMTai.m */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -275,25 +262,6 @@
 			path = types;
 			sourceTree = "<group>";
 		};
-		E9F3A90B21CBBAF6009690F6 /* entity */ = {
-			isa = PBXGroup;
-			children = (
-				E9F3A91321CBBAF6009690F6 /* MKMAddress.h */,
-				E9F3A90E21CBBAF6009690F6 /* MKMAddress.m */,
-				E9F3A91221CBBAF6009690F6 /* MKMID.h */,
-				E9F3A90F21CBBAF6009690F6 /* MKMID.m */,
-				E9F3A90D21CBBAF6009690F6 /* MKMMeta.h */,
-				E9F3A91021CBBAF6009690F6 /* MKMMeta.m */,
-				E919AF8B238FCFB6004F7FF9 /* MKMTai.h */,
-				E919AF8C238FCFB6004F7FF9 /* MKMTai.m */,
-				E93D437622A7ADEF00422EDF /* MKMProfile.h */,
-				E93D437722A7ADF000422EDF /* MKMProfile.m */,
-				E9F3A91121CBBAF6009690F6 /* MKMEntity.h */,
-				E9F3A90C21CBBAF6009690F6 /* MKMEntity.m */,
-			);
-			path = entity;
-			sourceTree = "<group>";
-		};
 		E9F3AB6721CFA8EE009690F6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -310,24 +278,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				E915CEA2243C979700B98FE3 /* MKMDataDigester.h in Headers */,
-				5276BF4C2361C5F600AEC8E4 /* MKMGroup.h in Headers */,
 				5276BF4D2361C5F600AEC8E4 /* MKMString.h in Headers */,
 				5276BF4E2361C5F600AEC8E4 /* MKMDictionary.h in Headers */,
+				E97E138E259B118C0016A68C /* MKMID.h in Headers */,
 				5276BF4F2361C5F600AEC8E4 /* MKMSymmetricKey.h in Headers */,
 				5276BF502361C5F600AEC8E4 /* MKMPublicKey.h in Headers */,
 				5276BF512361C5F600AEC8E4 /* MKMCryptographyKey.h in Headers */,
 				E915CE9C243C970D00B98FE3 /* MKMDataParser.h in Headers */,
+				E97E139E259B118C0016A68C /* MKMTai.h in Headers */,
 				5276BF522361C5F600AEC8E4 /* MKMPrivateKey.h in Headers */,
 				52FBA6332484EE5200B309F6 /* MingKeMing.h in Headers */,
+				E97E139A259B118C0016A68C /* MKMProfile.h in Headers */,
 				5276BF532361C5F600AEC8E4 /* MKMAsymmetricKey.h in Headers */,
-				5276BF552361C5F600AEC8E4 /* MKMID.h in Headers */,
-				5276BF562361C5F600AEC8E4 /* MKMAddress.h in Headers */,
-				5276BF572361C5F600AEC8E4 /* MKMMeta.h in Headers */,
-				5276BF582361C5F600AEC8E4 /* MKMProfile.h in Headers */,
+				E97E13A0259B118C0016A68C /* MKMAddress.h in Headers */,
+				E97E1394259B118C0016A68C /* MKMMeta.h in Headers */,
 				E915CE9A243C970200B98FE3 /* MKMDataCoder.h in Headers */,
-				5276BF592361C5F600AEC8E4 /* MKMEntity.h in Headers */,
-				5276BF612361C5F600AEC8E4 /* MKMUser.h in Headers */,
-				E919AF8E238FCFB6004F7FF9 /* MKMTai.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -336,23 +301,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				E915CEA0243C978600B98FE3 /* MKMDataDigester.h in Headers */,
-				E91F2AFE2301481D00BE05D0 /* MKMGroup.h in Headers */,
 				E9F3A96C21CBBAF7009690F6 /* MKMString.h in Headers */,
 				E9F3A96B21CBBAF7009690F6 /* MKMDictionary.h in Headers */,
+				E97E138D259B118C0016A68C /* MKMID.h in Headers */,
 				E9F3A94F21CBBAF7009690F6 /* MKMSymmetricKey.h in Headers */,
 				E9F3A94C21CBBAF7009690F6 /* MKMPublicKey.h in Headers */,
 				E9F3A94A21CBBAF7009690F6 /* MKMCryptographyKey.h in Headers */,
 				E9F3A95721CBBAF7009690F6 /* MKMPrivateKey.h in Headers */,
+				E97E139D259B118C0016A68C /* MKMTai.h in Headers */,
 				E9F3A94321CBBAF7009690F6 /* MKMAsymmetricKey.h in Headers */,
-				E9F3A97D21CBBAF7009690F6 /* MKMID.h in Headers */,
-				E9F3A97E21CBBAF7009690F6 /* MKMAddress.h in Headers */,
 				52FBA6322484EE5200B309F6 /* MingKeMing.h in Headers */,
-				E919AF8D238FCFB6004F7FF9 /* MKMTai.h in Headers */,
-				E9F3A97821CBBAF7009690F6 /* MKMMeta.h in Headers */,
+				E97E1399259B118C0016A68C /* MKMProfile.h in Headers */,
 				E915CE98243C96C200B98FE3 /* MKMDataParser.h in Headers */,
-				E93D437822A7ADF000422EDF /* MKMProfile.h in Headers */,
-				E9F3A97C21CBBAF7009690F6 /* MKMEntity.h in Headers */,
-				E9F3A98A21CBBAF7009690F6 /* MKMUser.h in Headers */,
+				E97E139F259B118C0016A68C /* MKMAddress.h in Headers */,
+				E97E1393259B118C0016A68C /* MKMMeta.h in Headers */,
 				E915CE99243C96C200B98FE3 /* MKMDataCoder.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -480,24 +442,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E97E1398259B118C0016A68C /* MKMMeta.m in Sources */,
 				5276BF702361C5F600AEC8E4 /* MKMCryptographyKey.m in Sources */,
-				5276BF712361C5F600AEC8E4 /* MKMAddress.m in Sources */,
 				E915CEA3243C979700B98FE3 /* MKMDataDigester.m in Sources */,
-				5276BF742361C5F600AEC8E4 /* MKMProfile.m in Sources */,
-				E919AF90238FCFB6004F7FF9 /* MKMTai.m in Sources */,
 				5276BF762361C5F600AEC8E4 /* MKMString.m in Sources */,
-				5276BF772361C5F600AEC8E4 /* MKMUser.m in Sources */,
 				5276BF792361C5F600AEC8E4 /* MKMPublicKey.m in Sources */,
 				E915CE9B243C970A00B98FE3 /* MKMDataCoder.m in Sources */,
 				5276BF7A2361C5F600AEC8E4 /* MKMDictionary.m in Sources */,
+				E97E1392259B118C0016A68C /* MKMTai.m in Sources */,
 				5276BF7D2361C5F600AEC8E4 /* MKMPrivateKey.m in Sources */,
-				5276BF7F2361C5F600AEC8E4 /* MKMID.m in Sources */,
-				5276BF812361C5F600AEC8E4 /* MKMEntity.m in Sources */,
 				E915CE9D243C971400B98FE3 /* MKMDataParser.m in Sources */,
+				E97E139C259B118C0016A68C /* MKMProfile.m in Sources */,
+				E97E1396259B118C0016A68C /* MKMAddress.m in Sources */,
 				5276BF832361C5F600AEC8E4 /* MKMAsymmetricKey.m in Sources */,
-				5276BF882361C5F600AEC8E4 /* MKMMeta.m in Sources */,
-				5276BF892361C5F600AEC8E4 /* MKMGroup.m in Sources */,
 				5276BF8A2361C5F600AEC8E4 /* MKMSymmetricKey.m in Sources */,
+				E97E1390259B118C0016A68C /* MKMID.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -505,24 +464,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E97E1397259B118C0016A68C /* MKMMeta.m in Sources */,
 				E9F3A95821CBBAF7009690F6 /* MKMCryptographyKey.m in Sources */,
-				E9F3A97921CBBAF7009690F6 /* MKMAddress.m in Sources */,
 				E915CEA1243C978600B98FE3 /* MKMDataDigester.m in Sources */,
-				E93D437922A7ADF000422EDF /* MKMProfile.m in Sources */,
-				E919AF8F238FCFB6004F7FF9 /* MKMTai.m in Sources */,
 				E9F3A96A21CBBAF7009690F6 /* MKMString.m in Sources */,
-				E9F3A94221CBBAF7009690F6 /* MKMUser.m in Sources */,
 				E915CE96243C96C200B98FE3 /* MKMDataParser.m in Sources */,
 				E9F3A95621CBBAF7009690F6 /* MKMPublicKey.m in Sources */,
 				E9F3A96921CBBAF7009690F6 /* MKMDictionary.m in Sources */,
+				E97E1391259B118C0016A68C /* MKMTai.m in Sources */,
 				E915CE97243C96C200B98FE3 /* MKMDataCoder.m in Sources */,
 				E9F3A94B21CBBAF7009690F6 /* MKMPrivateKey.m in Sources */,
-				E9F3A97A21CBBAF7009690F6 /* MKMID.m in Sources */,
-				E9F3A97721CBBAF7009690F6 /* MKMEntity.m in Sources */,
+				E97E139B259B118C0016A68C /* MKMProfile.m in Sources */,
+				E97E1395259B118C0016A68C /* MKMAddress.m in Sources */,
 				E9F3A95421CBBAF7009690F6 /* MKMAsymmetricKey.m in Sources */,
-				E9F3A97B21CBBAF7009690F6 /* MKMMeta.m in Sources */,
-				E91F2AFD2301481D00BE05D0 /* MKMGroup.m in Sources */,
 				E9F3A94821CBBAF7009690F6 /* MKMSymmetricKey.m in Sources */,
+				E97E138F259B118C0016A68C /* MKMID.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
