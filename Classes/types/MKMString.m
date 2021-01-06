@@ -80,6 +80,10 @@
     return _storeString;
 }
 
+- (NSUInteger)hash {
+    return [_storeString hash];
+}
+
 - (BOOL)isEqualIgnoreCase:(NSString *)other {
     if (self == other) {
         return YES;

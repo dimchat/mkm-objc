@@ -143,6 +143,11 @@ typedef UInt8 MKMNetworkType;
 
 @property (readonly, nonatomic) MKMNetworkType network; // Network ID
 
+- (BOOL)isBroadcast;
+
+- (BOOL)isUser;
+- (BOOL)isGroup;
+
 @end
 
 @interface MKMAddress : MKMString <MKMAddress>
@@ -157,31 +162,13 @@ NS_DESIGNATED_INITIALIZER;
 
 #define MKMAddressFromString(address)  [MKMAddress parse:(address)]
 
-#define MKMAddressIsUser(address)      [MKMAddress isUser:(address)]
-#define MKMAddressIsGroup(address)     [MKMAddress isGroup:(address)]
-#define MKMAddressIsBroadcast(address) [MKMAddress isBroadcast:(address)]
-
 @interface MKMAddress (Broadcast)
 
 /**
  *  Address for broadcast
  */
-+ (MKMAddress *)anywhere;
-+ (MKMAddress *)everywhere;
-
-@end
-
-@interface MKMAddress (NetworkType)
-
-+ (BOOL)isBroadcast:(id<MKMAddress>)address;
-
-+ (BOOL)isUser:(id<MKMAddress>)address;
-+ (BOOL)isGroup:(id<MKMAddress>)address;
-
-- (BOOL)isBroadcast;
-
-- (BOOL)isUser;
-- (BOOL)isGroup;
++ (id<MKMAddress>)anywhere;
++ (id<MKMAddress>)everywhere;
 
 @end
 

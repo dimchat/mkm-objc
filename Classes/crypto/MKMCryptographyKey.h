@@ -57,17 +57,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface MKMCryptographyKey : MKMDictionary <MKMCryptographyKey>
-
-/**
- *  Get key algorithm name
- *
- * @return algorithm name
- */
-+ (NSString *)algorithm:(NSDictionary *)key;
-
-@end
-
 @protocol MKMEncryptKey <MKMCryptographyKey>
 
 /**
@@ -86,14 +75,37 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (nullable NSData *)decrypt:(NSData *)ciphertext;
 
-@end
-
-#pragma mark - Key Parser
-
-@protocol MKMCryptographyKeyParser <NSObject>
-
-- (nullable __kindof id<MKMCryptographyKey>)parse:(NSDictionary *)key;
+/**
+ *  OK = decrypt(encrypt(data, SK), PK) == data
+ */
+- (BOOL)isMatch:(id<MKMEncryptKey>)pKey;
 
 @end
+
+#pragma mark -
+
+@interface MKMCryptographyKey : MKMDictionary <MKMCryptographyKey>
+
+/**
+ *  Get key algorithm name
+ *
+ * @return algorithm name
+ */
++ (NSString *)algorithm:(NSDictionary *)key;
+
+/**
+ *  Check keys by encryption
+ */
++ (BOOL)decryptKey:(id<MKMDecryptKey>)sKey isMatch:(id<MKMEncryptKey>)pKey;
+
+@end
+
+#define MKMCryptographyKeyAlgorithm(keyInfo)                                   \
+            [MKMCryptographyKey algorithm:(keyInfo)]                           \
+                                 /* EOF 'MKMCryptographyKeyAlgorithm(keyInfo) */
+
+#define MKMCryptographyKeysMatch(sKey, pKey)                                   \
+            [MKMCryptographyKey decryptKey:(sKey) isMatch:(pKey)]              \
+                    /* EOF 'MKMCryptographyKeysMatch(encryptKey, decryptKey)' */
 
 NS_ASSUME_NONNULL_END

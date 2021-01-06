@@ -52,28 +52,20 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-#define SCAlgorithmAES @"AES"
-#define SCAlgorithmDES @"DES"
+#define MKMAlgorithmAES @"AES"
+#define MKMAlgorithmDES @"DES"
 
 @interface MKMSymmetricKey : MKMCryptographyKey <MKMSymmetricKey>
 
-+ (BOOL)symmetricKey:(id<MKMSymmetricKey>)key1 equals:(id<MKMSymmetricKey>)key2;
-
 @end
-
-#define MKMSymmetricKeysEqual(key1, key2)                                      \
-            [MKMSymmetricKey symmetricKey:(key1) equals:(key2)]                \
-                                   /* EOF 'MKMSymmetricKeysEqual(key1, key2)' */
 
 #define MKMSymmetricKeyWithAlgorithm(name)                                     \
             [MKMSymmetricKey generate:(name)]                                  \
                                   /* EOF 'MKMSymmetricKeyWithAlgorithm(name)' */
 
-#define MKMSymmetricKeyFromDictionary(key)                                     \
-            [MKMSymmetricKey parse:(key)]                                      \
-                                  /* EOF 'MKMSymmetricKeyFromDictionary(key)' */
-
-#pragma mark - Creation
+#define MKMSymmetricKeyFromDictionary(keyInfo)                                 \
+            [MKMSymmetricKey parse:(keyInfo)]                                  \
+                              /* EOF 'MKMSymmetricKeyFromDictionary(keyInfo)' */
 
 @protocol MKMSymmetricKeyFactory <NSObject>
 

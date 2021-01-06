@@ -52,8 +52,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-#define ACAlgorithmRSA @"RSA"
-#define ACAlgorithmECC @"ECC"
+#define MKMAlgorithmRSA @"RSA"
+#define MKMAlgorithmECC @"ECC"
 
 #pragma mark -
 
@@ -73,18 +73,23 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (BOOL)verify:(NSData *)data withSignature:(NSData *)signature;
 
+/**
+ *  OK = verify(data, sign(data, SK), PK)
+ */
+- (BOOL)isMatch:(id<MKMSignKey>)sKey;
+
 @end
 
 #pragma mark - Pairing
 
 @interface MKMAsymmetricKey : MKMCryptographyKey <MKMAsymmetricKey>
 
-+ (BOOL)asymmetricKey:(id<MKMSignKey>)privateKey matches:(id<MKMVerifyKey>)publicKey;
++ (BOOL)verifyKey:(id<MKMVerifyKey>)pKey isMatch:(id<MKMSignKey>)sKey;
 
 @end
 
-#define MKMAsymmetricKeysMatched(SK, PK)                                       \
-            [MKMAsymmetricKey asymmetricKey:(SK) matches:(PK)]                 \
-                                    /* EOF 'MKMAsymmetricKeysMatched(SK, PK)' */
+#define MKMAsymmetricKeysMatch(pKey, sKey)                                     \
+            [MKMAsymmetricKey verifyKey:(pKey) isMatch:(sKey)]                 \
+                                  /* EOF 'MKMAsymmetricKeysMatch(pKey, sKey)' */
 
 NS_ASSUME_NONNULL_END

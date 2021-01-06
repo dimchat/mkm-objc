@@ -37,14 +37,6 @@
 
 #import "MKMID.h"
 
-@interface MKMID ()
-
-@property (strong, nonatomic, nullable) NSString *name;
-@property (strong, nonatomic) __kindof id<MKMAddress> address;
-@property (strong, nonatomic, nullable) NSString *terminal;
-
-@end
-
 static inline NSString *concat(NSString *name, id<MKMAddress> address, NSString *terminal) {
     NSUInteger len1 = [name length];
     NSUInteger len2 = [terminal length];
@@ -60,6 +52,48 @@ static inline NSString *concat(NSString *name, id<MKMAddress> address, NSString 
         return [address string];
     }
 }
+
+static inline id<MKMID> parse(NSString *string) {
+    NSString *name;
+    id<MKMAddress> address;
+    NSString *terminal;
+    // split ID string
+    NSArray<NSString *> *pair = [string componentsSeparatedByString:@"/"];
+    // terminal
+    if (pair.count == 1) {
+        terminal = nil;
+    } else {
+        assert(pair.count == 2);
+        assert(pair.lastObject.length > 0);
+        terminal = pair.lastObject;
+    }
+    // name @ address
+    pair = [pair.firstObject componentsSeparatedByString:@"@"];
+    assert(pair.firstObject.length > 0);
+    if (pair.count == 1) {
+        // got address without name
+        name = nil;
+        address = MKMAddressFromString(pair.firstObject);
+    } else {
+        // got name & address
+        assert(pair.count == 2);
+        assert(pair.lastObject.length > 0);
+        name = pair.firstObject;
+        address = MKMAddressFromString(pair.lastObject);
+    }
+    if (address == nil) {
+        return nil;
+    }
+    return [[MKMID alloc] initWithString:string name:name address:address terminal:terminal];
+}
+
+@interface MKMID ()
+
+@property (strong, nonatomic, nullable) NSString *name;
+@property (strong, nonatomic) __kindof id<MKMAddress> address;
+@property (strong, nonatomic, nullable) NSString *terminal;
+
+@end
 
 @implementation MKMID
 
@@ -129,13 +163,17 @@ static inline NSString *concat(NSString *name, id<MKMAddress> address, NSString 
     return identifier;
 }
 
+- (NSUInteger)hash {
+    return [self.address hash];
+}
+
 - (BOOL)isEqual:(id)object {
     if (self == object) {
         return YES;
     }
     if ([object conformsToProtocol:@protocol(MKMID)]) {
         // compare with name & address
-        return [MKMID identifier:self equals:object];
+        return [MKMID identifier:self isEqual:object];
     }
     NSString *str;
     if ([object conformsToProtocol:@protocol(MKMString)]) {
@@ -161,11 +199,19 @@ static inline NSString *concat(NSString *name, id<MKMAddress> address, NSString 
     return _address.network;
 }
 
-@end
+- (BOOL)isBroadcast {
+    return [_address isBroadcast];
+}
 
-@implementation MKMID (Comparison)
+- (BOOL)isUser {
+    return [_address isUser];
+}
 
-+ (BOOL)identifier:(id<MKMID>)ID1 equals:(id<MKMID>)ID2 {
+- (BOOL)isGroup {
+    return [_address isGroup];
+}
+
++ (BOOL)identifier:(id<MKMID>)ID1 isEqual:(id<MKMID>)ID2 {
     // check ID.address
     if ([ID1.address isEqual:ID2.address]) {
         // check ID.name
@@ -186,49 +232,19 @@ static MKMID *s_anyone = nil;
 static MKMID *s_everyone = nil;
 
 + (MKMID *)anyone {
-    @synchronized (self) {
-        if (s_anyone == nil) {
-            s_anyone = [[MKMID alloc] initWithName:@"anyone" address:MKMAnywhere()];
-        }
-    }
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        s_anyone = [[MKMID alloc] initWithName:@"anyone" address:MKMAnywhere()];
+    });
     return s_anyone;
 }
 
 + (MKMID *)everyone {
-    @synchronized (self) {
-        if (s_everyone == nil) {
-            s_everyone = [[MKMID alloc] initWithName:@"everyone" address:MKMEverywhere()];
-        }
-    }
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        s_everyone = [[MKMID alloc] initWithName:@"everyone" address:MKMEverywhere()];
+    });
     return s_everyone;
-}
-
-@end
-
-@implementation MKMID (NetworkType)
-
-+ (BOOL)isBroadcast:(id<MKMID>)identifier {
-    return MKMAddressIsBroadcast(identifier.address);
-}
-
-+ (BOOL)isUser:(id<MKMID>)identifier {
-    return MKMAddressIsUser(identifier.address);
-}
-
-+ (BOOL)isGroup:(id<MKMID>)identifier {
-    return MKMAddressIsGroup(identifier.address);
-}
-
-- (BOOL)isBroadcast {
-    return MKMAddressIsBroadcast(_address);
-}
-
-- (BOOL)isUser {
-    return MKMAddressIsUser(_address);
-}
-
-- (BOOL)isGroup {
-    return MKMAddressIsGroup(_address);
 }
 
 @end
@@ -278,61 +294,19 @@ static MKMID *s_everyone = nil;
 - (id<MKMID>)createID:(nullable NSString *)name
               address:(id<MKMAddress>)address
              terminal:(nullable NSString *)terminal {
-    return [[MKMID alloc] initWithString:concat(name, address, terminal)
-                                    name:name
-                                 address:address
-                                terminal:terminal];
-}
-
-- (nullable __kindof id<MKMID>)createID:(NSString *)identifier {
-    NSString *name;
-    id<MKMAddress> address;
-    NSString *terminal;
-    // split ID string
-    NSArray<NSString *> *pair = [identifier componentsSeparatedByString:@"/"];
-    // terminal
-    if (pair.count == 1) {
-        terminal = nil;
-    } else {
-        NSAssert(pair.count == 2, @"ID error: %@", identifier);
-        NSAssert(pair.lastObject.length > 0, @"ID.terminal error: %@", identifier);
-        terminal = pair.lastObject;
+    NSString *string = concat(name, address, terminal);
+    id<MKMID> ID = [_identifiers objectForKey:string];
+    if (!ID) {
+        ID = [[MKMID alloc] initWithString:string name:name address:address terminal:terminal];
+        [_identifiers setObject:ID forKey:string];
     }
-    // name @ address
-    pair = [pair.firstObject componentsSeparatedByString:@"@"];
-    NSAssert(pair.firstObject.length > 0, @"ID error: %@", identifier);
-    if (pair.count == 1) {
-        // got address without name
-        name = nil;
-        address = MKMAddressFromString(pair.firstObject);
-    } else {
-        // got name & address
-        NSAssert(pair.count == 2, @"ID error: %@", identifier);
-        NSAssert(pair.lastObject.length > 0, @"ID.address error: %@", identifier);
-        name = pair.firstObject;
-        address = MKMAddressFromString(pair.lastObject);
-    }
-    if (address == nil) {
-        return nil;
-    }
-    return [[MKMID alloc] initWithString:identifier
-                                    name:name
-                                 address:address
-                                terminal:terminal];
+    return ID;
 }
 
 - (nullable id<MKMID>)parseID:(NSString *)identifier {
-    MKMID *anyone = MKMAnyone();
-    if ([anyone isEqual:identifier]) {
-        return anyone;
-    }
-    MKMID *everyone = MKMEveryone();
-    if ([everyone isEqual:identifier]) {
-        return everyone;
-    }
     id<MKMID> ID = [_identifiers objectForKey:identifier];
     if (!ID) {
-        ID = [self createID:identifier];
+        ID = parse(identifier);
         if (ID) {
             [_identifiers setObject:ID forKey:identifier];
         }

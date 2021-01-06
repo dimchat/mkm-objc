@@ -57,6 +57,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (readonly, nonatomic) MKMNetworkType type; // Network ID
 
+- (BOOL)isBroadcast;
+
+- (BOOL)isUser;
+- (BOOL)isGroup;
+
 @end
 
 @interface MKMID : MKMString <MKMID>
@@ -91,11 +96,7 @@ NS_DESIGNATED_INITIALIZER;
  */
 - (instancetype)initWithAddress:(id<MKMAddress>)addr;
 
-@end
-
-@interface MKMID (Comparison)
-
-+ (BOOL)identifier:(id<MKMID>)ID1 equals:(id<MKMID>)ID2;
++ (BOOL)identifier:(id<MKMID>)ID1 isEqual:(id<MKMID>)ID2;
 
 @end
 
@@ -104,9 +105,9 @@ NS_DESIGNATED_INITIALIZER;
 
 #define MKMIDFromString(ID)  [MKMID parse:(ID)]
 
-#define MKMIDIsUser(ID)      [MKMID isUser:(ID)]
-#define MKMIDIsGroup(ID)     [MKMID isGroup:(ID)]
-#define MKMIDIsBroadcast(ID) [MKMID isBroadcast:(ID)]
+#define MKMIDIsUser(ID)      [(ID) isUser]
+#define MKMIDIsGroup(ID)     [(ID) isGroup]
+#define MKMIDIsBroadcast(ID) [(ID) isBroadcast]
 
 @interface MKMID (Broadcast)
 
@@ -115,20 +116,6 @@ NS_DESIGNATED_INITIALIZER;
  */
 + (MKMID *)anyone;
 + (MKMID *)everyone;
-
-@end
-
-@interface MKMID (NetworkType)
-
-+ (BOOL)isBroadcast:(id<MKMID>)identifier;
-
-+ (BOOL)isUser:(id<MKMID>)identifier;
-+ (BOOL)isGroup:(id<MKMID>)identifier;
-
-- (BOOL)isBroadcast;
-
-- (BOOL)isUser;
-- (BOOL)isGroup;
 
 @end
 

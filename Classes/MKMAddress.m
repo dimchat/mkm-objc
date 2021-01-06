@@ -37,12 +37,6 @@
 
 #import "MKMAddress.h"
 
-@interface BroadcastAddress : MKMAddress
-@end
-
-@implementation BroadcastAddress
-@end
-
 @interface MKMAddress ()
 
 @property (nonatomic) MKMNetworkType network;
@@ -83,59 +77,60 @@
     return address;
 }
 
+- (BOOL)isBroadcast {
+    //return [self isKindOfClass:[BroadcastAddress class]];
+    return NO;
+}
+
+- (BOOL)isUser {
+    return MKMNetwork_IsUser(self.network);
+}
+
+- (BOOL)isGroup {
+    return MKMNetwork_IsGroup(self.network);
+}
+
+@end
+
+#pragma mark -
+
+@interface BroadcastAddress : MKMAddress
+
++ (instancetype)create:(NSString *)string network:(MKMNetworkType)type;
+
+@end
+
+@implementation BroadcastAddress
+
++ (instancetype)create:(NSString *)string network:(MKMNetworkType)type {
+    return [[self alloc] initWithString:string network:type];
+}
+
+- (BOOL)isBroadcast {
+    return YES;
+}
+
 @end
 
 @implementation MKMAddress (Broadcast)
 
-static MKMAddress *s_anywhere = nil;
-static MKMAddress *s_everywhere = nil;
+static id<MKMAddress> s_anywhere = nil;
+static id<MKMAddress> s_everywhere = nil;
 
-+ (MKMAddress *)anywhere {
-    @synchronized (self) {
-        if (s_anywhere == nil) {
-            s_anywhere = [[BroadcastAddress alloc] initWithString:@"anywhere"
-                                                          network:MKMNetwork_Main];
-        }
-    }
++ (id<MKMAddress>)anywhere {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        s_anywhere = [BroadcastAddress create:@"anywhere" network:MKMNetwork_Main];
+    });
     return s_anywhere;
 }
 
-+ (MKMAddress *)everywhere {
-    @synchronized (self) {
-        if (s_everywhere == nil) {
-            s_everywhere = [[BroadcastAddress alloc] initWithString:@"everywhere"
-                                                            network:MKMNetwork_Group];
-        }
-    }
++ (id<MKMAddress>)everywhere {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        s_everywhere = [BroadcastAddress create:@"everywhere" network:MKMNetwork_Group];
+    });
     return s_everywhere;
-}
-
-@end
-
-@implementation MKMAddress (NetworkType)
-
-+ (BOOL)isBroadcast:(id<MKMAddress>)address {
-    return [address isKindOfClass:[BroadcastAddress class]];
-}
-
-+ (BOOL)isUser:(id<MKMAddress>)address {
-    return MKMNetwork_IsUser([address network]);
-}
-
-+ (BOOL)isGroup:(id<MKMAddress>)address {
-    return MKMNetwork_IsGroup([address network]);
-}
-
-- (BOOL)isBroadcast {
-    return [self isKindOfClass:[BroadcastAddress class]];
-}
-
-- (BOOL)isUser {
-    return MKMNetwork_IsUser(_network);
-}
-
-- (BOOL)isGroup {
-    return MKMNetwork_IsGroup(_network);
 }
 
 @end
@@ -154,19 +149,16 @@ static MKMAddress *s_everywhere = nil;
 - (instancetype)init {
     if (self = [super init]) {
         _addresses = [[NSMutableDictionary alloc] init];
+        // cache broadcast addresses
+        id<MKMAddress> anywhere = MKMAnywhere();
+        [_addresses setObject:anywhere forKey:anywhere.string];
+        id<MKMAddress> everywhere = MKMEverywhere();
+        [_addresses setObject:everywhere forKey:everywhere.string];
     }
     return self;
 }
 
 - (nullable __kindof id<MKMAddress>)parseAddress:(NSString *)address {
-    MKMAddress *anywhere = MKMAnywhere();
-    if ([anywhere isEqual:address]) {
-        return anywhere;
-    }
-    MKMAddress *everywhere = MKMEverywhere();
-    if ([everywhere isEqual:address]) {
-        return everywhere;
-    }
     id<MKMAddress> addr = [_addresses objectForKey:address];
     if (!addr) {
         addr = [self createAddress:address];

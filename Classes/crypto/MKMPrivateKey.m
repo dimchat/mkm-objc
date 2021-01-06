@@ -41,9 +41,14 @@
 
 @implementation MKMPrivateKey
 
-+ (BOOL)privateKey:(id<MKMPrivateKey>)key1 equals:(id<MKMPrivateKey>)key2 {
-    // check by public key
-    return [MKMAsymmetricKey asymmetricKey:key1 matches:[key2 publicKey]];
+- (BOOL)isEqual:(id)object {
+    if ([super isEqual:object]) {
+        return YES;
+    }
+    if ([object conformsToProtocol:@protocol(MKMSignKey)]) {
+        return [self.publicKey isMatch:object];
+    }
+    return NO;
 }
 
 - (__kindof id<MKMPublicKey>)publicKey {
@@ -91,7 +96,7 @@ static NSMutableDictionary<NSString *, id<MKMPrivateKeyFactory>> *s_factories = 
     } else if ([key conformsToProtocol:@protocol(MKMDictionary)]) {
         key = [(id<MKMDictionary>)key dictionary];
     }
-    NSString *algorithm = [MKMCryptographyKey algorithm:key];
+    NSString *algorithm = MKMCryptographyKeyAlgorithm(key);
     NSAssert(algorithm, @"failed to get algorithm name for key: %@", key);
     id<MKMPrivateKeyFactory> factory = [self factoryForAlgorithm:algorithm];
     if (!factory) {

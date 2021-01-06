@@ -42,9 +42,10 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol MKMPublicKey;
 
 /*
- *  AC Private Key
+ *  Asymmetric Cryptography Private Key
+ *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  *
- *      keyInfo format: {
+ *      key data format: {
  *          algorithm: "RSA", // ECC, ...
  *          data     : "{BASE64_ENCODE}",
  *          ...
@@ -61,8 +62,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MKMPrivateKey : MKMAsymmetricKey <MKMPrivateKey>
 
-+ (BOOL)privateKey:(id<MKMPrivateKey>)key1 equals:(id<MKMPrivateKey>)key2;
-
 @end
 
 #define MKMPrivateKeysEqual(key1, key2)                                        \
@@ -73,11 +72,9 @@ NS_ASSUME_NONNULL_BEGIN
             [MKMPrivateKey generate:(name)]                                    \
                                     /* EOF 'MKMPrivateKeyWithAlgorithm(name)' */
 
-#define MKMPrivateKeyFromDictionary(key)                                       \
-            [MKMPrivateKey parse:(key)]                                        \
-                                    /* EOF 'MKMPrivateKeyFromDictionary(key)' */
-
-#pragma mark - Creation
+#define MKMPrivateKeyFromDictionary(keyInfo)                                   \
+            [MKMPrivateKey parse:(keyInfo)]                                    \
+                                /* EOF 'MKMPrivateKeyFromDictionary(keyInfo)' */
 
 @protocol MKMPrivateKeyFactory <NSObject>
 

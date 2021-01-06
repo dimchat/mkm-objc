@@ -39,14 +39,14 @@
 
 @implementation MKMSymmetricKey
 
-static NSString *promise = @"Moky loves May Lee forever!";
-
-+ (BOOL)symmetricKey:(id<MKMSymmetricKey>)key1 equals:(id<MKMSymmetricKey>)key2 {
-    // try to verify by en/decrypt
-    NSData *data = [promise dataUsingEncoding:NSUTF8StringEncoding];
-    NSData *ciphertext = [key1 encrypt:data];
-    NSData *plaintext = [key2 decrypt:ciphertext];
-    return [plaintext isEqualToData:data];
+- (BOOL)isEqual:(id)object {
+    if ([super isEqual:object]) {
+        return YES;
+    }
+    if ([object conformsToProtocol:@protocol(MKMSymmetricKey)]) {
+        return [self isMatch:object];
+    }
+    return NO;
 }
 
 - (NSData *)encrypt:(NSData *)plaintext {
@@ -57,6 +57,10 @@ static NSString *promise = @"Moky loves May Lee forever!";
 - (nullable NSData *)decrypt:(NSData *)ciphertext {
     NSAssert(false, @"implement me!");
     return nil;
+}
+
+- (BOOL)isMatch:(id<MKMEncryptKey>)pKey {
+    return MKMCryptographyKeysMatch(self, pKey);
 }
 
 @end
@@ -94,7 +98,7 @@ static NSMutableDictionary<NSString *, id<MKMSymmetricKeyFactory>> *s_factories 
     } else if ([key conformsToProtocol:@protocol(MKMDictionary)]) {
         key = [(id<MKMDictionary>)key dictionary];
     }
-    NSString *algorithm = [MKMCryptographyKey algorithm:key];
+    NSString *algorithm = MKMCryptographyKeyAlgorithm(key);
     NSAssert(algorithm, @"failed to get algorithm name for key: %@", key);
     id<MKMSymmetricKeyFactory> factory = [self factoryForAlgorithm:algorithm];
     if (!factory) {

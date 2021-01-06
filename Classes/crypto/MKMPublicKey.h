@@ -53,24 +53,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-/*
- *  AC Public Key
- *
- *      keyInfo format: {
- *          algorithm: "RSA", // ECC, ...
- *          data     : "{BASE64_ENCODE}",
- *          ...
- *      }
- */
 @interface MKMPublicKey : MKMAsymmetricKey <MKMPublicKey>
 
 @end
 
-#define MKMPublicKeyFromDictionary(key)                                        \
-            [MKMPublicKey parse:(key)]                                         \
-                                     /* EOF 'MKMPublicKeyFromDictionary(key)' */
-
-#pragma mark - Creation
+#define MKMPublicKeyFromDictionary(keyInfo)                                    \
+            [MKMPublicKey parse:(keyInfo)]                                     \
+                                 /* EOF 'MKMPublicKeyFromDictionary(keyInfo)' */
 
 @protocol MKMPublicKeyFactory <NSObject>
 

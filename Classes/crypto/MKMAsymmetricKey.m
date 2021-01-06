@@ -39,13 +39,17 @@
 
 @implementation MKMAsymmetricKey
 
-static NSString *promise = @"Moky loves May Lee forever!";
+static NSData *promise = nil;
 
-+ (BOOL)asymmetricKey:(id<MKMSignKey>)privateKey matches:(id<MKMVerifyKey>)publicKey {
++ (BOOL)verifyKey:(id<MKMVerifyKey>)pKey isMatch:(id<MKMSignKey>)sKey {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSString *words = @"Moky loves May Lee forever!";
+        promise = [words dataUsingEncoding:NSUTF8StringEncoding];
+    });
     // try to verify via signature
-    NSData *data = [promise dataUsingEncoding:NSUTF8StringEncoding];
-    NSData *signature = [privateKey sign:data];
-    return [publicKey verify:data withSignature:signature];
+    NSData *signature = [sKey sign:promise];
+    return [pKey verify:promise withSignature:signature];
 }
 
 @end

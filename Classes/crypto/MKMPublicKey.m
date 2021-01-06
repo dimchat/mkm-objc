@@ -44,6 +44,10 @@
     return NO;
 }
 
+- (BOOL)isMatch:(id<MKMSignKey>)sKey {
+    return MKMAsymmetricKeysMatch(self, sKey);
+}
+
 @end
 
 @implementation MKMPublicKey (Creation)
@@ -73,7 +77,7 @@ static NSMutableDictionary<NSString *, id<MKMPublicKeyFactory>> *s_factories = n
     } else if ([key conformsToProtocol:@protocol(MKMDictionary)]) {
         key = [(id<MKMDictionary>)key dictionary];
     }
-    NSString *algorithm = [MKMCryptographyKey algorithm:key];
+    NSString *algorithm = MKMCryptographyKeyAlgorithm(key);
     NSAssert(algorithm, @"failed to get algorithm name for key: %@", key);
     id<MKMPublicKeyFactory> factory = [self factoryForAlgorithm:algorithm];
     if (!factory) {

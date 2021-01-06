@@ -39,17 +39,30 @@
 
 @implementation MKMCryptographyKey
 
-+ (NSString *)algorithm:(NSDictionary *)key {
-    return [key objectForKey:@"algorithm"];
-}
-
 - (NSString *)algorithm {
-    return [MKMCryptographyKey algorithm:self.dictionary];
+    return MKMCryptographyKeyAlgorithm(self.dictionary);
 }
 
 - (NSData *)data {
     NSAssert(false, @"implement me!");
     return nil;
+}
+
++ (NSString *)algorithm:(NSDictionary *)key {
+    return [key objectForKey:@"algorithm"];
+}
+
+static NSData *promise = nil;
+
++ (BOOL)decryptKey:(id<MKMDecryptKey>)sKey isMatch:(id<MKMEncryptKey>)pKey {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSString *words = @"Moky loves May Lee forever!";
+        promise = [words dataUsingEncoding:NSUTF8StringEncoding];
+    });
+    NSData *ciphertext = [pKey encrypt:promise];
+    NSData *plaintext = [sKey decrypt:ciphertext];
+    return [plaintext isEqualToData:promise];
 }
 
 @end
