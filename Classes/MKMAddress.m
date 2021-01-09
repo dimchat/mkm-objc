@@ -151,9 +151,9 @@ static id<MKMAddress> s_everywhere = nil;
         _addresses = [[NSMutableDictionary alloc] init];
         // cache broadcast addresses
         id<MKMAddress> anywhere = MKMAnywhere();
-        [_addresses setObject:anywhere forKey:anywhere.string];
+        [_addresses setObject:anywhere forKey:[anywhere string]];
         id<MKMAddress> everywhere = MKMEverywhere();
-        [_addresses setObject:everywhere forKey:everywhere.string];
+        [_addresses setObject:everywhere forKey:[everywhere string]];
     }
     return self;
 }

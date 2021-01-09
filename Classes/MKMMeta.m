@@ -89,7 +89,7 @@
         _type = version;
         
         // public key
-        [self setObject:publicKey forKey:@"key"];
+        [self setObject:[publicKey dictionary] forKey:@"key"];
         _key = publicKey;
         
         if (seed.length > 0) {
