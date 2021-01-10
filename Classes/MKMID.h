@@ -103,6 +103,7 @@ NS_DESIGNATED_INITIALIZER;
 #define MKMAnyone()          [MKMID anyone]
 #define MKMEveryone()        [MKMID everyone]
 
+#define MKMIDCreate(N, A, T) [MKMID create:(N) address:(A) terminal:(T)]
 #define MKMIDFromString(ID)  [MKMID parse:(ID)]
 
 #define MKMIDIsUser(ID)      [(ID) isUser]
@@ -114,8 +115,8 @@ NS_DESIGNATED_INITIALIZER;
 /**
  *  ID for broadcast
  */
-+ (MKMID *)anyone;
-+ (MKMID *)everyone;
++ (id<MKMID>)anyone;
++ (id<MKMID>)everyone;
 
 @end
 

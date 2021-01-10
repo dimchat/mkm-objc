@@ -168,31 +168,25 @@ static inline id<MKMID> parse(NSString *string) {
 }
 
 - (BOOL)isEqual:(id)object {
-    if (self == object) {
-        return YES;
-    }
-    if ([object conformsToProtocol:@protocol(MKMID)]) {
-        // compare with name & address
-        return [MKMID identifier:self isEqual:object];
-    }
-    NSString *str;
-    if ([object conformsToProtocol:@protocol(MKMString)]) {
-        str = [object string];
-    } else if ([object isKindOfClass:[NSString class]]) {
-        str = object;
-    } else {
-        NSAssert(!object, @"ID error: %@", object);
+    if (!object) {
         return NO;
     }
-    // comparing without terminal
-    NSArray<NSString *> *pair = [object componentsSeparatedByString:@"/"];
-    NSAssert(pair.firstObject.length > 0, @"ID error: %@", object);
-    if (_terminal.length == 0) {
-        return [pair.firstObject isEqualToString:self.string];
-    } else {
-        pair = [self.string componentsSeparatedByString:@"/"];
-        return [pair.firstObject isEqualToString:pair.firstObject];
+    if (![object conformsToProtocol:@protocol(MKMID)]) {
+        if ([object conformsToProtocol:@protocol(MKMString)]) {
+            object = [object string];
+        }
+        NSAssert([object isKindOfClass:[NSString class]], @"ID error: %@", object);
+        object = MKMIDFromString(object);
+        if (!object) {
+            return NO;
+        }
     }
+    if (self == object) {
+        // same object
+        return YES;
+    }
+    // compare with name & address
+    return [MKMID identifier:self isEqual:object];
 }
 
 - (MKMNetworkType)type {
@@ -228,21 +222,21 @@ static inline id<MKMID> parse(NSString *string) {
 
 @implementation MKMID (Broadcast)
 
-static MKMID *s_anyone = nil;
-static MKMID *s_everyone = nil;
+static id<MKMID> s_anyone = nil;
+static id<MKMID> s_everyone = nil;
 
-+ (MKMID *)anyone {
++ (id<MKMID>)anyone {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        s_anyone = [[MKMID alloc] initWithName:@"anyone" address:MKMAnywhere()];
+        s_anyone = MKMIDCreate(@"anyone", MKMAnywhere(), nil);
     });
     return s_anyone;
 }
 
-+ (MKMID *)everyone {
++ (id<MKMID>)everyone {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        s_everyone = [[MKMID alloc] initWithName:@"everyone" address:MKMEverywhere()];
+        s_everyone = MKMIDCreate(@"everyone", MKMEverywhere(), nil);
     });
     return s_everyone;
 }

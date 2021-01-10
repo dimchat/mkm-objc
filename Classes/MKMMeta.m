@@ -225,6 +225,9 @@
 }
 
 - (BOOL)matchID:(id<MKMID>)ID {
+    if (![self isValid]) {
+        return NO;
+    }
     // check ID.name
     NSString *seed = self.seed;
     if (seed.length == 0) {

@@ -125,15 +125,15 @@
 }
 
 - (id)copyWithZone:(nullable NSZone *)zone {
-    MKMDocument *profile = [super copyWithZone:zone];
-    if (profile) {
-        profile.ID = _ID;
-        profile.data = _data;
-        profile.signature = _signature;
-        profile.properties = _properties;
-        profile.status = _status;
+    MKMDocument *doc = [super copyWithZone:zone];
+    if (doc) {
+        doc.ID = _ID;
+        doc.data = _data;
+        doc.signature = _signature;
+        doc.properties = _properties;
+        doc.status = _status;
     }
-    return profile;
+    return doc;
 }
 
 - (BOOL)isValid {
@@ -162,14 +162,14 @@
 
 - (NSMutableDictionary *)properties {
     if (_status < 0) {
-        // profile invalid
+        // document invalid
         return nil;
     }
     if (!_properties) {
         NSData *data = [self data];
         if (data) {
             NSDictionary *dict = MKMJSONDecode(data);
-            NSAssert(dict, @"profile data error: %@", data);
+            NSAssert(dict, @"document data error: %@", data);
             if ([dict isKindOfClass:[NSMutableDictionary class]]) {
                 _properties = (NSMutableDictionary *)dict;
             } else {
@@ -220,7 +220,7 @@
     NSData *signature = self.signature;
     if ([data length] == 0) {
         // NOTICE: if data is empty, signature should be empty at the same time
-        //         this happen while profile not found
+        //         this happen while document not found
         if ([signature length] == 0) {
             _status = 0;
         } else {
@@ -234,7 +234,7 @@
         // signature matched
         _status = 1;
     }
-    // NOTICE: if status is 0, it doesn't mean the profile is invalid,
+    // NOTICE: if status is 0, it doesn't mean the document is invalid,
     //         try another key
     return _status == 1;
 }
@@ -242,8 +242,8 @@
 - (NSData *)sign:(id<MKMSignKey>)SK {
     if (_status > 0) {
         // already signed/verified
-        NSAssert([_data length] > 0, @"profile data error");
-        NSAssert([_signature length] > 0, @"profile signature error");
+        NSAssert([_data length] > 0, @"document data error");
+        NSAssert([_signature length] > 0, @"document signature error");
         return _signature;
     }
     _status = 1;
