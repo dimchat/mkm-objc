@@ -7,54 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5276BF4D2361C5F600AEC8E4 /* MKMString.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8FF21CBBAF6009690F6 /* MKMString.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5276BF4E2361C5F600AEC8E4 /* MKMDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8FE21CBBAF6009690F6 /* MKMDictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5276BF4F2361C5F600AEC8E4 /* MKMSymmetricKey.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8E021CBBAF6009690F6 /* MKMSymmetricKey.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5276BF502361C5F600AEC8E4 /* MKMPublicKey.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8DD21CBBAF6009690F6 /* MKMPublicKey.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5276BF512361C5F600AEC8E4 /* MKMCryptographyKey.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8DB21CBBAF6009690F6 /* MKMCryptographyKey.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5276BF522361C5F600AEC8E4 /* MKMPrivateKey.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8E821CBBAF6009690F6 /* MKMPrivateKey.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5276BF532361C5F600AEC8E4 /* MKMAsymmetricKey.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8D421CBBAF6009690F6 /* MKMAsymmetricKey.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5276BF702361C5F600AEC8E4 /* MKMCryptographyKey.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8E921CBBAF6009690F6 /* MKMCryptographyKey.m */; };
-		5276BF762361C5F600AEC8E4 /* MKMString.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8FD21CBBAF6009690F6 /* MKMString.m */; };
-		5276BF792361C5F600AEC8E4 /* MKMPublicKey.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8E721CBBAF6009690F6 /* MKMPublicKey.m */; };
-		5276BF7A2361C5F600AEC8E4 /* MKMDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8FC21CBBAF6009690F6 /* MKMDictionary.m */; };
-		5276BF7D2361C5F600AEC8E4 /* MKMPrivateKey.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8DC21CBBAF6009690F6 /* MKMPrivateKey.m */; };
-		5276BF832361C5F600AEC8E4 /* MKMAsymmetricKey.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8E521CBBAF6009690F6 /* MKMAsymmetricKey.m */; };
-		5276BF8A2361C5F600AEC8E4 /* MKMSymmetricKey.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8D921CBBAF6009690F6 /* MKMSymmetricKey.m */; };
 		52FBA6322484EE5200B309F6 /* MingKeMing.h in Headers */ = {isa = PBXBuildFile; fileRef = 52FBA6312484EE5200B309F6 /* MingKeMing.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		52FBA6332484EE5200B309F6 /* MingKeMing.h in Headers */ = {isa = PBXBuildFile; fileRef = 52FBA6312484EE5200B309F6 /* MingKeMing.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E915CE96243C96C200B98FE3 /* MKMDataParser.m in Sources */ = {isa = PBXBuildFile; fileRef = E915CE92243C96C200B98FE3 /* MKMDataParser.m */; };
 		E915CE97243C96C200B98FE3 /* MKMDataCoder.m in Sources */ = {isa = PBXBuildFile; fileRef = E915CE93243C96C200B98FE3 /* MKMDataCoder.m */; };
 		E915CE98243C96C200B98FE3 /* MKMDataParser.h in Headers */ = {isa = PBXBuildFile; fileRef = E915CE94243C96C200B98FE3 /* MKMDataParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E915CE99243C96C200B98FE3 /* MKMDataCoder.h in Headers */ = {isa = PBXBuildFile; fileRef = E915CE95243C96C200B98FE3 /* MKMDataCoder.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E915CE9A243C970200B98FE3 /* MKMDataCoder.h in Headers */ = {isa = PBXBuildFile; fileRef = E915CE95243C96C200B98FE3 /* MKMDataCoder.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E915CE9B243C970A00B98FE3 /* MKMDataCoder.m in Sources */ = {isa = PBXBuildFile; fileRef = E915CE93243C96C200B98FE3 /* MKMDataCoder.m */; };
-		E915CE9C243C970D00B98FE3 /* MKMDataParser.h in Headers */ = {isa = PBXBuildFile; fileRef = E915CE94243C96C200B98FE3 /* MKMDataParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E915CE9D243C971400B98FE3 /* MKMDataParser.m in Sources */ = {isa = PBXBuildFile; fileRef = E915CE92243C96C200B98FE3 /* MKMDataParser.m */; };
 		E915CEA0243C978600B98FE3 /* MKMDataDigester.h in Headers */ = {isa = PBXBuildFile; fileRef = E915CE9E243C978600B98FE3 /* MKMDataDigester.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E915CEA1243C978600B98FE3 /* MKMDataDigester.m in Sources */ = {isa = PBXBuildFile; fileRef = E915CE9F243C978600B98FE3 /* MKMDataDigester.m */; };
-		E915CEA2243C979700B98FE3 /* MKMDataDigester.h in Headers */ = {isa = PBXBuildFile; fileRef = E915CE9E243C978600B98FE3 /* MKMDataDigester.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E915CEA3243C979700B98FE3 /* MKMDataDigester.m in Sources */ = {isa = PBXBuildFile; fileRef = E915CE9F243C978600B98FE3 /* MKMDataDigester.m */; };
 		E97E138D259B118C0016A68C /* MKMID.h in Headers */ = {isa = PBXBuildFile; fileRef = E97E1383259B118B0016A68C /* MKMID.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E97E138E259B118C0016A68C /* MKMID.h in Headers */ = {isa = PBXBuildFile; fileRef = E97E1383259B118B0016A68C /* MKMID.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E97E138F259B118C0016A68C /* MKMID.m in Sources */ = {isa = PBXBuildFile; fileRef = E97E1384259B118B0016A68C /* MKMID.m */; };
-		E97E1390259B118C0016A68C /* MKMID.m in Sources */ = {isa = PBXBuildFile; fileRef = E97E1384259B118B0016A68C /* MKMID.m */; };
 		E97E1391259B118C0016A68C /* MKMTai.m in Sources */ = {isa = PBXBuildFile; fileRef = E97E1385259B118B0016A68C /* MKMTai.m */; };
-		E97E1392259B118C0016A68C /* MKMTai.m in Sources */ = {isa = PBXBuildFile; fileRef = E97E1385259B118B0016A68C /* MKMTai.m */; };
 		E97E1393259B118C0016A68C /* MKMMeta.h in Headers */ = {isa = PBXBuildFile; fileRef = E97E1386259B118B0016A68C /* MKMMeta.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E97E1394259B118C0016A68C /* MKMMeta.h in Headers */ = {isa = PBXBuildFile; fileRef = E97E1386259B118B0016A68C /* MKMMeta.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E97E1395259B118C0016A68C /* MKMAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = E97E1387259B118B0016A68C /* MKMAddress.m */; };
-		E97E1396259B118C0016A68C /* MKMAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = E97E1387259B118B0016A68C /* MKMAddress.m */; };
 		E97E1397259B118C0016A68C /* MKMMeta.m in Sources */ = {isa = PBXBuildFile; fileRef = E97E1388259B118B0016A68C /* MKMMeta.m */; };
-		E97E1398259B118C0016A68C /* MKMMeta.m in Sources */ = {isa = PBXBuildFile; fileRef = E97E1388259B118B0016A68C /* MKMMeta.m */; };
 		E97E1399259B118C0016A68C /* MKMProfile.h in Headers */ = {isa = PBXBuildFile; fileRef = E97E1389259B118B0016A68C /* MKMProfile.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E97E139A259B118C0016A68C /* MKMProfile.h in Headers */ = {isa = PBXBuildFile; fileRef = E97E1389259B118B0016A68C /* MKMProfile.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E97E139B259B118C0016A68C /* MKMProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = E97E138A259B118C0016A68C /* MKMProfile.m */; };
-		E97E139C259B118C0016A68C /* MKMProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = E97E138A259B118C0016A68C /* MKMProfile.m */; };
 		E97E139D259B118C0016A68C /* MKMTai.h in Headers */ = {isa = PBXBuildFile; fileRef = E97E138B259B118C0016A68C /* MKMTai.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E97E139E259B118C0016A68C /* MKMTai.h in Headers */ = {isa = PBXBuildFile; fileRef = E97E138B259B118C0016A68C /* MKMTai.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E97E139F259B118C0016A68C /* MKMAddress.h in Headers */ = {isa = PBXBuildFile; fileRef = E97E138C259B118C0016A68C /* MKMAddress.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E97E13A0259B118C0016A68C /* MKMAddress.h in Headers */ = {isa = PBXBuildFile; fileRef = E97E138C259B118C0016A68C /* MKMAddress.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E9F3A6A421CA4627009690F6 /* MingKeMing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9F3A69A21CA4627009690F6 /* MingKeMing.framework */; };
 		E9F3A6A921CA4627009690F6 /* MingKeMingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A6A821CA4627009690F6 /* MingKeMingTests.m */; };
 		E9F3A94321CBBAF7009690F6 /* MKMAsymmetricKey.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8D421CBBAF6009690F6 /* MKMAsymmetricKey.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -84,8 +53,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		5276BF932361C5F600AEC8E4 /* MingKeMing-Mac.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "MingKeMing-Mac.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
-		5276BF942361C5F600AEC8E4 /* MingKeMing-Mac-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "MingKeMing-Mac-Info.plist"; path = "/Users/john/Documents/workspace/iphone/dimchat/mkm-objc/MingKeMing/MingKeMing-Mac-Info.plist"; sourceTree = "<absolute>"; };
 		52FBA6312484EE5200B309F6 /* MingKeMing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MingKeMing.h; sourceTree = "<group>"; };
 		E915CE92243C96C200B98FE3 /* MKMDataParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMDataParser.m; sourceTree = "<group>"; };
 		E915CE93243C96C200B98FE3 /* MKMDataCoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMDataCoder.m; sourceTree = "<group>"; };
@@ -126,13 +93,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		5276BF8B2361C5F600AEC8E4 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		E9F3A69721CA4627009690F6 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -190,7 +150,6 @@
 			children = (
 				E9F3A69A21CA4627009690F6 /* MingKeMing.framework */,
 				E9F3A6A321CA4627009690F6 /* MingKeMingTests.xctest */,
-				5276BF932361C5F600AEC8E4 /* MingKeMing-Mac.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -198,7 +157,6 @@
 		E9F3A69C21CA4627009690F6 /* MingKeMing */ = {
 			isa = PBXGroup;
 			children = (
-				5276BF942361C5F600AEC8E4 /* MingKeMing-Mac-Info.plist */,
 				E9F3A69E21CA4627009690F6 /* Info.plist */,
 			);
 			path = MingKeMing;
@@ -273,29 +231,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		5276BF4B2361C5F600AEC8E4 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E915CEA2243C979700B98FE3 /* MKMDataDigester.h in Headers */,
-				5276BF4D2361C5F600AEC8E4 /* MKMString.h in Headers */,
-				5276BF4E2361C5F600AEC8E4 /* MKMDictionary.h in Headers */,
-				E97E138E259B118C0016A68C /* MKMID.h in Headers */,
-				5276BF4F2361C5F600AEC8E4 /* MKMSymmetricKey.h in Headers */,
-				5276BF502361C5F600AEC8E4 /* MKMPublicKey.h in Headers */,
-				5276BF512361C5F600AEC8E4 /* MKMCryptographyKey.h in Headers */,
-				E915CE9C243C970D00B98FE3 /* MKMDataParser.h in Headers */,
-				E97E139E259B118C0016A68C /* MKMTai.h in Headers */,
-				5276BF522361C5F600AEC8E4 /* MKMPrivateKey.h in Headers */,
-				52FBA6332484EE5200B309F6 /* MingKeMing.h in Headers */,
-				E97E139A259B118C0016A68C /* MKMProfile.h in Headers */,
-				5276BF532361C5F600AEC8E4 /* MKMAsymmetricKey.h in Headers */,
-				E97E13A0259B118C0016A68C /* MKMAddress.h in Headers */,
-				E97E1394259B118C0016A68C /* MKMMeta.h in Headers */,
-				E915CE9A243C970200B98FE3 /* MKMDataCoder.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		E9F3A69521CA4627009690F6 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -322,24 +257,6 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		5276BF4A2361C5F600AEC8E4 /* MingKeMing-Mac */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 5276BF902361C5F600AEC8E4 /* Build configuration list for PBXNativeTarget "MingKeMing-Mac" */;
-			buildPhases = (
-				5276BF4B2361C5F600AEC8E4 /* Headers */,
-				5276BF6E2361C5F600AEC8E4 /* Sources */,
-				5276BF8B2361C5F600AEC8E4 /* Frameworks */,
-				5276BF8D2361C5F600AEC8E4 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "MingKeMing-Mac";
-			productName = MingKeMing;
-			productReference = 5276BF932361C5F600AEC8E4 /* MingKeMing-Mac.framework */;
-			productType = "com.apple.product-type.framework";
-		};
 		E9F3A69921CA4627009690F6 /* MingKeMing */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = E9F3A6AE21CA4627009690F6 /* Build configuration list for PBXNativeTarget "MingKeMing" */;
@@ -382,7 +299,7 @@
 		E9F3A69121CA4627009690F6 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1010;
+				LastUpgradeCheck = 1230;
 				ORGANIZATIONNAME = "DIM Group";
 				TargetAttributes = {
 					E9F3A69921CA4627009690F6 = {
@@ -407,20 +324,12 @@
 			projectRoot = "";
 			targets = (
 				E9F3A69921CA4627009690F6 /* MingKeMing */,
-				5276BF4A2361C5F600AEC8E4 /* MingKeMing-Mac */,
 				E9F3A6A221CA4627009690F6 /* MingKeMingTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		5276BF8D2361C5F600AEC8E4 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		E9F3A69821CA4627009690F6 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -438,28 +347,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		5276BF6E2361C5F600AEC8E4 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E97E1398259B118C0016A68C /* MKMMeta.m in Sources */,
-				5276BF702361C5F600AEC8E4 /* MKMCryptographyKey.m in Sources */,
-				E915CEA3243C979700B98FE3 /* MKMDataDigester.m in Sources */,
-				5276BF762361C5F600AEC8E4 /* MKMString.m in Sources */,
-				5276BF792361C5F600AEC8E4 /* MKMPublicKey.m in Sources */,
-				E915CE9B243C970A00B98FE3 /* MKMDataCoder.m in Sources */,
-				5276BF7A2361C5F600AEC8E4 /* MKMDictionary.m in Sources */,
-				E97E1392259B118C0016A68C /* MKMTai.m in Sources */,
-				5276BF7D2361C5F600AEC8E4 /* MKMPrivateKey.m in Sources */,
-				E915CE9D243C971400B98FE3 /* MKMDataParser.m in Sources */,
-				E97E139C259B118C0016A68C /* MKMProfile.m in Sources */,
-				E97E1396259B118C0016A68C /* MKMAddress.m in Sources */,
-				5276BF832361C5F600AEC8E4 /* MKMAsymmetricKey.m in Sources */,
-				5276BF8A2361C5F600AEC8E4 /* MKMSymmetricKey.m in Sources */,
-				E97E1390259B118C0016A68C /* MKMID.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		E9F3A69621CA4627009690F6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -501,60 +388,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		5276BF912361C5F600AEC8E4 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = "";
-				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Automatic;
-				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = JUVC7SZJE7;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "MingKeMing-Mac-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = DIM.MingKeMing;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		5276BF922361C5F600AEC8E4 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = "";
-				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Automatic;
-				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = JUVC7SZJE7;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "MingKeMing-Mac-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = DIM.MingKeMing;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
 		E9F3A6AC21CA4627009690F6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -581,6 +414,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -608,7 +442,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -644,6 +478,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -665,7 +500,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -682,13 +517,13 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = EQ22GS36XN;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = MingKeMing/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -708,13 +543,13 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = EQ22GS36XN;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = MingKeMing/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -764,15 +599,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		5276BF902361C5F600AEC8E4 /* Build configuration list for PBXNativeTarget "MingKeMing-Mac" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				5276BF912361C5F600AEC8E4 /* Debug */,
-				5276BF922361C5F600AEC8E4 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		E9F3A69421CA4627009690F6 /* Build configuration list for PBXProject "MingKeMing" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
