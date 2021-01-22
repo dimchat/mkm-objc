@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		52FBA6322484EE5200B309F6 /* MingKeMing.h in Headers */ = {isa = PBXBuildFile; fileRef = 52FBA6312484EE5200B309F6 /* MingKeMing.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E915CE96243C96C200B98FE3 /* MKMDataParser.m in Sources */ = {isa = PBXBuildFile; fileRef = E915CE92243C96C200B98FE3 /* MKMDataParser.m */; };
 		E915CE97243C96C200B98FE3 /* MKMDataCoder.m in Sources */ = {isa = PBXBuildFile; fileRef = E915CE93243C96C200B98FE3 /* MKMDataCoder.m */; };
 		E915CE98243C96C200B98FE3 /* MKMDataParser.h in Headers */ = {isa = PBXBuildFile; fileRef = E915CE94243C96C200B98FE3 /* MKMDataParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -24,6 +23,7 @@
 		E97E139B259B118C0016A68C /* MKMProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = E97E138A259B118C0016A68C /* MKMProfile.m */; };
 		E97E139D259B118C0016A68C /* MKMTai.h in Headers */ = {isa = PBXBuildFile; fileRef = E97E138B259B118C0016A68C /* MKMTai.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E97E139F259B118C0016A68C /* MKMAddress.h in Headers */ = {isa = PBXBuildFile; fileRef = E97E138C259B118C0016A68C /* MKMAddress.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E9D71E9E25BB26EE00773ED1 /* MingKeMing.h in Headers */ = {isa = PBXBuildFile; fileRef = E9D71E9D25BB26EE00773ED1 /* MingKeMing.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E9F3A6A421CA4627009690F6 /* MingKeMing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9F3A69A21CA4627009690F6 /* MingKeMing.framework */; };
 		E9F3A6A921CA4627009690F6 /* MingKeMingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A6A821CA4627009690F6 /* MingKeMingTests.m */; };
 		E9F3A94321CBBAF7009690F6 /* MKMAsymmetricKey.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8D421CBBAF6009690F6 /* MKMAsymmetricKey.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -53,7 +53,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		52FBA6312484EE5200B309F6 /* MingKeMing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MingKeMing.h; sourceTree = "<group>"; };
 		E915CE92243C96C200B98FE3 /* MKMDataParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMDataParser.m; sourceTree = "<group>"; };
 		E915CE93243C96C200B98FE3 /* MKMDataCoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMDataCoder.m; sourceTree = "<group>"; };
 		E915CE94243C96C200B98FE3 /* MKMDataParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMDataParser.h; sourceTree = "<group>"; };
@@ -70,6 +69,7 @@
 		E97E138A259B118C0016A68C /* MKMProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMProfile.m; sourceTree = "<group>"; };
 		E97E138B259B118C0016A68C /* MKMTai.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMTai.h; sourceTree = "<group>"; };
 		E97E138C259B118C0016A68C /* MKMAddress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMAddress.h; sourceTree = "<group>"; };
+		E9D71E9D25BB26EE00773ED1 /* MingKeMing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MingKeMing.h; sourceTree = "<group>"; };
 		E9F3A69A21CA4627009690F6 /* MingKeMing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MingKeMing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9F3A69E21CA4627009690F6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E9F3A6A321CA4627009690F6 /* MingKeMingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MingKeMingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -111,15 +111,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		52FBA6302484EE5200B309F6 /* Framework */ = {
-			isa = PBXGroup;
-			children = (
-				52FBA6312484EE5200B309F6 /* MingKeMing.h */,
-			);
-			name = Framework;
-			path = ../Framework;
-			sourceTree = "<group>";
-		};
 		E915CE91243C96C200B98FE3 /* data */ = {
 			isa = PBXGroup;
 			children = (
@@ -136,7 +127,6 @@
 		E9F3A69021CA4627009690F6 = {
 			isa = PBXGroup;
 			children = (
-				52FBA6302484EE5200B309F6 /* Framework */,
 				E9F3A8D121CBBAF6009690F6 /* Classes */,
 				E9F3A69C21CA4627009690F6 /* MingKeMing */,
 				E9F3A6A721CA4627009690F6 /* MingKeMingTests */,
@@ -187,6 +177,7 @@
 				E97E138A259B118C0016A68C /* MKMProfile.m */,
 				E97E138B259B118C0016A68C /* MKMTai.h */,
 				E97E1385259B118B0016A68C /* MKMTai.m */,
+				E9D71E9D25BB26EE00773ED1 /* MingKeMing.h */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -243,9 +234,9 @@
 				E9F3A94C21CBBAF7009690F6 /* MKMPublicKey.h in Headers */,
 				E9F3A94A21CBBAF7009690F6 /* MKMCryptographyKey.h in Headers */,
 				E9F3A95721CBBAF7009690F6 /* MKMPrivateKey.h in Headers */,
+				E9D71E9E25BB26EE00773ED1 /* MingKeMing.h in Headers */,
 				E97E139D259B118C0016A68C /* MKMTai.h in Headers */,
 				E9F3A94321CBBAF7009690F6 /* MKMAsymmetricKey.h in Headers */,
-				52FBA6322484EE5200B309F6 /* MingKeMing.h in Headers */,
 				E97E1399259B118C0016A68C /* MKMProfile.h in Headers */,
 				E915CE98243C96C200B98FE3 /* MKMDataParser.h in Headers */,
 				E97E139F259B118C0016A68C /* MKMAddress.h in Headers */,

@@ -35,7 +35,7 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import "MKMAsymmetricKey.h"
+#import <MingKeMing/MKMAsymmetricKey.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
