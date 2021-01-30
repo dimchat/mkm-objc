@@ -221,7 +221,7 @@
         NSAssert(false, @"failed to generate address with type: %d", type);
         return nil;
     }
-    return [[MKMID alloc] initWithName:self.seed address:address terminal:terminal];
+    return MKMIDCreate(self.seed, address, terminal);
 }
 
 - (BOOL)matchID:(id<MKMID>)ID {
