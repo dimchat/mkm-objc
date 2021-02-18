@@ -187,7 +187,11 @@
 }
 
 - (nullable NSObject *)propertyForKey:(NSString *)key {
-    return [self.properties objectForKey:key];
+    NSObject *property = [self.properties objectForKey:key];
+    if (property == [NSNull null]) {
+        return nil;
+    }
+    return property;
 }
 
 - (void)setProperty:(nullable NSObject *)value forKey:(NSString *)key {

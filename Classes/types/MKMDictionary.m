@@ -127,7 +127,11 @@
 }
 
 - (id)objectForKey:(NSString *)aKey {
-    return [_storeDictionary objectForKey:aKey];
+    id object = [_storeDictionary objectForKey:aKey];
+    if (object == [NSNull null]) {
+        return nil;
+    }
+    return object;
 }
 
 - (void)removeObjectForKey:(NSString *)aKey {

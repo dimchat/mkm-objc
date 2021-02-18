@@ -46,7 +46,7 @@
 
 @interface MKMMeta ()
 
-@property (nonatomic) MKMMetaType type;
+@property (nonatomic) UInt8 type;
 @property (strong, nonatomic) id<MKMVerifyKey> key;
 @property (strong, nonatomic, nullable) NSString *seed;
 @property (strong, nonatomic, nullable) NSData *fingerprint;
@@ -78,7 +78,7 @@
 }
 
 /* designated initializer */
-- (instancetype)initWithType:(MKMMetaType)version
+- (instancetype)initWithType:(UInt8)version
                          key:(id<MKMVerifyKey>)publicKey
                         seed:(NSString *)seed
                  fingerprint:(NSData *)fingerprint {
@@ -120,7 +120,7 @@
     return meta;
 }
 
-+ (MKMMetaType)type:(NSDictionary *)meta {
++ (UInt8)type:(NSDictionary *)meta {
     NSNumber *version = [meta objectForKey:@"type"];
     if (!version) {
         // compatible with v1.0
@@ -130,7 +130,7 @@
     return [version unsignedCharValue];
 }
 
-- (MKMMetaType)type {
+- (UInt8)type {
     if (_type == 0) {
         _type = [MKMMeta type:self.dictionary];
     }
@@ -209,12 +209,12 @@
     return _status == 1;
 }
 
-- (nullable __kindof id<MKMAddress>)generateAddress:(MKMNetworkType)type {
+- (nullable __kindof id<MKMAddress>)generateAddress:(UInt8)type {
     NSAssert(false, @"implement me!");
     return nil;
 }
 
-- (nullable id<MKMID>)generateID:(MKMNetworkType)type
+- (nullable id<MKMID>)generateID:(UInt8)type
                         terminal:(nullable NSString *)terminal {
     id<MKMAddress> address = [self generateAddress:type];
     if (!address) {
@@ -269,7 +269,7 @@
 
 static NSMutableDictionary<NSNumber *, id<MKMMetaFactory>> *s_factories = nil;
 
-+ (void)setFactory:(id<MKMMetaFactory>)factory forType:(MKMMetaType)type {
++ (void)setFactory:(id<MKMMetaFactory>)factory forType:(UInt8)type {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         //if (!s_factories) {
@@ -279,12 +279,12 @@ static NSMutableDictionary<NSNumber *, id<MKMMetaFactory>> *s_factories = nil;
     [s_factories setObject:factory forKey:@(type)];
 }
 
-+ (id<MKMMetaFactory>)factoryForType:(MKMMetaType)type {
++ (id<MKMMetaFactory>)factoryForType:(UInt8)type {
     NSAssert(s_factories, @"meta factories not set yet");
     return [s_factories objectForKey:@(type)];
 }
 
-+ (__kindof id<MKMMeta>)createWithType:(MKMMetaType)version
++ (__kindof id<MKMMeta>)createWithType:(UInt8)version
                                    key:(id<MKMPublicKey>)PK
                                   seed:(nullable NSString *)name
                            fingerprint:(nullable NSData *)CT {
@@ -293,7 +293,7 @@ static NSMutableDictionary<NSNumber *, id<MKMMetaFactory>> *s_factories = nil;
     return [factory createMetaWithPublicKey:PK seed:name fingerprint:CT];
 }
 
-+ (__kindof id<MKMMeta>)generateWithType:(MKMMetaType)version
++ (__kindof id<MKMMeta>)generateWithType:(UInt8)version
                               privateKey:(id<MKMPrivateKey>)SK
                                     seed:(nullable NSString *)name {
     id<MKMMetaFactory> factory = [self factoryForType:version];
@@ -309,7 +309,7 @@ static NSMutableDictionary<NSNumber *, id<MKMMetaFactory>> *s_factories = nil;
     } else if ([meta conformsToProtocol:@protocol(MKMDictionary)]) {
         meta = [(id<MKMDictionary>)meta dictionary];
     }
-    MKMMetaType type = [self type:meta];
+    UInt8 type = [self type:meta];
     id<MKMMetaFactory> factory = [self factoryForType:type];
     if (!factory) {
         factory = [self factoryForType:0];  // unknown

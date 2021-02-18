@@ -37,32 +37,62 @@
 
 #import "MKMAddress.h"
 
-@interface MKMAddress ()
-
-@property (nonatomic) MKMNetworkType network;
-
-@end
-
-@implementation MKMAddress
+@implementation MKMBaseAddress
 
 - (instancetype)init {
     NSAssert(false, @"DON'T call me!");
     NSString *string = nil;
-    return [self initWithString:string network:0];
+    return [self initWithString:string];
 }
 
 - (nullable instancetype)initWithCoder:(NSCoder *)aDecoder {
     NSAssert(false, @"DON'T call me!");
     NSString *string = nil;
-    return [self initWithString:string network:0];
-}
-
-- (instancetype)initWithString:(NSString *)aString {
-    return [self initWithString:aString network:0];
+    return [self initWithString:string];
 }
 
 /* designated initializer */
-- (instancetype)initWithString:(NSString *)address network:(MKMNetworkType)type {
+- (instancetype)initWithString:(NSString *)address {
+    if (self = [super initWithString:address]) {
+    }
+    return self;
+}
+
+- (UInt8)network {
+    NSAssert(false, @"implement me!");
+    return 0;
+}
+
+- (BOOL)isBroadcast {
+    return NO;
+}
+
+- (BOOL)isUser {
+    return MKMNetwork_IsUser(self.network);
+}
+
+- (BOOL)isGroup {
+    return MKMNetwork_IsGroup(self.network);
+}
+
+@end
+
+@interface MKMAddress () {
+    
+    UInt8 _network;
+}
+
+@end
+
+@implementation MKMAddress
+
+- (instancetype)initWithString:(NSString *)address {
+    NSAssert(false, @"DON'T call me!");
+    return [self initWithString:address network:0];
+}
+
+/* designated initializer */
+- (instancetype)initWithString:(NSString *)address network:(UInt8)type {
     if (self = [super initWithString:address]) {
         _network = type;
     }
@@ -77,17 +107,12 @@
     return address;
 }
 
-- (BOOL)isBroadcast {
-    //return [self isKindOfClass:[BroadcastAddress class]];
-    return NO;
+- (UInt8)network {
+    return _network;
 }
 
-- (BOOL)isUser {
-    return MKMNetwork_IsUser(self.network);
-}
-
-- (BOOL)isGroup {
-    return MKMNetwork_IsGroup(self.network);
+- (void)setNetwork:(UInt8)network {
+    _network = network;
 }
 
 @end

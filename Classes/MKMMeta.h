@@ -108,7 +108,7 @@ typedef UInt8 MKMMetaType;
  *      0x05 - username@eth_address
  *      ....
  */
-@property (readonly, nonatomic) MKMMetaType type;
+@property (readonly, nonatomic) UInt8 type;
 
 /**
  *  Public key
@@ -145,7 +145,7 @@ typedef UInt8 MKMMetaType;
  * @param type - ID.type
  * @return Address
  */
-- (nullable __kindof id<MKMAddress>)generateAddress:(MKMNetworkType)type;
+- (nullable __kindof id<MKMAddress>)generateAddress:(UInt8)type;
 
 /**
  *  Generate ID with terminal
@@ -154,7 +154,7 @@ typedef UInt8 MKMMetaType;
  * @param terminal - ID.terminal
  * @return ID
  */
-- (nullable id<MKMID>)generateID:(MKMNetworkType)type
+- (nullable id<MKMID>)generateID:(UInt8)type
                         terminal:(nullable NSString *)terminal;
 
 /**
@@ -178,7 +178,7 @@ typedef UInt8 MKMMetaType;
 
 @interface MKMMeta : MKMDictionary <MKMMeta>
 
-+ (MKMMetaType)type:(NSDictionary *)meta;
++ (UInt8)type:(NSDictionary *)meta;
 
 + (id<MKMVerifyKey>)key:(NSDictionary *)meta;
 
@@ -192,7 +192,7 @@ typedef UInt8 MKMMetaType;
 - (instancetype)initWithDictionary:(NSDictionary *)dict
 NS_DESIGNATED_INITIALIZER;
 
-- (instancetype)initWithType:(MKMMetaType)version
+- (instancetype)initWithType:(UInt8)version
                          key:(id<MKMVerifyKey>)PK
                         seed:(NSString *)name
                  fingerprint:(NSData *)CT
@@ -256,15 +256,15 @@ NS_DESIGNATED_INITIALIZER;
 
 @interface MKMMeta (Creation)
 
-+ (id<MKMMetaFactory>)factoryForType:(MKMMetaType)type;
-+ (void)setFactory:(id<MKMMetaFactory>)factory forType:(MKMMetaType)type;
++ (id<MKMMetaFactory>)factoryForType:(UInt8)type;
++ (void)setFactory:(id<MKMMetaFactory>)factory forType:(UInt8)type;
 
-+ (__kindof id<MKMMeta>)createWithType:(MKMMetaType)version
++ (__kindof id<MKMMeta>)createWithType:(UInt8)version
                                    key:(id<MKMPublicKey>)PK
                                   seed:(nullable NSString *)name
                            fingerprint:(nullable NSData *)CT;
 
-+ (__kindof id<MKMMeta>)generateWithType:(MKMMetaType)version
++ (__kindof id<MKMMeta>)generateWithType:(UInt8)version
                               privateKey:(id<MKMPrivateKey>)SK
                                     seed:(nullable NSString *)name;
 

@@ -55,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly, strong, nonatomic) __kindof id<MKMAddress> address;
 @property (readonly, strong, nonatomic, nullable) NSString *terminal;
 
-@property (readonly, nonatomic) MKMNetworkType type; // Network ID
+@property (readonly, nonatomic) UInt8 type; // Network ID
 
 - (BOOL)isBroadcast;
 

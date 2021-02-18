@@ -189,7 +189,7 @@ static inline id<MKMID> parse(NSString *string) {
     return [MKMID identifier:self isEqual:object];
 }
 
-- (MKMNetworkType)type {
+- (UInt8)type {
     return _address.network;
 }
 

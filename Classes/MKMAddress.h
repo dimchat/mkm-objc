@@ -141,7 +141,7 @@ typedef UInt8 MKMNetworkType;
 
 @protocol MKMAddress <MKMString>
 
-@property (readonly, nonatomic) MKMNetworkType network; // Network ID
+@property (readonly, nonatomic) UInt8 network; // Network ID
 
 - (BOOL)isBroadcast;
 
@@ -150,10 +150,17 @@ typedef UInt8 MKMNetworkType;
 
 @end
 
-@interface MKMAddress : MKMString <MKMAddress>
+#pragma mark -
 
-- (instancetype)initWithString:(NSString *)address network:(MKMNetworkType)type
-NS_DESIGNATED_INITIALIZER;
+@interface MKMBaseAddress : MKMString <MKMAddress>
+
+- (instancetype)initWithString:(NSString *)address NS_DESIGNATED_INITIALIZER;
+
+@end
+
+@interface MKMAddress : MKMBaseAddress
+
+- (instancetype)initWithString:(NSString *)address network:(UInt8)type NS_DESIGNATED_INITIALIZER;
 
 @end
 
