@@ -87,7 +87,7 @@
 @implementation MKMAddress
 
 - (instancetype)initWithString:(NSString *)address {
-    NSAssert(false, @"DON'T call me!");
+    //NSAssert(false, @"DON'T call me!");
     return [self initWithString:address network:0];
 }
 
