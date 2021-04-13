@@ -163,10 +163,6 @@ static inline id<MKMID> parse(NSString *string) {
     return identifier;
 }
 
-- (NSUInteger)hash {
-    return [self.address hash];
-}
-
 - (BOOL)isEqual:(id)object {
     if (!object) {
         return NO;
