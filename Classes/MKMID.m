@@ -163,27 +163,23 @@ static inline id<MKMID> parse(NSString *string) {
     return identifier;
 }
 
-- (BOOL)isEqual:(id)object {
-    if (!object) {
-        return NO;
-    }
-    if (![object conformsToProtocol:@protocol(MKMID)]) {
-        if ([object conformsToProtocol:@protocol(MKMString)]) {
-            object = [object string];
-        }
-        NSAssert([object isKindOfClass:[NSString class]], @"ID error: %@", object);
-        object = MKMIDFromString(object);
-        if (!object) {
-            return NO;
-        }
-    }
-    if (self == object) {
-        // same object
-        return YES;
-    }
-    // compare with name & address
-    return [MKMID identifier:self isEqual:object];
-}
+//- (BOOL)isEqual:(id)object {
+//    if (!object) {
+//        return NO;
+//    }
+//    if (![object conformsToProtocol:@protocol(MKMID)]) {
+//        if ([object conformsToProtocol:@protocol(MKMString)]) {
+//            object = [object string];
+//        }
+//        NSAssert([object isKindOfClass:[NSString class]], @"ID error: %@", object);
+//        object = MKMIDFromString(object);
+//        if (!object) {
+//            return NO;
+//        }
+//    }
+//    // compare with name & address
+//    return [MKMID identifier:self isEqual:object];
+//}
 
 - (UInt8)type {
     return _address.network;
@@ -201,18 +197,22 @@ static inline id<MKMID> parse(NSString *string) {
     return [_address isGroup];
 }
 
-+ (BOOL)identifier:(id<MKMID>)ID1 isEqual:(id<MKMID>)ID2 {
-    // check ID.address
-    if ([ID1.address isEqual:ID2.address]) {
-        // check ID.name
-        if (ID1.name.length == 0) {
-            return ID2.name.length == 0;
-        } else {
-            return [ID1.name isEqualToString:ID2.name];
-        }
-    }
-    return NO;
-}
+//+ (BOOL)identifier:(id<MKMID>)ID1 isEqual:(id<MKMID>)ID2 {
+//    if (ID1 == ID2) {
+//        // same object
+//        return YES;
+//    }
+//    // check ID.address
+//    if ([ID1.address isEqual:ID2.address]) {
+//        // check ID.name
+//        if (ID1.name.length == 0) {
+//            return ID2.name.length == 0;
+//        } else {
+//            return [ID1.name isEqualToString:ID2.name];
+//        }
+//    }
+//    return NO;
+//}
 
 @end
 

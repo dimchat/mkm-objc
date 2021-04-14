@@ -250,7 +250,12 @@
         NSAssert([_signature length] > 0, @"document signature error");
         return _signature;
     }
+    // update sign time
+    NSDate *now = [[NSDate alloc] init];
+    [self setProperty:@([now timeIntervalSince1970]) forKey:@"time"];
+    // update status
     _status = 1;
+    // sign
     _data = MKMJSONEncode(self.properties);
     _signature = [SK sign:_data];
     // update 'data' & 'signature' fields
@@ -279,6 +284,15 @@
 }
 
 #pragma mark properties getter/setter
+
+- (NSDate *)time {
+    NSNumber *timestamp = (NSNumber *)[self propertyForKey:@"time"];
+    if (!timestamp) {
+        //NSAssert(false, @"sign time not found: %@", env);
+        return nil;
+    }
+    return [[NSDate alloc] initWithTimeIntervalSince1970:[timestamp doubleValue]];
+}
 
 - (NSString *)name {
     return (NSString *)[self propertyForKey:@"name"];

@@ -125,6 +125,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly, strong, nonatomic) id<MKMID> ID;
 
 /**
+ *  Get sign time
+ */
+@property (readonly, strong, nonatomic) NSDate *time;
+
+/**
  *  Get/set entity name
  */
 @property (strong, nonatomic) NSString *name;  // properties getter/setter

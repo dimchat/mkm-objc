@@ -96,7 +96,7 @@ NS_DESIGNATED_INITIALIZER;
  */
 - (instancetype)initWithAddress:(id<MKMAddress>)addr;
 
-+ (BOOL)identifier:(id<MKMID>)ID1 isEqual:(id<MKMID>)ID2;
+//+ (BOOL)identifier:(id<MKMID>)ID1 isEqual:(id<MKMID>)ID2;
 
 @end
 
