@@ -80,16 +80,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-#pragma mark - Pairing
+#ifdef __cplusplus
+extern "C"
+{
+#endif
 
-@interface MKMAsymmetricKey : MKMCryptographyKey <MKMAsymmetricKey>
+/**
+ *  Try to verify with signature
+ */
+BOOL MKMAsymmetricKeysMatch(id<MKMVerifyKey> pKey, id<MKMSignKey> sKey);
 
-+ (BOOL)verifyKey:(id<MKMVerifyKey>)pKey isMatch:(id<MKMSignKey>)sKey;
-
-@end
-
-#define MKMAsymmetricKeysMatch(pKey, sKey)                                     \
-            [MKMAsymmetricKey verifyKey:(pKey) isMatch:(sKey)]                 \
-                                  /* EOF 'MKMAsymmetricKeysMatch(pKey, sKey)' */
+#ifdef __cplusplus
+} /* end of extern "C" */
+#endif
 
 NS_ASSUME_NONNULL_END

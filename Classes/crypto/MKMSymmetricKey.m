@@ -37,39 +37,14 @@
 
 #import "MKMSymmetricKey.h"
 
-@implementation MKMSymmetricKey
-
-- (BOOL)isEqual:(id)object {
-    if ([super isEqual:object]) {
-        return YES;
-    }
-    if ([object conformsToProtocol:@protocol(MKMSymmetricKey)]) {
-        return [self isMatch:object];
-    }
-    return NO;
-}
-
-- (NSData *)encrypt:(NSData *)plaintext {
-    NSAssert(false, @"implement me!");
-    return nil;
-}
-
-- (nullable NSData *)decrypt:(NSData *)ciphertext {
-    NSAssert(false, @"implement me!");
-    return nil;
-}
-
-- (BOOL)isMatch:(id<MKMEncryptKey>)pKey {
-    return MKMCryptographyKeysMatch(self, pKey);
-}
-
-@end
-
-@implementation MKMSymmetricKey (Creation)
-
 static NSMutableDictionary<NSString *, id<MKMSymmetricKeyFactory>> *s_factories = nil;
 
-+ (void)setFactory:(id<MKMSymmetricKeyFactory>)factory forAlgorithm:(NSString *)algorithm {
+id<MKMSymmetricKeyFactory> MKMSymmetricKeyGetFactory(NSString *algorithm) {
+    //NSAssert(s_factories, @"symmetric key factories not set yet");
+    return [s_factories objectForKey:algorithm];
+}
+
+void MKMSymmetricKeySetFactory(NSString *algorithm, id<MKMSymmetricKeyFactory> factory) {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         //if (!s_factories) {
@@ -79,18 +54,13 @@ static NSMutableDictionary<NSString *, id<MKMSymmetricKeyFactory>> *s_factories 
     [s_factories setObject:factory forKey:algorithm];
 }
 
-+ (nullable id<MKMSymmetricKeyFactory>)factoryForAlgorithm:(NSString *)algorithm {
-    NSAssert(s_factories, @"symmetric key factories not set yet");
-    return [s_factories objectForKey:algorithm];
-}
-
-+ (__kindof id<MKMSymmetricKey>)generate:(NSString *)algorithm {
-    id<MKMSymmetricKeyFactory> factory = [self factoryForAlgorithm:algorithm];
-    NSAssert(factory, @"key algorithm not found: %@", algorithm);
+id<MKMSymmetricKey> MKMSymmetricKeyWithAlgorithm(NSString *algorithm) {
+    id<MKMSymmetricKeyFactory> factory = MKMSymmetricKeyGetFactory(algorithm);
+    //NSAssert(factory, @"key algorithm not found: %@", algorithm);
     return [factory generateSymmetricKey];
 }
 
-+ (nullable __kindof id<MKMSymmetricKey>)parse:(NSDictionary *)key {
+id<MKMSymmetricKey> MKMSymmetricKeyFromDictionary(NSDictionary *key) {
     if (key.count == 0) {
         return nil;
     } else if ([key conformsToProtocol:@protocol(MKMSymmetricKey)]) {
@@ -99,13 +69,11 @@ static NSMutableDictionary<NSString *, id<MKMSymmetricKeyFactory>> *s_factories 
         key = [(id<MKMDictionary>)key dictionary];
     }
     NSString *algorithm = MKMCryptographyKeyAlgorithm(key);
-    NSAssert(algorithm, @"failed to get algorithm name for key: %@", key);
-    id<MKMSymmetricKeyFactory> factory = [self factoryForAlgorithm:algorithm];
+    //NSAssert(algorithm, @"failed to get algorithm name for key: %@", key);
+    id<MKMSymmetricKeyFactory> factory = MKMSymmetricKeyGetFactory(algorithm);
     if (!factory) {
-        factory = [self factoryForAlgorithm:@"*"]; // unknown
-        NSAssert(factory, @"cannot parse key: %@", key);
+        factory = MKMSymmetricKeyGetFactory(@"*"); // unknown
+        //NSAssert(factory, @"cannot parse key: %@", key);
     }
     return [factory parseSymmetricKey:key];
 }
-
-@end

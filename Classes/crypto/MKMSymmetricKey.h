@@ -55,17 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
 #define MKMAlgorithmAES @"AES"
 #define MKMAlgorithmDES @"DES"
 
-@interface MKMSymmetricKey : MKMCryptographyKey <MKMSymmetricKey>
-
-@end
-
-#define MKMSymmetricKeyWithAlgorithm(name)                                     \
-            [MKMSymmetricKey generate:(name)]                                  \
-                                  /* EOF 'MKMSymmetricKeyWithAlgorithm(name)' */
-
-#define MKMSymmetricKeyFromDictionary(keyInfo)                                 \
-            [MKMSymmetricKey parse:(keyInfo)]                                  \
-                              /* EOF 'MKMSymmetricKeyFromDictionary(keyInfo)' */
+#pragma mark - Key Factory
 
 @protocol MKMSymmetricKeyFactory <NSObject>
 
@@ -86,15 +76,33 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface MKMSymmetricKey (Creation)
+#ifdef __cplusplus
+extern "C"
+{
+#endif
 
-+ (nullable id<MKMSymmetricKeyFactory>)factoryForAlgorithm:(NSString *)algorithm;
-+ (void)setFactory:(id<MKMSymmetricKeyFactory>)factory forAlgorithm:(NSString *)algorithm;
+/**
+ *  Get key factory with algorithm
+ */
+id<MKMSymmetricKeyFactory> MKMSymmetricKeyGetFactory(NSString *algorithm);
 
-+ (__kindof id<MKMSymmetricKey>)generate:(NSString *)algorithm;
+/**
+ *  Register key factory with algorithm
+ */
+void MKMSymmetricKeySetFactory(NSString *algorithm, id<MKMSymmetricKeyFactory> factory);
 
-+ (nullable __kindof id<MKMSymmetricKey>)parse:(NSDictionary *)key;
+/**
+ *  Generate key with algorithm
+ */
+__kindof id<MKMSymmetricKey> MKMSymmetricKeyWithAlgorithm(NSString *algorithm);
 
-@end
+/**
+ *  Parse key
+ */
+__kindof id<MKMSymmetricKey> MKMSymmetricKeyFromDictionary(NSDictionary *key);
+
+#ifdef __cplusplus
+} /* end of extern "C" */
+#endif
 
 NS_ASSUME_NONNULL_END

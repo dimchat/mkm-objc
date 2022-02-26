@@ -53,13 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface MKMPublicKey : MKMAsymmetricKey <MKMPublicKey>
-
-@end
-
-#define MKMPublicKeyFromDictionary(keyInfo)                                    \
-            [MKMPublicKey parse:(keyInfo)]                                     \
-                                 /* EOF 'MKMPublicKeyFromDictionary(keyInfo)' */
+#pragma mark - Key Factory
 
 @protocol MKMPublicKeyFactory <NSObject>
 
@@ -73,13 +67,28 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface MKMPublicKey (Creation)
+#ifdef __cplusplus
+extern "C"
+{
+#endif
 
-+ (nullable id<MKMPublicKeyFactory>)factoryForAlgorithm:(NSString *)algorithm;
-+ (void)setFactory:(id<MKMPublicKeyFactory>)factory forAlgorithm:(NSString *)algorithm;
+/**
+ *  Get key factory with algorithm
+ */
+id<MKMPublicKeyFactory> MKMPublicKeyGetFactory(NSString *algorithm);
 
-+ (nullable __kindof id<MKMPublicKey>)parse:(NSDictionary *)key;
+/**
+ *  Register key factory with algorithm
+ */
+void MKMPublicKeySetFactory(NSString *algorithm, id<MKMPublicKeyFactory> factory);
 
-@end
+/**
+ *  Parse key
+ */
+__kindof id<MKMPublicKey> MKMPublicKeyFromDictionary(NSDictionary *key);
+
+#ifdef __cplusplus
+} /* end of extern "C" */
+#endif
 
 NS_ASSUME_NONNULL_END

@@ -60,21 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface MKMPrivateKey : MKMAsymmetricKey <MKMPrivateKey>
-
-@end
-
-#define MKMPrivateKeysEqual(key1, key2)                                        \
-            [MKMPrivateKey privateKey:(key1) equals:(key2)]                    \
-                                     /* EOF 'MKMPrivateKeysEqual(key1, key2)' */
-
-#define MKMPrivateKeyWithAlgorithm(name)                                       \
-            [MKMPrivateKey generate:(name)]                                    \
-                                    /* EOF 'MKMPrivateKeyWithAlgorithm(name)' */
-
-#define MKMPrivateKeyFromDictionary(keyInfo)                                   \
-            [MKMPrivateKey parse:(keyInfo)]                                    \
-                                /* EOF 'MKMPrivateKeyFromDictionary(keyInfo)' */
+#pragma mark - Key Factory
 
 @protocol MKMPrivateKeyFactory <NSObject>
 
@@ -95,15 +81,33 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface MKMPrivateKey (Creation)
+#ifdef __cplusplus
+extern "C"
+{
+#endif
 
-+ (nullable id<MKMPrivateKeyFactory>)factoryForAlgorithm:(NSString *)algorithm;
-+ (void)setFactory:(id<MKMPrivateKeyFactory>)factory forAlgorithm:(NSString *)algorithm;
+/**
+ *  Get key factory with algorithm
+ */
+id<MKMPrivateKeyFactory> MKMPrivateKeyGetFactory(NSString *algorithm);
 
-+ (__kindof id<MKMPrivateKey>)generate:(NSString *)algorithm;
+/**
+ *  Register key factory with algorithm
+ */
+void MKMPrivateKeySetFactory(NSString *algorithm, id<MKMPrivateKeyFactory> factory);
 
-+ (nullable __kindof id<MKMPrivateKey>)parse:(NSDictionary *)key;
+/**
+ *  Generate key with algorithm
+ */
+__kindof id<MKMPrivateKey> MKMPrivateKeyWithAlgorithm(NSString *algorithm);
 
-@end
+/**
+ *  Parse key
+ */
+__kindof id<MKMPrivateKey> MKMPrivateKeyFromDictionary(NSDictionary *key);
+
+#ifdef __cplusplus
+} /* end of extern "C" */
+#endif
 
 NS_ASSUME_NONNULL_END

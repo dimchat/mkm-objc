@@ -37,11 +37,9 @@
 
 #import "MKMAsymmetricKey.h"
 
-@implementation MKMAsymmetricKey
-
 static NSData *promise = nil;
 
-+ (BOOL)verifyKey:(id<MKMVerifyKey>)pKey isMatch:(id<MKMSignKey>)sKey {
+BOOL MKMAsymmetricKeysMatch(id<MKMVerifyKey> pKey, id<MKMSignKey> sKey) {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         NSString *words = @"Moky loves May Lee forever!";
@@ -51,5 +49,3 @@ static NSData *promise = nil;
     NSData *signature = [sKey sign:promise];
     return [pKey verify:promise withSignature:signature];
 }
-
-@end

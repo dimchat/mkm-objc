@@ -37,24 +37,14 @@
 
 #import "MKMPublicKey.h"
 
-@implementation MKMPublicKey
-
-- (BOOL)verify:(NSData *)data withSignature:(NSData *)signature {
-    NSAssert(false, @"implement me!");
-    return NO;
-}
-
-- (BOOL)isMatch:(id<MKMSignKey>)sKey {
-    return MKMAsymmetricKeysMatch(self, sKey);
-}
-
-@end
-
-@implementation MKMPublicKey (Creation)
-
 static NSMutableDictionary<NSString *, id<MKMPublicKeyFactory>> *s_factories = nil;
 
-+ (void)setFactory:(id<MKMPublicKeyFactory>)factory forAlgorithm:(NSString *)algorithm {
+id<MKMPublicKeyFactory> MKMPublicKeyGetFactory(NSString *algorithm) {
+    //NSAssert(s_factories, @"public key factories not set yet");
+    return [s_factories objectForKey:algorithm];
+}
+
+void MKMPublicKeySetFactory(NSString *algorithm, id<MKMPublicKeyFactory> factory) {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         //if (!s_factories) {
@@ -64,12 +54,7 @@ static NSMutableDictionary<NSString *, id<MKMPublicKeyFactory>> *s_factories = n
     [s_factories setObject:factory forKey:algorithm];
 }
 
-+ (nullable id<MKMPublicKeyFactory>)factoryForAlgorithm:(NSString *)algorithm {
-    NSAssert(s_factories, @"public key factories not set yet");
-    return [s_factories objectForKey:algorithm];
-}
-
-+ (nullable __kindof id<MKMPublicKey>)parse:(NSDictionary *)key {
+id<MKMPublicKey> MKMPublicKeyFromDictionary(NSDictionary *key) {
     if (key.count == 0) {
         return nil;
     } else if ([key conformsToProtocol:@protocol(MKMPublicKey)]) {
@@ -78,13 +63,11 @@ static NSMutableDictionary<NSString *, id<MKMPublicKeyFactory>> *s_factories = n
         key = [(id<MKMDictionary>)key dictionary];
     }
     NSString *algorithm = MKMCryptographyKeyAlgorithm(key);
-    NSAssert(algorithm, @"failed to get algorithm name for key: %@", key);
-    id<MKMPublicKeyFactory> factory = [self factoryForAlgorithm:algorithm];
+    //NSAssert(algorithm, @"failed to get algorithm name for key: %@", key);
+    id<MKMPublicKeyFactory> factory = MKMPublicKeyGetFactory(algorithm);
     if (!factory) {
-        factory = [self factoryForAlgorithm:@"*"]; // unknown
-        NSAssert(factory, @"cannot parse key: %@", key);
+        factory = MKMPublicKeyGetFactory(@"*"); // unknown
+        //NSAssert(factory, @"cannot parse key: %@", key);
     }
     return [factory parsePublicKey:key];
 }
-
-@end

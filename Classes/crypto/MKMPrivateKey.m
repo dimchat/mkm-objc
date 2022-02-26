@@ -39,35 +39,14 @@
 
 #import "MKMPrivateKey.h"
 
-@implementation MKMPrivateKey
-
-- (BOOL)isEqual:(id)object {
-    if ([super isEqual:object]) {
-        return YES;
-    }
-    if ([object conformsToProtocol:@protocol(MKMSignKey)]) {
-        return [self.publicKey isMatch:object];
-    }
-    return NO;
-}
-
-- (__kindof id<MKMPublicKey>)publicKey {
-    NSAssert(false, @"implement me!");
-    return nil;
-}
-
-- (NSData *)sign:(NSData *)data {
-    NSAssert(false, @"implement me!");
-    return nil;
-}
-
-@end
-
-@implementation MKMPrivateKey (Creation)
-
 static NSMutableDictionary<NSString *, id<MKMPrivateKeyFactory>> *s_factories = nil;
 
-+ (void)setFactory:(id<MKMPrivateKeyFactory>)factory forAlgorithm:(NSString *)algorithm {
+id<MKMPrivateKeyFactory> MKMPrivateKeyGetFactory(NSString *algorithm) {
+    //NSAssert(s_factories, @"private key factories not set yet");
+    return [s_factories objectForKey:algorithm];
+}
+
+void MKMPrivateKeySetFactory(NSString *algorithm, id<MKMPrivateKeyFactory> factory) {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         //if (!s_factories) {
@@ -77,18 +56,13 @@ static NSMutableDictionary<NSString *, id<MKMPrivateKeyFactory>> *s_factories = 
     [s_factories setObject:factory forKey:algorithm];
 }
 
-+ (nullable id<MKMPrivateKeyFactory>)factoryForAlgorithm:(NSString *)algorithm {
-    NSAssert(s_factories, @"private key factories not set yet");
-    return [s_factories objectForKey:algorithm];
-}
-
-+ (__kindof id<MKMPrivateKey>)generate:(NSString *)algorithm {
-    id<MKMPrivateKeyFactory> factory = [self factoryForAlgorithm:algorithm];
-    NSAssert(factory, @"key algorithm not found: %@", algorithm);
+id<MKMPrivateKey> MKMPrivateKeyWithAlgorithm(NSString *algorithm) {
+    id<MKMPrivateKeyFactory> factory = MKMPrivateKeyGetFactory(algorithm);
+    //NSAssert(factory, @"key algorithm not found: %@", algorithm);
     return [factory generatePrivateKey];
 }
 
-+ (nullable __kindof id<MKMPrivateKey>)parse:(NSDictionary *)key {
+id<MKMPrivateKey> MKMPrivateKeyFromDictionary(NSDictionary *key) {
     if (key.count == 0) {
         return nil;
     } else if ([key conformsToProtocol:@protocol(MKMPrivateKey)]) {
@@ -97,13 +71,11 @@ static NSMutableDictionary<NSString *, id<MKMPrivateKeyFactory>> *s_factories = 
         key = [(id<MKMDictionary>)key dictionary];
     }
     NSString *algorithm = MKMCryptographyKeyAlgorithm(key);
-    NSAssert(algorithm, @"failed to get algorithm name for key: %@", key);
-    id<MKMPrivateKeyFactory> factory = [self factoryForAlgorithm:algorithm];
+    //NSAssert(algorithm, @"failed to get algorithm name for key: %@", key);
+    id<MKMPrivateKeyFactory> factory = MKMPrivateKeyGetFactory(algorithm);
     if (!factory) {
-        factory = [self factoryForAlgorithm:@"*"]; // unknown
-        NSAssert(factory, @"cannot parse key: %@", key);
+        factory = MKMPrivateKeyGetFactory(@"*"); // unknown
+        //NSAssert(factory, @"cannot parse key: %@", key);
     }
     return [factory parsePrivateKey:key];
 }
-
-@end
