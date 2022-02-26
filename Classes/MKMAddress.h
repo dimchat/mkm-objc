@@ -150,38 +150,28 @@ typedef UInt8 MKMNetworkType;
 
 @end
 
-#pragma mark -
+#pragma mark - Address Factory
 
-@interface MKMBaseAddress : MKMString <MKMAddress>
-
-- (instancetype)initWithString:(NSString *)address NS_DESIGNATED_INITIALIZER;
-
-@end
-
-@interface MKMAddress : MKMBaseAddress
-
-- (instancetype)initWithString:(NSString *)address network:(UInt8)type NS_DESIGNATED_INITIALIZER;
-
-@end
-
-#define MKMAnywhere()                  [MKMAddress anywhere]
-#define MKMEverywhere()                [MKMAddress everywhere]
-
-#define MKMAddressFromString(address)  [MKMAddress parse:(address)]
-
-@interface MKMAddress (Broadcast)
-
-/**
- *  Address for broadcast
- */
-+ (id<MKMAddress>)anywhere;
-+ (id<MKMAddress>)everywhere;
-
-@end
-
-#pragma mark - Creation
+@protocol MKMMeta;
 
 @protocol MKMAddressFactory <NSObject>
+
+/**
+ *  Generate addres with meta & type
+ *
+ * @param network - address type
+ * @param meta - meta info
+ * @return Address
+ */
+- (nullable __kindof id<MKMAddress>)generateAddress:(UInt8)network fromMeta:(id<MKMMeta>)meta;
+
+/**
+ *  Create address from string
+ *
+ * @param address - address string
+ * @return Address
+ */
+- (nullable __kindof id<MKMAddress>)createAddress:(NSString *)address;
 
 /**
  *  Parse string object to address
@@ -193,19 +183,35 @@ typedef UInt8 MKMNetworkType;
 
 @end
 
-@interface MKMAddressFactory : NSObject <MKMAddressFactory>
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-// override for creating address from string
-- (nullable __kindof id<MKMAddress>)createAddress:(NSString *)address;
+id<MKMAddressFactory> MKMAddressGetFactory(void);
+void MKMAddressSetFactory(id<MKMAddressFactory> factory);
+
+__kindof id<MKMAddress> MKMAddressGenerate(UInt8 network, id<MKMMeta> meta);
+__kindof id<MKMAddress> MKMAddressCreate(NSString *address);
+__kindof id<MKMAddress> MKMAddressParse(id address);
+
+__kindof id<MKMAddress> MKMAnywhere(void);
+__kindof id<MKMAddress> MKMEverywhere(void);
+
+#ifdef __cplusplus
+} /* end of extern "C" */
+#endif
+
+#define MKMAddressFromString(S) MKMAddressParse(S)
+
+#pragma mark - Base Classes
+
+@interface MKMAddress : MKMString <MKMAddress>
+
+- (instancetype)initWithString:(NSString *)address network:(UInt8)type NS_DESIGNATED_INITIALIZER;
 
 @end
 
-@interface MKMAddress (Creation)
-
-+ (id<MKMAddressFactory>)factory;
-+ (void)setFactory:(id<MKMAddressFactory>)factory;
-
-+ (nullable __kindof id<MKMAddress>)parse:(NSString *)address;
+@interface MKMAddressFactory : NSObject <MKMAddressFactory>
 
 @end
 

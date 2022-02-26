@@ -54,14 +54,15 @@ void MKMPublicKeySetFactory(NSString *algorithm, id<MKMPublicKeyFactory> factory
     [s_factories setObject:factory forKey:algorithm];
 }
 
-id<MKMPublicKey> MKMPublicKeyFromDictionary(NSDictionary *key) {
-    if (key.count == 0) {
+id<MKMPublicKey> MKMPublicKeyParse(id key) {
+    if (!key) {
         return nil;
     } else if ([key conformsToProtocol:@protocol(MKMPublicKey)]) {
         return (id<MKMPublicKey>)key;
     } else if ([key conformsToProtocol:@protocol(MKMDictionary)]) {
         key = [(id<MKMDictionary>)key dictionary];
     }
+    //NSAssert([key isKindOfClass:[NSDictionary class]], @"key info error: %@", key);
     NSString *algorithm = MKMCryptographyKeyAlgorithm(key);
     //NSAssert(algorithm, @"failed to get algorithm name for key: %@", key);
     id<MKMPublicKeyFactory> factory = MKMPublicKeyGetFactory(algorithm);

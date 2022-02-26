@@ -36,6 +36,104 @@
 //
 
 #import "MKMID.h"
+#import "MKMMeta.h"
+
+static id<MKMIDFactory> s_factory = nil;
+
+id<MKMIDFactory> MKMIDGetFactory(void) {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        if (s_factory == nil) {
+            s_factory = [[MKMIDFactory alloc] init];
+        }
+    });
+    return s_factory;
+}
+
+void MKMIDSetFactory(id<MKMIDFactory> factory) {
+    s_factory = factory;
+}
+
+id<MKMID> MKMIDGenerate(id<MKMMeta> meta, UInt8 network,  NSString * _Nullable terminal) {
+    id<MKMIDFactory> factory = MKMIDGetFactory();
+    return [factory generateID:meta network:network terminal:terminal];
+}
+
+id<MKMID> MKMIDCreate(NSString * _Nullable name, id<MKMAddress> address, NSString * _Nullable terminal) {
+    id<MKMIDFactory> factory = MKMIDGetFactory();
+    return [factory createID:name address:address terminal:terminal];
+}
+
+id<MKMID> MKMIDParse(id identifier) {
+    if (!identifier) {
+        return nil;
+    } else if ([identifier conformsToProtocol:@protocol(MKMID)]) {
+        return (id<MKMID>)identifier;
+    } else if ([identifier isKindOfClass:[MKMString class]]) {
+        identifier = [identifier string];
+    }
+    id<MKMIDFactory> factory = MKMIDGetFactory();
+    return [factory parseID:identifier];
+}
+
+#pragma mark Broadcast ID
+
+static id<MKMID> s_founder = nil;
+
+static id<MKMID> s_anyone = nil;
+static id<MKMID> s_everyone = nil;
+
+id<MKMID> MKMAnyone(void) {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        s_anyone = MKMIDCreate(@"anyone", MKMAnywhere(), nil);
+    });
+    return s_anyone;
+}
+
+id<MKMID> MKMEveryone(void) {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        s_everyone = MKMIDCreate(@"everyone", MKMEverywhere(), nil);
+    });
+    return s_everyone;
+}
+
+id<MKMID> MKMFounder(void) {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        s_anyone = MKMIDCreate(@"moky", MKMAnywhere(), nil);
+    });
+    return s_anyone;
+}
+
+#pragma mark Array
+
+NSArray<id<MKMID>> *MKMIDConvert(NSArray<NSString *> *members) {
+    NSMutableArray<id<MKMID>> *array = [[NSMutableArray alloc] initWithCapacity:members.count];
+    id<MKMID> ID;
+    for (NSString *item in members) {
+        ID = MKMIDFromString(item);
+        if (ID) {
+            [array addObject:ID];
+        }
+    }
+    return array;
+}
+
+NSArray<NSString *> *MKMIDRevert(NSArray<id<MKMID>> *members) {
+    NSMutableArray<NSString *> *array = [[NSMutableArray alloc] initWithCapacity:members.count];
+    NSString *str;
+    for (id<MKMID> item in members) {
+        str = [item string];
+        if (str) {
+            [array addObject:str];
+        }
+    }
+    return array;
+}
+
+#pragma mark -
 
 static inline NSString *concat(NSString *name, id<MKMAddress> address, NSString *terminal) {
     NSUInteger len1 = [name length];
@@ -112,6 +210,7 @@ static inline id<MKMID> parse(NSString *string) {
 }
 
 - (instancetype)initWithString:(NSString *)aString {
+    //NSAssert(false, @"DON'T call me!");
     id<MKMAddress> address = nil;
     return [self initWithString:aString name:nil address:address terminal:nil];
 }
@@ -163,24 +262,6 @@ static inline id<MKMID> parse(NSString *string) {
     return identifier;
 }
 
-//- (BOOL)isEqual:(id)object {
-//    if (!object) {
-//        return NO;
-//    }
-//    if (![object conformsToProtocol:@protocol(MKMID)]) {
-//        if ([object conformsToProtocol:@protocol(MKMString)]) {
-//            object = [object string];
-//        }
-//        NSAssert([object isKindOfClass:[NSString class]], @"ID error: %@", object);
-//        object = MKMIDFromString(object);
-//        if (!object) {
-//            return NO;
-//        }
-//    }
-//    // compare with name & address
-//    return [MKMID identifier:self isEqual:object];
-//}
-
 - (UInt8)type {
     return _address.network;
 }
@@ -197,73 +278,9 @@ static inline id<MKMID> parse(NSString *string) {
     return [_address isGroup];
 }
 
-//+ (BOOL)identifier:(id<MKMID>)ID1 isEqual:(id<MKMID>)ID2 {
-//    if (ID1 == ID2) {
-//        // same object
-//        return YES;
-//    }
-//    // check ID.address
-//    if ([ID1.address isEqual:ID2.address]) {
-//        // check ID.name
-//        if (ID1.name.length == 0) {
-//            return ID2.name.length == 0;
-//        } else {
-//            return [ID1.name isEqualToString:ID2.name];
-//        }
-//    }
-//    return NO;
-//}
-
 @end
 
-@implementation MKMID (Broadcast)
-
-static id<MKMID> s_anyone = nil;
-static id<MKMID> s_everyone = nil;
-
-+ (id<MKMID>)anyone {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        s_anyone = MKMIDCreate(@"anyone", MKMAnywhere(), nil);
-    });
-    return s_anyone;
-}
-
-+ (id<MKMID>)everyone {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        s_everyone = MKMIDCreate(@"everyone", MKMEverywhere(), nil);
-    });
-    return s_everyone;
-}
-
-@end
-
-@implementation MKMID (Array)
-
-+ (NSMutableArray<id<MKMID>> *)convert:(NSArray<NSString *> *)members {
-    NSMutableArray<id<MKMID>> *array = [[NSMutableArray alloc] initWithCapacity:members.count];
-    id<MKMID> ID;
-    for (NSString *item in members) {
-        ID = [self parse:item];
-        if (ID) {
-            [array addObject:ID];
-        }
-    }
-    return array;
-}
-
-+ (NSMutableArray<NSString *> *)revert:(NSArray<id<MKMID>> *)members {
-    NSMutableArray<NSString *> *array = [[NSMutableArray alloc] initWithCapacity:members.count];
-    for (id<MKMID> item in members) {
-        [array addObject:[item string]];
-    }
-    return array;
-}
-
-@end
-
-#pragma mark - Creation
+#pragma mark - ID Factory
 
 @interface MKMIDFactory () {
     
@@ -281,13 +298,17 @@ static id<MKMID> s_everyone = nil;
     return self;
 }
 
-- (id<MKMID>)createID:(nullable NSString *)name
-              address:(id<MKMAddress>)address
-             terminal:(nullable NSString *)terminal {
-    NSString *string = concat(name, address, terminal);
+- (id<MKMID>)generateID:(id<MKMMeta>)meta network:(UInt8)type terminal:(nullable NSString *)loc {
+    id<MKMAddress> address = MKMAddressGenerate(type, meta);
+    NSAssert(address, @"failed to generate ID with meta: %@", meta);
+    return MKMIDCreate(meta.seed, address, loc);
+}
+
+- (id<MKMID>)createID:(nullable NSString *)name address:(id<MKMAddress>)address terminal:(nullable NSString *)loc {
+    NSString *string = concat(name, address, loc);
     id<MKMID> ID = [_identifiers objectForKey:string];
     if (!ID) {
-        ID = [[MKMID alloc] initWithString:string name:name address:address terminal:terminal];
+        ID = [[MKMID alloc] initWithString:string name:name address:address terminal:loc];
         [_identifiers setObject:ID forKey:string];
     }
     return ID;
@@ -302,45 +323,6 @@ static id<MKMID> s_everyone = nil;
         }
     }
     return ID;
-}
-
-@end
-
-@implementation MKMID (Creation)
-
-static id<MKMIDFactory> s_factory = nil;
-
-+ (id<MKMIDFactory>)factory {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        if (s_factory == nil) {
-            s_factory = [[MKMIDFactory alloc] init];
-        }
-    });
-    return s_factory;
-}
-
-+ (void)setFactory:(id<MKMIDFactory>)factory {
-    s_factory = factory;
-}
-
-+ (id<MKMID>)create:(nullable NSString *)name
-            address:(id<MKMAddress>)address
-           terminal:(nullable NSString *)terminal {
-    return [[self factory] createID:name address:address terminal:terminal];
-}
-
-+ (nullable id<MKMID>)parse:(NSString *)identifier {
-    if (identifier.length == 0) {
-        return nil;
-    } else if ([identifier conformsToProtocol:@protocol(MKMID)]) {
-        return (id<MKMID>)identifier;
-    } else if ([identifier isKindOfClass:[MKMString class]]) {
-        MKMString *str = (MKMString *)identifier;
-        return [[self factory] parseID:[str string]];
-    } else {
-        return [[self factory] parseID:identifier];
-    }
 }
 
 @end

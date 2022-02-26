@@ -77,32 +77,19 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 #ifdef __cplusplus
-extern "C"
-{
+extern "C" {
 #endif
 
-/**
- *  Get key factory with algorithm
- */
 id<MKMSymmetricKeyFactory> MKMSymmetricKeyGetFactory(NSString *algorithm);
-
-/**
- *  Register key factory with algorithm
- */
 void MKMSymmetricKeySetFactory(NSString *algorithm, id<MKMSymmetricKeyFactory> factory);
 
-/**
- *  Generate key with algorithm
- */
-__kindof id<MKMSymmetricKey> MKMSymmetricKeyWithAlgorithm(NSString *algorithm);
-
-/**
- *  Parse key
- */
-__kindof id<MKMSymmetricKey> MKMSymmetricKeyFromDictionary(NSDictionary *key);
+__kindof id<MKMSymmetricKey> MKMSymmetricKeyGenerate(NSString *algorithm);
+__kindof id<MKMSymmetricKey> MKMSymmetricKeyParse(id key);
 
 #ifdef __cplusplus
 } /* end of extern "C" */
 #endif
+
+#define MKMSymmetricKeyFromDictionary(key) MKMSymmetricKeyParse(key)
 
 NS_ASSUME_NONNULL_END

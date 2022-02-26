@@ -81,8 +81,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 #ifdef __cplusplus
-extern "C"
-{
+extern "C" {
 #endif
 
 /**

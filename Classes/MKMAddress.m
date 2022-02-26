@@ -36,8 +36,50 @@
 //
 
 #import "MKMAddress.h"
+#import "MKMMeta.h"
 
-@implementation MKMBaseAddress
+static id<MKMAddressFactory> s_factory = nil;
+
+id<MKMAddressFactory> MKMAddressGetFactory(void) {
+    return s_factory;
+}
+
+void MKMAddressSetFactory(id<MKMAddressFactory> factory) {
+    s_factory = factory;
+}
+
+id<MKMAddress> MKMAddressGenerate(UInt8 network, id<MKMMeta> meta) {
+    id<MKMAddressFactory> factory = MKMAddressGetFactory();
+    return [factory generateAddress:network fromMeta:meta];
+}
+
+id<MKMAddress> MKMAddressCreate(NSString *address) {
+    id<MKMAddressFactory> factory = MKMAddressGetFactory();
+    return [factory createAddress:address];
+}
+
+id<MKMAddress> MKMAddressParse(id address) {
+    if (!address) {
+        return nil;
+    } else if ([address conformsToProtocol:@protocol(MKMAddress)]) {
+        return (id<MKMAddress>)address;
+    } else if ([address conformsToProtocol:@protocol(MKMString)]) {
+        address = [(id<MKMString>)address string];
+    }
+    id<MKMAddressFactory> factory = MKMAddressGetFactory();
+    return [factory parseAddress:address];
+}
+
+#pragma mark - Base Address
+
+@interface MKMAddress () {
+    
+    UInt8 _network;
+}
+
+@end
+
+@implementation MKMAddress
 
 - (instancetype)init {
     NSAssert(false, @"DON'T call me!");
@@ -48,43 +90,8 @@
 - (nullable instancetype)initWithCoder:(NSCoder *)aDecoder {
     NSAssert(false, @"DON'T call me!");
     NSString *string = nil;
-    return [self initWithString:string];
+    return [self initWithString:string network:0];
 }
-
-/* designated initializer */
-- (instancetype)initWithString:(NSString *)address {
-    if (self = [super initWithString:address]) {
-    }
-    return self;
-}
-
-- (UInt8)network {
-    NSAssert(false, @"implement me!");
-    return 0;
-}
-
-- (BOOL)isBroadcast {
-    return NO;
-}
-
-- (BOOL)isUser {
-    return MKMNetwork_IsUser(self.network);
-}
-
-- (BOOL)isGroup {
-    return MKMNetwork_IsGroup(self.network);
-}
-
-@end
-
-@interface MKMAddress () {
-    
-    UInt8 _network;
-}
-
-@end
-
-@implementation MKMAddress
 
 - (instancetype)initWithString:(NSString *)address {
     //NSAssert(false, @"DON'T call me!");
@@ -115,9 +122,22 @@
     _network = network;
 }
 
+- (BOOL)isBroadcast {
+    //NSAssert(false, @"implement me!");
+    return NO;
+}
+
+- (BOOL)isUser {
+    return MKMNetwork_IsUser(self.network);
+}
+
+- (BOOL)isGroup {
+    return MKMNetwork_IsGroup(self.network);
+}
+
 @end
 
-#pragma mark -
+#pragma mark - Broadcast
 
 @interface BroadcastAddress : MKMAddress
 
@@ -127,22 +147,20 @@
 
 @implementation BroadcastAddress
 
-+ (instancetype)create:(NSString *)string network:(MKMNetworkType)type {
-    return [[self alloc] initWithString:string network:type];
-}
-
 - (BOOL)isBroadcast {
     return YES;
 }
 
-@end
++ (instancetype)create:(NSString *)string network:(MKMNetworkType)type {
+    return [[self alloc] initWithString:string network:type];
+}
 
-@implementation MKMAddress (Broadcast)
+@end
 
 static id<MKMAddress> s_anywhere = nil;
 static id<MKMAddress> s_everywhere = nil;
 
-+ (id<MKMAddress>)anywhere {
+id<MKMAddress> MKMAnywhere(void) {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         s_anywhere = [BroadcastAddress create:@"anywhere" network:MKMNetwork_Main];
@@ -150,7 +168,7 @@ static id<MKMAddress> s_everywhere = nil;
     return s_anywhere;
 }
 
-+ (id<MKMAddress>)everywhere {
+id<MKMAddress> MKMEverywhere(void) {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         s_everywhere = [BroadcastAddress create:@"everywhere" network:MKMNetwork_Group];
@@ -158,9 +176,7 @@ static id<MKMAddress> s_everywhere = nil;
     return s_everywhere;
 }
 
-@end
-
-#pragma mark - Creation
+#pragma mark - Base Factory
 
 @interface MKMAddressFactory () {
     
@@ -183,6 +199,14 @@ static id<MKMAddress> s_everywhere = nil;
     return self;
 }
 
+- (nullable __kindof id<MKMAddress>)generateAddress:(UInt8)network fromMeta:(id<MKMMeta>)meta {
+    id<MKMAddress> address = [meta generateAddress:network];
+    if (address) {
+        [_addresses setObject:address forKey:address.string];
+    }
+    return address;
+}
+
 - (nullable __kindof id<MKMAddress>)parseAddress:(NSString *)address {
     id<MKMAddress> addr = [_addresses objectForKey:address];
     if (!addr) {
@@ -197,32 +221,6 @@ static id<MKMAddress> s_everywhere = nil;
 - (nullable __kindof id<MKMAddress>)createAddress:(NSString *)address {
     NSAssert(false, @"implement me!");
     return nil;
-}
-
-@end
-
-@implementation MKMAddress (Creation)
-
-static id<MKMAddressFactory> s_factory = nil;
-
-+ (void)setFactory:(id<MKMAddressFactory>)factory {
-    s_factory = factory;
-}
-
-+ (id<MKMAddressFactory>)factory {
-    return s_factory;
-}
-
-+ (nullable __kindof id<MKMAddress>)parse:(NSString *)address {
-    if (address.length == 0) {
-        return nil;
-    } else if ([address conformsToProtocol:@protocol(MKMAddress)]) {
-        return (id<MKMAddress>)address;
-    }
-    if ([address isKindOfClass:[MKMString class]]) {
-        address = [(MKMString *)address string];
-    }
-    return [[self factory] parseAddress:address];
 }
 
 @end

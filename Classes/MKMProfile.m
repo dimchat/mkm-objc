@@ -83,7 +83,7 @@
 
 - (nullable id<MKMEncryptKey>)key {
     if (!_key) {
-        NSDictionary *dict = (NSDictionary *)[self propertyForKey:@"key"];
+        id dict = [self propertyForKey:@"key"];
         id pubKey = MKMPublicKeyFromDictionary(dict);
         if ([pubKey conformsToProtocol:@protocol(MKMEncryptKey)]) {
             _key = pubKey;
@@ -153,7 +153,7 @@
     if (!_assistants) {
         NSArray *array = (NSArray *)[self propertyForKey:@"assistants"];
         if (array.count > 0) {
-            _assistants = [MKMID convert:array];
+            _assistants = MKMIDConvert(array);
         }
     }
     return _assistants;

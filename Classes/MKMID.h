@@ -64,6 +64,80 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+#pragma mark - ID Factory
+
+@protocol MKMMeta;
+
+@protocol MKMIDFactory <NSObject>
+
+/**
+ *  Generate ID
+ *
+ * @param meta - meta info
+ * @param type - ID.type
+ * @param loc - ID.terminal
+ * @return ID
+ */
+- (id<MKMID>)generateID:(id<MKMMeta>)meta network:(UInt8)type terminal:(nullable NSString *)loc;
+
+/**
+ *  Create ID
+ *
+ * @param name     - ID.name
+ * @param address  - ID.address
+ * @param loc - ID.terminal
+ * @return ID
+ */
+- (id<MKMID>)createID:(nullable NSString *)name address:(id<MKMAddress>)address terminal:(nullable NSString *)loc;
+
+/**
+ *  Parse string object to ID
+ *
+ * @param identifier - ID string
+ * @return ID
+ */
+- (nullable id<MKMID>)parseID:(NSString *)identifier;
+
+@end
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+id<MKMIDFactory> MKMIDGetFactory(void);
+void MKMIDSetFactory(id<MKMIDFactory> factory);
+
+__kindof id<MKMID> MKMIDGenerate(id<MKMMeta> meta, UInt8 network, NSString * _Nullable terminal);
+__kindof id<MKMID> MKMIDCreate(NSString * _Nullable name, id<MKMAddress> address, NSString * _Nullable terminal);
+__kindof id<MKMID> MKMIDParse(id identifier);
+
+__kindof id<MKMID> MKMAnyone(void);
+__kindof id<MKMID> MKMEveryone(void);
+
+__kindof id<MKMID> MKMFounder(void);  // DIM Founder
+
+/**
+ *  Convert ID list from string array
+ */
+NSArray<id<MKMID>> *MKMIDConvert(NSArray<NSString *> *members);
+
+/**
+ *  Revert ID list to string array
+ */
+NSArray<NSString *> *MKMIDRevert(NSArray<id<MKMID>> *members);
+
+#ifdef __cplusplus
+} /* end of extern "C" */
+#endif
+
+#define MKMIDFromString(S)   MKMIDParse(S)
+
+#define MKMIDIsUser(ID)      [(ID) isUser]
+#define MKMIDIsGroup(ID)     [(ID) isGroup]
+#define MKMIDIsBroadcast(ID) [(ID) isBroadcast]
+
+#pragma mark -
+
 @interface MKMID : MKMString <MKMID>
 
 /**
@@ -96,77 +170,9 @@ NS_DESIGNATED_INITIALIZER;
  */
 - (instancetype)initWithAddress:(id<MKMAddress>)addr;
 
-//+ (BOOL)identifier:(id<MKMID>)ID1 isEqual:(id<MKMID>)ID2;
-
-@end
-
-#define MKMAnyone()          [MKMID anyone]
-#define MKMEveryone()        [MKMID everyone]
-
-#define MKMIDCreate(N, A, T) [MKMID create:(N) address:(A) terminal:(T)]
-#define MKMIDFromString(ID)  [MKMID parse:(ID)]
-
-#define MKMIDIsUser(ID)      [(ID) isUser]
-#define MKMIDIsGroup(ID)     [(ID) isGroup]
-#define MKMIDIsBroadcast(ID) [(ID) isBroadcast]
-
-@interface MKMID (Broadcast)
-
-/**
- *  ID for broadcast
- */
-+ (id<MKMID>)anyone;
-+ (id<MKMID>)everyone;
-
-@end
-
-@interface MKMID (Array)
-
-+ (NSMutableArray<id<MKMID>> *)convert:(NSArray<NSString *> *)members;
-+ (NSMutableArray<NSString *> *)revert:(NSArray<id<MKMID>> *)members;
-
-@end
-
-#pragma mark - Creation
-
-@protocol MKMIDFactory <NSObject>
-
-/**
- *  Create ID
- *
- * @param name     - ID.name
- * @param address  - ID.address
- * @param terminal - ID.terminal
- * @return ID
- */
-- (id<MKMID>)createID:(nullable NSString *)name
-              address:(id<MKMAddress>)address
-             terminal:(nullable NSString *)terminal;
-
-/**
- *  Parse string object to ID
- *
- * @param identifier - ID string
- * @return ID
- */
-- (nullable id<MKMID>)parseID:(NSString *)identifier;
-
 @end
 
 @interface MKMIDFactory : NSObject <MKMIDFactory>
-
-@end
-
-@interface MKMID (Creation)
-
-+ (id<MKMIDFactory>)factory;
-+ (void)setFactory:(id<MKMIDFactory>)factory;
-
-+ (id<MKMID>)create:(nullable NSString *)name
-            address:(id<MKMAddress>)address
-           terminal:(nullable NSString *)terminal;
-
-+ (nullable id<MKMID>)parse:(NSString *)identifier;
 
 @end
 

@@ -81,7 +81,7 @@ typedef UInt8 MKMMetaType;
 @protocol MKMVerifyKey;
 @protocol MKMSignKey;
 
-@class MKMID;
+@protocol MKMID;
 
 /*
  *  User/Group Meta data
@@ -133,13 +133,6 @@ typedef UInt8 MKMMetaType;
 @property (readonly, strong, nonatomic, nullable) NSData *fingerprint;
 
 /**
- *  Check meta valid
- *
- *      (must call this when received a new meta from network)
- */
-@property (readonly, nonatomic, getter=isValid) BOOL valid;
-
-/**
  *  Generate address
  *
  * @param type - ID.type
@@ -147,80 +140,18 @@ typedef UInt8 MKMMetaType;
  */
 - (nullable __kindof id<MKMAddress>)generateAddress:(UInt8)type;
 
-/**
- *  Generate ID with terminal
- *
- * @param type - ID.type
- * @param terminal - ID.terminal
- * @return ID
- */
-- (nullable id<MKMID>)generateID:(UInt8)type
-                        terminal:(nullable NSString *)terminal;
-
-/**
- *  Check whether meta match with entity ID
- *  (must call this when received a new meta from network)
- *
- * @param ID - entity ID
- * @return true on matched
- */
-- (BOOL)matchID:(id<MKMID>)ID;
-
-/**
- *  Check whether meta match with public key
- *
- * @param PK - public key
- * @return true on matched
- */
-- (BOOL)matchPublicKey:(id<MKMVerifyKey>)PK;
-
 @end
-
-@interface MKMMeta : MKMDictionary <MKMMeta>
-
-+ (UInt8)type:(NSDictionary *)meta;
-
-+ (id<MKMVerifyKey>)key:(NSDictionary *)meta;
-
-+ (nullable NSString *)seed:(NSDictionary *)meta;
-
-+ (nullable NSData *)fingerprint:(NSDictionary *)meta;
-
-/**
- *  Create meta with dictionary
- */
-- (instancetype)initWithDictionary:(NSDictionary *)dict
-NS_DESIGNATED_INITIALIZER;
-
-- (instancetype)initWithType:(UInt8)version
-                         key:(id<MKMVerifyKey>)PK
-                        seed:(NSString *)name
-                 fingerprint:(NSData *)CT
-NS_DESIGNATED_INITIALIZER;
-
-@end
-
-// create meta with data loaded from local storage
-#define MKMMetaCreate(t, PK, name, CT)                                         \
-            [MKMMeta createWithType:(t) key:(PK) seed:(name) fingerprint:(CT)] \
-                                      /* EOF 'MKMMetaCreate(t, PK, name, CT)' */
-
-// generate Meta
-#define MKMMetaGenerate(ver, SK, name)                                         \
-            [MKMMeta generateWithType:(ver) privateKey:(SK) seed:(name)]       \
-                                      /* EOF 'MKMMetaGenerate(ver, SK, name)' */
-
-// convert Dictionary to Meta
-#define MKMMetaFromDictionary(meta)                                            \
-            [MKMMeta parse:(meta)]                                             \
-                                         /* EOF 'MKMMetaFromDictionary(meta)' */
-
-#pragma mark - Creation
-
-@protocol MKMPublicKey;
-@protocol MKMPrivateKey;
 
 @protocol MKMMetaFactory <NSObject>
+
+/**
+ *  Generate meta
+ *
+ * @param SK - private key
+ * @param name - ID.name
+ * @return Meta
+ */
+- (__kindof id<MKMMeta>)generateMeta:(id<MKMSignKey>)SK seed:(nullable NSString *)name;
 
 /**
  *  Create meta
@@ -230,19 +161,7 @@ NS_DESIGNATED_INITIALIZER;
  * @param CT - sKey.sign(seed)
  * @return Meta
  */
-- (__kindof id<MKMMeta>)createMetaWithPublicKey:(id<MKMPublicKey>)PK
-                                           seed:(nullable NSString *)name
-                                    fingerprint:(nullable NSData *)CT;
-
-/**
- *  Generate meta
- *
- * @param SK - private key
- * @param name - ID.name
- * @return Meta
- */
-- (__kindof id<MKMMeta>)generateMetaWithPrivateKey:(id<MKMPrivateKey>)SK
-                                              seed:(nullable NSString *)name;
+- (__kindof id<MKMMeta>)createMeta:(id<MKMVerifyKey>)PK seed:(nullable NSString *)name fingerprint:(nullable NSData *)CT;
 
 /**
  *  Parse map object to meta
@@ -254,21 +173,51 @@ NS_DESIGNATED_INITIALIZER;
 
 @end
 
-@interface MKMMeta (Creation)
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-+ (id<MKMMetaFactory>)factoryForType:(UInt8)type;
-+ (void)setFactory:(id<MKMMetaFactory>)factory forType:(UInt8)type;
+id<MKMMetaFactory> MKMMetaGetFactory(UInt8 version);
+void MKMMetaSetFactory(UInt8 version, id<MKMMetaFactory> factory);
 
-+ (__kindof id<MKMMeta>)createWithType:(UInt8)version
-                                   key:(id<MKMPublicKey>)PK
-                                  seed:(nullable NSString *)name
-                           fingerprint:(nullable NSData *)CT;
+__kindof id<MKMMeta> MKMMetaGenerate(UInt8 version, id<MKMSignKey> SK, NSString * _Nullable seed);
+__kindof id<MKMMeta> MKMMetaCreate(UInt8 version, id<MKMVerifyKey> PK, NSString * _Nullable seed, NSData * _Nullable fingerprint);
+__kindof id<MKMMeta> MKMMetaParse(id meta);
 
-+ (__kindof id<MKMMeta>)generateWithType:(UInt8)version
-                              privateKey:(id<MKMPrivateKey>)SK
-                                    seed:(nullable NSString *)name;
+UInt8 MKMMetaGetType(NSDictionary<NSString *, id> *meta);
+__kindof id<MKMVerifyKey> MKMMetaGetKey(NSDictionary<NSString *, id> *meta);
+NSString * _Nullable MKMMetaGetSeed(NSDictionary<NSString *, id> *meta);
+NSData * _Nullable MKMMetaGetFingerprint(NSDictionary<NSString *, id> *meta);
 
-+ (nullable __kindof id<MKMMeta>)parse:(NSDictionary *)meta;
+BOOL MKMMetaCheck(id<MKMMeta> meta);
+
+// Check whether meta match the ID (must call this when received a new meta from network)
+BOOL MKMMetaMatchID(id<MKMID> ID, id<MKMMeta> meta);
+
+// Check whether meta match the public key
+BOOL MKMMetaMatchKey(id<MKMVerifyKey> PK, id<MKMMeta> meta);
+
+#ifdef __cplusplus
+} /* end of extern "C" */
+#endif
+
+#define MKMMetaFromDictionary(dict) MKMMetaParse(dict)
+
+#pragma mark - Base Class
+
+@interface MKMMeta : MKMDictionary <MKMMeta>
+
+/**
+ *  Create meta with dictionary
+ */
+- (instancetype)initWithDictionary:(NSDictionary *)dict
+NS_DESIGNATED_INITIALIZER;
+
+- (instancetype)initWithType:(UInt8)version
+                         key:(id<MKMVerifyKey>)PK
+                        seed:(nullable NSString *)name
+                 fingerprint:(nullable NSData *)CT
+NS_DESIGNATED_INITIALIZER;
 
 @end
 

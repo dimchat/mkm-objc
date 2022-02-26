@@ -56,20 +56,21 @@ void MKMPrivateKeySetFactory(NSString *algorithm, id<MKMPrivateKeyFactory> facto
     [s_factories setObject:factory forKey:algorithm];
 }
 
-id<MKMPrivateKey> MKMPrivateKeyWithAlgorithm(NSString *algorithm) {
+id<MKMPrivateKey> MKMPrivateKeyGenerate(NSString *algorithm) {
     id<MKMPrivateKeyFactory> factory = MKMPrivateKeyGetFactory(algorithm);
     //NSAssert(factory, @"key algorithm not found: %@", algorithm);
     return [factory generatePrivateKey];
 }
 
-id<MKMPrivateKey> MKMPrivateKeyFromDictionary(NSDictionary *key) {
-    if (key.count == 0) {
+id<MKMPrivateKey> MKMPrivateKeyParse(id key) {
+    if (!key) {
         return nil;
     } else if ([key conformsToProtocol:@protocol(MKMPrivateKey)]) {
         return (id<MKMPrivateKey>)key;
     } else if ([key conformsToProtocol:@protocol(MKMDictionary)]) {
         key = [(id<MKMDictionary>)key dictionary];
     }
+    //NSAssert([key isKindOfClass:[NSDictionary class]], @"key info error: %@", key);
     NSString *algorithm = MKMCryptographyKeyAlgorithm(key);
     //NSAssert(algorithm, @"failed to get algorithm name for key: %@", key);
     id<MKMPrivateKeyFactory> factory = MKMPrivateKeyGetFactory(algorithm);

@@ -54,20 +54,21 @@ void MKMSymmetricKeySetFactory(NSString *algorithm, id<MKMSymmetricKeyFactory> f
     [s_factories setObject:factory forKey:algorithm];
 }
 
-id<MKMSymmetricKey> MKMSymmetricKeyWithAlgorithm(NSString *algorithm) {
+id<MKMSymmetricKey> MKMSymmetricKeyGenerate(NSString *algorithm) {
     id<MKMSymmetricKeyFactory> factory = MKMSymmetricKeyGetFactory(algorithm);
     //NSAssert(factory, @"key algorithm not found: %@", algorithm);
     return [factory generateSymmetricKey];
 }
 
-id<MKMSymmetricKey> MKMSymmetricKeyFromDictionary(NSDictionary *key) {
-    if (key.count == 0) {
+id<MKMSymmetricKey> MKMSymmetricKeyParse(id key) {
+    if (!key) {
         return nil;
     } else if ([key conformsToProtocol:@protocol(MKMSymmetricKey)]) {
         return (id<MKMSymmetricKey>)key;
     } else if ([key conformsToProtocol:@protocol(MKMDictionary)]) {
         key = [(id<MKMDictionary>)key dictionary];
     }
+    //NSAssert([key isKindOfClass:[NSDictionary class]], @"key info error: %@", key);
     NSString *algorithm = MKMCryptographyKeyAlgorithm(key);
     //NSAssert(algorithm, @"failed to get algorithm name for key: %@", key);
     id<MKMSymmetricKeyFactory> factory = MKMSymmetricKeyGetFactory(algorithm);

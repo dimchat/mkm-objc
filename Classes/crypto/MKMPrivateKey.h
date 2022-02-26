@@ -82,32 +82,19 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 #ifdef __cplusplus
-extern "C"
-{
+extern "C" {
 #endif
 
-/**
- *  Get key factory with algorithm
- */
 id<MKMPrivateKeyFactory> MKMPrivateKeyGetFactory(NSString *algorithm);
-
-/**
- *  Register key factory with algorithm
- */
 void MKMPrivateKeySetFactory(NSString *algorithm, id<MKMPrivateKeyFactory> factory);
 
-/**
- *  Generate key with algorithm
- */
-__kindof id<MKMPrivateKey> MKMPrivateKeyWithAlgorithm(NSString *algorithm);
-
-/**
- *  Parse key
- */
-__kindof id<MKMPrivateKey> MKMPrivateKeyFromDictionary(NSDictionary *key);
+__kindof id<MKMPrivateKey> MKMPrivateKeyGenerate(NSString *algorithm);
+__kindof id<MKMPrivateKey> MKMPrivateKeyParse(id key);
 
 #ifdef __cplusplus
 } /* end of extern "C" */
 #endif
+
+#define MKMPrivateKeyFromDictionary(key) MKMPrivateKeyParse(key)
 
 NS_ASSUME_NONNULL_END
