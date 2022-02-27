@@ -97,4 +97,10 @@ __kindof id<MKMPrivateKey> MKMPrivateKeyParse(id key);
 
 #define MKMPrivateKeyFromDictionary(key) MKMPrivateKeyParse(key)
 
+#pragma mark - Base Class
+
+@interface MKMPrivateKey : MKMAsymmetricKey <MKMPrivateKey>
+
+@end
+
 NS_ASSUME_NONNULL_END

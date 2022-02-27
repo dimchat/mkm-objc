@@ -78,3 +78,31 @@ id<MKMSymmetricKey> MKMSymmetricKeyParse(id key) {
     }
     return [factory parseSymmetricKey:key];
 }
+
+@implementation MKMSymmetricKey
+
+- (BOOL)isEqual:(id)object {
+    if ([super isEqual:object]) {
+        return YES;
+    }
+    if ([object conformsToProtocol:@protocol(MKMSymmetricKey)]) {
+        return [self isMatch:object];
+    }
+    return NO;
+}
+
+- (BOOL)isMatch:(id<MKMEncryptKey>)pKey {
+    return MKMCryptographyKeysMatch(pKey, self);
+}
+
+- (NSData *)encrypt:(NSData *)plaintext {
+    NSAssert(false, @"implement me!");
+    return nil;
+}
+
+- (nullable NSData *)decrypt:(NSData *)ciphertext {
+    NSAssert(false, @"implement me!");
+    return nil;
+}
+
+@end

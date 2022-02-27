@@ -72,3 +72,16 @@ id<MKMPublicKey> MKMPublicKeyParse(id key) {
     }
     return [factory parsePublicKey:key];
 }
+
+@implementation MKMPublicKey
+
+- (BOOL)verify:(NSData *)data withSignature:(NSData *)signature {
+    NSAssert(false, @"implement me!");
+    return NO;
+}
+
+- (BOOL)isMatch:(id<MKMSignKey>)sKey {
+    return MKMAsymmetricKeysMatch(self, sKey);
+}
+
+@end

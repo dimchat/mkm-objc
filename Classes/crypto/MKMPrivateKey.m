@@ -80,3 +80,27 @@ id<MKMPrivateKey> MKMPrivateKeyParse(id key) {
     }
     return [factory parsePrivateKey:key];
 }
+
+@implementation MKMPrivateKey
+
+- (BOOL)isEqual:(id)object {
+    if ([super isEqual:object]) {
+        return YES;
+    }
+    if ([object conformsToProtocol:@protocol(MKMSignKey)]) {
+        return [self.publicKey isMatch:object];
+    }
+    return NO;
+}
+
+- (__kindof id<MKMPublicKey>)publicKey {
+    NSAssert(false, @"implement me!");
+    return nil;
+}
+
+- (NSData *)sign:(NSData *)data {
+    NSAssert(false, @"implement me!");
+    return nil;
+}
+
+@end

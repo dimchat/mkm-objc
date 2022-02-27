@@ -93,4 +93,10 @@ BOOL MKMAsymmetricKeysMatch(id<MKMVerifyKey> pKey, id<MKMSignKey> sKey);
 } /* end of extern "C" */
 #endif
 
+#pragma mark - Base Class
+
+@interface MKMAsymmetricKey : MKMCryptographyKey <MKMAsymmetricKey>
+
+@end
+
 NS_ASSUME_NONNULL_END

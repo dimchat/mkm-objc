@@ -100,4 +100,10 @@ BOOL MKMCryptographyKeysMatch(id<MKMEncryptKey> pKey, id<MKMDecryptKey> sKey);
 } /* end of extern "C" */
 #endif
 
+#pragma mark - Base Class
+
+@interface MKMCryptographyKey : MKMDictionary <MKMCryptographyKey>
+
+@end
+
 NS_ASSUME_NONNULL_END

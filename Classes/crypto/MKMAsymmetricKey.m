@@ -49,3 +49,7 @@ BOOL MKMAsymmetricKeysMatch(id<MKMVerifyKey> pKey, id<MKMSignKey> sKey) {
     NSData *signature = [sKey sign:promise];
     return [pKey verify:promise withSignature:signature];
 }
+
+@implementation MKMAsymmetricKey
+
+@end

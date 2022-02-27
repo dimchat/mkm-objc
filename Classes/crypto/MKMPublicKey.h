@@ -82,4 +82,10 @@ __kindof id<MKMPublicKey> MKMPublicKeyParse(id key);
 
 #define MKMPublicKeyFromDictionary(key) MKMPublicKeyParse(key)
 
+#pragma mark - Base Class
+
+@interface MKMPublicKey : MKMAsymmetricKey <MKMPublicKey>
+
+@end
+
 NS_ASSUME_NONNULL_END

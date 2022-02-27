@@ -53,3 +53,16 @@ BOOL MKMCryptographyKeysMatch(id<MKMEncryptKey> pKey, id<MKMDecryptKey> sKey) {
     NSData *plaintext = [sKey decrypt:ciphertext];
     return [plaintext isEqualToData:promise];
 }
+
+@implementation MKMCryptographyKey
+
+- (NSString *)algorithm {
+    return MKMCryptographyKeyAlgorithm(self.dictionary);
+}
+
+- (NSData *)data {
+    NSAssert(false, @"implement me!");
+    return nil;
+}
+
+@end

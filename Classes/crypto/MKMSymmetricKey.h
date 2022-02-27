@@ -92,4 +92,10 @@ __kindof id<MKMSymmetricKey> MKMSymmetricKeyParse(id key);
 
 #define MKMSymmetricKeyFromDictionary(key) MKMSymmetricKeyParse(key)
 
+#pragma mark - Base Class
+
+@interface MKMSymmetricKey : MKMCryptographyKey <MKMSymmetricKey>
+
+@end
+
 NS_ASSUME_NONNULL_END
