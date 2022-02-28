@@ -199,7 +199,7 @@ id<MKMAddress> MKMEverywhere(void) {
     return self;
 }
 
-- (nullable __kindof id<MKMAddress>)generateAddress:(UInt8)network fromMeta:(id<MKMMeta>)meta {
+- (nullable id<MKMAddress>)generateAddress:(UInt8)network fromMeta:(id<MKMMeta>)meta {
     id<MKMAddress> address = [meta generateAddress:network];
     if (address) {
         [_addresses setObject:address forKey:address.string];
@@ -207,7 +207,7 @@ id<MKMAddress> MKMEverywhere(void) {
     return address;
 }
 
-- (nullable __kindof id<MKMAddress>)parseAddress:(NSString *)address {
+- (nullable id<MKMAddress>)parseAddress:(NSString *)address {
     id<MKMAddress> addr = [_addresses objectForKey:address];
     if (!addr) {
         addr = [self createAddress:address];
@@ -218,7 +218,7 @@ id<MKMAddress> MKMEverywhere(void) {
     return addr;
 }
 
-- (nullable __kindof id<MKMAddress>)createAddress:(NSString *)address {
+- (nullable id<MKMAddress>)createAddress:(NSString *)address {
     NSAssert(false, @"implement me!");
     return nil;
 }

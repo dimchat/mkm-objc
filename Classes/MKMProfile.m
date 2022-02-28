@@ -59,10 +59,8 @@
     return self;
 }
 
-- (instancetype)initWithID:(id<MKMID>)ID
-                      data:(NSData *)json
-                 signature:(NSData *)signature {
-    if (self = [super initWithID:ID data:json signature:signature]) {
+- (instancetype)initWithID:(id<MKMID>)ID data:(NSString *)json signature:(NSString *)base64 {
+    if (self = [super initWithID:ID data:json signature:base64]) {
         // lazy
         _key = nil;
     }
@@ -98,7 +96,7 @@
 }
 
 - (nullable NSString *)avatar {
-    return (NSString *)[self propertyForKey:@"avatar"];
+    return [self propertyForKey:@"avatar"];
 }
 
 - (void)setAvatar:(NSString *)avatar {
@@ -127,10 +125,8 @@
     return self;
 }
 
-- (instancetype)initWithID:(id<MKMID>)ID
-                      data:(NSData *)json
-                 signature:(NSData *)signature {
-    if (self = [super initWithID:ID data:json signature:signature]) {
+- (instancetype)initWithID:(id<MKMID>)ID data:(NSString *)json signature:(NSString *)base64 {
+    if (self = [super initWithID:ID data:json signature:base64]) {
         // lazy
         _assistants = nil;
     }
@@ -151,7 +147,7 @@
 
 - (nullable NSArray<id<MKMID>> *)assistants {
     if (!_assistants) {
-        NSArray *array = (NSArray *)[self propertyForKey:@"assistants"];
+        NSArray *array = [self propertyForKey:@"assistants"];
         if (array.count > 0) {
             _assistants = MKMIDConvert(array);
         }

@@ -188,7 +188,7 @@ static inline id<MKMID> parse(NSString *string) {
 @interface MKMID ()
 
 @property (strong, nonatomic, nullable) NSString *name;
-@property (strong, nonatomic) __kindof id<MKMAddress> address;
+@property (strong, nonatomic) id<MKMAddress> address;
 @property (strong, nonatomic, nullable) NSString *terminal;
 
 @end

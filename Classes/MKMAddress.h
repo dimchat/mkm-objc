@@ -163,7 +163,7 @@ typedef UInt8 MKMNetworkType;
  * @param meta - meta info
  * @return Address
  */
-- (nullable __kindof id<MKMAddress>)generateAddress:(UInt8)network fromMeta:(id<MKMMeta>)meta;
+- (nullable id<MKMAddress>)generateAddress:(UInt8)network fromMeta:(id<MKMMeta>)meta;
 
 /**
  *  Create address from string
@@ -171,7 +171,7 @@ typedef UInt8 MKMNetworkType;
  * @param address - address string
  * @return Address
  */
-- (nullable __kindof id<MKMAddress>)createAddress:(NSString *)address;
+- (nullable id<MKMAddress>)createAddress:(NSString *)address;
 
 /**
  *  Parse string object to address
@@ -179,7 +179,7 @@ typedef UInt8 MKMNetworkType;
  * @param address - address string
  * @return Address
  */
-- (nullable __kindof id<MKMAddress>)parseAddress:(NSString *)address;
+- (nullable id<MKMAddress>)parseAddress:(NSString *)address;
 
 @end
 
@@ -190,12 +190,12 @@ extern "C" {
 id<MKMAddressFactory> MKMAddressGetFactory(void);
 void MKMAddressSetFactory(id<MKMAddressFactory> factory);
 
-__kindof id<MKMAddress> MKMAddressGenerate(UInt8 network, id<MKMMeta> meta);
-__kindof id<MKMAddress> MKMAddressCreate(NSString *address);
-__kindof id<MKMAddress> MKMAddressParse(id address);
+id<MKMAddress> MKMAddressGenerate(UInt8 network, id<MKMMeta> meta);
+id<MKMAddress> MKMAddressCreate(NSString *address);
+id<MKMAddress> MKMAddressParse(id address);
 
-__kindof id<MKMAddress> MKMAnywhere(void);
-__kindof id<MKMAddress> MKMEverywhere(void);
+id<MKMAddress> MKMAnywhere(void);
+id<MKMAddress> MKMEverywhere(void);
 
 #ifdef __cplusplus
 } /* end of extern "C" */

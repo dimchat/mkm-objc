@@ -44,7 +44,79 @@
 
 #import "MKMProfile.h"
 
+static NSMutableDictionary<NSString *, id<MKMDocumentFactory>> *s_factories = nil;
+
+id<MKMDocumentFactory> MKMDocumentGetFactory(NSString *type) {
+    return [s_factories objectForKey:type];
+}
+
+void MKMDocumentSetFactory(NSString *type, id<MKMDocumentFactory> factory) {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        //if (!s_factories) {
+            s_factories = [[NSMutableDictionary alloc] init];
+        //}
+    });
+    [s_factories setObject:factory forKey:type];
+}
+
+id<MKMDocument> MKMDocumentNew(NSString *type, id<MKMID> ID) {
+    id<MKMDocumentFactory> factory = MKMDocumentGetFactory(type);
+    return [factory createDocument:ID];
+}
+
+id<MKMDocument> MKMDocumentCreate(NSString *type, id<MKMID> ID, NSString *data, NSString *signature) {
+    id<MKMDocumentFactory> factory = MKMDocumentGetFactory(type);
+    return [factory createDocument:ID data:data signature:signature];
+}
+
+id<MKMDocument> MKMDocumentParse(id doc) {
+    if (!doc) {
+        return nil;
+    } else if ([doc conformsToProtocol:@protocol(MKMDocument)]) {
+        return (id<MKMDocument>)doc;
+    } else if ([doc conformsToProtocol:@protocol(MKMDictionary)]) {
+        doc = [(id<MKMDictionary>)doc dictionary];
+    }
+    NSString *type = MKMDocumentGetType(doc);
+    id<MKMDocumentFactory> factory = MKMDocumentGetFactory(type);
+    if (!factory) {
+        factory = MKMDocumentGetFactory(@"*"); // unknown
+    }
+    return [factory parseDocument:doc];
+}
+
+NSString *MKMDocumentGetType(NSDictionary<NSString *, id> *doc) {
+    return [doc objectForKey:@"type"];
+}
+
+id<MKMID> MKMDocumentGetID(NSDictionary<NSString *, id> *doc) {
+    return MKMIDFromString([doc objectForKey:@"ID"]);
+}
+
+NSData *MKMDocumentGetData(NSDictionary<NSString *, id> *doc) {
+    NSString *json = [doc objectForKey:@"data"];
+    if (json.length > 0) {
+        return MKMUTF8Encode(json);
+    } else {
+        return nil;
+    }
+}
+
+NSData *MKMDocumentGetSignature(NSDictionary<NSString *, id> *doc) {
+    NSString *sig = [doc objectForKey:@"signature"];
+    if (sig.length > 0) {
+        return MKMBase64Decode(sig);
+    } else {
+        return nil;
+    }
+}
+
+#pragma mark - Base Class
+
 @interface MKMDocument ()
+
+@property (strong, nonatomic) NSString *type;
 
 @property (strong, nonatomic) id<MKMID> ID;
 
@@ -69,6 +141,8 @@
 - (instancetype)initWithDictionary:(NSDictionary *)dict {
     if (self = [super initWithDictionary:dict]) {
         // lazy
+        _type = nil;
+        
         _ID = nil;
         
         _data = nil;
@@ -82,18 +156,14 @@
 }
 
 /* designated initializer */
-- (instancetype)initWithID:(id<MKMID>)ID
-                      data:(NSData *)json
-                 signature:(NSData *)signature {
-    if (self = [super initWithDictionary:@{@"ID": ID}]) {
-        // ID
+- (instancetype)initWithID:(id<MKMID>)ID data:(NSString *)json signature:(NSString *)base64 {
+    if (self = [super initWithDictionary:@{@"ID": ID, @"data": json, @"signature": base64}]) {
+        _type = nil;
+        
         _ID = ID;
 
-        _data = json;
-        _signature = signature;
-        
-        [self setObject:MKMUTF8Decode(json) forKey:@"data"];
-        [self setObject:MKMBase64Encode(signature) forKey:@"signature"];
+        _data = MKMUTF8Encode(json);
+        _signature = MKMBase64Decode(base64);
         
         _properties = nil;
 
@@ -106,7 +176,8 @@
 /* designated initializer */
 - (instancetype)initWithID:(id<MKMID>)ID type:(NSString *)type {
     if (self = [super initWithDictionary:@{@"ID": ID}]) {
-        // ID
+        _type = type;
+        
         _ID = ID;
         
         _data = nil;
@@ -127,6 +198,7 @@
 - (id)copyWithZone:(nullable NSZone *)zone {
     MKMDocument *doc = [super copyWithZone:zone];
     if (doc) {
+        doc.type = _type;
         doc.ID = _ID;
         doc.data = _data;
         doc.signature = _signature;
@@ -140,22 +212,33 @@
     return _status > 0;
 }
 
+- (NSString *)type {
+    if (!_type) {
+        _type = [self propertyForKey:@"type"];
+        if (!_type) {
+            _type = [self objectForKey:@"type"];
+        }
+    }
+    return _type;
+}
+
+- (id<MKMID>)ID {
+    if (!_ID) {
+        _ID = MKMDocumentGetID(self.dictionary);
+    }
+    return _ID;
+}
+
 - (NSData *)data {
     if (!_data) {
-        NSString *json = [self objectForKey:@"data"];
-        if (json.length > 0) {
-            _data = MKMUTF8Encode(json);
-        }
+        _data = MKMDocumentGetData(self.dictionary);
     }
     return _data;
 }
 
 - (NSData *)signature {
     if (!_signature) {
-        NSString *sig = [self objectForKey:@"signature"];
-        if (sig.length > 0) {
-            _signature = MKMBase64Decode(sig);
-        }
+        _signature = MKMDocumentGetSignature(self.dictionary);
     }
     return _signature;
 }
@@ -186,7 +269,7 @@
     return [self.properties allKeys];
 }
 
-- (nullable NSObject *)propertyForKey:(NSString *)key {
+- (nullable id)propertyForKey:(NSString *)key {
     NSObject *property = [self.properties objectForKey:key];
     if (property == [NSNull null]) {
         return nil;
@@ -194,7 +277,7 @@
     return property;
 }
 
-- (void)setProperty:(nullable NSObject *)value forKey:(NSString *)key {
+- (void)setProperty:(nullable id)value forKey:(NSString *)key {
     // 1. reset status
     NSAssert(_status >= 0, @"status error: %@", self);
     _status = 0;
@@ -264,29 +347,10 @@
     return _signature;
 }
 
-+ (NSString *)type:(NSDictionary *)doc {
-    return [doc objectForKey:@"type"];
-}
-
-- (NSString *)type {
-    return [MKMDocument type:self.dictionary];
-}
-
-+ (id<MKMID>)ID:(NSDictionary *)doc {
-    return MKMIDFromString([doc objectForKey:@"ID"]);
-}
-
-- (id<MKMID>)ID {
-    if (!_ID) {
-        _ID = [MKMDocument ID:self.dictionary];
-    }
-    return _ID;
-}
-
 #pragma mark properties getter/setter
 
 - (NSDate *)time {
-    NSNumber *timestamp = (NSNumber *)[self propertyForKey:@"time"];
+    NSNumber *timestamp = [self propertyForKey:@"time"];
     if (!timestamp) {
         //NSAssert(false, @"sign time not found: %@", env);
         return nil;
@@ -295,63 +359,11 @@
 }
 
 - (NSString *)name {
-    return (NSString *)[self propertyForKey:@"name"];
+    return [self propertyForKey:@"name"];
 }
 
 - (void)setName:(NSString *)name {
     [self setProperty:name forKey:@"name"];
-}
-
-@end
-
-#pragma mark - Creation
-
-@implementation MKMDocument (Creation)
-
-static NSMutableDictionary<NSString *, id<MKMDocumentFactory>> *s_factories = nil;
-
-+ (void)setFactory:(id<MKMDocumentFactory>)factory forType:(NSString *)type {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        //if (!s_factories) {
-            s_factories = [[NSMutableDictionary alloc] init];
-        //}
-    });
-    [s_factories setObject:factory forKey:type];
-}
-
-+ (id<MKMDocumentFactory>)factoryForType:(NSString *)type {
-    NSAssert(s_factories, @"document factories not set yet");
-    return [s_factories objectForKey:type];
-}
-
-+ (__kindof id<MKMDocument>)create:(id<MKMID>)ID type:(NSString *)type data:(NSData *)data signature:(NSData *)CT {
-    id<MKMDocumentFactory> factory = [self factoryForType:type];
-    NSAssert(factory, @"document type not found: %@", type);
-    return [factory createDocument:ID data:data signature:CT];
-}
-
-+ (__kindof id<MKMDocument>)create:(id<MKMID>)ID type:(NSString *)type {
-    id<MKMDocumentFactory> factory = [self factoryForType:type];
-    NSAssert(factory, @"document type not found: %@", type);
-    return [factory createDocument:ID];
-}
-
-+ (nullable __kindof id<MKMDocument>)parse:(NSDictionary *)doc {
-    if (doc.count == 0) {
-        return nil;
-    } else if ([doc conformsToProtocol:@protocol(MKMDocument)]) {
-        return (id<MKMDocument>)doc;
-    } else if ([doc conformsToProtocol:@protocol(MKMDictionary)]) {
-        doc = [(id<MKMDictionary>)doc dictionary];
-    }
-    NSString *type = [MKMDocument type:doc];
-    id<MKMDocumentFactory> factory = [self factoryForType:type];
-    if (!factory) {
-        factory = [self factoryForType:@"*"]; // unknown
-        NSAssert(factory, @"cannot parse document: %@", doc);
-    }
-    return [factory parseDocument:doc];
 }
 
 @end

@@ -63,7 +63,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param key - key info
  * @return PublicKey
  */
-- (nullable __kindof id<MKMPublicKey>)parsePublicKey:(NSDictionary *)key;
+- (nullable id<MKMPublicKey>)parsePublicKey:(NSDictionary *)key;
 
 @end
 
@@ -74,13 +74,15 @@ extern "C" {
 id<MKMPublicKeyFactory> MKMPublicKeyGetFactory(NSString *algorithm);
 void MKMPublicKeySetFactory(NSString *algorithm, id<MKMPublicKeyFactory> factory);
 
-__kindof id<MKMPublicKey> MKMPublicKeyParse(id key);
+id<MKMPublicKey> MKMPublicKeyParse(id key);
 
 #ifdef __cplusplus
 } /* end of extern "C" */
 #endif
 
-#define MKMPublicKeyFromDictionary(key) MKMPublicKeyParse(key)
+#define MKMPublicKeyFromDictionary(key)          MKMPublicKeyParse(key)
+
+#define MKMPublicKeyRegister(algorithm, factory) MKMPublicKeySetFactory(algorithm, factory)
 
 #pragma mark - Base Class
 

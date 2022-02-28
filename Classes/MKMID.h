@@ -52,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol MKMID <MKMString>
 
 @property (readonly, strong, nonatomic, nullable) NSString *name;
-@property (readonly, strong, nonatomic) __kindof id<MKMAddress> address;
+@property (readonly, strong, nonatomic) id<MKMAddress> address;
 @property (readonly, strong, nonatomic, nullable) NSString *terminal;
 
 @property (readonly, nonatomic) UInt8 type; // Network ID
@@ -107,14 +107,14 @@ extern "C" {
 id<MKMIDFactory> MKMIDGetFactory(void);
 void MKMIDSetFactory(id<MKMIDFactory> factory);
 
-__kindof id<MKMID> MKMIDGenerate(id<MKMMeta> meta, UInt8 network, NSString * _Nullable terminal);
-__kindof id<MKMID> MKMIDCreate(NSString * _Nullable name, id<MKMAddress> address, NSString * _Nullable terminal);
-__kindof id<MKMID> MKMIDParse(id identifier);
+id<MKMID> MKMIDGenerate(id<MKMMeta> meta, UInt8 network, NSString * _Nullable terminal);
+id<MKMID> MKMIDCreate(NSString * _Nullable name, id<MKMAddress> address, NSString * _Nullable terminal);
+id<MKMID> MKMIDParse(id identifier);
 
-__kindof id<MKMID> MKMAnyone(void);
-__kindof id<MKMID> MKMEveryone(void);
+id<MKMID> MKMAnyone(void);
+id<MKMID> MKMEveryone(void);
 
-__kindof id<MKMID> MKMFounder(void);  // DIM Founder
+id<MKMID> MKMFounder(void);  // DIM Founder
 
 /**
  *  Convert ID list from string array
@@ -136,7 +136,7 @@ NSArray<NSString *> *MKMIDRevert(NSArray<id<MKMID>> *members);
 #define MKMIDIsGroup(ID)     [(ID) isGroup]
 #define MKMIDIsBroadcast(ID) [(ID) isBroadcast]
 
-#pragma mark -
+#pragma mark - Base Classes
 
 @interface MKMID : MKMString <MKMID>
 

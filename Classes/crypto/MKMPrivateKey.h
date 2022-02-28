@@ -69,7 +69,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return PrivateKey
  */
-- (__kindof id<MKMPrivateKey>)generatePrivateKey;
+- (id<MKMPrivateKey>)generatePrivateKey;
 
 /**
  *  Parse map object to key
@@ -77,7 +77,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param key - key info
  * @return PrivateKey
  */
-- (nullable __kindof id<MKMPrivateKey>)parsePrivateKey:(NSDictionary *)key;
+- (nullable id<MKMPrivateKey>)parsePrivateKey:(NSDictionary *)key;
 
 @end
 
@@ -88,14 +88,16 @@ extern "C" {
 id<MKMPrivateKeyFactory> MKMPrivateKeyGetFactory(NSString *algorithm);
 void MKMPrivateKeySetFactory(NSString *algorithm, id<MKMPrivateKeyFactory> factory);
 
-__kindof id<MKMPrivateKey> MKMPrivateKeyGenerate(NSString *algorithm);
-__kindof id<MKMPrivateKey> MKMPrivateKeyParse(id key);
+id<MKMPrivateKey> MKMPrivateKeyGenerate(NSString *algorithm);
+id<MKMPrivateKey> MKMPrivateKeyParse(id key);
 
 #ifdef __cplusplus
 } /* end of extern "C" */
 #endif
 
-#define MKMPrivateKeyFromDictionary(key) MKMPrivateKeyParse(key)
+#define MKMPrivateKeyFromDictionary(key)          MKMPrivateKeyParse(key)
+
+#define MKMPrivateKeyRegister(algorithm, factory) MKMPrivateKeySetFactory(algorithm, factory)
 
 #pragma mark - Base Class
 

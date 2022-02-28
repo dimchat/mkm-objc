@@ -93,7 +93,7 @@ id<MKMPrivateKey> MKMPrivateKeyParse(id key) {
     return NO;
 }
 
-- (__kindof id<MKMPublicKey>)publicKey {
+- (id<MKMPublicKey>)publicKey {
     NSAssert(false, @"implement me!");
     return nil;
 }

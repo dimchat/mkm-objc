@@ -86,7 +86,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param key - property name
  * @return property data
  */
-- (nullable NSObject *)propertyForKey:(NSString *)key;
+- (nullable id)propertyForKey:(NSString *)key;
 
 /**
  *  Update property with key and data
@@ -95,11 +95,18 @@ NS_ASSUME_NONNULL_BEGIN
  * @param key - property name
  * @param value - property data
 */
-- (void)setProperty:(nullable NSObject *)value forKey:(NSString *)key;
+- (void)setProperty:(nullable id)value forKey:(NSString *)key;
 
 @end
 
-@class MKMID;
+//
+//  Document types
+//
+#define MKMDocument_Visa     @"visa"      // for login/communication
+#define MKMDocument_Profile  @"profile"   // for user info
+#define MKMDocument_Bulletin @"bulletin"  // for group info
+
+@protocol MKMID;
 
 /**
  *  User/Group Profile
@@ -112,7 +119,7 @@ NS_ASSUME_NONNULL_BEGIN
  *          signature: "..."  // signature = sign(data, SK);
  *      }
  */
-@protocol MKMDocument <MKMTAI, MKMDictionary>
+@protocol MKMDocument <MKMTAI>
 
 /**
  *  Get document type
@@ -137,65 +144,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-//
-//  Document types
-//
-#define MKMDocument_Visa     @"visa"      // for login/communication
-#define MKMDocument_Profile  @"profile"   // for user info
-#define MKMDocument_Bulletin @"bulletin"  // for group info
-
-#pragma mark -
-
-@interface MKMDocument : MKMDictionary <MKMDocument>
-
-- (instancetype)initWithDictionary:(NSDictionary *)dict
-NS_DESIGNATED_INITIALIZER;
-
-- (instancetype)initWithID:(id<MKMID>)ID
-                      data:(NSData *)json
-                 signature:(NSData *)signature
-NS_DESIGNATED_INITIALIZER;
-
-// create a new empty document with entity ID & document type
-- (instancetype)initWithID:(id<MKMID>)ID type:(NSString *)type
-NS_DESIGNATED_INITIALIZER;
-
-+ (NSString *)type:(NSDictionary *)doc;
-
-+ (id<MKMID>)ID:(NSDictionary *)doc;
-
-@end
-
-// create Document with data & signature loaded from local storage
-#define MKMDocumentCreate(ID, t, d, CT)                                        \
-            [MKMDocument create:(ID) type:(t) data:(d) signature:(CT)]         \
-                                     /* EOF 'MKMDocumentCreate(ID, t, d, CT)' */
-
-// new Document
-#define MKMDocumentNew(ID, t)                                                  \
-            [MKMDocument create:(ID) type:(t)]                                 \
-                                               /* EOF 'MKMDocumentNew(ID, t)' */
-
-// convert Dictionary to Document
-#define MKMDocumentFromDictionary(doc)                                         \
-            [MKMDocument parse:(doc)]                                          \
-                                         /* EOF 'MKMMetaFromDictionary(meta)' */
-
-#pragma mark - Creation
-
 @protocol MKMDocumentFactory <NSObject>
 
 /**
  *  Create document with data & signature loaded from local storage
  *
  * @param ID - entity ID
- * @param data - document data
- * @param CT - document signature
+ * @param json - document data
+ * @param base64 - document signature
  * @return Document
  */
-- (__kindof id<MKMDocument>)createDocument:(id<MKMID>)ID
-                                      data:(NSData *)data
-                                 signature:(NSData *)CT;
+- (__kindof id<MKMDocument>)createDocument:(id<MKMID>)ID data:(NSString *)json signature:(NSString *)base64;
 
 /**
  *  Create a new empty document with entity ID
@@ -215,21 +174,43 @@ NS_DESIGNATED_INITIALIZER;
 
 @end
 
-@interface MKMDocument (Creation)
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-+ (id<MKMDocumentFactory>)factoryForType:(NSString *)type;
-+ (void)setFactory:(id<MKMDocumentFactory>)factory forType:(NSString *)type;
+id<MKMDocumentFactory> MKMDocumentGetFactory(NSString *type);
+void MKMDocumentSetFactory(NSString *type, id<MKMDocumentFactory> factory);
 
-+ (__kindof id<MKMDocument>)create:(id<MKMID>)ID
-                              type:(NSString *)type
-                              data:(NSData *)data
-                         signature:(NSData *)CT;
+__kindof id<MKMDocument> MKMDocumentNew(NSString *type, id<MKMID> ID);
+__kindof id<MKMDocument> MKMDocumentCreate(NSString *type, id<MKMID> ID, NSString *data, NSString *signature);
+__kindof id<MKMDocument> MKMDocumentParse(id doc);
 
-// create a new empty document with entity ID
-+ (__kindof id<MKMDocument>)create:(id<MKMID>)ID
-                              type:(NSString *)type;
+NSString *MKMDocumentGetType(NSDictionary<NSString *, id> *doc);
+id<MKMID> MKMDocumentGetID(NSDictionary<NSString *, id> *doc);
+NSData * _Nullable MKMDocumentGetData(NSDictionary<NSString *, id> *doc);
+NSData * _Nullable MKMDocumentGetSignature(NSDictionary<NSString *, id> *doc);
 
-+ (nullable __kindof id<MKMDocument>)parse:(NSDictionary *)doc;
+#ifdef __cplusplus
+} /* end of extern "C" */
+#endif
+
+#define MKMDocumentFromDictionary(dict)    MKMDocumentParse(dict)
+
+#define MKMDocumentRegister(type, factory) MKMDocumentSetFactory(type, factory)
+
+#pragma mark - Base Class
+
+@interface MKMDocument : MKMDictionary <MKMDocument>
+
+- (instancetype)initWithDictionary:(NSDictionary *)dict
+NS_DESIGNATED_INITIALIZER;
+
+- (instancetype)initWithID:(id<MKMID>)ID data:(NSString *)json signature:(NSString *)base64
+NS_DESIGNATED_INITIALIZER;
+
+// create a new empty document with entity ID & document type
+- (instancetype)initWithID:(id<MKMID>)ID type:(NSString *)type
+NS_DESIGNATED_INITIALIZER;
 
 @end
 

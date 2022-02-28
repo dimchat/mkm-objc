@@ -166,7 +166,7 @@ BOOL MKMMetaMatchKey(id<MKMVerifyKey> PK, id<MKMMeta> meta) {
     return NO;
 }
 
-#pragma mark Base Class
+#pragma mark - Base Class
 
 @interface MKMMeta ()
 
@@ -270,7 +270,7 @@ BOOL MKMMetaMatchKey(id<MKMVerifyKey> PK, id<MKMMeta> meta) {
     return _fingerprint;
 }
 
-- (nullable __kindof id<MKMAddress>)generateAddress:(UInt8)type {
+- (nullable id<MKMAddress>)generateAddress:(UInt8)type {
     NSAssert(false, @"implement me!");
     return nil;
 }
