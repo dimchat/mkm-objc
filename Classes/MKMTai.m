@@ -65,9 +65,9 @@ id<MKMDocument> MKMDocumentNew(NSString *type, id<MKMID> ID) {
     return [factory createDocument:ID];
 }
 
-id<MKMDocument> MKMDocumentCreate(NSString *type, id<MKMID> ID, NSString *data, NSString *signature) {
+id<MKMDocument> MKMDocumentCreate(NSString *type, id<MKMID> ID, NSString *data, NSData *sig) {
     id<MKMDocumentFactory> factory = MKMDocumentGetFactory(type);
-    return [factory createDocument:ID data:data signature:signature];
+    return [factory createDocument:ID data:data signature:sig];
 }
 
 id<MKMDocument> MKMDocumentParse(id doc) {
@@ -94,13 +94,8 @@ id<MKMID> MKMDocumentGetID(NSDictionary<NSString *, id> *doc) {
     return MKMIDFromString([doc objectForKey:@"ID"]);
 }
 
-NSData *MKMDocumentGetData(NSDictionary<NSString *, id> *doc) {
-    NSString *json = [doc objectForKey:@"data"];
-    if (json.length > 0) {
-        return MKMUTF8Encode(json);
-    } else {
-        return nil;
-    }
+NSString *MKMDocumentGetData(NSDictionary<NSString *, id> *doc) {
+    return [doc objectForKey:@"data"];
 }
 
 NSData *MKMDocumentGetSignature(NSDictionary<NSString *, id> *doc) {
@@ -120,7 +115,7 @@ NSData *MKMDocumentGetSignature(NSDictionary<NSString *, id> *doc) {
 
 @property (strong, nonatomic) id<MKMID> ID;
 
-@property (strong, nonatomic) NSData *data;      // JsON.encode(properties)
+@property (strong, nonatomic) NSString *data;    // JsON.encode(properties)
 @property (strong, nonatomic) NSData *signature; // User(ID).sign(data)
 
 @property (strong, nonatomic) NSMutableDictionary *properties;
@@ -156,14 +151,19 @@ NSData *MKMDocumentGetSignature(NSDictionary<NSString *, id> *doc) {
 }
 
 /* designated initializer */
-- (instancetype)initWithID:(id<MKMID>)ID data:(NSString *)json signature:(NSString *)base64 {
-    if (self = [super initWithDictionary:@{@"ID": ID, @"data": json, @"signature": base64}]) {
+- (instancetype)initWithID:(id<MKMID>)ID data:(NSString *)json signature:(NSData *)sig {
+    NSDictionary *dict = @{
+        @"ID": ID,
+        @"data": json,
+        @"signature": MKMBase64Encode(sig)
+    };
+    if (self = [super initWithDictionary:dict]) {
         _type = nil;
         
         _ID = ID;
 
-        _data = MKMUTF8Encode(json);
-        _signature = MKMBase64Decode(base64);
+        _data = json;
+        _signature = sig;
         
         _properties = nil;
 
@@ -229,7 +229,7 @@ NSData *MKMDocumentGetSignature(NSDictionary<NSString *, id> *doc) {
     return _ID;
 }
 
-- (NSData *)data {
+- (NSString *)data {
     if (!_data) {
         _data = MKMDocumentGetData(self.dictionary);
     }
@@ -249,8 +249,8 @@ NSData *MKMDocumentGetSignature(NSDictionary<NSString *, id> *doc) {
         return nil;
     }
     if (!_properties) {
-        NSData *data = [self data];
-        if (data) {
+        NSString *data = [self data];
+        if ([data length] > 0) {
             NSDictionary *dict = MKMJSONDecode(data);
             NSAssert(dict, @"document data error: %@", data);
             if ([dict isKindOfClass:[NSMutableDictionary class]]) {
@@ -303,7 +303,7 @@ NSData *MKMDocumentGetSignature(NSDictionary<NSString *, id> *doc) {
         // already verify OK
         return YES;
     }
-    NSData *data = self.data;
+    NSString *data = self.data;
     NSData *signature = self.signature;
     if ([data length] == 0) {
         // NOTICE: if data is empty, signature should be empty at the same time
@@ -317,7 +317,7 @@ NSData *MKMDocumentGetSignature(NSDictionary<NSString *, id> *doc) {
     } else if ([signature length] == 0) {
         // signature error
         _status = -1;
-    } else if ([PK verify:data withSignature:signature]) {
+    } else if ([PK verify:MKMUTF8Encode(data) withSignature:signature]) {
         // signature matched
         _status = 1;
     }
@@ -340,9 +340,9 @@ NSData *MKMDocumentGetSignature(NSDictionary<NSString *, id> *doc) {
     _status = 1;
     // sign
     _data = MKMJSONEncode(self.properties);
-    _signature = [SK sign:_data];
+    _signature = [SK sign:MKMUTF8Encode(_data)];
     // update 'data' & 'signature' fields
-    [self setObject:MKMUTF8Decode(_data) forKey:@"data"];
+    [self setObject:_data forKey:@"data"];
     [self setObject:MKMBase64Encode(_signature) forKey:@"signature"];
     return _signature;
 }

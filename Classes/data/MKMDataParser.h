@@ -39,23 +39,59 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol MKMDataParser <NSObject>
+/*
+ *  Object Coder
+ *  ~~~~~~~~~~~~
+ *  JsON, XML, ...
+ *
+ *  1. encode object to string;
+ *  2. decode string to object.
+ */
+@protocol MKMObjectCoder <NSObject>
 
 /**
- *  Encode object to bytes
+ *  Encode Map/List object to String
  *
- * @param object - Dictionary, Array or String
- * @return bytes
+ * @param object - Map or List
+ * @return serialized string
  */
-- (nullable NSData *)encode:(id)object;
+- (nullable NSString *)encode:(id)object;
 
 /**
- *  Decode bytes to object
+ *  Decode String to Map/List object
  *
- * @param bytes - data bytes
- * @return object
+ * @param string - serialized string
+ * @return Map or List
  */
-- (nullable id)decode:(NSData *)bytes;
+- (nullable id)decode:(NSString *)string;
+
+@end
+
+/*
+ *  String Coder
+ *  ~~~~~~~~~~~~
+ *  UTF-8, UTF-16, GBK, GB2312, ...
+ *
+ *  1. encode string to binary data;
+ *  2. decode binary data to string.
+ */
+@protocol MKMStringCoder <NSObject>
+
+/**
+ *  Encode local string to binary data
+ *
+ * @param string - local string
+ * @return binary data
+ */
+- (nullable NSData *)encode:(NSString *)string;
+
+/**
+ *  Decode binary data to local string
+ *
+ * @param data - binary data
+ * @return local string
+ */
+- (nullable NSString *)decode:(NSData *)data;
 
 @end
 
@@ -63,17 +99,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MKMJSON : NSObject
 
-+ (void)setParser:(id<MKMDataParser>)parser;
-+ (nullable NSData *)encode:(id)object;
-+ (nullable id)decode:(NSData *)bytes;
++ (void)setParser:(id<MKMObjectCoder>)parser;
++ (nullable NSString *)encode:(id)object;
++ (nullable id)decode:(NSString *)json;
 
 @end
 
 @interface MKMUTF8 : NSObject
 
-+ (void)setParser:(id<MKMDataParser>)parser;
-+ (nullable NSData *)encode:(NSString *)object;
-+ (nullable NSString *)decode:(NSData *)bytes;
++ (void)setParser:(id<MKMStringCoder>)parser;
++ (nullable NSData *)encode:(NSString *)string;
++ (nullable NSString *)decode:(NSData *)utf8;
 
 @end
 

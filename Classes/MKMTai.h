@@ -151,10 +151,10 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param ID - entity ID
  * @param json - document data
- * @param base64 - document signature
+ * @param sig - document signature
  * @return Document
  */
-- (__kindof id<MKMDocument>)createDocument:(id<MKMID>)ID data:(NSString *)json signature:(NSString *)base64;
+- (__kindof id<MKMDocument>)createDocument:(id<MKMID>)ID data:(NSString *)json signature:(NSData *)sig;
 
 /**
  *  Create a new empty document with entity ID
@@ -182,12 +182,12 @@ id<MKMDocumentFactory> MKMDocumentGetFactory(NSString *type);
 void MKMDocumentSetFactory(NSString *type, id<MKMDocumentFactory> factory);
 
 __kindof id<MKMDocument> MKMDocumentNew(NSString *type, id<MKMID> ID);
-__kindof id<MKMDocument> MKMDocumentCreate(NSString *type, id<MKMID> ID, NSString *data, NSString *signature);
+__kindof id<MKMDocument> MKMDocumentCreate(NSString *type, id<MKMID> ID, NSString *data, NSData *sig);
 __kindof id<MKMDocument> MKMDocumentParse(id doc);
 
 NSString *MKMDocumentGetType(NSDictionary<NSString *, id> *doc);
 id<MKMID> MKMDocumentGetID(NSDictionary<NSString *, id> *doc);
-NSData * _Nullable MKMDocumentGetData(NSDictionary<NSString *, id> *doc);
+NSString * _Nullable MKMDocumentGetData(NSDictionary<NSString *, id> *doc);
 NSData * _Nullable MKMDocumentGetSignature(NSDictionary<NSString *, id> *doc);
 
 #ifdef __cplusplus
@@ -205,7 +205,7 @@ NSData * _Nullable MKMDocumentGetSignature(NSDictionary<NSString *, id> *doc);
 - (instancetype)initWithDictionary:(NSDictionary *)dict
 NS_DESIGNATED_INITIALIZER;
 
-- (instancetype)initWithID:(id<MKMID>)ID data:(NSString *)json signature:(NSString *)base64
+- (instancetype)initWithID:(id<MKMID>)ID data:(NSString *)json signature:(NSData *)sig
 NS_DESIGNATED_INITIALIZER;
 
 // create a new empty document with entity ID & document type

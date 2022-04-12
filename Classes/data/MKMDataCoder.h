@@ -39,6 +39,14 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/*
+ *  Data Coder
+ *  ~~~~~~~~~~
+ *  Hex, Base58, Base64, ...
+ *
+ *  1. encode binary data to string;
+ *  2. decode string to binary data.
+ */
 @protocol MKMDataCoder <NSObject>
 
 /**

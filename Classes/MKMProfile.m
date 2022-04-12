@@ -59,8 +59,8 @@
     return self;
 }
 
-- (instancetype)initWithID:(id<MKMID>)ID data:(NSString *)json signature:(NSString *)base64 {
-    if (self = [super initWithID:ID data:json signature:base64]) {
+- (instancetype)initWithID:(id<MKMID>)ID data:(NSString *)json signature:(NSData *)sig {
+    if (self = [super initWithID:ID data:json signature:sig]) {
         // lazy
         _key = nil;
     }
@@ -125,8 +125,8 @@
     return self;
 }
 
-- (instancetype)initWithID:(id<MKMID>)ID data:(NSString *)json signature:(NSString *)base64 {
-    if (self = [super initWithID:ID data:json signature:base64]) {
+- (instancetype)initWithID:(id<MKMID>)ID data:(NSString *)json signature:(NSData *)sig {
+    if (self = [super initWithID:ID data:json signature:sig]) {
         // lazy
         _assistants = nil;
     }

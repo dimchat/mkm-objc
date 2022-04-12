@@ -37,13 +37,13 @@
 
 #import "MKMDataParser.h"
 
-@interface JSON : NSObject <MKMDataParser>
+@interface JSON : NSObject <MKMObjectCoder>
 
 @end
 
 @implementation JSON
 
-- (nullable NSData *)encode:(NSObject *)container {
+- (nullable NSString *)encode:(id)container {
     if (![NSJSONSerialization isValidJSONObject:container]) {
         NSAssert(false, @"object format not support for json: %@", container);
         return nil;
@@ -54,14 +54,16 @@
                                                    options:opt
                                                      error:&error];
     NSAssert(!error, @"JSON encode error: %@", error);
-    return data;
+    return [[NSString alloc] initWithData:data
+                                 encoding:NSUTF8StringEncoding];
 }
 
-- (nullable NSObject *)decode:(NSData *)json {
+- (nullable id)decode:(NSString *)json {
     static NSJSONReadingOptions opt = NSJSONReadingAllowFragments;
     //static NSJSONReadingOptions opt = NSJSONReadingMutableContainers;
     NSError *error = nil;
-    id obj = [NSJSONSerialization JSONObjectWithData:json
+    NSData *data = [json dataUsingEncoding:NSUTF8StringEncoding];
+    id obj = [NSJSONSerialization JSONObjectWithData:data
                                              options:opt
                                                error:&error];
     //NSAssert(!error, @"JSON decode error: %@", error);
@@ -70,7 +72,7 @@
 
 @end
 
-@interface UTF8 : NSObject <MKMDataParser>
+@interface UTF8 : NSObject <MKMStringCoder>
 
 @end
 
@@ -99,9 +101,9 @@
 
 @implementation MKMJSON
 
-static id<MKMDataParser> s_json = nil;
+static id<MKMObjectCoder> s_json = nil;
 
-+ (id<MKMDataParser>)parser {
++ (id<MKMObjectCoder>)parser {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         if (!s_json) {
@@ -111,25 +113,25 @@ static id<MKMDataParser> s_json = nil;
     return s_json;
 }
 
-+ (void)setParser:(id<MKMDataParser>)parser {
++ (void)setParser:(id<MKMObjectCoder>)parser {
     s_json = parser;
 }
 
-+ (nullable NSData *)encode:(id)object {
++ (nullable NSString *)encode:(id)object {
     return [[self parser] encode:object];
 }
 
-+ (nullable id)decode:(NSData *)bytes {
-    return [[self parser] decode:bytes];
++ (nullable id)decode:(NSString *)json {
+    return [[self parser] decode:json];
 }
 
 @end
 
 @implementation MKMUTF8
 
-static id<MKMDataParser> s_utf8 = nil;
+static id<MKMStringCoder> s_utf8 = nil;
 
-+ (id<MKMDataParser>)parser {
++ (id<MKMStringCoder>)parser {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         if (!s_utf8) {
@@ -139,7 +141,7 @@ static id<MKMDataParser> s_utf8 = nil;
     return s_utf8;
 }
 
-+ (void)setParser:(id<MKMDataParser>)parser {
++ (void)setParser:(id<MKMStringCoder>)parser {
     s_utf8 = parser;
 }
 
