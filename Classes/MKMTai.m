@@ -336,14 +336,18 @@ NSData *MKMDocumentGetSignature(NSDictionary<NSString *, id> *doc) {
     // update sign time
     NSDate *now = [[NSDate alloc] init];
     [self setProperty:@([now timeIntervalSince1970]) forKey:@"time"];
-    // update status
-    _status = 1;
     // sign
     _data = MKMJSONEncode(self.properties);
     _signature = [SK sign:MKMUTF8Encode(_data)];
+    NSAssert([_data length] > 0, @"document data error");
+    NSAssert([_signature length] > 0, @"document signature error");
     // update 'data' & 'signature' fields
     [self setObject:_data forKey:@"data"];
     [self setObject:MKMBase64Encode(_signature) forKey:@"signature"];
+    // update status
+    if ([_signature length] > 0) {
+        _status = 1;
+    }
     return _signature;
 }
 
