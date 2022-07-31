@@ -41,12 +41,21 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol MKMString <NSObject, NSCopying>
 
+//@property (readonly) NSUInteger hash;
 @property (readonly, strong, nonatomic) NSString *string;
 
-- (BOOL)isEqualIgnoreCase:(NSString *)other;
+//- (BOOL)isEqual:(id)object;
+
+- (NSUInteger)length;
+
+//- (unichar)characterAtIndex:(NSUInteger)index;
 
 @end
 
+/**
+ *  Constant String
+ *  ~~~~~~~~~~~~~~~
+ */
 @interface MKMString : NSString <MKMString>
 
 - (instancetype)initWithString:(NSString *)aString
@@ -57,15 +66,6 @@ NS_DESIGNATED_INITIALIZER;
 
 - (nullable instancetype)initWithCoder:(NSCoder *)aDecoder
 NS_DESIGNATED_INITIALIZER;
-
-- (NSUInteger)length;
-- (unichar)characterAtIndex:(NSUInteger)index;
-
-@end
-
-@interface MKMString (Comparison)
-
-+ (BOOL)string:(NSString *)str1 equalsIgnoreCase:(NSString *)str2;
 
 @end
 

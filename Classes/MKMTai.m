@@ -153,7 +153,7 @@ NSData *MKMDocumentGetSignature(NSDictionary<NSString *, id> *doc) {
 /* designated initializer */
 - (instancetype)initWithID:(id<MKMID>)ID data:(NSString *)json signature:(NSData *)sig {
     NSDictionary *dict = @{
-        @"ID": ID,
+        @"ID": [ID string],
         @"data": json,
         @"signature": MKMBase64Encode(sig)
     };
@@ -175,7 +175,7 @@ NSData *MKMDocumentGetSignature(NSDictionary<NSString *, id> *doc) {
 
 /* designated initializer */
 - (instancetype)initWithID:(id<MKMID>)ID type:(NSString *)type {
-    if (self = [super initWithDictionary:@{@"ID": ID}]) {
+    if (self = [super initWithDictionary:@{@"ID": [ID string]}]) {
         _type = type;
         
         _ID = ID;
@@ -333,22 +333,28 @@ NSData *MKMDocumentGetSignature(NSDictionary<NSString *, id> *doc) {
         NSAssert([_signature length] > 0, @"document signature error");
         return _signature;
     }
-    // update sign time
+    // 1. update sign time
     NSDate *now = [[NSDate alloc] init];
     [self setProperty:@([now timeIntervalSince1970]) forKey:@"time"];
-    // sign
-    _data = MKMJSONEncode(self.properties);
-    _signature = [SK sign:MKMUTF8Encode(_data)];
-    NSAssert([_data length] > 0, @"document data error");
-    NSAssert([_signature length] > 0, @"document signature error");
-    // update 'data' & 'signature' fields
-    [self setObject:_data forKey:@"data"];
-    [self setObject:MKMBase64Encode(_signature) forKey:@"signature"];
-    // update status
-    if ([_signature length] > 0) {
-        _status = 1;
+    // 2. encode & sign
+    NSString *data = MKMJSONEncode(self.properties);
+    if ([data length] == 0) {
+        // properties error
+        return nil;
     }
-    return _signature;
+    NSData *signature = [SK sign:MKMUTF8Encode(data)];
+    if ([signature length] == 0) {
+        // signature error
+        return nil;
+    }
+    // 3. update 'data' & 'signature' fields
+    [self setObject:data forKey:@"data"];
+    [self setObject:MKMBase64Encode(signature) forKey:@"signature"];
+    _data = data;
+    _signature = signature;
+    // 4. update status
+    _status = 1;
+    return signature;
 }
 
 #pragma mark properties getter/setter
