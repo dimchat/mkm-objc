@@ -67,7 +67,7 @@ id<MKMDocument> MKMDocumentNew(NSString *type, id<MKMID> ID) {
     return [factory createDocument:ID];
 }
 
-id<MKMDocument> MKMDocumentCreate(NSString *type, id<MKMID> ID, NSString *data, NSData *sig) {
+id<MKMDocument> MKMDocumentCreate(NSString *type, id<MKMID> ID, NSString *data, NSString *sig) {
     id<MKMDocumentFactory> factory = MKMDocumentGetFactory(type);
     return [factory createDocument:ID data:data signature:sig];
 }
@@ -152,11 +152,11 @@ NSData *MKMDocumentGetSignature(NSDictionary<NSString *, id> *doc) {
 }
 
 /* designated initializer */
-- (instancetype)initWithID:(id<MKMID>)ID data:(NSString *)json signature:(NSData *)sig {
+- (instancetype)initWithID:(id<MKMID>)ID data:(NSString *)json signature:(NSString *)sig {
     NSDictionary *dict = @{
         @"ID": [ID string],
         @"data": json,
-        @"signature": MKMBase64Encode(sig)
+        @"signature": sig
     };
     if (self = [super initWithDictionary:dict]) {
         _type = nil;
@@ -164,7 +164,7 @@ NSData *MKMDocumentGetSignature(NSDictionary<NSString *, id> *doc) {
         _ID = ID;
 
         _data = json;
-        _signature = sig;
+        _signature = MKMBase64Decode(sig);
         
         _properties = nil;
 
