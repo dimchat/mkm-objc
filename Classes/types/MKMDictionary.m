@@ -35,6 +35,8 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
+#import "MKMCopier.h"
+
 #import "MKMDictionary.h"
 
 @interface MKMDictionary () {
@@ -123,7 +125,11 @@
 }
 
 - (NSMutableDictionary *)dictionary:(BOOL)deepCopy {
-    return [MKMDictionary copy:_storeDictionary circularly:deepCopy];
+    if (deepCopy) {
+        return MKMDeepCopyMap(_storeDictionary);
+    } else {
+        return MKMCopyMap(_storeDictionary);
+    }
 }
 
 - (id)objectForKey:(NSString *)aKey {
@@ -144,24 +150,6 @@
     } else {
         [_storeDictionary removeObjectForKey:aKey];
     }
-}
-
-@end
-
-@implementation MKMDictionary (Copy)
-
-+ (NSMutableDictionary *)copy:(NSDictionary *)dict circularly:(BOOL)deepCopy {
-    //  flag: deepCopy
-    //      If YES, each object in otherDictionary receives a copyWithZone:
-    //      message to create a copy of the object—objects must conform to
-    //      the NSCopying protocol. In a managed memory environment, this is
-    //      instead of the retain message the object would otherwise receive.
-    //      The object copy is then added to the returned dictionary.
-    //
-    //      If NO, then in a managed memory environment each object in
-    //      otherDictionary simply receives a retain message when it is added
-    //      to the returned dictionary.
-    return [[NSMutableDictionary alloc] initWithDictionary:dict copyItems:deepCopy];
 }
 
 @end

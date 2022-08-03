@@ -91,7 +91,7 @@
 }
 
 - (void)setKey:(id<MKMEncryptKey>)key {
-    [self setProperty:key forKey:@"key"];
+    [self setProperty:[key dictionary] forKey:@"key"];
     _key = key;
 }
 

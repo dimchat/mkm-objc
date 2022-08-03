@@ -2,12 +2,12 @@
 //
 //  Ming-Ke-Ming : Decentralized User Identity Authentication
 //
-//                               Written in 2018 by Moky <albert.moky@gmail.com>
+//                               Written in 2022 by Moky <albert.moky@gmail.com>
 //
 // =============================================================================
 // The MIT License (MIT)
 //
-// Copyright (c) 2018 Albert Moky
+// Copyright (c) 2022 Albert Moky
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -28,50 +28,37 @@
 // SOFTWARE.
 // =============================================================================
 //
-//  MKMString.h
+//  MKMCopier.h
 //  MingKeMing
 //
-//  Created by Albert Moky on 2018/9/25.
-//  Copyright © 2018 DIM Group. All rights reserved.
+//  Created by Albert Moky on 2022/8/4.
+//  Copyright © 2022 DIM Group. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-/**
- *  Stringer
- *  ~~~~~~~~
- *  String wrapper
+/*
+ *  Shallow Copy
+ *  ~~~~~~~~~~~~
  */
-@protocol MKMString <NSObject, NSCopying>
 
-//@property (readonly) NSUInteger hash;
-@property (readonly, strong, nonatomic) NSString *string;
+id MKMCopy(id obj);
 
-//- (BOOL)isEqual:(id)object;
+NSMutableDictionary<NSString *, id> *MKMCopyMap(NSDictionary<NSString *, id> *dict);
 
-- (NSUInteger)length;
+NSMutableArray<id> *MKMCopyList(NSArray<id> *list);
 
-//- (unichar)characterAtIndex:(NSUInteger)index;
-
-@end
-
-/**
- *  Constant String
- *  ~~~~~~~~~~~~~~~
+/*
+ *  Deep Copy
+ *  ~~~~~~~~~
  */
-@interface MKMString : NSString <MKMString>
 
-- (instancetype)initWithString:(NSString *)aString
-NS_DESIGNATED_INITIALIZER;
+id MKMDeepCopy(id obj);
 
-- (instancetype)init
-NS_DESIGNATED_INITIALIZER;
+NSMutableDictionary<NSString *, id> *MKMDeepCopyMap(NSDictionary<NSString *, id> *dict);
 
-- (nullable instancetype)initWithCoder:(NSCoder *)aDecoder
-NS_DESIGNATED_INITIALIZER;
-
-@end
+NSMutableArray<id> *MKMDeepCopyList(NSArray<id> *list);
 
 NS_ASSUME_NONNULL_END

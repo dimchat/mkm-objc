@@ -39,6 +39,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ *  Mapper
+ *  ~~~~~~
+ *  Map wrapper
+ */
 @protocol MKMDictionary <NSObject, NSCopying>
 
 /**
@@ -72,12 +77,6 @@ NS_DESIGNATED_INITIALIZER;
 
 - (NSEnumerator *)keyEnumerator;
 - (NSEnumerator *)objectEnumerator;
-
-@end
-
-@interface MKMDictionary (Copy)
-
-+ (NSMutableDictionary *)copy:(NSDictionary *)dict circularly:(BOOL)deepCopy;
 
 @end
 

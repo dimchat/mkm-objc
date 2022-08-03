@@ -2,12 +2,12 @@
 //
 //  Ming-Ke-Ming : Decentralized User Identity Authentication
 //
-//                               Written in 2018 by Moky <albert.moky@gmail.com>
+//                               Written in 2022 by Moky <albert.moky@gmail.com>
 //
 // =============================================================================
 // The MIT License (MIT)
 //
-// Copyright (c) 2018 Albert Moky
+// Copyright (c) 2022 Albert Moky
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -28,11 +28,11 @@
 // SOFTWARE.
 // =============================================================================
 //
-//  MKMString.h
+//  MKMWrapper.h
 //  MingKeMing
 //
-//  Created by Albert Moky on 2018/9/25.
-//  Copyright © 2018 DIM Group. All rights reserved.
+//  Created by Albert Moky on 2022/8/2.
+//  Copyright © 2022 DIM Group. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -40,38 +40,28 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  Stringer
- *  ~~~~~~~~
- *  String wrapper
+ *  Get Inner String
+ *  ~~~~~~~~~~~~~~~~
+ *  Remove first wrapper
  */
-@protocol MKMString <NSObject, NSCopying>
-
-//@property (readonly) NSUInteger hash;
-@property (readonly, strong, nonatomic) NSString *string;
-
-//- (BOOL)isEqual:(id)object;
-
-- (NSUInteger)length;
-
-//- (unichar)characterAtIndex:(NSUInteger)index;
-
-@end
+NSString *MKMGetString(id str);
 
 /**
- *  Constant String
- *  ~~~~~~~~~~~~~~~
+ *  Get inner Map
+ *  ~~~~~~~~~~~~~
+ *  Remove first wrapper
  */
-@interface MKMString : NSString <MKMString>
+NSDictionary<NSString *, id> *MKMGetMap(id dict);
 
-- (instancetype)initWithString:(NSString *)aString
-NS_DESIGNATED_INITIALIZER;
+/**
+ *  Unwrap recursively
+ *  ~~~~~~~~~~~~~~~~~~
+ *  Remove all wrappers
+ */
+id MKMUnwrap(id obj);
 
-- (instancetype)init
-NS_DESIGNATED_INITIALIZER;
+NSDictionary<NSString *, id> *MKMUnwrapMap(NSDictionary<NSString *, id> *dict);
 
-- (nullable instancetype)initWithCoder:(NSCoder *)aDecoder
-NS_DESIGNATED_INITIALIZER;
-
-@end
+NSArray<id> *MKMUnwrapList(NSArray<id> *list);
 
 NS_ASSUME_NONNULL_END
