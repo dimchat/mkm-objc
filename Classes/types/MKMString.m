@@ -35,6 +35,8 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
+#import "MKMWrapper.h"
+
 #import "MKMString.h"
 
 @interface MKMString () {
@@ -88,9 +90,7 @@
     if (self == object || _storeString == object) {
         return YES;
     }
-    if ([object conformsToProtocol:@protocol(MKMString)]) {
-        object = [object string];
-    }
+    object = MKMGetString(object);
     return [_storeString isEqualToString:object];
 }
 

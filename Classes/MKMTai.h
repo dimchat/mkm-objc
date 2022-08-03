@@ -69,7 +69,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  Encode properties to 'data' and sign it to 'signature'
  *
  * @param SK - private key match meta.key
- * @return signature
+ * @return signature, nil on error
  */
 - (NSData *)sign:(id<MKMSignKey>)SK;
 

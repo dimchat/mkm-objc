@@ -35,6 +35,8 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
+#import "MKMWrapper.h"
+
 #import "MKMDataCoder.h"
 #import "MKMDataParser.h"
 
@@ -42,7 +44,7 @@
 
 #import "MKMID.h"
 
-#import "MKMProfile.h"
+#import "MKMTai.h"
 
 static NSMutableDictionary<NSString *, id<MKMDocumentFactory>> *s_factories = nil;
 
@@ -75,9 +77,8 @@ id<MKMDocument> MKMDocumentParse(id doc) {
         return nil;
     } else if ([doc conformsToProtocol:@protocol(MKMDocument)]) {
         return (id<MKMDocument>)doc;
-    } else if ([doc conformsToProtocol:@protocol(MKMDictionary)]) {
-        doc = [(id<MKMDictionary>)doc dictionary];
     }
+    doc = MKMGetMap(doc);
     NSString *type = MKMDocumentGetType(doc);
     id<MKMDocumentFactory> factory = MKMDocumentGetFactory(type);
     if (!factory) {

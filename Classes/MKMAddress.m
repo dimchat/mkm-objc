@@ -35,8 +35,10 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import "MKMAddress.h"
+#import "MKMWrapper.h"
 #import "MKMMeta.h"
+
+#import "MKMAddress.h"
 
 static id<MKMAddressFactory> s_factory = nil;
 
@@ -66,6 +68,7 @@ id<MKMAddress> MKMAddressParse(id address) {
     } else if ([address conformsToProtocol:@protocol(MKMString)]) {
         address = [(id<MKMString>)address string];
     }
+    address = MKMGetString(address);
     id<MKMAddressFactory> factory = MKMAddressGetFactory();
     return [factory parseAddress:address];
 }

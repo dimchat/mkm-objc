@@ -35,6 +35,8 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
+#import "MKMWrapper.h"
+
 #import "MKMDataCoder.h"
 #import "MKMDataParser.h"
 
@@ -75,9 +77,8 @@ id<MKMMeta> MKMMetaParse(id meta) {
         return nil;
     } else if ([meta conformsToProtocol:@protocol(MKMMeta)]) {
         return (id<MKMMeta>)meta;
-    } else if ([meta conformsToProtocol:@protocol(MKMDictionary)]) {
-        meta = [(id<MKMDictionary>)meta dictionary];
     }
+    meta = MKMGetMap(meta);
     UInt8 version = MKMMetaGetType(meta);
     id<MKMMetaFactory> factory = MKMMetaGetFactory(version);
     if (!factory) {

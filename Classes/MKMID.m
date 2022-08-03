@@ -35,8 +35,10 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import "MKMID.h"
+#import "MKMWrapper.h"
 #import "MKMMeta.h"
+
+#import "MKMID.h"
 
 static id<MKMIDFactory> s_factory = nil;
 
@@ -69,9 +71,8 @@ id<MKMID> MKMIDParse(id identifier) {
         return nil;
     } else if ([identifier conformsToProtocol:@protocol(MKMID)]) {
         return (id<MKMID>)identifier;
-    } else if ([identifier isKindOfClass:[MKMString class]]) {
-        identifier = [identifier string];
     }
+    identifier = MKMGetString(identifier);
     id<MKMIDFactory> factory = MKMIDGetFactory();
     return [factory parseID:identifier];
 }

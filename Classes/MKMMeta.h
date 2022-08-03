@@ -82,6 +82,7 @@ typedef UInt8 MKMMetaType;
 @protocol MKMSignKey;
 
 @protocol MKMID;
+@protocol MKMAddress;
 
 /*
  *  User/Group Meta data

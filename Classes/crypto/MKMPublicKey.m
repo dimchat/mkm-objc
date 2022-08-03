@@ -35,6 +35,8 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
+#import "MKMWrapper.h"
+
 #import "MKMPublicKey.h"
 
 static NSMutableDictionary<NSString *, id<MKMPublicKeyFactory>> *s_factories = nil;
@@ -59,9 +61,8 @@ id<MKMPublicKey> MKMPublicKeyParse(id key) {
         return nil;
     } else if ([key conformsToProtocol:@protocol(MKMPublicKey)]) {
         return (id<MKMPublicKey>)key;
-    } else if ([key conformsToProtocol:@protocol(MKMDictionary)]) {
-        key = [(id<MKMDictionary>)key dictionary];
     }
+    key = MKMGetMap(key);
     //NSAssert([key isKindOfClass:[NSDictionary class]], @"key info error: %@", key);
     NSString *algorithm = MKMCryptographyKeyAlgorithm(key);
     //NSAssert(algorithm, @"failed to get algorithm name for key: %@", key);
