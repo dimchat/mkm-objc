@@ -52,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol MKMID <MKMString>
 
 @property (readonly, strong, nonatomic, nullable) NSString *name;
-@property (readonly, strong, nonatomic) id<MKMAddress> address;
+@property (readonly, strong, nonatomic) __kindof id<MKMAddress> address;
 @property (readonly, strong, nonatomic, nullable) NSString *terminal;
 
 @property (readonly, nonatomic) UInt8 type; // Network ID
@@ -78,7 +78,9 @@ NS_ASSUME_NONNULL_BEGIN
  * @param loc - ID.terminal
  * @return ID
  */
-- (id<MKMID>)generateID:(id<MKMMeta>)meta network:(UInt8)type terminal:(nullable NSString *)loc;
+- (__kindof id<MKMID>)generateID:(id<MKMMeta>)meta
+                         network:(UInt8)type
+                        terminal:(nullable NSString *)loc;
 
 /**
  *  Create ID
@@ -88,7 +90,9 @@ NS_ASSUME_NONNULL_BEGIN
  * @param loc - ID.terminal
  * @return ID
  */
-- (id<MKMID>)createID:(nullable NSString *)name address:(id<MKMAddress>)address terminal:(nullable NSString *)loc;
+- (__kindof id<MKMID>)createID:(nullable NSString *)name
+                       address:(id<MKMAddress>)address
+                      terminal:(nullable NSString *)loc;
 
 /**
  *  Parse string object to ID
@@ -96,7 +100,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param identifier - ID string
  * @return ID
  */
-- (nullable id<MKMID>)parseID:(NSString *)identifier;
+- (nullable __kindof id<MKMID>)parseID:(NSString *)identifier;
 
 @end
 
@@ -104,22 +108,22 @@ NS_ASSUME_NONNULL_BEGIN
 extern "C" {
 #endif
 
-id<MKMIDFactory> MKMIDGetFactory(void);
+__kindof id<MKMIDFactory> MKMIDGetFactory(void);
 void MKMIDSetFactory(id<MKMIDFactory> factory);
 
-id<MKMID> MKMIDGenerate(id<MKMMeta> meta, UInt8 network, NSString * _Nullable terminal);
-id<MKMID> MKMIDCreate(NSString * _Nullable name, id<MKMAddress> address, NSString * _Nullable terminal);
-id<MKMID> MKMIDParse(id identifier);
+__kindof id<MKMID> MKMIDGenerate(id<MKMMeta> meta, UInt8 network, NSString * _Nullable terminal);
+__kindof id<MKMID> MKMIDCreate(NSString * _Nullable name, id<MKMAddress> address, NSString * _Nullable terminal);
+__kindof id<MKMID> MKMIDParse(id identifier);
 
-id<MKMID> MKMAnyone(void);
-id<MKMID> MKMEveryone(void);
+__kindof id<MKMID> MKMAnyone(void);
+__kindof id<MKMID> MKMEveryone(void);
 
-id<MKMID> MKMFounder(void);  // DIM Founder
+__kindof id<MKMID> MKMFounder(void);  // DIM Founder
 
 /**
  *  Convert ID list from string array
  */
-NSArray<id<MKMID>> *MKMIDConvert(NSArray<NSString *> *members);
+NSArray<__kindof id<MKMID>> *MKMIDConvert(NSArray<NSString *> *members);
 
 /**
  *  Revert ID list to string array

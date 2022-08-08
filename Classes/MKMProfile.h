@@ -64,7 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol MKMBulletin <MKMDocument>
 
 // Bot ID list as group assistants
-@property (strong, nonatomic, nullable) NSArray<id<MKMID>> *assistants;
+@property (strong, nonatomic, nullable) NSArray<__kindof id<MKMID>> *assistants;
 
 @end
 

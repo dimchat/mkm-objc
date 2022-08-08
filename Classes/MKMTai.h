@@ -129,7 +129,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Get entity ID
  */
-@property (readonly, strong, nonatomic) id<MKMID> ID;
+@property (readonly, strong, nonatomic) __kindof id<MKMID> ID;
 
 /**
  *  Get sign time
@@ -178,7 +178,7 @@ NS_ASSUME_NONNULL_BEGIN
 extern "C" {
 #endif
 
-id<MKMDocumentFactory> MKMDocumentGetFactory(NSString *type);
+__kindof id<MKMDocumentFactory> MKMDocumentGetFactory(NSString *type);
 void MKMDocumentSetFactory(NSString *type, id<MKMDocumentFactory> factory);
 
 __kindof id<MKMDocument> MKMDocumentNew(NSString *type, id<MKMID> ID);
@@ -186,7 +186,7 @@ __kindof id<MKMDocument> MKMDocumentCreate(NSString *type, id<MKMID> ID, NSStrin
 __kindof id<MKMDocument> MKMDocumentParse(id doc);
 
 NSString *MKMDocumentGetType(NSDictionary<NSString *, id> *doc);
-id<MKMID> MKMDocumentGetID(NSDictionary<NSString *, id> *doc);
+__kindof id<MKMID> MKMDocumentGetID(NSDictionary<NSString *, id> *doc);
 NSString * _Nullable MKMDocumentGetData(NSDictionary<NSString *, id> *doc);
 NSData * _Nullable MKMDocumentGetSignature(NSDictionary<NSString *, id> *doc);
 

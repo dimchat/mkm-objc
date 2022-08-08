@@ -64,7 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return SymmetricKey
  */
-- (id<MKMSymmetricKey>)generateSymmetricKey;
+- (__kindof id<MKMSymmetricKey>)generateSymmetricKey;
 
 /**
  *  Parse map object to key
@@ -72,7 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param key - key info
  * @return SymmetricKey
  */
-- (nullable id<MKMSymmetricKey>)parseSymmetricKey:(NSDictionary *)key;
+- (nullable __kindof id<MKMSymmetricKey>)parseSymmetricKey:(NSDictionary *)key;
 
 @end
 
@@ -80,11 +80,11 @@ NS_ASSUME_NONNULL_BEGIN
 extern "C" {
 #endif
 
-id<MKMSymmetricKeyFactory> MKMSymmetricKeyGetFactory(NSString *algorithm);
+__kindof id<MKMSymmetricKeyFactory> MKMSymmetricKeyGetFactory(NSString *algorithm);
 void MKMSymmetricKeySetFactory(NSString *algorithm, id<MKMSymmetricKeyFactory> factory);
 
-id<MKMSymmetricKey> MKMSymmetricKeyGenerate(NSString *algorithm);
-id<MKMSymmetricKey> MKMSymmetricKeyParse(id key);
+__kindof id<MKMSymmetricKey> MKMSymmetricKeyGenerate(NSString *algorithm);
+__kindof id<MKMSymmetricKey> MKMSymmetricKeyParse(id key);
 
 #ifdef __cplusplus
 } /* end of extern "C" */
