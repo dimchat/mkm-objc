@@ -50,7 +50,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol MKMVisa <MKMDocument>
 
 // public key for other user to encrypt message
-@property (strong, nonatomic, nullable) __kindof id<MKMEncryptKey> key;
+@property (strong, nonatomic, nullable) id<MKMEncryptKey> key;
 
 // avatar URL
 @property (strong, nonatomic, nullable) NSString *avatar;
@@ -64,7 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol MKMBulletin <MKMDocument>
 
 // Bot ID list as group assistants
-@property (strong, nonatomic, nullable) NSArray<__kindof id<MKMID>> *assistants;
+@property (strong, nonatomic, nullable) NSArray<id<MKMID>> *assistants;
 
 @end
 

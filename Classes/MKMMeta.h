@@ -116,7 +116,7 @@ typedef UInt8 MKMMetaType;
  *
  *      RSA / ECC
  */
-@property (readonly, strong, nonatomic) __kindof id<MKMVerifyKey> key;
+@property (readonly, strong, nonatomic) id<MKMVerifyKey> key;
 
 /**
  *  Seed to generate fingerprint
@@ -139,7 +139,7 @@ typedef UInt8 MKMMetaType;
  * @param type - ID.type
  * @return Address
  */
-- (nullable __kindof id<MKMAddress>)generateAddress:(UInt8)type;
+- (nullable id<MKMAddress>)generateAddress:(UInt8)type;
 
 @end
 
@@ -152,7 +152,7 @@ typedef UInt8 MKMMetaType;
  * @param name - ID.name
  * @return Meta
  */
-- (__kindof id<MKMMeta>)generateMeta:(id<MKMSignKey>)SK seed:(nullable NSString *)name;
+- (id<MKMMeta>)generateMeta:(id<MKMSignKey>)SK seed:(nullable NSString *)name;
 
 /**
  *  Create meta
@@ -162,7 +162,7 @@ typedef UInt8 MKMMetaType;
  * @param CT - sKey.sign(seed)
  * @return Meta
  */
-- (__kindof id<MKMMeta>)createMeta:(id<MKMVerifyKey>)PK seed:(nullable NSString *)name fingerprint:(nullable NSData *)CT;
+- (id<MKMMeta>)createMeta:(id<MKMVerifyKey>)PK seed:(nullable NSString *)name fingerprint:(nullable NSData *)CT;
 
 /**
  *  Parse map object to meta
@@ -170,7 +170,7 @@ typedef UInt8 MKMMetaType;
  * @param meta - meta info
  * @return Meta
  */
-- (nullable __kindof id<MKMMeta>)parseMeta:(NSDictionary *)meta;
+- (nullable id<MKMMeta>)parseMeta:(NSDictionary *)meta;
 
 @end
 
@@ -178,15 +178,15 @@ typedef UInt8 MKMMetaType;
 extern "C" {
 #endif
 
-__kindof id<MKMMetaFactory> MKMMetaGetFactory(UInt8 version);
+id<MKMMetaFactory> MKMMetaGetFactory(UInt8 version);
 void MKMMetaSetFactory(UInt8 version, id<MKMMetaFactory> factory);
 
-__kindof id<MKMMeta> MKMMetaGenerate(UInt8 version, id<MKMSignKey> SK, NSString * _Nullable seed);
-__kindof id<MKMMeta> MKMMetaCreate(UInt8 version, id<MKMVerifyKey> PK, NSString * _Nullable seed, NSData * _Nullable fingerprint);
-__kindof id<MKMMeta> MKMMetaParse(id meta);
+id<MKMMeta> MKMMetaGenerate(UInt8 version, id<MKMSignKey> SK, NSString * _Nullable seed);
+id<MKMMeta> MKMMetaCreate(UInt8 version, id<MKMVerifyKey> PK, NSString * _Nullable seed, NSData * _Nullable fingerprint);
+id<MKMMeta> MKMMetaParse(id meta);
 
 UInt8 MKMMetaGetType(NSDictionary<NSString *, id> *meta);
-__kindof id<MKMVerifyKey> MKMMetaGetKey(NSDictionary<NSString *, id> *meta);
+id<MKMVerifyKey> MKMMetaGetKey(NSDictionary<NSString *, id> *meta);
 NSString * _Nullable MKMMetaGetSeed(NSDictionary<NSString *, id> *meta);
 NSData * _Nullable MKMMetaGetFingerprint(NSDictionary<NSString *, id> *meta);
 

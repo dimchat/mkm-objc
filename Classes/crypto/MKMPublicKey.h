@@ -71,10 +71,10 @@ NS_ASSUME_NONNULL_BEGIN
 extern "C" {
 #endif
 
-__kindof id<MKMPublicKeyFactory> MKMPublicKeyGetFactory(NSString *algorithm);
+id<MKMPublicKeyFactory> MKMPublicKeyGetFactory(NSString *algorithm);
 void MKMPublicKeySetFactory(NSString *algorithm, id<MKMPublicKeyFactory> factory);
 
-__kindof id<MKMPublicKey> MKMPublicKeyParse(id key);
+id<MKMPublicKey> MKMPublicKeyParse(id key);
 
 #ifdef __cplusplus
 } /* end of extern "C" */
