@@ -124,14 +124,12 @@ typedef NS_ENUM(UInt8, MKMNetworkID) {
     /**
      *  Network
      */
-    MKMNetwork_Provider  = 0x76, // 0111 0110 (Service Provider)
-    MKMNetwork_Station   = 0x88, // 1000 1000 (Server Node)
+    MKMNetwork_Provider   = 0x76, // 0111 0110 (Service Provider)
+    MKMNetwork_Station    = 0x88, // 1000 1000 (Server Node)
     
-    /**
-     *  Internet of Things
-     */
-    MKMNetwork_Thing   = 0x80, // 1000 0000 (IoT)
-    MKMNetwork_Robot   = 0xC8, // 1100 1000
+    //MKMNetwork_BotGroup = 0x74, // 0111 0100 (Content Provider)
+    MKMNetwork_Bot        = 0xC8, // 1100 1000
+    MKMNetwork_Thing      = 0x80, // 1000 0000 (IoT)
 };
 typedef UInt8 MKMNetworkType;
 
