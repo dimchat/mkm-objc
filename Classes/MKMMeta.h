@@ -36,6 +36,7 @@
 //
 
 #import <MingKeMing/MKMDictionary.h>
+#import <MingKeMing/MKMAddress.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -109,7 +110,7 @@ typedef UInt8 MKMMetaType;
  *      0x05 - username@eth_address
  *      ....
  */
-@property (readonly, nonatomic) UInt8 type;
+@property (readonly, nonatomic) MKMMetaType type;
 
 /**
  *  Public key
@@ -136,10 +137,10 @@ typedef UInt8 MKMMetaType;
 /**
  *  Generate address
  *
- * @param type - ID.type
+ * @param network - ID.type
  * @return Address
  */
-- (nullable id<MKMAddress>)generateAddress:(UInt8)type;
+- (nullable id<MKMAddress>)generateAddress:(MKMEntityType)network;
 
 @end
 
@@ -178,14 +179,14 @@ typedef UInt8 MKMMetaType;
 extern "C" {
 #endif
 
-id<MKMMetaFactory> MKMMetaGetFactory(UInt8 version);
-void MKMMetaSetFactory(UInt8 version, id<MKMMetaFactory> factory);
+id<MKMMetaFactory> MKMMetaGetFactory(MKMMetaType version);
+void MKMMetaSetFactory(MKMMetaType version, id<MKMMetaFactory> factory);
 
-id<MKMMeta> MKMMetaGenerate(UInt8 version, id<MKMSignKey> SK, NSString * _Nullable seed);
-id<MKMMeta> MKMMetaCreate(UInt8 version, id<MKMVerifyKey> PK, NSString * _Nullable seed, NSData * _Nullable fingerprint);
+id<MKMMeta> MKMMetaGenerate(MKMMetaType version, id<MKMSignKey> SK, NSString * _Nullable seed);
+id<MKMMeta> MKMMetaCreate(MKMMetaType version, id<MKMVerifyKey> PK, NSString * _Nullable seed, NSData * _Nullable fingerprint);
 id<MKMMeta> MKMMetaParse(id meta);
 
-UInt8 MKMMetaGetType(NSDictionary<NSString *, id> *meta);
+MKMMetaType MKMMetaGetType(NSDictionary<NSString *, id> *meta);
 id<MKMVerifyKey> MKMMetaGetKey(NSDictionary<NSString *, id> *meta);
 NSString * _Nullable MKMMetaGetSeed(NSDictionary<NSString *, id> *meta);
 NSData * _Nullable MKMMetaGetFingerprint(NSDictionary<NSString *, id> *meta);
@@ -216,7 +217,7 @@ BOOL MKMMetaMatchKey(id<MKMVerifyKey> PK, id<MKMMeta> meta);
 - (instancetype)initWithDictionary:(NSDictionary *)dict
 NS_DESIGNATED_INITIALIZER;
 
-- (instancetype)initWithType:(UInt8)version
+- (instancetype)initWithType:(MKMMetaType)version
                          key:(id<MKMVerifyKey>)PK
                         seed:(nullable NSString *)name
                  fingerprint:(nullable NSData *)CT

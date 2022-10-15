@@ -56,9 +56,9 @@ void MKMIDSetFactory(id<MKMIDFactory> factory) {
     s_factory = factory;
 }
 
-id<MKMID> MKMIDGenerate(id<MKMMeta> meta, UInt8 network,  NSString * _Nullable terminal) {
+id<MKMID> MKMIDGenerate(id<MKMMeta> meta, MKMEntityType network,  NSString * _Nullable terminal) {
     id<MKMIDFactory> factory = MKMIDGetFactory();
-    return [factory generateID:meta network:network terminal:terminal];
+    return [factory generateID:meta type:network terminal:terminal];
 }
 
 id<MKMID> MKMIDCreate(NSString * _Nullable name, id<MKMAddress> address, NSString * _Nullable terminal) {
@@ -263,7 +263,7 @@ static inline id<MKMID> parse(NSString *string) {
     return identifier;
 }
 
-- (UInt8)type {
+- (MKMEntityType)type {
     return _address.network;
 }
 
@@ -299,17 +299,21 @@ static inline id<MKMID> parse(NSString *string) {
     return self;
 }
 
-- (id<MKMID>)generateID:(id<MKMMeta>)meta network:(UInt8)type terminal:(nullable NSString *)loc {
-    id<MKMAddress> address = MKMAddressGenerate(type, meta);
+- (id<MKMID>)generateID:(id<MKMMeta>)meta
+                   type:(MKMEntityType)network
+               terminal:(nullable NSString *)location {
+    id<MKMAddress> address = MKMAddressGenerate(network, meta);
     NSAssert(address, @"failed to generate ID with meta: %@", meta);
-    return MKMIDCreate(meta.seed, address, loc);
+    return MKMIDCreate(meta.seed, address, location);
 }
 
-- (id<MKMID>)createID:(nullable NSString *)name address:(id<MKMAddress>)address terminal:(nullable NSString *)loc {
-    NSString *string = concat(name, address, loc);
+- (id<MKMID>)createID:(nullable NSString *)name
+              address:(id<MKMAddress>)address
+             terminal:(nullable NSString *)location {
+    NSString *string = concat(name, address, location);
     id<MKMID> ID = [_identifiers objectForKey:string];
     if (!ID) {
-        ID = [[MKMID alloc] initWithString:string name:name address:address terminal:loc];
+        ID = [[MKMID alloc] initWithString:string name:name address:address terminal:location];
         [_identifiers setObject:ID forKey:string];
     }
     return ID;

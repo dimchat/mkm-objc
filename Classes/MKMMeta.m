@@ -48,11 +48,11 @@
 
 static NSMutableDictionary<NSNumber *, id<MKMMetaFactory>> *s_factories = nil;
 
-id<MKMMetaFactory> MKMMetaGetFactory(UInt8 version) {
+id<MKMMetaFactory> MKMMetaGetFactory(MKMMetaType version) {
     return [s_factories objectForKey:@(version)];
 }
 
-void MKMMetaSetFactory(UInt8 version, id<MKMMetaFactory> factory) {
+void MKMMetaSetFactory(MKMMetaType version, id<MKMMetaFactory> factory) {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         //if (!s_factories) {
@@ -62,12 +62,12 @@ void MKMMetaSetFactory(UInt8 version, id<MKMMetaFactory> factory) {
     [s_factories setObject:factory forKey:@(version)];
 }
 
-id<MKMMeta> MKMMetaGenerate(UInt8 version, id<MKMSignKey> SK, NSString * _Nullable seed) {
+id<MKMMeta> MKMMetaGenerate(MKMMetaType version, id<MKMSignKey> SK, NSString * _Nullable seed) {
     id<MKMMetaFactory> factory = MKMMetaGetFactory(version);
     return [factory generateMeta:SK seed:seed];
 }
 
-id<MKMMeta> MKMMetaCreate(UInt8 version, id<MKMVerifyKey> PK, NSString * _Nullable seed, NSData * _Nullable fingerprint) {
+id<MKMMeta> MKMMetaCreate(MKMMetaType version, id<MKMVerifyKey> PK, NSString * _Nullable seed, NSData * _Nullable fingerprint) {
     id<MKMMetaFactory> factory = MKMMetaGetFactory(version);
     return [factory createMeta:PK seed:seed fingerprint:fingerprint];
 }
@@ -79,7 +79,7 @@ id<MKMMeta> MKMMetaParse(id meta) {
         return (id<MKMMeta>)meta;
     }
     meta = MKMGetMap(meta);
-    UInt8 version = MKMMetaGetType(meta);
+    MKMMetaType version = MKMMetaGetType(meta);
     id<MKMMetaFactory> factory = MKMMetaGetFactory(version);
     if (!factory) {
         factory = MKMMetaGetFactory(0);  // unknown
@@ -89,7 +89,7 @@ id<MKMMeta> MKMMetaParse(id meta) {
 
 #pragma mark Getters
 
-UInt8 MKMMetaGetType(NSDictionary<NSString *, id> *meta) {
+MKMMetaType MKMMetaGetType(NSDictionary<NSString *, id> *meta) {
     NSNumber *version = [meta objectForKey:@"type"];
     if (!version) {
         // compatible with v1.0
@@ -171,7 +171,7 @@ BOOL MKMMetaMatchKey(id<MKMVerifyKey> PK, id<MKMMeta> meta) {
 
 @interface MKMMeta ()
 
-@property (nonatomic) UInt8 type;
+@property (nonatomic) MKMMetaType type;
 @property (strong, nonatomic) id<MKMVerifyKey> key;
 @property (strong, nonatomic, nullable) NSString *seed;
 @property (strong, nonatomic, nullable) NSData *fingerprint;
@@ -199,7 +199,7 @@ BOOL MKMMetaMatchKey(id<MKMVerifyKey> PK, id<MKMMeta> meta) {
 }
 
 /* designated initializer */
-- (instancetype)initWithType:(UInt8)version
+- (instancetype)initWithType:(MKMMetaType)version
                          key:(id<MKMVerifyKey>)publicKey
                         seed:(nullable NSString *)seed
                  fingerprint:(nullable NSData *)fingerprint {
@@ -237,7 +237,7 @@ BOOL MKMMetaMatchKey(id<MKMVerifyKey> PK, id<MKMMeta> meta) {
     return meta;
 }
 
-- (UInt8)type {
+- (MKMMetaType)type {
     if (_type == 0) {
         _type = MKMMetaGetType(self.dictionary);
     }
@@ -271,7 +271,7 @@ BOOL MKMMetaMatchKey(id<MKMVerifyKey> PK, id<MKMMeta> meta) {
     return _fingerprint;
 }
 
-- (nullable id<MKMAddress>)generateAddress:(UInt8)type {
+- (nullable id<MKMAddress>)generateAddress:(MKMEntityType)network {
     NSAssert(false, @"implement me!");
     return nil;
 }

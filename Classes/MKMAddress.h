@@ -39,107 +39,91 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/**
- *  @enum MKMNetworkID
+/*
+ *  @enum MKMEntityType
  *
- *  @abstract A network type to indicate what kind the entity is.
+ *  @abstract A network ID to indicate what kind the entity is.
  *
  *  @discussion An address can identify a person, a group of people,
  *      a team, even a thing.
  *
- *      MKMNetwork_Main indicates this entity is a person's account.
+ *      MKMEntityType_User indicates this entity is a person's account.
  *      An account should have a public key, which proved by meta data.
  *
- *      MKMNetwork_Group indicates this entity is a group of people,
+ *      MKMEntityType_Group indicates this entity is a group of people,
  *      which should have a founder (also the owner), and some members.
  *
- *      MKMNetwork_Moments indicates a special personal social network,
- *      where the owner can share informations and interact with its friends.
- *      The owner is the king here, it can do anything and no one can stop it.
+ *      MKMEntityType_Station indicates this entity is a DIM network station.
  *
- *      MKMNetwork_Polylogue indicates a virtual (temporary) social network.
- *      It's created to talk with multi-people (but not too much, e.g. < 100).
- *      Any member can invite people in, but only the founder can expel member.
+ *      MKMEntityType_ISP indicates this entity is a group for stations.
  *
- *      MKMNetwork_Chatroom indicates a massive (persistent) social network.
- *      It's usually more than 100 people in it, so we need administrators
- *      to help the owner to manage the group.
+ *      MKMEntityType_Bot indicates this entity is a bot user.
  *
- *      MKMNetwork_SocialEntity indicates this entity is a social entity.
- *
- *      MKMNetwork_Organization indicates an independent organization.
- *
- *      MKMNetwork_Company indicates this entity is a company.
- *
- *      MKMNetwork_School indicates this entity is a school.
- *
- *      MKMNetwork_Government indicates this entity is a government department.
- *
- *      MKMNetwork_Department indicates this entity is a department.
- *
- *      MKMNetwork_Thing this is reserved for IoT (Internet of Things).
+ *      MKMEntityType_Company indicates a company for stations and/or bots.
  *
  *  Bits:
- *      0000 0001 - this entity's branch is independent (clear division).
- *      0000 0010 - this entity can contains other group (big organization).
- *      0000 0100 - this entity is top organization.
- *      0000 1000 - (Main) this entity acts like a human.
- *
- *      0001 0000 - this entity contains members (Group)
- *      0010 0000 - this entity needs other administrators (big organization)
- *      0100 0000 - this is an entity in reality.
- *      1000 0000 - (IoT) this entity is a 'Thing'.
+ *      0000 0001 - group flag
+ *      0000 0010 - node flag
+ *      0000 0100 - bot flag
+ *      0000 1000 - CA flag
+ *      ...         (reserved)
+ *      0100 0000 - customized flag
+ *      1000 0000 - broadcast flag
  *
  *      (All above are just some advices to help choosing numbers :P)
  */
-typedef NS_ENUM(UInt8, MKMNetworkID) {
-    MKMNetwork_BTCMain = 0x00, // 0000 0000
-    // Network_BTCTest = 0x6f, // 0110 1111
+typedef NS_ENUM(UInt8, MKMEntityTypes) {
     
     /**
-     *  Person Account
+     *  Main: 0, 1
      */
-    MKMNetwork_Main    = 0x08, // 0000 1000 (Person)
+    MKMEntityType_User           = 0x00, // 0000 0000
+    MKMEntityType_Group          = 0x01, // 0000 0001 (User Group)
     
     /**
-     *  Virtual Groups
+     *  Network: 2, 3
      */
-    MKMNetwork_Group   = 0x10, // 0001 0000 (Multi-Persons)
-    
-    //MKMNetwork_Moments = 0x18, // 0001 1000 (Twitter)
-    MKMNetwork_Polylogue = 0x10, // 0001 0000 (Multi-Persons Chat, N < 100)
-    MKMNetwork_Chatroom  = 0x30, // 0011 0000 (Multi-Persons Chat, N >= 100)
-    
-    /**
-     *  Social Entities in Reality
-     */
-    //MKMNetwork_SocialEntity = 0x50, // 0101 0000
-    
-    //MKMNetwork_Organization = 0x74, // 0111 0100
-    //MKMNetwork_Company      = 0x76, // 0111 0110
-    //MKMNetwork_School       = 0x77, // 0111 0111
-    //MKMNetwork_Government   = 0x73, // 0111 0011
-    //MKMNetwork_Department   = 0x52, // 0101 0010
-    
-    /**
-     *  Network
-     */
-    MKMNetwork_Provider   = 0x76, // 0111 0110 (Service Provider)
-    MKMNetwork_Station    = 0x88, // 1000 1000 (Server Node)
-    
-    //MKMNetwork_BotGroup = 0x74, // 0111 0100 (Content Provider)
-    MKMNetwork_Bot        = 0xC8, // 1100 1000
-    MKMNetwork_Thing      = 0x80, // 1000 0000 (IoT)
-};
-typedef UInt8 MKMNetworkType;
+    MKMEntityType_Station        = 0x02, // 0000 0010 (Server Node)
+    MKMEntityType_ISP            = 0x03, // 0000 0011 (Service Provider)
+    //MKMEntityType_StationGroup = 0x03, // 0000 0011
 
-#define MKMNetwork_IsUser(network)     (((network) & MKMNetwork_Main) ||       \
-                                        ((network) == MKMNetwork_BTCMain))
-#define MKMNetwork_IsGroup(network)    ((network) & MKMNetwork_Group)
+    /**
+     *  Bot: 4, 5
+     */
+    MKMEntityType_Bot            = 0x04, // 0000 0100 (Business Node)
+    MKMEntityType_ICP            = 0x05, // 0000 0101 (Content Provider)
+    //MKMEntityType_BotGroup     = 0x05, // 0000 0101
+
+    /**
+     *  Management: 6, 7, 8
+     */
+    MKMEntityType_Supervisor     = 0x06, // 0000 0110 (Company President)
+    MKMEntityType_Company        = 0x07, // 0000 0111 (Super Group for ISP/ICP)
+    //MKMEntityType_CA           = 0x08, // 0000 1000 (Certification Authority)
+
+    /*
+     *  Customized: 64, 65
+     */
+    //MKMEntityType_AppUser      = 0x40, // 0100 0000 (Application Customized User)
+    //MKMEntityType_AppGroup     = 0x41, // 0100 0001 (Application Customized Group)
+
+    /**
+     *  Broadcast: 128, 129
+     */
+    MKMEntityType_Any            = 0x80, // 1000 0000 (anyone@anywhere)
+    MKMEntityType_Every          = 0x81, // 1000 0001 (everyone@everywhere)
+};
+typedef UInt8 MKMEntityType;
+
+#define MKMEntity_IsUser(network)      (((network) & MKMEntityType_Group) == MKMEntityType_User)
+#define MKMEntity_IsGroup(network)     (((network) & MKMEntityType_Group) == MKMEntityType_Group)
+#define MKMEntity_IsBroadcast(network) (((network) & MKMEntityType_Any) == MKMEntityType_Any)
+
+#pragma mark -
 
 @protocol MKMAddress <MKMString>
 
-@property (readonly, nonatomic) UInt8 network; // Network ID
+@property (readonly, nonatomic) MKMEntityType network; // Network ID
 
 - (BOOL)isBroadcast;
 
@@ -161,7 +145,7 @@ typedef UInt8 MKMNetworkType;
  * @param meta - meta info
  * @return Address
  */
-- (nullable id<MKMAddress>)generateAddress:(UInt8)network fromMeta:(id<MKMMeta>)meta;
+- (nullable id<MKMAddress>)generateAddress:(MKMEntityType)network fromMeta:(id<MKMMeta>)meta;
 
 /**
  *  Create address from string
@@ -188,7 +172,7 @@ extern "C" {
 id<MKMAddressFactory> MKMAddressGetFactory(void);
 void MKMAddressSetFactory(id<MKMAddressFactory> factory);
 
-id<MKMAddress> MKMAddressGenerate(UInt8 network, id<MKMMeta> meta);
+id<MKMAddress> MKMAddressGenerate(MKMEntityType network, id<MKMMeta> meta);
 id<MKMAddress> MKMAddressCreate(NSString *address);
 id<MKMAddress> MKMAddressParse(id address);
 
@@ -205,7 +189,8 @@ id<MKMAddress> MKMEverywhere(void);
 
 @interface MKMAddress : MKMString <MKMAddress>
 
-- (instancetype)initWithString:(NSString *)address network:(UInt8)type NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithString:(NSString *)address type:(MKMEntityType)network
+NS_DESIGNATED_INITIALIZER;
 
 @end
 

@@ -50,7 +50,7 @@ void MKMAddressSetFactory(id<MKMAddressFactory> factory) {
     s_factory = factory;
 }
 
-id<MKMAddress> MKMAddressGenerate(UInt8 network, id<MKMMeta> meta) {
+id<MKMAddress> MKMAddressGenerate(MKMEntityType network, id<MKMMeta> meta) {
     id<MKMAddressFactory> factory = MKMAddressGetFactory();
     return [factory generateAddress:network fromMeta:meta];
 }
@@ -77,7 +77,7 @@ id<MKMAddress> MKMAddressParse(id address) {
 
 @interface MKMAddress () {
     
-    UInt8 _network;
+    MKMEntityType _network;
 }
 
 @end
@@ -93,18 +93,18 @@ id<MKMAddress> MKMAddressParse(id address) {
 - (nullable instancetype)initWithCoder:(NSCoder *)aDecoder {
     NSAssert(false, @"DON'T call me!");
     NSString *string = nil;
-    return [self initWithString:string network:0];
+    return [self initWithString:string type:0];
 }
 
 - (instancetype)initWithString:(NSString *)address {
     //NSAssert(false, @"DON'T call me!");
-    return [self initWithString:address network:0];
+    return [self initWithString:address type:0];
 }
 
 /* designated initializer */
-- (instancetype)initWithString:(NSString *)address network:(UInt8)type {
+- (instancetype)initWithString:(NSString *)address type:(MKMEntityType)network {
     if (self = [super initWithString:address]) {
-        _network = type;
+        _network = network;
     }
     return self;
 }
@@ -117,11 +117,11 @@ id<MKMAddress> MKMAddressParse(id address) {
     return address;
 }
 
-- (UInt8)network {
+- (MKMEntityType)network {
     return _network;
 }
 
-- (void)setNetwork:(UInt8)network {
+- (void)setNetwork:(MKMEntityType)network {
     _network = network;
 }
 
@@ -131,11 +131,11 @@ id<MKMAddress> MKMAddressParse(id address) {
 }
 
 - (BOOL)isUser {
-    return MKMNetwork_IsUser(self.network);
+    return MKMEntity_IsUser(self.network);
 }
 
 - (BOOL)isGroup {
-    return MKMNetwork_IsGroup(self.network);
+    return MKMEntity_IsGroup(self.network);
 }
 
 @end
@@ -144,7 +144,7 @@ id<MKMAddress> MKMAddressParse(id address) {
 
 @interface BroadcastAddress : MKMAddress
 
-+ (instancetype)create:(NSString *)string network:(MKMNetworkType)type;
++ (instancetype)create:(NSString *)string type:(MKMEntityType)network;
 
 @end
 
@@ -154,8 +154,8 @@ id<MKMAddress> MKMAddressParse(id address) {
     return YES;
 }
 
-+ (instancetype)create:(NSString *)string network:(MKMNetworkType)type {
-    return [[self alloc] initWithString:string network:type];
++ (instancetype)create:(NSString *)string type:(MKMEntityType)network {
+    return [[self alloc] initWithString:string type:network];
 }
 
 @end
@@ -166,7 +166,7 @@ static id<MKMAddress> s_everywhere = nil;
 id<MKMAddress> MKMAnywhere(void) {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        s_anywhere = [BroadcastAddress create:@"anywhere" network:MKMNetwork_Main];
+        s_anywhere = [BroadcastAddress create:@"anywhere" type:MKMEntityType_User];
     });
     return s_anywhere;
 }
@@ -174,7 +174,7 @@ id<MKMAddress> MKMAnywhere(void) {
 id<MKMAddress> MKMEverywhere(void) {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        s_everywhere = [BroadcastAddress create:@"everywhere" network:MKMNetwork_Group];
+        s_everywhere = [BroadcastAddress create:@"everywhere" type:MKMEntityType_Group];
     });
     return s_everywhere;
 }
@@ -202,7 +202,7 @@ id<MKMAddress> MKMEverywhere(void) {
     return self;
 }
 
-- (nullable id<MKMAddress>)generateAddress:(UInt8)network fromMeta:(id<MKMMeta>)meta {
+- (nullable id<MKMAddress>)generateAddress:(MKMEntityType)network fromMeta:(id<MKMMeta>)meta {
     id<MKMAddress> address = [meta generateAddress:network];
     if (address) {
         [_addresses setObject:address forKey:address.string];
