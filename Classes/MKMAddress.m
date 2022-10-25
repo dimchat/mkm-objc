@@ -73,16 +73,19 @@ id<MKMAddress> MKMAddressParse(id address) {
     return [factory parseAddress:address];
 }
 
-#pragma mark - Base Address
+#pragma mark - Broadcast Address
 
-@interface MKMAddress () {
+@interface BroadcastAddress : MKMString <MKMAddress> {
     
-    MKMEntityType _network;
+    MKMEntityType _type;
 }
+
+- (instancetype)initWithString:(NSString *)address type:(MKMEntityType)network
+NS_DESIGNATED_INITIALIZER;
 
 @end
 
-@implementation MKMAddress
+@implementation BroadcastAddress
 
 - (instancetype)init {
     NSAssert(false, @"DON'T call me!");
@@ -104,61 +107,42 @@ id<MKMAddress> MKMAddressParse(id address) {
 /* designated initializer */
 - (instancetype)initWithString:(NSString *)address type:(MKMEntityType)network {
     if (self = [super initWithString:address]) {
-        _network = network;
+        _type = network;
     }
     return self;
 }
 
 - (id)copyWithZone:(nullable NSZone *)zone {
-    MKMAddress *address = [super copyWithZone:zone];
+    BroadcastAddress *address = [super copyWithZone:zone];
     if (address) {
-        address.network = _network;
+        address.type = _type;
     }
     return address;
 }
 
-- (MKMEntityType)network {
-    return _network;
+- (MKMEntityType)type {
+    return _type;
 }
 
-- (void)setNetwork:(MKMEntityType)network {
-    _network = network;
+- (void)setType:(MKMEntityType)network {
+    _type = network;
 }
-
-- (BOOL)isBroadcast {
-    //NSAssert(false, @"implement me!");
-    return NO;
-}
-
-- (BOOL)isUser {
-    return MKMEntity_IsUser(self.network);
-}
-
-- (BOOL)isGroup {
-    return MKMEntity_IsGroup(self.network);
-}
-
-@end
-
-#pragma mark - Broadcast
-
-@interface BroadcastAddress : MKMAddress
-
-+ (instancetype)create:(NSString *)string type:(MKMEntityType)network;
-
-@end
-
-@implementation BroadcastAddress
 
 - (BOOL)isBroadcast {
     return YES;
 }
 
-+ (instancetype)create:(NSString *)string type:(MKMEntityType)network {
-    return [[self alloc] initWithString:string type:network];
+- (BOOL)isUser {
+    return MKMEntity_IsUser(self.type);
+}
+
+- (BOOL)isGroup {
+    return MKMEntity_IsGroup(self.type);
 }
 
 @end
+
+#define BroadcastAddressCreate(S, T) [[BroadcastAddress alloc] initWithString:(S) type:(T)]
 
 static id<MKMAddress> s_anywhere = nil;
 static id<MKMAddress> s_everywhere = nil;
@@ -166,7 +150,7 @@ static id<MKMAddress> s_everywhere = nil;
 id<MKMAddress> MKMAnywhere(void) {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        s_anywhere = [BroadcastAddress create:@"anywhere" type:MKMEntityType_User];
+        s_anywhere = BroadcastAddressCreate(@"anywhere", MKMEntityType_User);
     });
     return s_anywhere;
 }
@@ -174,7 +158,7 @@ id<MKMAddress> MKMAnywhere(void) {
 id<MKMAddress> MKMEverywhere(void) {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        s_everywhere = [BroadcastAddress create:@"everywhere" type:MKMEntityType_Group];
+        s_everywhere = BroadcastAddressCreate(@"everywhere", MKMEntityType_Group);
     });
     return s_everywhere;
 }

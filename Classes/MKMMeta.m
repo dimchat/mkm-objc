@@ -149,8 +149,9 @@ BOOL MKMMetaMatchID(id<MKMID> ID, id<MKMMeta> meta) {
         return NO;
     }
     // check ID.address
-    id<MKMAddress> address = MKMAddressGenerate(ID.type, meta);
-    return [address isEqual:ID.address];
+    id<MKMAddress> old = ID.address;
+    id<MKMAddress> gen = MKMAddressGenerate(old.type, meta);
+    return [old isEqual:gen];
 }
 
 BOOL MKMMetaMatchKey(id<MKMVerifyKey> PK, id<MKMMeta> meta) {

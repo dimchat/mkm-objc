@@ -264,7 +264,7 @@ static inline id<MKMID> parse(NSString *string) {
 }
 
 - (MKMEntityType)type {
-    return _address.network;
+    return [_address type];
 }
 
 - (BOOL)isBroadcast {

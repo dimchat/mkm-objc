@@ -123,7 +123,7 @@ typedef UInt8 MKMEntityType;
 
 @protocol MKMAddress <MKMString>
 
-@property (readonly, nonatomic) MKMEntityType network; // Network ID
+@property (readonly, nonatomic) MKMEntityType type; // Network ID
 
 - (BOOL)isBroadcast;
 
@@ -185,14 +185,7 @@ id<MKMAddress> MKMEverywhere(void);
 
 #define MKMAddressFromString(S) MKMAddressParse(S)
 
-#pragma mark - Base Classes
-
-@interface MKMAddress : MKMString <MKMAddress>
-
-- (instancetype)initWithString:(NSString *)address type:(MKMEntityType)network
-NS_DESIGNATED_INITIALIZER;
-
-@end
+#pragma mark - Base Factory
 
 @interface MKMAddressFactory : NSObject <MKMAddressFactory>
 
