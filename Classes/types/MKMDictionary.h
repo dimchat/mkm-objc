@@ -39,6 +39,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol MKMString;
+
 /**
  *  Mapper
  *  ~~~~~~
@@ -56,9 +58,33 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (NSMutableDictionary<NSString *, id> *)dictionary:(BOOL)deepCopy;
 
+//- (BOOL)isEqual:(id)object;
+//- (NSUInteger)count;
+//- (NSEnumerator *)keyEnumerator;
+//- (NSEnumerator *)objectEnumerator;
+
 - (id)objectForKey:(NSString *)aKey;
 - (void)setObject:(id)anObject forKey:(NSString *)aKey;
 - (void)removeObjectForKey:(NSString *)aKey;
+
+/**
+ *  Convenient getters
+ */
+- (NSString *)stringForKey:(NSString *)aKey;
+- (BOOL)boolForKey:(NSString *)aKey;
+
+- (int)intForKey:(NSString *)aKey;
+- (long)longForKey:(NSString *)aKey;
+- (char)charForKey:(NSString *)aKey;
+- (short)shortForKey:(NSString *)aKey;
+- (float)floatForKey:(NSString *)aKey;
+- (double)doubleForKey:(NSString *)aKey;
+
+- (NSDate *)dateForKey:(NSString *)aKey;
+- (void)setDate:(NSDate *)date forKey:(NSString *)aKey;
+
+- (void)setString:(id<MKMString>)stringer forKey:(NSString *)aKey;
+- (void)setDictionary:(id<MKMDictionary>)mapper forKey:(NSString *)aKey;
 
 @end
 
@@ -72,11 +98,6 @@ NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)initWithCapacity:(NSUInteger)numItems
 /* NS_DESIGNATED_INITIALIZER */;
-
-- (NSUInteger)count;
-
-- (NSEnumerator *)keyEnumerator;
-- (NSEnumerator *)objectEnumerator;
 
 @end
 

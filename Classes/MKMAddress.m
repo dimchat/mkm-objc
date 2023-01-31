@@ -35,42 +35,33 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import "MKMWrapper.h"
-#import "MKMMeta.h"
+#import "MKMFactoryManager.h"
 
 #import "MKMAddress.h"
 
-static id<MKMAddressFactory> s_factory = nil;
-
 id<MKMAddressFactory> MKMAddressGetFactory(void) {
-    return s_factory;
+    MKMFactoryManager *man = [MKMFactoryManager sharedManager];
+    return [man.generalFactory addressFactory];
 }
 
 void MKMAddressSetFactory(id<MKMAddressFactory> factory) {
-    s_factory = factory;
+    MKMFactoryManager *man = [MKMFactoryManager sharedManager];
+    [man.generalFactory setAddressFactory:factory];
 }
 
 id<MKMAddress> MKMAddressGenerate(MKMEntityType network, id<MKMMeta> meta) {
-    id<MKMAddressFactory> factory = MKMAddressGetFactory();
-    return [factory generateAddress:network fromMeta:meta];
+    MKMFactoryManager *man = [MKMFactoryManager sharedManager];
+    return [man.generalFactory generateAddressWithType:network meta:meta];
 }
 
 id<MKMAddress> MKMAddressCreate(NSString *address) {
-    id<MKMAddressFactory> factory = MKMAddressGetFactory();
-    return [factory createAddress:address];
+    MKMFactoryManager *man = [MKMFactoryManager sharedManager];
+    return [man.generalFactory createAddress:address];
 }
 
 id<MKMAddress> MKMAddressParse(id address) {
-    if (!address) {
-        return nil;
-    } else if ([address conformsToProtocol:@protocol(MKMAddress)]) {
-        return (id<MKMAddress>)address;
-    } else if ([address conformsToProtocol:@protocol(MKMString)]) {
-        address = [(id<MKMString>)address string];
-    }
-    address = MKMGetString(address);
-    id<MKMAddressFactory> factory = MKMAddressGetFactory();
-    return [factory parseAddress:address];
+    MKMFactoryManager *man = [MKMFactoryManager sharedManager];
+    return [man.generalFactory parseAddress:address];
 }
 
 #pragma mark - Broadcast Address
@@ -162,52 +153,3 @@ id<MKMAddress> MKMEverywhere(void) {
     });
     return s_everywhere;
 }
-
-#pragma mark - Base Factory
-
-@interface MKMAddressFactory () {
-    
-    NSMutableDictionary<NSString *, id<MKMAddress>> *_addresses;
-}
-
-@end
-
-@implementation MKMAddressFactory
-
-- (instancetype)init {
-    if (self = [super init]) {
-        _addresses = [[NSMutableDictionary alloc] init];
-        // cache broadcast addresses
-        id<MKMAddress> anywhere = MKMAnywhere();
-        [_addresses setObject:anywhere forKey:[anywhere string]];
-        id<MKMAddress> everywhere = MKMEverywhere();
-        [_addresses setObject:everywhere forKey:[everywhere string]];
-    }
-    return self;
-}
-
-- (nullable id<MKMAddress>)generateAddress:(MKMEntityType)network fromMeta:(id<MKMMeta>)meta {
-    id<MKMAddress> address = [meta generateAddress:network];
-    if (address) {
-        [_addresses setObject:address forKey:address.string];
-    }
-    return address;
-}
-
-- (nullable id<MKMAddress>)parseAddress:(NSString *)address {
-    id<MKMAddress> addr = [_addresses objectForKey:address];
-    if (!addr) {
-        addr = [self createAddress:address];
-        if (addr) {
-            [_addresses setObject:addr forKey:address];
-        }
-    }
-    return addr;
-}
-
-- (nullable id<MKMAddress>)createAddress:(NSString *)address {
-    NSAssert(false, @"implement me!");
-    return nil;
-}
-
-@end

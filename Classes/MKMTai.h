@@ -99,6 +99,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+#pragma mark -
+
 //
 //  Document types
 //
@@ -185,32 +187,42 @@ id<MKMDocument> MKMDocumentNew(NSString *type, id<MKMID> ID);
 id<MKMDocument> MKMDocumentCreate(NSString *type, id<MKMID> ID, NSString *data, NSString *sig);
 id<MKMDocument> MKMDocumentParse(id doc);
 
-NSString *MKMDocumentGetType(NSDictionary<NSString *, id> *doc);
-id<MKMID> MKMDocumentGetID(NSDictionary<NSString *, id> *doc);
-NSString * _Nullable MKMDocumentGetData(NSDictionary<NSString *, id> *doc);
-NSData * _Nullable MKMDocumentGetSignature(NSDictionary<NSString *, id> *doc);
-
 #ifdef __cplusplus
 } /* end of extern "C" */
 #endif
 
-#define MKMDocumentFromDictionary(dict)    MKMDocumentParse(dict)
+//#define MKMDocumentFromDictionary(dict)    MKMDocumentParse(dict)
+//
+//#define MKMDocumentRegister(type, factory) MKMDocumentSetFactory(type, factory)
 
-#define MKMDocumentRegister(type, factory) MKMDocumentSetFactory(type, factory)
+#pragma mark -
 
-#pragma mark - Base Class
+@protocol MKMEncryptKey;
 
-@interface MKMDocument : MKMDictionary <MKMDocument>
+/**
+ *  User Document
+ *  ~~~~~~~~~~~~~
+ *  This interface is defined for authorizing other apps to login,
+ *  which can generate a temporary asymmetric key pair for messaging.
+ */
+@protocol MKMVisa <MKMDocument>
 
-- (instancetype)initWithDictionary:(NSDictionary *)dict
-NS_DESIGNATED_INITIALIZER;
+// public key for other user to encrypt message
+@property (strong, nonatomic, nullable) id<MKMEncryptKey> key;
 
-- (instancetype)initWithID:(id<MKMID>)ID data:(NSString *)json signature:(NSString *)sig
-NS_DESIGNATED_INITIALIZER;
+// avatar URL
+@property (strong, nonatomic, nullable) NSString *avatar;
 
-// create a new empty document with entity ID & document type
-- (instancetype)initWithID:(id<MKMID>)ID type:(NSString *)type
-NS_DESIGNATED_INITIALIZER;
+@end
+
+/**
+ *  Group Document
+ *  ~~~~~~~~~~~~~~
+ */
+@protocol MKMBulletin <MKMDocument>
+
+// Bot ID list as group assistants
+@property (strong, nonatomic, nullable) NSArray<id<MKMID>> *assistants;
 
 @end
 

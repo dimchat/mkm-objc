@@ -35,74 +35,22 @@
 //  Copyright © 2020 DIM Group. All rights reserved.
 //
 
-#import <CommonCrypto/CommonDigest.h>
-
 #import "MKMDataDigester.h"
-
-@interface MD5 : NSObject <MKMDataDigester>
-
-@end
-
-@implementation MD5
-
-- (NSData *)digest:(NSData *)data {
-    unsigned char digest[CC_MD5_DIGEST_LENGTH];
-    CC_MD5([data bytes], (CC_LONG)[data length], digest);
-    return [[NSData alloc] initWithBytes:digest length:CC_MD5_DIGEST_LENGTH];
-}
-
-@end
-
-@interface SHA1 : NSObject <MKMDataDigester>
-
-@end
-
-@implementation SHA1
-
-- (NSData *)digest:(NSData *)data {
-    unsigned char digest[CC_SHA1_DIGEST_LENGTH];
-    CC_SHA1([data bytes], (CC_LONG)[data length], digest);
-    return [[NSData alloc] initWithBytes:digest length:CC_SHA1_DIGEST_LENGTH];
-}
-
-@end
-
-@interface SHA256 : NSObject <MKMDataDigester>
-
-@end
-
-@implementation SHA256
-
-- (NSData *)digest:(NSData *)data {
-    unsigned char digest[CC_SHA256_DIGEST_LENGTH];
-    CC_SHA256([data bytes], (CC_LONG)[data length], digest);
-    return [[NSData alloc] initWithBytes:digest length:CC_SHA256_DIGEST_LENGTH];
-}
-
-@end
-
-#pragma mark -
 
 @implementation MKMMD5
 
 static id<MKMDataDigester> s_md5 = nil;
 
-+ (id<MKMDataDigester>)digester {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        if (!s_md5) {
-            s_md5 = [[MD5 alloc] init];
-        }
-    });
-    return s_md5;
-}
-
 + (void)setDigester:(id<MKMDataDigester>)hasher {
     s_md5 = hasher;
 }
 
++ (id<MKMDataDigester>)getDigester {
+    return s_md5;
+}
+
 + (NSData *)digest:(NSData *)data {
-    return [[self digester] digest:data];
+    return [s_md5 digest:data];
 }
 
 @end
@@ -115,6 +63,10 @@ static id<MKMDataDigester> s_ripemd160 = nil;
     s_ripemd160 = hasher;
 }
 
++ (id<MKMDataDigester>)getDigester {
+    return s_ripemd160;
+}
+
 + (NSData *)digest:(NSData *)data {
     return [s_ripemd160 digest:data];
 }
@@ -125,22 +77,16 @@ static id<MKMDataDigester> s_ripemd160 = nil;
 
 static id<MKMDataDigester> s_sha1 = nil;
 
-+ (id<MKMDataDigester>)digester {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        if (!s_sha1) {
-            s_sha1 = [[SHA1 alloc] init];
-        }
-    });
-    return s_sha1;
-}
-
 + (void)setDigester:(id<MKMDataDigester>)hasher {
     s_sha1 = hasher;
 }
 
++ (id<MKMDataDigester>)getDigester {
+    return s_sha1;
+}
+
 + (NSData *)digest:(NSData *)data {
-    return [[self digester] digest:data];
+    return [s_sha1 digest:data];
 }
 
 @end
@@ -149,22 +95,16 @@ static id<MKMDataDigester> s_sha1 = nil;
 
 static id<MKMDataDigester> s_sha256 = nil;
 
-+ (id<MKMDataDigester>)digester {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        if (!s_sha256) {
-            s_sha256 = [[SHA256 alloc] init];
-        }
-    });
-    return s_sha256;
-}
-
 + (void)setDigester:(id<MKMDataDigester>)hasher {
     s_sha256 = hasher;
 }
 
++ (id<MKMDataDigester>)getDigester {
+    return s_sha256;
+}
+
 + (NSData *)digest:(NSData *)data {
-    return [[self digester] digest:data];
+    return [s_sha256 digest:data];
 }
 
 @end
@@ -175,6 +115,10 @@ static id<MKMDataDigester> s_keccak256 = nil;
 
 + (void)setDigester:(id<MKMDataDigester>)hasher {
     s_keccak256 = hasher;
+}
+
++ (id<MKMDataDigester>)getDigester {
+    return s_keccak256;
 }
 
 + (NSData *)digest:(NSData *)data {

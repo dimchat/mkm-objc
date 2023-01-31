@@ -78,9 +78,9 @@ NS_ASSUME_NONNULL_BEGIN
  * @param location - ID.terminal
  * @return ID
  */
-- (id<MKMID>)generateID:(id<MKMMeta>)meta
-                   type:(MKMEntityType)network
-               terminal:(nullable NSString *)location;
+- (id<MKMID>)generateIDWithMeta:(id<MKMMeta>)meta
+                           type:(MKMEntityType)network
+                       terminal:(nullable NSString *)location;
 
 /**
  *  Create ID
@@ -134,13 +134,13 @@ NSArray<NSString *> *MKMIDRevert(NSArray<id<MKMID>> *members);
 } /* end of extern "C" */
 #endif
 
-#define MKMIDFromString(S)   MKMIDParse(S)
+//#define MKMIDFromString(S)   MKMIDParse(S)
 
 #define MKMIDIsUser(ID)      [(ID) isUser]
 #define MKMIDIsGroup(ID)     [(ID) isGroup]
 #define MKMIDIsBroadcast(ID) [(ID) isBroadcast]
 
-#pragma mark - Base Classes
+#pragma mark - Base Class
 
 @interface MKMID : MKMString <MKMID>
 
@@ -158,25 +158,6 @@ NSArray<NSString *> *MKMIDRevert(NSArray<id<MKMID>> *members);
                        address:(id<MKMAddress>)address
                       terminal:(nullable NSString *)location
 NS_DESIGNATED_INITIALIZER;
-
-- (instancetype)initWithName:(NSString *)seed
-                     address:(id<MKMAddress>)address
-                    terminal:(NSString *)location;
-
-/**
- *  Default ID form (name@address)
- */
-- (instancetype)initWithName:(NSString *)seed
-                     address:(id<MKMAddress>)address;
-
-/**
- *  For ID without name(only contains address), likes BTC/ETH/...
- */
-- (instancetype)initWithAddress:(id<MKMAddress>)addr;
-
-@end
-
-@interface MKMIDFactory : NSObject <MKMIDFactory>
 
 @end
 

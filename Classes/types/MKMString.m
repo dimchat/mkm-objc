@@ -98,9 +98,9 @@
     return [_storeString length];
 }
 
-//- (unichar)characterAtIndex:(NSUInteger)index {
-//    return [_storeString characterAtIndex:index];
-//}
+- (unichar)characterAtIndex:(NSUInteger)index {
+    return [_storeString characterAtIndex:index];
+}
 
 #pragma mark -
 
@@ -110,6 +110,91 @@
 
 - (NSString *)debugDescription {
     return [NSString stringWithFormat:@"<%@: \"%@\">", [self class], _storeString];
+}
+
+#pragma mark - NSStringExtensionMethods
+
+- (NSComparisonResult)compare:(NSString *)string {
+    return [_storeString compare:string];
+}
+
+- (NSComparisonResult)compare:(NSString *)string
+                      options:(NSStringCompareOptions)mask {
+    return [_storeString compare:string options:mask];
+}
+
+- (NSComparisonResult)compare:(NSString *)string
+                      options:(NSStringCompareOptions)mask
+                        range:(NSRange)rangeOfReceiverToCompare {
+    return [_storeString compare:string
+                         options:mask
+                           range:rangeOfReceiverToCompare];
+}
+
+- (NSComparisonResult)compare:(NSString *)string
+                      options:(NSStringCompareOptions)mask
+                        range:(NSRange)rangeOfReceiverToCompare
+                       locale:(nullable id)locale {
+    return [_storeString compare:string
+                         options:mask
+                           range:rangeOfReceiverToCompare
+                          locale:locale];
+}
+
+- (NSComparisonResult)caseInsensitiveCompare:(NSString *)string {
+    return [_storeString caseInsensitiveCompare:string];
+}
+
+- (NSComparisonResult)localizedCompare:(NSString *)string {
+    return [_storeString localizedCompare:string];
+}
+
+- (NSComparisonResult)localizedCaseInsensitiveCompare:(NSString *)string {
+    return [_storeString localizedCaseInsensitiveCompare:string];
+}
+
+//- (NSComparisonResult)localizedStandardCompare:(NSString *)string {
+//    return [_storeString localizedStandardCompare:string];
+//}
+
+- (BOOL)isEqualToString:(NSString *)aString {
+    return [_storeString isEqualToString:aString];
+}
+
+- (BOOL)hasPrefix:(NSString *)str {
+    return [_storeString hasPrefix:str];
+}
+
+- (BOOL)hasSuffix:(NSString *)str {
+    return [_storeString hasSuffix:str];
+}
+
+- (NSRange)rangeOfString:(NSString *)searchString {
+    return [_storeString rangeOfString:searchString];
+}
+
+- (NSRange)rangeOfString:(NSString *)searchString
+                 options:(NSStringCompareOptions)mask {
+    return [_storeString rangeOfString:searchString
+                               options:mask];
+}
+
+- (NSRange)rangeOfString:(NSString *)searchString
+                 options:(NSStringCompareOptions)mask
+                   range:(NSRange)rangeOfReceiverToSearch {
+    return [_storeString rangeOfString:searchString
+                               options:mask
+                                 range:rangeOfReceiverToSearch];
+}
+
+- (NSRange)rangeOfString:(NSString *)searchString
+                 options:(NSStringCompareOptions)mask
+                   range:(NSRange)rangeOfReceiverToSearch
+                  locale:(nullable NSLocale *)locale {
+    return [_storeString rangeOfString:searchString
+                               options:mask
+                                 range:rangeOfReceiverToSearch
+                                locale:locale];
 }
 
 @end

@@ -35,73 +35,26 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import "MKMWrapper.h"
-
-#import "MKMPublicKey.h"
+#import "MKMKeyFactoryManager.h"
 
 #import "MKMPrivateKey.h"
 
-static NSMutableDictionary<NSString *, id<MKMPrivateKeyFactory>> *s_factories = nil;
-
 id<MKMPrivateKeyFactory> MKMPrivateKeyGetFactory(NSString *algorithm) {
-    //NSAssert(s_factories, @"private key factories not set yet");
-    return [s_factories objectForKey:algorithm];
+    MKMKeyFactoryManager *man = [MKMKeyFactoryManager sharedManager];
+    return [man.generalFactory privateKeyFactoryForAlgorithm:algorithm];
 }
 
 void MKMPrivateKeySetFactory(NSString *algorithm, id<MKMPrivateKeyFactory> factory) {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        //if (!s_factories) {
-            s_factories = [[NSMutableDictionary alloc] init];
-        //}
-    });
-    [s_factories setObject:factory forKey:algorithm];
+    MKMKeyFactoryManager *man = [MKMKeyFactoryManager sharedManager];
+    [man.generalFactory setPrivateKeyFactory:factory forAlgorithm:algorithm];
 }
 
 id<MKMPrivateKey> MKMPrivateKeyGenerate(NSString *algorithm) {
-    id<MKMPrivateKeyFactory> factory = MKMPrivateKeyGetFactory(algorithm);
-    //NSAssert(factory, @"key algorithm not found: %@", algorithm);
-    return [factory generatePrivateKey];
+    MKMKeyFactoryManager *man = [MKMKeyFactoryManager sharedManager];
+    return [man.generalFactory generatePrivateKeyWithAlgorithm:algorithm];
 }
 
 id<MKMPrivateKey> MKMPrivateKeyParse(id key) {
-    if (!key) {
-        return nil;
-    } else if ([key conformsToProtocol:@protocol(MKMPrivateKey)]) {
-        return (id<MKMPrivateKey>)key;
-    }
-    key = MKMGetMap(key);
-    //NSAssert([key isKindOfClass:[NSDictionary class]], @"key info error: %@", key);
-    NSString *algorithm = MKMCryptographyKeyAlgorithm(key);
-    //NSAssert(algorithm, @"failed to get algorithm name for key: %@", key);
-    id<MKMPrivateKeyFactory> factory = MKMPrivateKeyGetFactory(algorithm);
-    if (!factory) {
-        factory = MKMPrivateKeyGetFactory(@"*"); // unknown
-        //NSAssert(factory, @"cannot parse key: %@", key);
-    }
-    return [factory parsePrivateKey:key];
+    MKMKeyFactoryManager *man = [MKMKeyFactoryManager sharedManager];
+    return [man.generalFactory parsePrivateKey:key];
 }
-
-@implementation MKMPrivateKey
-
-- (BOOL)isEqual:(id)object {
-    if ([super isEqual:object]) {
-        return YES;
-    }
-    if ([object conformsToProtocol:@protocol(MKMSignKey)]) {
-        return [self.publicKey isMatch:object];
-    }
-    return NO;
-}
-
-- (id<MKMPublicKey>)publicKey {
-    NSAssert(false, @"implement me!");
-    return nil;
-}
-
-- (NSData *)sign:(NSData *)data {
-    NSAssert(false, @"implement me!");
-    return nil;
-}
-
-@end

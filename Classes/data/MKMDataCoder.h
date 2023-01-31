@@ -72,6 +72,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MKMHex : NSObject
 
 + (void)setCoder:(id<MKMDataCoder>)coder;
++ (id<MKMDataCoder>)getCoder;
+
 + (nullable NSString *)encode:(NSData *)data;
 + (nullable NSData *)decode:(NSString *)string;
 
@@ -80,6 +82,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MKMBase58 : NSObject
 
 + (void)setCoder:(id<MKMDataCoder>)coder;
++ (id<MKMDataCoder>)getCoder;
+
 + (nullable NSString *)encode:(NSData *)data;
 + (nullable NSData *)decode:(NSString *)string;
 
@@ -88,6 +92,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MKMBase64 : NSObject
 
 + (void)setCoder:(id<MKMDataCoder>)coder;
++ (id<MKMDataCoder>)getCoder;
+
 + (nullable NSString *)encode:(NSData *)data;
 + (nullable NSData *)decode:(NSString *)string;
 

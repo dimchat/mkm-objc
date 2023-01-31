@@ -37,92 +37,24 @@
 
 #import "MKMDataParser.h"
 
-@interface JSON : NSObject <MKMObjectCoder>
-
-@end
-
-@implementation JSON
-
-- (nullable NSString *)encode:(id)container {
-    if (![NSJSONSerialization isValidJSONObject:container]) {
-        NSAssert(false, @"object format not support for json: %@", container);
-        return nil;
-    }
-    static NSJSONWritingOptions opt = NSJSONWritingSortedKeys;
-    NSError *error = nil;
-    NSData *data = [NSJSONSerialization dataWithJSONObject:container
-                                                   options:opt
-                                                     error:&error];
-    NSAssert(!error, @"JSON encode error: %@", error);
-    return [[NSString alloc] initWithData:data
-                                 encoding:NSUTF8StringEncoding];
-}
-
-- (nullable id)decode:(NSString *)json {
-    static NSJSONReadingOptions opt = NSJSONReadingAllowFragments;
-    //static NSJSONReadingOptions opt = NSJSONReadingMutableContainers;
-    NSError *error = nil;
-    NSData *data = [json dataUsingEncoding:NSUTF8StringEncoding];
-    id obj = [NSJSONSerialization JSONObjectWithData:data
-                                             options:opt
-                                               error:&error];
-    //NSAssert(!error, @"JSON decode error: %@", error);
-    return obj;
-}
-
-@end
-
-@interface UTF8 : NSObject <MKMStringCoder>
-
-@end
-
-@implementation UTF8
-
-- (nullable NSData *)encode:(NSString *)string {
-    return [string dataUsingEncoding:NSUTF8StringEncoding];
-}
-
-- (nullable NSString *)decode:(NSData *)data {
-    const unsigned char *bytes = (const unsigned char *)[data bytes];
-    // rtrim '\0'
-    NSInteger pos = data.length - 1;
-    for (; pos >= 0; --pos) {
-        if (bytes[pos] != 0) {
-            break;
-        }
-    }
-    NSUInteger length = pos + 1;
-    return [[NSString alloc] initWithBytes:bytes length:length encoding:NSUTF8StringEncoding];
-}
-
-@end
-
-#pragma mark -
-
 @implementation MKMJSON
 
 static id<MKMObjectCoder> s_json = nil;
 
-+ (id<MKMObjectCoder>)parser {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        if (!s_json) {
-            s_json = [[JSON alloc] init];
-        }
-    });
-    return s_json;
-}
-
-+ (void)setParser:(id<MKMObjectCoder>)parser {
++ (void)setCoder:(id<MKMObjectCoder>)parser {
     s_json = parser;
 }
 
++ (id<MKMObjectCoder>)getCoder {
+    return s_json;
+}
+
 + (nullable NSString *)encode:(id)object {
-    return [[self parser] encode:object];
+    return [s_json encode:object];
 }
 
 + (nullable id)decode:(NSString *)json {
-    return [[self parser] decode:json];
+    return [s_json decode:json];
 }
 
 @end
@@ -131,26 +63,20 @@ static id<MKMObjectCoder> s_json = nil;
 
 static id<MKMStringCoder> s_utf8 = nil;
 
-+ (id<MKMStringCoder>)parser {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        if (!s_utf8) {
-            s_utf8 = [[UTF8 alloc] init];
-        }
-    });
-    return s_utf8;
-}
-
-+ (void)setParser:(id<MKMStringCoder>)parser {
++ (void)setCoder:(id<MKMStringCoder>)parser {
     s_utf8 = parser;
 }
 
++ (id<MKMStringCoder>)getCoder {
+    return s_utf8;
+}
+
 + (nullable NSData *)encode:(id)object {
-    return [[self parser] encode:object];
+    return [s_utf8 encode:object];
 }
 
 + (nullable id)decode:(NSData *)bytes {
-    return [[self parser] decode:bytes];
+    return [s_utf8 decode:bytes];
 }
 
 @end

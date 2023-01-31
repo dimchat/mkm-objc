@@ -36,6 +36,7 @@
 //
 
 #import "MKMCopier.h"
+#import "MKMString.h"
 
 #import "MKMDictionary.h"
 
@@ -150,6 +151,69 @@
     } else {
         [_storeDictionary removeObjectForKey:aKey];
     }
+}
+
+#pragma mark - Convenient getters
+
+- (NSString *)stringForKey:(NSString *)aKey {
+    return [self objectForKey:aKey];
+}
+
+- (BOOL)boolForKey:(NSString *)aKey {
+    id value = [self objectForKey:aKey];
+    return [value boolValue];
+}
+
+- (int)intForKey:(NSString *)aKey {
+    NSNumber *value = [self objectForKey:aKey];
+    return [value intValue];
+}
+
+- (long)longForKey:(NSString *)aKey {
+    NSNumber *value = [self objectForKey:aKey];
+    return [value longValue];
+}
+
+- (char)charForKey:(NSString *)aKey {
+    NSNumber *value = [self objectForKey:aKey];
+    return [value charValue];
+}
+
+- (short)shortForKey:(NSString *)aKey {
+    NSNumber *value = [self objectForKey:aKey];
+    return [value shortValue];
+}
+
+- (float)floatForKey:(NSString *)aKey {
+    NSNumber *value = [self objectForKey:aKey];
+    return [value floatValue];
+}
+
+- (double)doubleForKey:(NSString *)aKey {
+    NSNumber *value = [self objectForKey:aKey];
+    return [value doubleValue];
+}
+
+- (NSDate *)dateForKey:(NSString *)aKey {
+    NSNumber *timestamp = [self objectForKey:aKey];
+    if (!timestamp) {
+        //NSAssert(false, @"message time not found: %@", env);
+        return nil;
+    }
+    return [[NSDate alloc] initWithTimeIntervalSince1970:[timestamp doubleValue]];
+}
+
+- (void)setDate:(NSDate *)date forKey:(NSString *)aKey {
+    NSTimeInterval timestamp = [date timeIntervalSince1970];
+    [_storeDictionary setObject:@(timestamp) forKey:aKey];
+}
+
+- (void)setString:(id<MKMString>)stringer forKey:(NSString *)aKey {
+    [_storeDictionary setObject:[stringer string] forKey:aKey];
+}
+
+- (void)setDictionary:(id<MKMDictionary>)mapper forKey:(NSString *)aKey {
+    [_storeDictionary setObject:[mapper dictionary] forKey:aKey];
 }
 
 @end

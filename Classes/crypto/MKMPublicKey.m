@@ -35,54 +35,21 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import "MKMWrapper.h"
+#import "MKMKeyFactoryManager.h"
 
 #import "MKMPublicKey.h"
 
-static NSMutableDictionary<NSString *, id<MKMPublicKeyFactory>> *s_factories = nil;
-
 id<MKMPublicKeyFactory> MKMPublicKeyGetFactory(NSString *algorithm) {
-    //NSAssert(s_factories, @"public key factories not set yet");
-    return [s_factories objectForKey:algorithm];
+    MKMKeyFactoryManager *man = [MKMKeyFactoryManager sharedManager];
+    return [man.generalFactory publicKeyFactoryForAlgorithm:algorithm];
 }
 
 void MKMPublicKeySetFactory(NSString *algorithm, id<MKMPublicKeyFactory> factory) {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        //if (!s_factories) {
-            s_factories = [[NSMutableDictionary alloc] init];
-        //}
-    });
-    [s_factories setObject:factory forKey:algorithm];
+    MKMKeyFactoryManager *man = [MKMKeyFactoryManager sharedManager];
+    [man.generalFactory setPublicKeyFactory:factory forAlgorithm:algorithm];
 }
 
 id<MKMPublicKey> MKMPublicKeyParse(id key) {
-    if (!key) {
-        return nil;
-    } else if ([key conformsToProtocol:@protocol(MKMPublicKey)]) {
-        return (id<MKMPublicKey>)key;
-    }
-    key = MKMGetMap(key);
-    //NSAssert([key isKindOfClass:[NSDictionary class]], @"key info error: %@", key);
-    NSString *algorithm = MKMCryptographyKeyAlgorithm(key);
-    //NSAssert(algorithm, @"failed to get algorithm name for key: %@", key);
-    id<MKMPublicKeyFactory> factory = MKMPublicKeyGetFactory(algorithm);
-    if (!factory) {
-        factory = MKMPublicKeyGetFactory(@"*"); // unknown
-        //NSAssert(factory, @"cannot parse key: %@", key);
-    }
-    return [factory parsePublicKey:key];
+    MKMKeyFactoryManager *man = [MKMKeyFactoryManager sharedManager];
+    return [man.generalFactory parsePublicKey:key];
 }
-
-@implementation MKMPublicKey
-
-- (BOOL)verify:(NSData *)data withSignature:(NSData *)signature {
-    NSAssert(false, @"implement me!");
-    return NO;
-}
-
-- (BOOL)isMatch:(id<MKMSignKey>)sKey {
-    return MKMAsymmetricKeysMatch(self, sKey);
-}
-
-@end

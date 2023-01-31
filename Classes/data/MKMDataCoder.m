@@ -37,34 +37,16 @@
 
 #import "MKMDataCoder.h"
 
-@interface Base64 : NSObject <MKMDataCoder>
-
-@end
-
-@implementation Base64
-
-- (nullable NSString *)encode:(NSData *)data {
-    NSDataBase64EncodingOptions opt;
-    opt = NSDataBase64EncodingEndLineWithCarriageReturn;
-    return [data base64EncodedStringWithOptions:opt];
-}
-
-- (nullable NSData *)decode:(NSString *)string {
-    NSDataBase64DecodingOptions opt;
-    opt = NSDataBase64DecodingIgnoreUnknownCharacters;
-    return [[NSData alloc] initWithBase64EncodedString:string options:opt];
-}
-
-@end
-
-#pragma mark -
-
 @implementation MKMHex
 
 static id<MKMDataCoder> s_hex = nil;
 
 + (void)setCoder:(id<MKMDataCoder>)coder {
     s_hex = coder;
+}
+
++ (id<MKMDataCoder>)getCoder {
+    return s_hex;
 }
 
 + (nullable NSString *)encode:(NSData *)data {
@@ -85,6 +67,10 @@ static id<MKMDataCoder> s_base58 = nil;
     s_base58 = coder;
 }
 
++ (id<MKMDataCoder>)getCoder {
+    return s_base58;
+}
+
 + (nullable NSString *)encode:(NSData *)data {
     return [s_base58 encode:data];
 }
@@ -99,26 +85,20 @@ static id<MKMDataCoder> s_base58 = nil;
 
 static id<MKMDataCoder> s_base64 = nil;
 
-+ (id<MKMDataCoder>)coder {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        if (!s_base64) {
-            s_base64 = [[Base64 alloc] init];
-        }
-    });
-    return s_base64;
-}
-
 + (void)setCoder:(id<MKMDataCoder>)coder {
     s_base64 = coder;
 }
 
++ (id<MKMDataCoder>)getCoder {
+    return s_base64;
+}
+
 + (nullable NSString *)encode:(NSData *)data {
-    return [[self coder] encode:data];
+    return [s_base64 encode:data];
 }
 
 + (nullable NSData *)decode:(NSString *)string {
-    return [[self coder] decode:string];
+    return [s_base64 decode:string];
 }
 
 @end

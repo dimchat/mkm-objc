@@ -46,14 +46,37 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @protocol MKMString <NSObject, NSCopying>
 
+//- (BOOL)isEqual:(id)object;
 //@property (readonly) NSUInteger hash;
 @property (readonly, strong, nonatomic) NSString *string;
 
-//- (BOOL)isEqual:(id)object;
-
-- (NSUInteger)length;
-
+@property (readonly) NSUInteger length;
 //- (unichar)characterAtIndex:(NSUInteger)index;
+
+
+/**
+ *  NSStringExtensionMethods
+ */
+
+//- (NSComparisonResult)compare:(NSString *)string;
+//- (NSComparisonResult)compare:(NSString *)string options:(NSStringCompareOptions)mask;
+//- (NSComparisonResult)compare:(NSString *)string options:(NSStringCompareOptions)mask range:(NSRange)rangeOfReceiverToCompare;
+//- (NSComparisonResult)compare:(NSString *)string options:(NSStringCompareOptions)mask range:(NSRange)rangeOfReceiverToCompare locale:(nullable id)locale;
+//- (NSComparisonResult)caseInsensitiveCompare:(NSString *)string;
+//- (NSComparisonResult)localizedCompare:(NSString *)string;
+//- (NSComparisonResult)localizedCaseInsensitiveCompare:(NSString *)string;
+
+//- (NSComparisonResult)localizedStandardCompare:(NSString *)string API_AVAILABLE(macos(10.6), ios(4.0), watchos(2.0), tvos(9.0));
+
+//- (BOOL)isEqualToString:(NSString *)aString;
+//
+//- (BOOL)hasPrefix:(NSString *)str;
+//- (BOOL)hasSuffix:(NSString *)str;
+//
+//- (NSRange)rangeOfString:(NSString *)searchString;
+//- (NSRange)rangeOfString:(NSString *)searchString options:(NSStringCompareOptions)mask;
+//- (NSRange)rangeOfString:(NSString *)searchString options:(NSStringCompareOptions)mask range:(NSRange)rangeOfReceiverToSearch;
+//- (NSRange)rangeOfString:(NSString *)searchString options:(NSStringCompareOptions)mask range:(NSRange)rangeOfReceiverToSearch locale:(nullable NSLocale *)locale API_AVAILABLE(macos(10.5), ios(2.0), watchos(2.0), tvos(9.0));
 
 @end
 

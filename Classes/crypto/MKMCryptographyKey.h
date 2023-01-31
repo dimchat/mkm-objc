@@ -82,28 +82,4 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-/**
- *  Get key algorithm
- */
-NSString *MKMCryptographyKeyAlgorithm(NSDictionary<NSString *, id> *keyInfo);
-
-/**
- *  Try to verify with encryption
- */
-BOOL MKMCryptographyKeysMatch(id<MKMEncryptKey> pKey, id<MKMDecryptKey> sKey);
-
-#ifdef __cplusplus
-} /* end of extern "C" */
-#endif
-
-#pragma mark - Base Class
-
-@interface MKMCryptographyKey : MKMDictionary <MKMCryptographyKey>
-
-@end
-
 NS_ASSUME_NONNULL_END

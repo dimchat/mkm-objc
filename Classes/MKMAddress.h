@@ -145,7 +145,8 @@ typedef UInt8 MKMEntityType;
  * @param meta - meta info
  * @return Address
  */
-- (nullable id<MKMAddress>)generateAddress:(MKMEntityType)network fromMeta:(id<MKMMeta>)meta;
+- (nullable id<MKMAddress>)generateAddressWithMeta:(id<MKMMeta>)meta
+                                              type:(MKMEntityType)network;
 
 /**
  *  Create address from string
@@ -183,12 +184,6 @@ id<MKMAddress> MKMEverywhere(void);
 } /* end of extern "C" */
 #endif
 
-#define MKMAddressFromString(S) MKMAddressParse(S)
-
-#pragma mark - Base Factory
-
-@interface MKMAddressFactory : NSObject <MKMAddressFactory>
-
-@end
+//#define MKMAddressFromString(S) MKMAddressParse(S)
 
 NS_ASSUME_NONNULL_END

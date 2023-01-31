@@ -80,14 +80,8 @@ id<MKMPublicKey> MKMPublicKeyParse(id key);
 } /* end of extern "C" */
 #endif
 
-#define MKMPublicKeyFromDictionary(key)          MKMPublicKeyParse(key)
-
-#define MKMPublicKeyRegister(algorithm, factory) MKMPublicKeySetFactory(algorithm, factory)
-
-#pragma mark - Base Class
-
-@interface MKMPublicKey : MKMAsymmetricKey <MKMPublicKey>
-
-@end
+//#define MKMPublicKeyFromDictionary(key)          MKMPublicKeyParse(key)
+//
+//#define MKMPublicKeyRegister(algorithm, factory) MKMPublicKeySetFactory(algorithm, factory)
 
 NS_ASSUME_NONNULL_END

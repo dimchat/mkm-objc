@@ -99,7 +99,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MKMJSON : NSObject
 
-+ (void)setParser:(id<MKMObjectCoder>)parser;
++ (void)setCoder:(id<MKMObjectCoder>)parser;
++ (id<MKMObjectCoder>)getCoder;
+
 + (nullable NSString *)encode:(id)object;
 + (nullable id)decode:(NSString *)json;
 
@@ -107,7 +109,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MKMUTF8 : NSObject
 
-+ (void)setParser:(id<MKMStringCoder>)parser;
++ (void)setCoder:(id<MKMStringCoder>)parser;
++ (id<MKMStringCoder>)getCoder;
+
 + (nullable NSData *)encode:(NSString *)string;
 + (nullable NSString *)decode:(NSData *)utf8;
 

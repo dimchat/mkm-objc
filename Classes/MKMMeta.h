@@ -36,7 +36,6 @@
 //
 
 #import <MingKeMing/MKMDictionary.h>
-#import <MingKeMing/MKMAddress.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -153,7 +152,7 @@ typedef UInt8 MKMMetaType;
  * @param name - ID.name
  * @return Meta
  */
-- (id<MKMMeta>)generateMeta:(id<MKMSignKey>)SK seed:(nullable NSString *)name;
+- (id<MKMMeta>)generateMetaWithKey:(id<MKMSignKey>)SK seed:(nullable NSString *)name;
 
 /**
  *  Create meta
@@ -163,7 +162,7 @@ typedef UInt8 MKMMetaType;
  * @param CT - sKey.sign(seed)
  * @return Meta
  */
-- (id<MKMMeta>)createMeta:(id<MKMVerifyKey>)PK seed:(nullable NSString *)name fingerprint:(nullable NSData *)CT;
+- (id<MKMMeta>)createMetaWithKey:(id<MKMVerifyKey>)PK seed:(nullable NSString *)name fingerprint:(nullable NSData *)CT;
 
 /**
  *  Parse map object to meta
@@ -186,11 +185,6 @@ id<MKMMeta> MKMMetaGenerate(MKMMetaType version, id<MKMSignKey> SK, NSString * _
 id<MKMMeta> MKMMetaCreate(MKMMetaType version, id<MKMVerifyKey> PK, NSString * _Nullable seed, NSData * _Nullable fingerprint);
 id<MKMMeta> MKMMetaParse(id meta);
 
-MKMMetaType MKMMetaGetType(NSDictionary<NSString *, id> *meta);
-id<MKMVerifyKey> MKMMetaGetKey(NSDictionary<NSString *, id> *meta);
-NSString * _Nullable MKMMetaGetSeed(NSDictionary<NSString *, id> *meta);
-NSData * _Nullable MKMMetaGetFingerprint(NSDictionary<NSString *, id> *meta);
-
 BOOL MKMMetaCheck(id<MKMMeta> meta);
 
 // Check whether meta match the ID (must call this when received a new meta from network)
@@ -203,26 +197,8 @@ BOOL MKMMetaMatchKey(id<MKMVerifyKey> PK, id<MKMMeta> meta);
 } /* end of extern "C" */
 #endif
 
-#define MKMMetaFromDictionary(dict)    MKMMetaParse(dict)
-
-#define MKMMetaRegister(type, factory) MKMMetaSetFactory(type, factory)
-
-#pragma mark - Base Class
-
-@interface MKMMeta : MKMDictionary <MKMMeta>
-
-/**
- *  Create meta with dictionary
- */
-- (instancetype)initWithDictionary:(NSDictionary *)dict
-NS_DESIGNATED_INITIALIZER;
-
-- (instancetype)initWithType:(MKMMetaType)version
-                         key:(id<MKMVerifyKey>)PK
-                        seed:(nullable NSString *)name
-                 fingerprint:(nullable NSData *)CT
-NS_DESIGNATED_INITIALIZER;
-
-@end
+//#define MKMMetaFromDictionary(dict)    MKMMetaParse(dict)
+//
+//#define MKMMetaRegister(type, factory) MKMMetaSetFactory(type, factory)
 
 NS_ASSUME_NONNULL_END
