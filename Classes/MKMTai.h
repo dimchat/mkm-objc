@@ -191,10 +191,6 @@ id<MKMDocument> MKMDocumentParse(id doc);
 } /* end of extern "C" */
 #endif
 
-//#define MKMDocumentFromDictionary(dict)    MKMDocumentParse(dict)
-//
-//#define MKMDocumentRegister(type, factory) MKMDocumentSetFactory(type, factory)
-
 #pragma mark -
 
 @protocol MKMEncryptKey;

@@ -115,9 +115,9 @@ id<MKMID> MKMIDGenerate(id<MKMMeta> meta, MKMEntityType network, NSString * _Nul
 id<MKMID> MKMIDCreate(NSString * _Nullable name, id<MKMAddress> address, NSString * _Nullable terminal);
 id<MKMID> MKMIDParse(id identifier);
 
+// Broadcast IDs
 id<MKMID> MKMAnyone(void);
 id<MKMID> MKMEveryone(void);
-
 id<MKMID> MKMFounder(void);  // DIM Founder
 
 /**
@@ -133,8 +133,6 @@ NSArray<NSString *> *MKMIDRevert(NSArray<id<MKMID>> *members);
 #ifdef __cplusplus
 } /* end of extern "C" */
 #endif
-
-//#define MKMIDFromString(S)   MKMIDParse(S)
 
 #define MKMIDIsUser(ID)      [(ID) isUser]
 #define MKMIDIsGroup(ID)     [(ID) isGroup]

@@ -41,6 +41,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ *  General Factory for Crypto Keys
+ *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ */
 @protocol MKMGeneralKeyFactory <NSObject>
 
 /**

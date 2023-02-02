@@ -95,8 +95,4 @@ id<MKMPrivateKey> MKMPrivateKeyParse(id key);
 } /* end of extern "C" */
 #endif
 
-//#define MKMPrivateKeyFromDictionary(key)          MKMPrivateKeyParse(key)
-//
-//#define MKMPrivateKeyRegister(algorithm, factory) MKMPrivateKeySetFactory(algorithm, factory)
-
 NS_ASSUME_NONNULL_END

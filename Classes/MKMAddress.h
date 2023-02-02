@@ -177,13 +177,12 @@ id<MKMAddress> MKMAddressGenerate(MKMEntityType network, id<MKMMeta> meta);
 id<MKMAddress> MKMAddressCreate(NSString *address);
 id<MKMAddress> MKMAddressParse(id address);
 
+// Broadcast Addresses
 id<MKMAddress> MKMAnywhere(void);
 id<MKMAddress> MKMEverywhere(void);
 
 #ifdef __cplusplus
 } /* end of extern "C" */
 #endif
-
-//#define MKMAddressFromString(S) MKMAddressParse(S)
 
 NS_ASSUME_NONNULL_END

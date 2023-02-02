@@ -90,8 +90,4 @@ id<MKMSymmetricKey> MKMSymmetricKeyParse(id key);
 } /* end of extern "C" */
 #endif
 
-//#define MKMSymmetricKeyFromDictionary(key)          MKMSymmetricKeyParse(key)
-//
-//#define MKMSymmetricKeyRegister(algorithm, factory) MKMSymmetricKeySetFactory(algorithm, factory)
-
 NS_ASSUME_NONNULL_END

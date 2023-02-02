@@ -118,56 +118,6 @@ NSArray<NSString *> *MKMIDRevert(NSArray<id<MKMID>> *members) {
 
 #pragma mark -
 
-//static inline NSString *concat(NSString *name, id<MKMAddress> address, NSString *terminal) {
-//    NSUInteger len1 = [name length];
-//    NSUInteger len2 = [terminal length];
-//    if (len1 > 0) {
-//        if (len2 > 0) {
-//            return [NSString stringWithFormat:@"%@@%@/%@", name, [address string], terminal];
-//        } else {
-//            return [NSString stringWithFormat:@"%@@%@", name, [address string]];
-//        }
-//    } else if (len2 > 0) {
-//        return [NSString stringWithFormat:@"%@/%@", [address string], terminal];
-//    } else {
-//        return [address string];
-//    }
-//}
-
-//static inline id<MKMID> parse(NSString *string) {
-//    NSString *name;
-//    id<MKMAddress> address;
-//    NSString *terminal;
-//    // split ID string
-//    NSArray<NSString *> *pair = [string componentsSeparatedByString:@"/"];
-//    // terminal
-//    if (pair.count == 1) {
-//        terminal = nil;
-//    } else {
-//        assert(pair.count == 2);
-//        assert(pair.lastObject.length > 0);
-//        terminal = pair.lastObject;
-//    }
-//    // name @ address
-//    pair = [pair.firstObject componentsSeparatedByString:@"@"];
-//    assert(pair.firstObject.length > 0);
-//    if (pair.count == 1) {
-//        // got address without name
-//        name = nil;
-//        address = MKMAddressParse(pair.firstObject);
-//    } else {
-//        // got name & address
-//        assert(pair.count == 2);
-//        assert(pair.lastObject.length > 0);
-//        name = pair.firstObject;
-//        address = MKMAddressParse(pair.lastObject);
-//    }
-//    if (address == nil) {
-//        return nil;
-//    }
-//    return [[MKMID alloc] initWithString:string name:name address:address terminal:terminal];
-//}
-
 @interface MKMID ()
 
 @property (strong, nonatomic, nullable) NSString *name;

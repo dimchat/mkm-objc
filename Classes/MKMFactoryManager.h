@@ -42,6 +42,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ *  General Factory for Accounts
+ *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ */
 @protocol MKMGeneralFactory <NSObject>
 
 #pragma mark Address

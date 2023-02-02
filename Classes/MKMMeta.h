@@ -197,8 +197,4 @@ BOOL MKMMetaMatchKey(id<MKMVerifyKey> PK, id<MKMMeta> meta);
 } /* end of extern "C" */
 #endif
 
-//#define MKMMetaFromDictionary(dict)    MKMMetaParse(dict)
-//
-//#define MKMMetaRegister(type, factory) MKMMetaSetFactory(type, factory)
-
 NS_ASSUME_NONNULL_END
