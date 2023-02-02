@@ -51,12 +51,12 @@ void MKMDocumentSetFactory(NSString *type, id<MKMDocumentFactory> factory) {
 
 id<MKMDocument> MKMDocumentNew(NSString *type, id<MKMID> ID) {
     MKMFactoryManager *man = [MKMFactoryManager sharedManager];
-    return [man.generalFactory createDocumentWithID:ID type:type];
+    return [man.generalFactory createDocument:ID type:type];
 }
 
 id<MKMDocument> MKMDocumentCreate(NSString *type, id<MKMID> ID, NSString *data, NSString *sig) {
     MKMFactoryManager *man = [MKMFactoryManager sharedManager];
-    return [man.generalFactory createDocumentWithID:ID type:type data:data signature:sig];
+    return [man.generalFactory createDocument:ID type:type data:data signature:sig];
 }
 
 id<MKMDocument> MKMDocumentParse(id doc) {

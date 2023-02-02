@@ -80,10 +80,10 @@ static MKMFactoryManager *s_manager = nil;
 
 - (instancetype)init {
     if ([super init]) {
-        _addressFactory = nil;
-        _idFactory = nil;
-        _metaFactories   = [[NSMutableDictionary alloc] init];
-        _documentFactories    = [[NSMutableDictionary alloc] init];
+        _addressFactory    = nil;
+        _idFactory         = nil;
+        _metaFactories     = [[NSMutableDictionary alloc] init];
+        _documentFactories = [[NSMutableDictionary alloc] init];
     }
     return self;
 }

@@ -194,6 +194,51 @@
     return [value doubleValue];
 }
 
+- (unsigned int)uintForKey:(NSString *)aKey {
+    NSNumber *value = [self objectForKey:aKey];
+    return [value unsignedIntValue];
+}
+
+- (unsigned long)ulongForKey:(NSString *)aKey {
+    NSNumber *value = [self objectForKey:aKey];
+    return [value unsignedLongValue];
+}
+
+- (unsigned short)ushortForKey:(NSString *)aKey {
+    NSNumber *value = [self objectForKey:aKey];
+    return [value unsignedShortValue];
+}
+
+- (SInt8)int8ForKey:(NSString *)aKey {
+    NSNumber *value = [self objectForKey:aKey];
+    return [value charValue];
+}
+
+- (UInt8)uint8ForKey:(NSString *)aKey {
+    NSNumber *value = [self objectForKey:aKey];
+    return [value unsignedCharValue];
+}
+
+- (SInt16)int16ForKey:(NSString *)aKey {
+    NSNumber *value = [self objectForKey:aKey];
+    return [value shortValue];
+}
+
+- (UInt16)uint16ForKey:(NSString *)aKey {
+    NSNumber *value = [self objectForKey:aKey];
+    return [value unsignedShortValue];
+}
+
+- (NSInteger)integerForKey:(NSString *)aKey {
+    NSNumber *value = [self objectForKey:aKey];
+    return [value integerValue];
+}
+
+- (NSUInteger)unsignedIntegerForKey:(NSString *)aKey {
+    NSNumber *value = [self objectForKey:aKey];
+    return [value unsignedIntegerValue];
+}
+
 - (NSDate *)dateForKey:(NSString *)aKey {
     NSNumber *timestamp = [self objectForKey:aKey];
     if (!timestamp) {

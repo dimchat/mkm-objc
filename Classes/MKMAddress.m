@@ -124,11 +124,13 @@ NS_DESIGNATED_INITIALIZER;
 }
 
 - (BOOL)isUser {
-    return MKMEntity_IsUser(self.type);
+    //return MKMEntity_IsUser(self.type);
+    return _type == MKMEntityType_Any;
 }
 
 - (BOOL)isGroup {
-    return MKMEntity_IsGroup(self.type);
+    //return MKMEntity_IsGroup(self.type);
+    return _type == MKMEntityType_Every;
 }
 
 @end
@@ -141,7 +143,7 @@ static id<MKMAddress> s_everywhere = nil;
 id<MKMAddress> MKMAnywhere(void) {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        s_anywhere = BroadcastAddressCreate(@"anywhere", MKMEntityType_User);
+        s_anywhere = BroadcastAddressCreate(@"anywhere", MKMEntityType_Any);
     });
     return s_anywhere;
 }
@@ -149,7 +151,7 @@ id<MKMAddress> MKMAnywhere(void) {
 id<MKMAddress> MKMEverywhere(void) {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        s_everywhere = BroadcastAddressCreate(@"everywhere", MKMEntityType_Group);
+        s_everywhere = BroadcastAddressCreate(@"everywhere", MKMEntityType_Every);
     });
     return s_everywhere;
 }

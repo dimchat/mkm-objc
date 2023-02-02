@@ -80,6 +80,17 @@ NS_ASSUME_NONNULL_BEGIN
 - (float)floatForKey:(NSString *)aKey;
 - (double)doubleForKey:(NSString *)aKey;
 
+- (unsigned int)uintForKey:(NSString *)aKey;
+- (unsigned long)ulongForKey:(NSString *)aKey;
+- (unsigned short)ushortForKey:(NSString *)aKey;
+
+- (SInt8)int8ForKey:(NSString *)aKey;
+- (UInt8)uint8ForKey:(NSString *)aKey;
+- (SInt16)int16ForKey:(NSString *)aKey;
+- (UInt16)uint16ForKey:(NSString *)aKey;
+- (NSInteger)integerForKey:(NSString *)aKey;
+- (NSUInteger)unsignedIntegerForKey:(NSString *)aKey;
+
 - (NSDate *)dateForKey:(NSString *)aKey;
 - (void)setDate:(NSDate *)date forKey:(NSString *)aKey;
 
