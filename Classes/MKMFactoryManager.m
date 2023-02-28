@@ -160,7 +160,7 @@ static MKMFactoryManager *s_manager = nil;
     NSAssert([string isKindOfClass:[NSString class]], @"id error: %@", identifier);
     id<MKMIDFactory> factory = [self idFactory];
     NSAssert(factory, @"id factory not set");
-    return [factory parseID:identifier];
+    return [factory parseID:string];
 }
 
 - (NSArray<id<MKMID>> *)convertIDList:(NSArray<id> *)members {
