@@ -97,7 +97,6 @@
 		E9F3A8FD21CBBAF6009690F6 /* MKMString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMString.m; sourceTree = "<group>"; };
 		E9F3A8FE21CBBAF6009690F6 /* MKMDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMDictionary.h; sourceTree = "<group>"; };
 		E9F3A8FF21CBBAF6009690F6 /* MKMString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMString.h; sourceTree = "<group>"; };
-		E9F3AB6821CFA8EE009690F6 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -226,7 +225,6 @@
 		E9F3AB6721CFA8EE009690F6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				E9F3AB6821CFA8EE009690F6 /* Security.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
