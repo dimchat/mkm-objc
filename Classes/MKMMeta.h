@@ -40,20 +40,20 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  enum MKMMetaVersion
+ *  enum MKMMetaType
  *
  *  abstract Defined for algorithm that generating address.
  *
  *  discussion Generate and check ID/Address
  *
- *      MKMMetaVersion_MKM give a seed string first, and sign this seed to get
+ *      MKMMetaType_MKM give a seed string first, and sign this seed to get
  *      fingerprint; after that, use the fingerprint to generate address.
  *      This will get a firmly relationship between (username, address and key).
  *
- *      MKMMetaVersion_BTC use the key data to generate address directly.
+ *      MKMMetaType_BTC use the key data to generate address directly.
  *      This can build a BTC address for the entity ID (no username).
  *
- *      MKMMetaVersion_ExBTC use the key data to generate address directly, and
+ *      MKMMetaType_ExBTC use the key data to generate address directly, and
  *      sign the seed to get fingerprint (just for binding username and key).
  *      This can build a BTC address, and bind a username to the entity ID.
  *
@@ -65,18 +65,18 @@ NS_ASSUME_NONNULL_BEGIN
  */
 typedef NS_ENUM(UInt8, MKMMetaVersion) {
     
-    MKMMetaVersion_MKM     = 0x01,  // 0000 0001
+    MKMMetaType_MKM     = 0x01,  // 0000 0001
     
-    MKMMetaVersion_BTC     = 0x02,  // 0000 0010
-    MKMMetaVersion_ExBTC   = 0x03,  // 0000 0011
+    MKMMetaType_BTC     = 0x02,  // 0000 0010
+    MKMMetaType_ExBTC   = 0x03,  // 0000 0011
     
-    MKMMetaVersion_ETH     = 0x04,  // 0000 0100
-    MKMMetaVersion_ExETH   = 0x05,  // 0000 0101
+    MKMMetaType_ETH     = 0x04,  // 0000 0100
+    MKMMetaType_ExETH   = 0x05,  // 0000 0101
 };
 typedef UInt8 MKMMetaType;
-#define MKMMetaDefaultVersion MKMMetaVersion_MKM
+#define MKMMetaDefaultType MKMMetaType_MKM
 
-#define MKMMeta_HasSeed(ver)    ((ver) & MKMMetaVersion_MKM)
+#define MKMMeta_HasSeed(ver)    ((ver) & MKMMetaType_MKM)
 
 @protocol MKMVerifyKey;
 @protocol MKMSignKey;

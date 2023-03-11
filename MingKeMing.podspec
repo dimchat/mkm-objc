@@ -1,5 +1,5 @@
 #
-# Be sure to run `pod lib lint dkd-objc.podspec' to ensure this is a
+# Be sure to run `pod lib lint mkm-objc.podspec' to ensure this is a
 # valid spec before submitting.
 #
 # Any lines starting with a # are optional, but their use is encouraged
@@ -8,10 +8,10 @@
 
 Pod::Spec.new do |s|
     s.name                  = 'MingKeMing'
-    s.version               = '0.6.1'
+    s.version               = '0.6.3'
     s.summary               = 'Decentralized User Identity Authentication'
     s.description           = <<-DESC
-        A Common Account Module For Decentralized User Identity Authentication'
+        A Common Account Module For Decentralized User Identity Authentication
                               DESC
     s.homepage              = 'https://github.com/dimchat/mkm-objc'
     s.license               = { :type => 'MIT', :file => 'LICENSE' }
