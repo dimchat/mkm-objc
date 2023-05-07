@@ -109,3 +109,100 @@ NSMutableArray<id> *MKMDeepCopyList(NSArray<id> *list) {
     }];
     return mArray;
 }
+
+#pragma mark - Converter
+
+NSString *MKMConverterGetString(id value) {
+    if (!value) {
+        return nil;
+    } else if ([value isKindOfClass:[NSString class]]) {
+        // exactly
+        return value;
+    } else {
+        assert(false);  // not a string value
+        return [value description];
+    }
+}
+
+BOOL MKMConverterGetBool(id value) {
+    if (!value) {
+        return NO;
+    } else if ([value isKindOfClass:[NSNumber class]]) {
+        return value != 0;
+    } else if ([value isKindOfClass:[NSString class]]) {
+        NSString *lower = [value lowercaseString];
+        if ([lower isEqualToString:@"false"] ||
+            [lower isEqualToString:@"no"] ||
+            [lower isEqualToString:@"off"] ||
+            [lower isEqualToString:@"0"] ||
+            [lower isEqualToString:@"null"] ||
+            [lower isEqualToString:@"undefined"]) {
+            return NO;
+        }
+        assert([lower isEqualToString:@"true"] ||
+               [lower isEqualToString:@"yes"] ||
+               [lower isEqualToString:@"on"] ||
+               [lower isEqualToString:@"1"]);
+        return YES;
+    }
+    return [value boolValue];
+}
+
+int MKMConverterGetInt(id value) {
+    return [value intValue];
+}
+
+long MKMConverterGetLong(id value) {
+    return [value longValue];
+}
+
+short MKMConverterGetShort(id value) {
+    return [value shortValue];
+}
+
+char MKMConverterGetChar(id value) {
+    return [value charValue];
+}
+
+float MKMConverterGetFloat(id value) {
+    return [value floatValue];
+}
+
+double MKMConverterGetDouble(id value) {
+    return [value doubleValue];
+}
+
+unsigned int MKMConverterGetUnsignedInt(id value) {
+    return [value unsignedIntValue];
+}
+
+unsigned long MKMConverterGetUnsignedLong(id value) {
+    return [value unsignedLongValue];
+}
+
+unsigned short MKMConverterGetUnsignedShort(id value) {
+    return [value unsignedShortValue];
+}
+
+unsigned char MKMConverterGetUnsignedChar(id value) {
+    return [value unsignedCharValue];
+}
+
+NSInteger MKMConverterGetInteger(id value) {
+    return [value integerValue];
+}
+
+NSUInteger MKMConverterGetUnsignedInteger(id value) {
+    return [value unsignedIntegerValue];
+}
+
+NSDate *MKMConverterGetDate(id value) {
+    if (!value) {
+        return nil;
+    } else if ([value isKindOfClass:[NSDate class]]) {
+        // exactly
+        return value;
+    }
+    double seconds = [value doubleValue];
+    return [[NSDate alloc] initWithTimeIntervalSince1970:seconds];
+}

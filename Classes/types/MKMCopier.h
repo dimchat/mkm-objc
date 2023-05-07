@@ -39,6 +39,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /*
  *  Shallow Copy
  *  ~~~~~~~~~~~~
@@ -60,5 +64,48 @@ id MKMDeepCopy(id obj);
 NSMutableDictionary<NSString *, id> *MKMDeepCopyMap(NSDictionary<NSString *, id> *dict);
 
 NSMutableArray<id> *MKMDeepCopyList(NSArray<id> *list);
+
+#ifdef __cplusplus
+} /* end of extern "C" */
+#endif
+
+#pragma mark - Converter
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+NSString *MKMConverterGetString(id value);
+
+/**
+ *  assume value can be a config string:
+ *      'true', 'false', 'yes', 'no', 'on', 'off', '1', '0', ...
+ */
+BOOL MKMConverterGetBool(id value);
+
+int MKMConverterGetInt(id value);
+long MKMConverterGetLong(id value);
+short MKMConverterGetShort(id value);
+char MKMConverterGetChar(id value);
+
+float MKMConverterGetFloat(id value);
+double MKMConverterGetDouble(id value);
+
+unsigned int MKMConverterGetUnsignedInt(id value);
+unsigned long MKMConverterGetUnsignedLong(id value);
+unsigned short MKMConverterGetUnsignedShort(id value);
+unsigned char MKMConverterGetUnsignedChar(id value);
+
+NSInteger MKMConverterGetInteger(id value);
+NSUInteger MKMConverterGetUnsignedInteger(id value);
+
+/**
+ *  assume value can be a timestamp (seconds from 1970-01-01 00:00:00)
+ */
+NSDate *MKMConverterGetDate(id value);
+
+#ifdef __cplusplus
+} /* end of extern "C" */
+#endif
 
 NS_ASSUME_NONNULL_END

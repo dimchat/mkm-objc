@@ -121,6 +121,20 @@
 
 #pragma mark -
 
+- (NSString *)description {
+    return [_storeDictionary description];
+}
+
+- (NSString *)debugDescription {
+    return [NSString stringWithFormat:@"<%@>\n%@\n</%@>",
+            [self class],
+            [_storeDictionary description],
+            [self class]
+    ];
+}
+
+#pragma mark -
+
 - (NSMutableDictionary *)dictionary {
     return _storeDictionary;
 }
@@ -156,96 +170,93 @@
 #pragma mark - Convenient getters
 
 - (NSString *)stringForKey:(NSString *)aKey {
-    return [self objectForKey:aKey];
+    id value = [self objectForKey:aKey];
+    return MKMConverterGetString(value);
 }
 
 - (BOOL)boolForKey:(NSString *)aKey {
     id value = [self objectForKey:aKey];
-    return [value boolValue];
+    return MKMConverterGetBool(value);
 }
 
 - (int)intForKey:(NSString *)aKey {
-    NSNumber *value = [self objectForKey:aKey];
-    return [value intValue];
+    id value = [self objectForKey:aKey];
+    return MKMConverterGetInt(value);
 }
 
 - (long)longForKey:(NSString *)aKey {
-    NSNumber *value = [self objectForKey:aKey];
-    return [value longValue];
+    id value = [self objectForKey:aKey];
+    return MKMConverterGetLong(value);
 }
 
 - (char)charForKey:(NSString *)aKey {
-    NSNumber *value = [self objectForKey:aKey];
-    return [value charValue];
+    id value = [self objectForKey:aKey];
+    return MKMConverterGetChar(value);
 }
 
 - (short)shortForKey:(NSString *)aKey {
-    NSNumber *value = [self objectForKey:aKey];
-    return [value shortValue];
+    id value = [self objectForKey:aKey];
+    return MKMConverterGetShort(value);
 }
 
 - (float)floatForKey:(NSString *)aKey {
-    NSNumber *value = [self objectForKey:aKey];
-    return [value floatValue];
+    id value = [self objectForKey:aKey];
+    return MKMConverterGetFloat(value);
 }
 
 - (double)doubleForKey:(NSString *)aKey {
-    NSNumber *value = [self objectForKey:aKey];
-    return [value doubleValue];
+    id value = [self objectForKey:aKey];
+    return MKMConverterGetDouble(value);
 }
 
 - (unsigned int)uintForKey:(NSString *)aKey {
-    NSNumber *value = [self objectForKey:aKey];
-    return [value unsignedIntValue];
+    id value = [self objectForKey:aKey];
+    return MKMConverterGetUnsignedInt(value);
 }
 
 - (unsigned long)ulongForKey:(NSString *)aKey {
-    NSNumber *value = [self objectForKey:aKey];
-    return [value unsignedLongValue];
+    id value = [self objectForKey:aKey];
+    return MKMConverterGetUnsignedLong(value);
 }
 
 - (unsigned short)ushortForKey:(NSString *)aKey {
-    NSNumber *value = [self objectForKey:aKey];
-    return [value unsignedShortValue];
+    id value = [self objectForKey:aKey];
+    return MKMConverterGetUnsignedShort(value);
 }
 
 - (SInt8)int8ForKey:(NSString *)aKey {
-    NSNumber *value = [self objectForKey:aKey];
-    return [value charValue];
+    id value = [self objectForKey:aKey];
+    return MKMConverterGetChar(value);
 }
 
 - (UInt8)uint8ForKey:(NSString *)aKey {
-    NSNumber *value = [self objectForKey:aKey];
-    return [value unsignedCharValue];
+    id value = [self objectForKey:aKey];
+    return MKMConverterGetUnsignedChar(value);
 }
 
 - (SInt16)int16ForKey:(NSString *)aKey {
-    NSNumber *value = [self objectForKey:aKey];
-    return [value shortValue];
+    id value = [self objectForKey:aKey];
+    return MKMConverterGetShort(value);
 }
 
 - (UInt16)uint16ForKey:(NSString *)aKey {
-    NSNumber *value = [self objectForKey:aKey];
-    return [value unsignedShortValue];
+    id value = [self objectForKey:aKey];
+    return MKMConverterGetUnsignedShort(value);
 }
 
 - (NSInteger)integerForKey:(NSString *)aKey {
-    NSNumber *value = [self objectForKey:aKey];
-    return [value integerValue];
+    id value = [self objectForKey:aKey];
+    return MKMConverterGetInteger(value);
 }
 
 - (NSUInteger)unsignedIntegerForKey:(NSString *)aKey {
-    NSNumber *value = [self objectForKey:aKey];
-    return [value unsignedIntegerValue];
+    id value = [self objectForKey:aKey];
+    return MKMConverterGetUnsignedInteger(value);
 }
 
 - (NSDate *)dateForKey:(NSString *)aKey {
-    NSNumber *timestamp = [self objectForKey:aKey];
-    if (!timestamp) {
-        //NSAssert(false, @"message time not found: %@", env);
-        return nil;
-    }
-    return [[NSDate alloc] initWithTimeIntervalSince1970:[timestamp doubleValue]];
+    id value = [self objectForKey:aKey];
+    return MKMConverterGetDate(value);
 }
 
 - (void)setDate:(NSDate *)date forKey:(NSString *)aKey {
