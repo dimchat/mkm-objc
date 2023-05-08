@@ -98,8 +98,8 @@ static MKMFactoryManager *s_manager = nil;
     return _addressFactory;
 }
 
-- (nullable id<MKMAddress>)generateAddressWithType:(MKMEntityType)network
-                                              meta:(id<MKMMeta>)meta {
+- (id<MKMAddress>)generateAddressWithType:(MKMEntityType)network
+                                     meta:(id<MKMMeta>)meta {
     id<MKMAddressFactory> factory = [self addressFactory];
     NSAssert(factory, @"address factory not set");
     return [factory generateAddressWithMeta:meta type:network];
@@ -235,7 +235,7 @@ static MKMFactoryManager *s_manager = nil;
     NSAssert(version > 0, @"meta type error: %@", meta);
     
     id<MKMMetaFactory> factory = [self metaFactoryForType:version];
-    if (!factory) {
+    if (!factory && version != 0) {
         factory = [self metaFactoryForType:0];  // unknown
         NSAssert(factory, @"cannot parse meta: %@", meta);
     }
@@ -335,7 +335,7 @@ static MKMFactoryManager *s_manager = nil;
     //NSAssert(type, @"doc type error: %@", doc);
     
     id<MKMDocumentFactory> factory = [self documentFactoryForType:type];
-    if (!factory) {
+    if (!factory && ![type isEqualToString:@"*"]) {
         factory = [self documentFactoryForType:@"*"]; // unknown
         NSAssert(factory, @"cannot parse doc: %@", doc);
     }

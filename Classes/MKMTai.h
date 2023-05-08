@@ -71,14 +71,14 @@ NS_ASSUME_NONNULL_BEGIN
  * @param SK - private key match meta.key
  * @return signature, nil on error
  */
-- (NSData *)sign:(id<MKMSignKey>)SK;
+- (nullable NSData *)sign:(id<MKMSignKey>)SK;
 
 /**
  *  Get all names for properties
  *
- * @return keys
+ * @return keys, nil on invalid
  */
-- (NSArray *)propertyKeys;
+- (nullable NSArray *)propertyKeys;
 
 /**
  *  Get property data with key
@@ -126,7 +126,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Get document type
  */
-@property (readonly, strong, nonatomic) NSString *type;
+@property (readonly, strong, nonatomic, nullable) NSString *type;
 
 /**
  *  Get entity ID
@@ -136,12 +136,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Get sign time
  */
-@property (readonly, strong, nonatomic) NSDate *time;
+@property (readonly, strong, nonatomic, nullable) NSDate *time;
 
 /**
  *  Get/set entity name
  */
-@property (strong, nonatomic) NSString *name;  // properties getter/setter
+@property (strong, nonatomic, nullable) NSString *name;  // properties getter/setter
 
 
 @end
@@ -180,12 +180,13 @@ NS_ASSUME_NONNULL_BEGIN
 extern "C" {
 #endif
 
-id<MKMDocumentFactory> MKMDocumentGetFactory(NSString *type);
+_Nullable id<MKMDocumentFactory> MKMDocumentGetFactory(NSString *type);
 void MKMDocumentSetFactory(NSString *type, id<MKMDocumentFactory> factory);
 
-id<MKMDocument> MKMDocumentNew(NSString *type, id<MKMID> ID);
-id<MKMDocument> MKMDocumentCreate(NSString *type, id<MKMID> ID, NSString *data, NSString *sig);
-id<MKMDocument> MKMDocumentParse(id doc);
+_Nullable id<MKMDocument> MKMDocumentNew(NSString *type, id<MKMID> ID);
+_Nullable id<MKMDocument> MKMDocumentCreate(NSString *type, id<MKMID> ID,
+                                            NSString *data, NSString *sig);
+_Nullable id<MKMDocument> MKMDocumentParse(id doc);
 
 #ifdef __cplusplus
 } /* end of extern "C" */

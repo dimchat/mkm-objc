@@ -55,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param data - binary data
  * @return Base58/64 string
  */
-- (nullable NSString *)encode:(NSData *)data;
+- (NSString *)encode:(NSData *)data;
 
 /**
  *  Decode text string to binary data
@@ -72,9 +72,9 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MKMHex : NSObject
 
 + (void)setCoder:(id<MKMDataCoder>)coder;
-+ (id<MKMDataCoder>)getCoder;
++ (nullable id<MKMDataCoder>)getCoder;
 
-+ (nullable NSString *)encode:(NSData *)data;
++ (NSString *)encode:(NSData *)data;
 + (nullable NSData *)decode:(NSString *)string;
 
 @end
@@ -82,9 +82,9 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MKMBase58 : NSObject
 
 + (void)setCoder:(id<MKMDataCoder>)coder;
-+ (id<MKMDataCoder>)getCoder;
++ (nullable id<MKMDataCoder>)getCoder;
 
-+ (nullable NSString *)encode:(NSData *)data;
++ (NSString *)encode:(NSData *)data;
 + (nullable NSData *)decode:(NSString *)string;
 
 @end
@@ -92,9 +92,9 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MKMBase64 : NSObject
 
 + (void)setCoder:(id<MKMDataCoder>)coder;
-+ (id<MKMDataCoder>)getCoder;
++ (nullable id<MKMDataCoder>)getCoder;
 
-+ (nullable NSString *)encode:(NSData *)data;
++ (NSString *)encode:(NSData *)data;
 + (nullable NSData *)decode:(NSString *)string;
 
 @end

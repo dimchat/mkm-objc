@@ -41,12 +41,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 /*
  *  Asymmetric Cryptography Key
+ *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
  *
- *      keyInfo format: {
- *          algorithm: "RSA", // ECC, ...
- *          data     : "{BASE64_ENCODE}",
- *          ...
- *      }
+ *  keyInfo format: {
+ *      algorithm: "RSA", // ECC, ...
+ *      data     : "{BASE64_ENCODE}",
+ *      ...
+ *  }
  */
 @protocol MKMAsymmetricKey <MKMCryptographyKey>
 

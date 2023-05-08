@@ -50,6 +50,7 @@ static id<MKMDataDigester> s_md5 = nil;
 }
 
 + (NSData *)digest:(NSData *)data {
+    NSAssert(s_md5, @"MD5 digester not set");
     return [s_md5 digest:data];
 }
 
@@ -68,6 +69,7 @@ static id<MKMDataDigester> s_ripemd160 = nil;
 }
 
 + (NSData *)digest:(NSData *)data {
+    NSAssert(s_ripemd160, @"RipeMD-160 digester not set");
     return [s_ripemd160 digest:data];
 }
 
@@ -86,6 +88,7 @@ static id<MKMDataDigester> s_sha1 = nil;
 }
 
 + (NSData *)digest:(NSData *)data {
+    NSAssert(s_sha1, @"SHA-1 digester not set");
     return [s_sha1 digest:data];
 }
 
@@ -104,6 +107,7 @@ static id<MKMDataDigester> s_sha256 = nil;
 }
 
 + (NSData *)digest:(NSData *)data {
+    NSAssert(s_sha256, @"SHA-256 digester not set");
     return [s_sha256 digest:data];
 }
 
@@ -122,6 +126,7 @@ static id<MKMDataDigester> s_keccak256 = nil;
 }
 
 + (NSData *)digest:(NSData *)data {
+    NSAssert(s_keccak256, @"Keccak-256 digester not set");
     return [s_keccak256 digest:data];
 }
 

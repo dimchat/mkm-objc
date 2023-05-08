@@ -49,11 +49,13 @@ static id<MKMDataCoder> s_hex = nil;
     return s_hex;
 }
 
-+ (nullable NSString *)encode:(NSData *)data {
++ (NSString *)encode:(NSData *)data {
+    NSAssert(s_hex, @"Hex coder not set");
     return [s_hex encode:data];
 }
 
 + (nullable NSData *)decode:(NSString *)string {
+    NSAssert(s_hex, @"Hex coder not set");
     return [s_hex decode:string];
 }
 
@@ -71,11 +73,13 @@ static id<MKMDataCoder> s_base58 = nil;
     return s_base58;
 }
 
-+ (nullable NSString *)encode:(NSData *)data {
++ (NSString *)encode:(NSData *)data {
+    NSAssert(s_base58, @"Base-58 coder not set");
     return [s_base58 encode:data];
 }
 
 + (nullable NSData *)decode:(NSString *)string {
+    NSAssert(s_base58, @"Base-58 coder not set");
     return [s_base58 decode:string];
 }
 
@@ -93,11 +97,13 @@ static id<MKMDataCoder> s_base64 = nil;
     return s_base64;
 }
 
-+ (nullable NSString *)encode:(NSData *)data {
++ (NSString *)encode:(NSData *)data {
+    NSAssert(s_base64, @"Base-64 coder not set");
     return [s_base64 encode:data];
 }
 
 + (nullable NSData *)decode:(NSString *)string {
+    NSAssert(s_base64, @"Base-64 coder not set");
     return [s_base64 decode:string];
 }
 

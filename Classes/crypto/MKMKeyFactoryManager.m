@@ -64,6 +64,7 @@ static MKMKeyFactoryManager *s_manager = nil;
 
 #pragma mark -
 
+// sample data for checking keys
 static NSData *promise = nil;
 
 static inline void prepare(void) {
@@ -109,6 +110,7 @@ static inline void prepare(void) {
     //prepare();
     NSData *ciphertext = [pKey encrypt:promise];
     NSData *plaintext = [sKey decrypt:ciphertext];
+    // check result
     return [plaintext isEqualToData:promise];
 }
 

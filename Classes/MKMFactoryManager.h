@@ -53,8 +53,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setAddressFactory:(id<MKMAddressFactory>)factory;
 - (nullable id<MKMAddressFactory>)addressFactory;
 
-- (nullable id<MKMAddress>)generateAddressWithType:(MKMEntityType)network
-                                              meta:(id<MKMMeta>)meta;
+- (id<MKMAddress>)generateAddressWithType:(MKMEntityType)network
+                                     meta:(id<MKMMeta>)meta;
 - (nullable id<MKMAddress>)createAddress:(NSString *)address;
 - (nullable id<MKMAddress>)parseAddress:(id)address;
 

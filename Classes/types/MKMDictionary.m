@@ -260,16 +260,20 @@
 }
 
 - (void)setDate:(NSDate *)date forKey:(NSString *)aKey {
-    NSTimeInterval timestamp = [date timeIntervalSince1970];
-    [_storeDictionary setObject:@(timestamp) forKey:aKey];
+    if (date) {
+        NSTimeInterval timestamp = [date timeIntervalSince1970];
+        [_storeDictionary setObject:@(timestamp) forKey:aKey];
+    } else {
+        [_storeDictionary removeObjectForKey:aKey];
+    }
 }
 
 - (void)setString:(id<MKMString>)stringer forKey:(NSString *)aKey {
-    [_storeDictionary setObject:[stringer string] forKey:aKey];
+    [self setObject:[stringer string] forKey:aKey];
 }
 
 - (void)setDictionary:(id<MKMDictionary>)mapper forKey:(NSString *)aKey {
-    [_storeDictionary setObject:[mapper dictionary] forKey:aKey];
+    [self setObject:[mapper dictionary] forKey:aKey];
 }
 
 @end

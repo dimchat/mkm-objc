@@ -85,11 +85,11 @@ NS_ASSUME_NONNULL_BEGIN
 extern "C" {
 #endif
 
-id<MKMPrivateKeyFactory> MKMPrivateKeyGetFactory(NSString *algorithm);
+_Nullable id<MKMPrivateKeyFactory> MKMPrivateKeyGetFactory(NSString *algorithm);
 void MKMPrivateKeySetFactory(NSString *algorithm, id<MKMPrivateKeyFactory> factory);
 
-id<MKMPrivateKey> MKMPrivateKeyGenerate(NSString *algorithm);
-id<MKMPrivateKey> MKMPrivateKeyParse(id key);
+_Nullable id<MKMPrivateKey> MKMPrivateKeyGenerate(NSString *algorithm);
+_Nullable id<MKMPrivateKey> MKMPrivateKeyParse(id key);
 
 #ifdef __cplusplus
 } /* end of extern "C" */

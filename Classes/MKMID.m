@@ -154,9 +154,9 @@ NSArray<NSString *> *MKMIDRevert(NSArray<id<MKMID>> *members) {
                        address:(id<MKMAddress>)address
                       terminal:(nullable NSString *)location {
     if (self = [super initWithString:string]) {
-        _name = seed;
-        _address = address;
-        _terminal = location;
+        self.name = seed;
+        self.address = address;
+        self.terminal = location;
     }
     return self;
 }

@@ -39,6 +39,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/*
+ *  Data Digest
+ *  ~~~~~~~~~~~
+ *  MD5, SHA1, SHA256, Keccak256, RipeMD160, ...
+ */
 @protocol MKMDataDigester <NSObject>
 
 - (NSData *)digest:(NSData *)data;
@@ -50,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MKMMD5 : NSObject
 
 + (void)setDigester:(id<MKMDataDigester>)hasher;
-+ (id<MKMDataDigester>)getDigester;
++ (nullable id<MKMDataDigester>)getDigester;
 
 + (NSData *)digest:(NSData *)data;
 
@@ -59,7 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MKMRIPEMD160 : NSObject
 
 + (void)setDigester:(id<MKMDataDigester>)hasher;
-+ (id<MKMDataDigester>)getDigester;
++ (nullable id<MKMDataDigester>)getDigester;
 
 + (NSData *)digest:(NSData *)data;
 
@@ -68,7 +73,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MKMSHA1 : NSObject
 
 + (void)setDigester:(id<MKMDataDigester>)hasher;
-+ (id<MKMDataDigester>)getDigester;
++ (nullable id<MKMDataDigester>)getDigester;
 
 + (NSData *)digest:(NSData *)data;
 
@@ -77,7 +82,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MKMSHA256 : NSObject
 
 + (void)setDigester:(id<MKMDataDigester>)hasher;
-+ (id<MKMDataDigester>)getDigester;
++ (nullable id<MKMDataDigester>)getDigester;
 
 + (NSData *)digest:(NSData *)data;
 
@@ -86,7 +91,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MKMKECCAK256 : NSObject
 
 + (void)setDigester:(id<MKMDataDigester>)hasher;
-+ (id<MKMDataDigester>)getDigester;
++ (nullable id<MKMDataDigester>)getDigester;
 
 + (NSData *)digest:(NSData *)data;
 

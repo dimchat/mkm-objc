@@ -108,12 +108,12 @@ NS_ASSUME_NONNULL_BEGIN
 extern "C" {
 #endif
 
-id<MKMIDFactory> MKMIDGetFactory(void);
+_Nullable id<MKMIDFactory> MKMIDGetFactory(void);
 void MKMIDSetFactory(id<MKMIDFactory> factory);
 
 id<MKMID> MKMIDGenerate(id<MKMMeta> meta, MKMEntityType network, NSString * _Nullable terminal);
 id<MKMID> MKMIDCreate(NSString * _Nullable name, id<MKMAddress> address, NSString * _Nullable terminal);
-id<MKMID> MKMIDParse(id identifier);
+_Nullable id<MKMID> MKMIDParse(id identifier);
 
 // Broadcast IDs
 id<MKMID> MKMAnyone(void);

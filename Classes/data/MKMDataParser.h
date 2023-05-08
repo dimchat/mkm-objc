@@ -40,34 +40,6 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /*
- *  Object Coder
- *  ~~~~~~~~~~~~
- *  JsON, XML, ...
- *
- *  1. encode object to string;
- *  2. decode string to object.
- */
-@protocol MKMObjectCoder <NSObject>
-
-/**
- *  Encode Map/List object to String
- *
- * @param object - Map or List
- * @return serialized string
- */
-- (nullable NSString *)encode:(id)object;
-
-/**
- *  Decode String to Map/List object
- *
- * @param string - serialized string
- * @return Map or List
- */
-- (nullable id)decode:(NSString *)string;
-
-@end
-
-/*
  *  String Coder
  *  ~~~~~~~~~~~~
  *  UTF-8, UTF-16, GBK, GB2312, ...
@@ -83,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param string - local string
  * @return binary data
  */
-- (nullable NSData *)encode:(NSString *)string;
+- (NSData *)encode:(NSString *)string;
 
 /**
  *  Decode binary data to local string
@@ -95,32 +67,114 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-#pragma mark -
+/*
+ *  Object Coder
+ *  ~~~~~~~~~~~~
+ *  JsON, XML, ...
+ *
+ *  1. encode object to string;
+ *  2. decode string to object.
+ */
+@protocol MKMObjectCoder <NSObject>
 
-@interface MKMJSON : NSObject
+/**
+ *  Encode Map/List object to String
+ *
+ * @param object - Map or List
+ * @return serialized string
+ */
+- (NSString *)encode:(id)object;
 
-+ (void)setCoder:(id<MKMObjectCoder>)parser;
-+ (id<MKMObjectCoder>)getCoder;
-
-+ (nullable NSString *)encode:(id)object;
-+ (nullable id)decode:(NSString *)json;
+/**
+ *  Decode String to Map/List object
+ *
+ * @param string - serialized string
+ * @return Map or List
+ */
+- (nullable id)decode:(NSString *)string;
 
 @end
+
+/**
+ *  coder for json <=> map
+ */
+@protocol MKMMapCoder <NSObject>
+
+- (NSString *)encode:(NSDictionary *)object;
+- (nullable NSDictionary *)decode:(NSString *)string;
+
+@end
+
+/**
+ *  coder for json <=> list
+ */
+@protocol MKMListCoder <NSObject>
+
+- (NSString *)encode:(NSArray *)object;
+- (nullable NSArray *)decode:(NSString *)string;
+
+@end
+
+@interface MKMMapCoder : NSObject <MKMMapCoder>
+
+@end
+
+@interface MKMListCoder : NSObject <MKMListCoder>
+
+@end
+
+#pragma mark -
 
 @interface MKMUTF8 : NSObject
 
 + (void)setCoder:(id<MKMStringCoder>)parser;
-+ (id<MKMStringCoder>)getCoder;
++ (nullable id<MKMStringCoder>)getCoder;
 
-+ (nullable NSData *)encode:(NSString *)string;
++ (NSData *)encode:(NSString *)string;
 + (nullable NSString *)decode:(NSData *)utf8;
 
 @end
 
-#define MKMJSONEncode(object) [MKMJSON encode:(object)]
-#define MKMJSONDecode(string) [MKMJSON decode:(string)]
+@interface MKMJSON : NSObject
+
++ (void)setCoder:(id<MKMObjectCoder>)parser;
++ (nullable id<MKMObjectCoder>)getCoder;
+
++ (NSString *)encode:(id)object;
++ (nullable id)decode:(NSString *)json;
+
+@end
+
+@interface MKMJSONMap : NSObject
+
++ (void)setCoder:(id<MKMMapCoder>)parser;
++ (nullable id<MKMMapCoder>)getCoder;
+
++ (NSString *)encode:(NSDictionary *)object;
++ (nullable NSDictionary *)decode:(NSString *)json;
+
+@end
+
+@interface MKMJSONList : NSObject
+
++ (void)setCoder:(id<MKMListCoder>)parser;
++ (nullable id<MKMListCoder>)getCoder;
+
++ (NSString *)encode:(NSArray *)object;
++ (nullable NSArray *)decode:(NSString *)json;
+
+@end
 
 #define MKMUTF8Encode(string) [MKMUTF8 encode:(string)]
 #define MKMUTF8Decode(data)   [MKMUTF8 decode:(data)]
+
+#define MKMJSONEncode(object) [MKMJSON encode:(object)]
+#define MKMJSONDecode(string) [MKMJSON decode:(string)]
+
+#define MKMJSONMapEncode(object) [MKMJSONMap encode:(object)]
+#define MKMJSONDMapecode(string) [MKMJSONMap decode:(string)]
+
+#define MKMJSONListEncode(object) [MKMJSONList encode:(object)]
+#define MKMJSONListDecode(string) [MKMJSONList decode:(string)]
 
 NS_ASSUME_NONNULL_END

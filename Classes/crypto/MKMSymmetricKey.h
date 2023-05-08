@@ -41,12 +41,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 /*
  *  Symmetric Cryptography Key
+ *  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+ *  This class is used to encrypt or decrypt message data
  *
- *      keyInfo format: {
- *          algorithm: "AES", // DES, ...
- *          data     : "{BASE64_ENCODE}",
- *          ...
- *      }
+ *  keyInfo format: {
+ *      algorithm: "AES", // DES, ...
+ *      data     : "{BASE64_ENCODE}",
+ *      ...
+ *  }
  */
 @protocol MKMSymmetricKey <MKMEncryptKey, MKMDecryptKey>
 
@@ -80,11 +82,11 @@ NS_ASSUME_NONNULL_BEGIN
 extern "C" {
 #endif
 
-id<MKMSymmetricKeyFactory> MKMSymmetricKeyGetFactory(NSString *algorithm);
+_Nullable id<MKMSymmetricKeyFactory> MKMSymmetricKeyGetFactory(NSString *algorithm);
 void MKMSymmetricKeySetFactory(NSString *algorithm, id<MKMSymmetricKeyFactory> factory);
 
-id<MKMSymmetricKey> MKMSymmetricKeyGenerate(NSString *algorithm);
-id<MKMSymmetricKey> MKMSymmetricKeyParse(id key);
+_Nullable id<MKMSymmetricKey> MKMSymmetricKeyGenerate(NSString *algorithm);
+_Nullable id<MKMSymmetricKey> MKMSymmetricKeyParse(id key);
 
 #ifdef __cplusplus
 } /* end of extern "C" */

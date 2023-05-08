@@ -139,7 +139,7 @@ typedef UInt8 MKMMetaType;
  * @param network - ID.type
  * @return Address
  */
-- (nullable id<MKMAddress>)generateAddress:(MKMEntityType)network;
+- (id<MKMAddress>)generateAddress:(MKMEntityType)network;
 
 @end
 
@@ -178,12 +178,15 @@ typedef UInt8 MKMMetaType;
 extern "C" {
 #endif
 
-id<MKMMetaFactory> MKMMetaGetFactory(MKMMetaType version);
+_Nullable id<MKMMetaFactory> MKMMetaGetFactory(MKMMetaType version);
 void MKMMetaSetFactory(MKMMetaType version, id<MKMMetaFactory> factory);
 
-id<MKMMeta> MKMMetaGenerate(MKMMetaType version, id<MKMSignKey> SK, NSString * _Nullable seed);
-id<MKMMeta> MKMMetaCreate(MKMMetaType version, id<MKMVerifyKey> PK, NSString * _Nullable seed, NSData * _Nullable fingerprint);
-id<MKMMeta> MKMMetaParse(id meta);
+_Nullable id<MKMMeta> MKMMetaGenerate(MKMMetaType version, id<MKMSignKey> SK,
+                                      NSString * _Nullable seed);
+_Nullable id<MKMMeta> MKMMetaCreate(MKMMetaType version, id<MKMVerifyKey> PK,
+                                    NSString * _Nullable seed,
+                                    NSData * _Nullable fingerprint);
+_Nullable id<MKMMeta> MKMMetaParse(id meta);
 
 BOOL MKMMetaCheck(id<MKMMeta> meta);
 

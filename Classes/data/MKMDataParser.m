@@ -37,28 +37,6 @@
 
 #import "MKMDataParser.h"
 
-@implementation MKMJSON
-
-static id<MKMObjectCoder> s_json = nil;
-
-+ (void)setCoder:(id<MKMObjectCoder>)parser {
-    s_json = parser;
-}
-
-+ (id<MKMObjectCoder>)getCoder {
-    return s_json;
-}
-
-+ (nullable NSString *)encode:(id)object {
-    return [s_json encode:object];
-}
-
-+ (nullable id)decode:(NSString *)json {
-    return [s_json decode:json];
-}
-
-@end
-
 @implementation MKMUTF8
 
 static id<MKMStringCoder> s_utf8 = nil;
@@ -71,12 +49,122 @@ static id<MKMStringCoder> s_utf8 = nil;
     return s_utf8;
 }
 
-+ (nullable NSData *)encode:(id)object {
++ (NSData *)encode:(id)object {
+    NSAssert(s_utf8, @"UTF-8 coder not set");
     return [s_utf8 encode:object];
 }
 
 + (nullable id)decode:(NSData *)bytes {
+    NSAssert(s_utf8, @"UTF-8 coder not set");
     return [s_utf8 decode:bytes];
+}
+
+@end
+
+@implementation MKMJSON
+
+static id<MKMObjectCoder> s_json = nil;
+
++ (void)setCoder:(id<MKMObjectCoder>)parser {
+    s_json = parser;
+}
+
++ (id<MKMObjectCoder>)getCoder {
+    return s_json;
+}
+
++ (NSString *)encode:(id)object {
+    NSAssert(s_json, @"JsON coder not set");
+    return [s_json encode:object];
+}
+
++ (nullable id)decode:(NSString *)json {
+    NSAssert(s_json, @"JsON coder not set");
+    return [s_json decode:json];
+}
+
+@end
+
+@implementation MKMMapCoder
+
+- (NSString *)encode:(NSDictionary *)object {
+    return [MKMJSON encode:object];
+}
+
+- (nullable NSDictionary *)decode:(NSString *)string {
+    return [MKMJSON decode:string];
+}
+
+@end
+
+@implementation MKMListCoder
+
+- (NSString *)encode:(NSArray *)object {
+    return [MKMJSON encode:object];
+}
+
+- (nullable NSArray *)decode:(NSString *)string {
+    return [MKMJSON decode:string];
+}
+
+@end
+
+@implementation MKMJSONMap
+
+static id<MKMMapCoder> s_json_map = nil;
+
++ (void)setCoder:(id<MKMMapCoder>)parser {
+    s_json_map = parser;
+}
+
++ (id<MKMMapCoder>)getCoder {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        if (!s_json_map) {
+            s_json_map = [[MKMMapCoder alloc] init];
+        }
+    });
+    return s_json_map;
+}
+
++ (NSString *)encode:(NSDictionary *)object {
+    NSAssert(s_json_map, @"JSON Map coder not set");
+    return [s_json_map encode:object];
+}
+
++ (nullable NSDictionary *)decode:(NSString *)json {
+    NSAssert(s_json_map, @"JSON Map coder not set");
+    return [s_json_map decode:json];
+}
+
+@end
+
+@implementation MKMJSONList
+
+static id<MKMListCoder> s_json_list = nil;
+
++ (void)setCoder:(id<MKMListCoder>)parser {
+    s_json_list = parser;
+}
+
++ (id<MKMListCoder>)getCoder {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        if (!s_json_list) {
+            s_json_list = [[MKMListCoder alloc] init];
+        }
+    });
+    return s_json_list;
+}
+
++ (NSString *)encode:(NSArray *)object {
+    NSAssert(s_json_list, @"JSON List coder not set");
+    return [s_json_list encode:object];
+}
+
++ (nullable NSArray *)decode:(NSString *)json {
+    NSAssert(s_json_list, @"JSON List coder not set");
+    return [s_json_list decode:json];
 }
 
 @end
