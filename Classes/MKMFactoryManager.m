@@ -35,6 +35,7 @@
 //  Copyright © 2023 DIM Group. All rights reserved.
 //
 
+#import "MKMCopier.h"
 #import "MKMWrapper.h"
 #import "MKMDataParser.h"
 #import "MKMAsymmetricKey.h"
@@ -198,12 +199,9 @@ static MKMFactoryManager *s_manager = nil;
 }
 
 - (MKMMetaType)metaType:(NSDictionary<NSString *,id> *)meta {
-    NSNumber *version = [meta objectForKey:@"type"];
-    if (!version) {
-        // compatible with v1.0
-        version = [meta objectForKey:@"version"];
-    }
-    return [version unsignedCharValue];
+    id version = [meta objectForKey:@"type"];
+    NSAssert(version, @"meta type not found: %@", meta);
+    return MKMConverterGetUnsignedChar(version);
 }
 
 - (nullable id<MKMMeta>)generateMetaWithType:(MKMMetaType)version
@@ -237,8 +235,8 @@ static MKMFactoryManager *s_manager = nil;
     id<MKMMetaFactory> factory = [self metaFactoryForType:version];
     if (!factory && version != 0) {
         factory = [self metaFactoryForType:0];  // unknown
-        NSAssert(factory, @"cannot parse meta: %@", meta);
     }
+    NSAssert(factory, @"cannot parse meta: %@", meta);
     return [factory parseMeta:info];
 }
 
@@ -331,14 +329,15 @@ static MKMFactoryManager *s_manager = nil;
     }
     NSDictionary<NSString *, id> *info = MKMGetMap(doc);
     NSAssert([info isKindOfClass:[NSDictionary class]], @"doc info error: %@", doc);
-    NSString *type = [self documentType:info];
-    //NSAssert(type, @"doc type error: %@", doc);
-    
-    id<MKMDocumentFactory> factory = [self documentFactoryForType:type];
-    if (!factory && ![type isEqualToString:@"*"]) {
-        factory = [self documentFactoryForType:@"*"]; // unknown
-        NSAssert(factory, @"cannot parse doc: %@", doc);
+    NSString *docType = [self documentType:info];
+    if (!docType) {
+        docType = @"*";
     }
+    id<MKMDocumentFactory> factory = [self documentFactoryForType:docType];
+    if (!factory && ![docType isEqualToString:@"*"]) {
+        factory = [self documentFactoryForType:@"*"]; // unknown
+    }
+    NSAssert(factory, @"cannot parse doc: %@", doc);
     return [factory parseDocument:info];
 }
 

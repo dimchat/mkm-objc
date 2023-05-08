@@ -138,15 +138,16 @@ static inline void prepare(void) {
         return (id<MKMSymmetricKey>)key;
     }
     NSDictionary<NSString *, id> *info = MKMGetMap(key);
-    NSAssert([info isKindOfClass:[NSDictionary class]], @"key info error: %@", key);
+    NSAssert([info isKindOfClass:[NSDictionary class]], @"key error: %@", key);
     NSString *algorithm = [self algorithm:info];
-    NSAssert(algorithm, @"failed to get algorithm name for key: %@", key);
-
-    id<MKMSymmetricKeyFactory> factory = [self symmetricKeyFactoryForAlgorithm:algorithm];
-    if (!factory) {
-        factory = [self symmetricKeyFactoryForAlgorithm:@"*"]; // unknown
-        NSAssert(factory, @"cannot parse key: %@", key);
+    if (!algorithm) {
+        algorithm = @"*";
     }
+    id<MKMSymmetricKeyFactory> factory = [self symmetricKeyFactoryForAlgorithm:algorithm];
+    if (!factory && ![algorithm isEqualToString:@"*"]) {
+        factory = [self symmetricKeyFactoryForAlgorithm:@"*"]; // unknown
+    }
+    NSAssert(factory, @"cannot parse key: %@", key);
     return [factory parseSymmetricKey:info];
 }
 
@@ -173,15 +174,16 @@ static inline void prepare(void) {
         return (id<MKMPrivateKey>)key;
     }
     NSDictionary<NSString *, id> *info = MKMGetMap(key);
-    NSAssert([info isKindOfClass:[NSDictionary class]], @"key info error: %@", key);
+    NSAssert([info isKindOfClass:[NSDictionary class]], @"key error: %@", key);
     NSString *algorithm = [self algorithm:info];
-    NSAssert(algorithm, @"failed to get algorithm name for key: %@", key);
-    
-    id<MKMPrivateKeyFactory> factory = [self privateKeyFactoryForAlgorithm:algorithm];
-    if (!factory) {
-        factory = [self privateKeyFactoryForAlgorithm:@"*"]; // unknown
-        NSAssert(factory, @"cannot parse key: %@", key);
+    if (!algorithm) {
+        algorithm = @"*";
     }
+    id<MKMPrivateKeyFactory> factory = [self privateKeyFactoryForAlgorithm:algorithm];
+    if (!factory && ![algorithm isEqualToString:@"*"]) {
+        factory = [self privateKeyFactoryForAlgorithm:@"*"]; // unknown
+    }
+    NSAssert(factory, @"cannot parse key: %@", key);
     return [factory parsePrivateKey:info];
 }
 
@@ -202,15 +204,16 @@ static inline void prepare(void) {
         return (id<MKMPublicKey>)key;
     }
     NSDictionary<NSString *, id> *info = MKMGetMap(key);
-    NSAssert([info isKindOfClass:[NSDictionary class]], @"key info error: %@", key);
+    NSAssert([info isKindOfClass:[NSDictionary class]], @"key error: %@", key);
     NSString *algorithm = [self algorithm:info];
-    NSAssert(algorithm, @"failed to get algorithm name for key: %@", key);
-    
-    id<MKMPublicKeyFactory> factory = [self publicKeyFactoryForAlgorithm:algorithm];
-    if (!factory) {
-        factory = [self publicKeyFactoryForAlgorithm:@"*"]; // unknown
-        NSAssert(factory, @"cannot parse key: %@", key);
+    if (!algorithm) {
+        algorithm = @"*";
     }
+    id<MKMPublicKeyFactory> factory = [self publicKeyFactoryForAlgorithm:algorithm];
+    if (!factory && ![algorithm isEqualToString:@"*"]) {
+        factory = [self publicKeyFactoryForAlgorithm:@"*"]; // unknown
+    }
+    NSAssert(factory, @"cannot parse key: %@", key);
     return [factory parsePublicKey:info];
 }
 

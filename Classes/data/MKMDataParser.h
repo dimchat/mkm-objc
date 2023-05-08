@@ -172,7 +172,7 @@ NS_ASSUME_NONNULL_BEGIN
 #define MKMJSONDecode(string) [MKMJSON decode:(string)]
 
 #define MKMJSONMapEncode(object) [MKMJSONMap encode:(object)]
-#define MKMJSONDMapecode(string) [MKMJSONMap decode:(string)]
+#define MKMJSONMapDecode(string) [MKMJSONMap decode:(string)]
 
 #define MKMJSONListEncode(object) [MKMJSONList encode:(object)]
 #define MKMJSONListDecode(string) [MKMJSONList decode:(string)]

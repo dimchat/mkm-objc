@@ -86,6 +86,8 @@ typedef UInt8 MKMMetaType;
 
 /*
  *  User/Group Meta data
+ *  ~~~~~~~~~~~~~~~~~~~~
+ *  This class is used to generate entity ID
  *
  *      data format: {
  *          version    : 1,      // algorithm version
