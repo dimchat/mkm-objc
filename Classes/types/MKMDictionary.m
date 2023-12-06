@@ -169,94 +169,94 @@
 
 #pragma mark - Convenient getters
 
-- (NSString *)stringForKey:(NSString *)aKey {
+- (NSString *)stringForKey:(NSString *)aKey defaultValue:(nullable NSString *)aValue{
     id value = [self objectForKey:aKey];
-    return MKMConverterGetString(value);
+    return MKMConverterGetString(value, aValue);
 }
 
-- (BOOL)boolForKey:(NSString *)aKey {
+- (BOOL)boolForKey:(NSString *)aKey defaultValue:(BOOL)aValue {
     id value = [self objectForKey:aKey];
-    return MKMConverterGetBool(value);
+    return MKMConverterGetBool(value, aValue);
 }
 
-- (int)intForKey:(NSString *)aKey {
+- (int)intForKey:(NSString *)aKey defaultValue:(int)aValue {
     id value = [self objectForKey:aKey];
-    return MKMConverterGetInt(value);
+    return MKMConverterGetInt(value, aValue);
 }
 
-- (long)longForKey:(NSString *)aKey {
+- (long)longForKey:(NSString *)aKey defaultValue:(long)aValue {
     id value = [self objectForKey:aKey];
-    return MKMConverterGetLong(value);
+    return MKMConverterGetLong(value, aValue);
 }
 
-- (char)charForKey:(NSString *)aKey {
+- (char)charForKey:(NSString *)aKey defaultValue:(char)aValue {
     id value = [self objectForKey:aKey];
-    return MKMConverterGetChar(value);
+    return MKMConverterGetChar(value, aValue);
 }
 
-- (short)shortForKey:(NSString *)aKey {
+- (short)shortForKey:(NSString *)aKey defaultValue:(short)aValue {
     id value = [self objectForKey:aKey];
-    return MKMConverterGetShort(value);
+    return MKMConverterGetShort(value, aValue);
 }
 
-- (float)floatForKey:(NSString *)aKey {
+- (float)floatForKey:(NSString *)aKey defaultValue:(float)aValue {
     id value = [self objectForKey:aKey];
-    return MKMConverterGetFloat(value);
+    return MKMConverterGetFloat(value, aValue);
 }
 
-- (double)doubleForKey:(NSString *)aKey {
+- (double)doubleForKey:(NSString *)aKey defaultValue:(double)aValue {
     id value = [self objectForKey:aKey];
-    return MKMConverterGetDouble(value);
+    return MKMConverterGetDouble(value, aValue);
 }
 
-- (unsigned int)uintForKey:(NSString *)aKey {
+- (unsigned int)uintForKey:(NSString *)aKey defaultValue:(unsigned int)aValue {
     id value = [self objectForKey:aKey];
-    return MKMConverterGetUnsignedInt(value);
+    return MKMConverterGetUnsignedInt(value, aValue);
 }
 
-- (unsigned long)ulongForKey:(NSString *)aKey {
+- (unsigned long)ulongForKey:(NSString *)aKey defaultValue:(unsigned long)aValue {
     id value = [self objectForKey:aKey];
-    return MKMConverterGetUnsignedLong(value);
+    return MKMConverterGetUnsignedLong(value, aValue);
 }
 
-- (unsigned short)ushortForKey:(NSString *)aKey {
+- (unsigned short)ushortForKey:(NSString *)aKey defaultValue:(unsigned short)aValue {
     id value = [self objectForKey:aKey];
-    return MKMConverterGetUnsignedShort(value);
+    return MKMConverterGetUnsignedShort(value, aValue);
 }
 
-- (SInt8)int8ForKey:(NSString *)aKey {
+- (SInt8)int8ForKey:(NSString *)aKey defaultValue:(SInt8)aValue {
     id value = [self objectForKey:aKey];
-    return MKMConverterGetChar(value);
+    return MKMConverterGetChar(value, aValue);
 }
 
-- (UInt8)uint8ForKey:(NSString *)aKey {
+- (UInt8)uint8ForKey:(NSString *)aKey defaultValue:(UInt8)aValue {
     id value = [self objectForKey:aKey];
-    return MKMConverterGetUnsignedChar(value);
+    return MKMConverterGetUnsignedChar(value, aValue);
 }
 
-- (SInt16)int16ForKey:(NSString *)aKey {
+- (SInt16)int16ForKey:(NSString *)aKey defaultValue:(SInt16)aValue {
     id value = [self objectForKey:aKey];
-    return MKMConverterGetShort(value);
+    return MKMConverterGetShort(value, aValue);
 }
 
-- (UInt16)uint16ForKey:(NSString *)aKey {
+- (UInt16)uint16ForKey:(NSString *)aKey defaultValue:(UInt16)aValue {
     id value = [self objectForKey:aKey];
-    return MKMConverterGetUnsignedShort(value);
+    return MKMConverterGetUnsignedShort(value, aValue);
 }
 
-- (NSInteger)integerForKey:(NSString *)aKey {
+- (NSInteger)integerForKey:(NSString *)aKey defaultValue:(NSInteger)aValue {
     id value = [self objectForKey:aKey];
-    return MKMConverterGetInteger(value);
+    return MKMConverterGetInteger(value, aValue);
 }
 
-- (NSUInteger)unsignedIntegerForKey:(NSString *)aKey {
+- (NSUInteger)unsignedIntegerForKey:(NSString *)aKey defaultValue:(NSUInteger)aValue {
     id value = [self objectForKey:aKey];
-    return MKMConverterGetUnsignedInteger(value);
+    return MKMConverterGetUnsignedInteger(value, aValue);
 }
 
-- (NSDate *)dateForKey:(NSString *)aKey {
+- (NSDate *)dateForKey:(NSString *)aKey defaultValue:(NSDate *)aValue {
     id value = [self objectForKey:aKey];
-    return MKMConverterGetDate(value);
+    return MKMConverterGetDate(value, aValue);
 }
 
 - (void)setDate:(NSDate *)date forKey:(NSString *)aKey {

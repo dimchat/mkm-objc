@@ -74,7 +74,7 @@ extern "C" {
 _Nullable id<MKMPublicKeyFactory> MKMPublicKeyGetFactory(NSString *algorithm);
 void MKMPublicKeySetFactory(NSString *algorithm, id<MKMPublicKeyFactory> factory);
 
-_Nullable id<MKMPublicKey> MKMPublicKeyParse(id key);
+_Nullable id<MKMPublicKey> MKMPublicKeyParse(_Nullable id key);
 
 #ifdef __cplusplus
 } /* end of extern "C" */

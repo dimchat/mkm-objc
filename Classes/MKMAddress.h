@@ -175,7 +175,7 @@ void MKMAddressSetFactory(id<MKMAddressFactory> factory);
 
 id<MKMAddress> MKMAddressGenerate(MKMEntityType network, id<MKMMeta> meta);
 _Nullable id<MKMAddress> MKMAddressCreate(NSString *address);
-_Nullable id<MKMAddress> MKMAddressParse(id address);
+_Nullable id<MKMAddress> MKMAddressParse(_Nullable id address);
 
 // Broadcast Addresses
 id<MKMAddress> MKMAnywhere(void);

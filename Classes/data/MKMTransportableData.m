@@ -2,12 +2,12 @@
 //
 //  Ming-Ke-Ming : Decentralized User Identity Authentication
 //
-//                               Written in 2018 by Moky <albert.moky@gmail.com>
+//                               Written in 2023 by Moky <albert.moky@gmail.com>
 //
 // =============================================================================
 // The MIT License (MIT)
 //
-// Copyright (c) 2018 Albert Moky
+// Copyright (c) 2023 Albert Moky
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -28,57 +28,33 @@
 // SOFTWARE.
 // =============================================================================
 //
-//  MKMAsymmetricKey.h
+//  MKMTransportableData.m
 //  MingKeMing
 //
-//  Created by Albert Moky on 2018/9/25.
-//  Copyright © 2018 DIM Group. All rights reserved.
+//  Created by Albert Moky on 2023/12/6.
+//  Copyright © 2023 DIM Group. All rights reserved.
 //
 
-#import <MingKeMing/MKMCryptographyKey.h>
+#import "MKMFormatFactoryManager.h"
 
-NS_ASSUME_NONNULL_BEGIN
+#import "MKMTransportableData.h"
 
-/*
- *  Asymmetric Cryptography Key
- *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
- *
- *  keyInfo format: {
- *      algorithm: "RSA", // ECC, ...
- *      data     : "{BASE64_ENCODE}",
- *      ...
- *  }
- */
-@protocol MKMAsymmetricKey <MKMCryptographyKey>
+id<MKMTransportableDataFactory> MKMTransportableDataGetFactory(NSString *algorithm) {
+    MKMFormatFactoryManager *man = [MKMFormatFactoryManager sharedManager];
+    return [man.generalFactory transportableDataFactoryForAlgorithm:algorithm];
+}
 
-@end
+void MKMTransportableDataSetFactory(NSString *algorithm, id<MKMTransportableDataFactory> factory) {
+    MKMFormatFactoryManager *man = [MKMFormatFactoryManager sharedManager];
+    [man.generalFactory setTransportableDataFactory:factory forAlgorithm:algorithm];
+}
 
-#define MKMAlgorithmRSA @"RSA"
-#define MKMAlgorithmECC @"ECC"
+id<MKMTransportableData> MKMTransportableDataCreate(NSData *data, NSString *algorithm) {
+    MKMFormatFactoryManager *man = [MKMFormatFactoryManager sharedManager];
+    return [man.generalFactory createTransportableData:data withAlgorithm:algorithm];
+}
 
-#pragma mark -
-
-@protocol MKMSignKey <MKMAsymmetricKey>
-
-/**
- *  signature = sign(data, SK);
- */
-- (NSData *)sign:(NSData *)data;
-
-@end
-
-@protocol MKMVerifyKey <MKMAsymmetricKey>
-
-/**
- *  OK = verify(data, signature, PK)
- */
-- (BOOL)verify:(NSData *)data withSignature:(NSData *)signature;
-
-/**
- *  OK = verify(data, sign(data, SK), PK)
- */
-- (BOOL)matchSignKey:(id<MKMSignKey>)sKey;
-
-@end
-
-NS_ASSUME_NONNULL_END
+id<MKMTransportableData> MKMTransportableDataParse(id ted) {
+    MKMFormatFactoryManager *man = [MKMFormatFactoryManager sharedManager];
+    return [man.generalFactory parseTransportableData:ted];
+}

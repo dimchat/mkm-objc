@@ -60,25 +60,37 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol MKMEncryptKey <MKMCryptographyKey>
 
 /**
- *  CT = encrypt(text, PW)
- *  CT = encrypt(text, PK)
+ *  1. Symmetric Key:
+ *     ciphertext = encrypt(plaintext, PW)
+ *  2. Asymmetric Public Key:
+ *     ciphertext = encrypt(plaintext, PK)
+ *
+ * @param plaintext - plain data
+ * @param extra     - store extra variables ('IV' for 'AES')
+ * @return ciphertext
  */
-- (NSData *)encrypt:(NSData *)plaintext;
+- (NSData *)encrypt:(NSData *)plaintext params:(nullable NSMutableDictionary<NSString *, id> *)extra;
 
 @end
 
 @protocol MKMDecryptKey <MKMCryptographyKey>
 
 /**
- *  text = decrypt(CT, PW);
- *  text = decrypt(CT, SK);
+ *  1. Symmetric Key:
+ *     plaintext = decrypt(ciphertext, PW);
+ *  2. Asymmetric Private Key:
+ *     plaintext = decrypt(ciphertext, SK);
+ *
+ * @param ciphertext - encrypted data
+ * @param extra      - extra params ('IV' for 'AES')
+ * @return plaintext
  */
-- (nullable NSData *)decrypt:(NSData *)ciphertext;
+- (nullable NSData *)decrypt:(NSData *)ciphertext params:(nullable NSDictionary<NSString *, id> *)extra;
 
 /**
  *  OK = decrypt(encrypt(data, SK), PK) == data
  */
-- (BOOL)isMatch:(id<MKMEncryptKey>)pKey;
+- (BOOL)matchEncryptKey:(id<MKMEncryptKey>)pKey;
 
 @end
 

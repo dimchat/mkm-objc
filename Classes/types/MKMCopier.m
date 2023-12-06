@@ -112,9 +112,9 @@ NSMutableArray<id> *MKMDeepCopyList(NSArray<id> *list) {
 
 #pragma mark - Converter
 
-NSString *MKMConverterGetString(id value) {
-    if (!value) {
-        return nil;
+NSString *MKMConverterGetString(id value, NSString *defaultValue) {
+    if (value == nil) {
+        return defaultValue;
     } else if ([value isKindOfClass:[NSString class]]) {
         // exactly
         return value;
@@ -124,12 +124,15 @@ NSString *MKMConverterGetString(id value) {
     }
 }
 
-BOOL MKMConverterGetBool(id value) {
-    if (!value) {
-        return NO;
+BOOL MKMConverterGetBool(id value, BOOL defaultValue) {
+    if (value == nil) {
+        return defaultValue;
     } else if ([value isKindOfClass:[NSNumber class]]) {
         return value != 0;
     } else if ([value isKindOfClass:[NSString class]]) {
+        if ([value length] == 0) {
+            return NO;
+        }
         NSString *lower = [value lowercaseString];
         if ([lower isEqualToString:@"false"] ||
             [lower isEqualToString:@"no"] ||
@@ -148,57 +151,93 @@ BOOL MKMConverterGetBool(id value) {
     return [value boolValue];
 }
 
-int MKMConverterGetInt(id value) {
+int MKMConverterGetInt(id value, int defaultValue) {
+    if (value == nil) {
+        return defaultValue;
+    }
     return [value intValue];
 }
 
-long MKMConverterGetLong(id value) {
+long MKMConverterGetLong(id value, long defaultValue) {
+    if (value == nil) {
+        return defaultValue;
+    }
     return [value longValue];
 }
 
-short MKMConverterGetShort(id value) {
+short MKMConverterGetShort(id value, short defaultValue) {
+    if (value == nil) {
+        return defaultValue;
+    }
     return [value shortValue];
 }
 
-char MKMConverterGetChar(id value) {
+char MKMConverterGetChar(id value, char defaultValue) {
+    if (value == nil) {
+        return defaultValue;
+    }
     return [value charValue];
 }
 
-float MKMConverterGetFloat(id value) {
+float MKMConverterGetFloat(id value, float defaultValue) {
+    if (value == nil) {
+        return defaultValue;
+    }
     return [value floatValue];
 }
 
-double MKMConverterGetDouble(id value) {
+double MKMConverterGetDouble(id value, double defaultValue) {
+    if (value == nil) {
+        return defaultValue;
+    }
     return [value doubleValue];
 }
 
-unsigned int MKMConverterGetUnsignedInt(id value) {
+unsigned int MKMConverterGetUnsignedInt(id value, unsigned int defaultValue) {
+    if (value == nil) {
+        return defaultValue;
+    }
     return [value unsignedIntValue];
 }
 
-unsigned long MKMConverterGetUnsignedLong(id value) {
+unsigned long MKMConverterGetUnsignedLong(id value, unsigned long defaultValue) {
+    if (value == nil) {
+        return defaultValue;
+    }
     return [value unsignedLongValue];
 }
 
-unsigned short MKMConverterGetUnsignedShort(id value) {
+unsigned short MKMConverterGetUnsignedShort(id value, unsigned short defaultValue) {
+    if (value == nil) {
+        return defaultValue;
+    }
     return [value unsignedShortValue];
 }
 
-unsigned char MKMConverterGetUnsignedChar(id value) {
+unsigned char MKMConverterGetUnsignedChar(id value, unsigned char defaultValue) {
+    if (value == nil) {
+        return defaultValue;
+    }
     return [value unsignedCharValue];
 }
 
-NSInteger MKMConverterGetInteger(id value) {
+NSInteger MKMConverterGetInteger(id value, NSInteger defaultValue) {
+    if (value == nil) {
+        return defaultValue;
+    }
     return [value integerValue];
 }
 
-NSUInteger MKMConverterGetUnsignedInteger(id value) {
+NSUInteger MKMConverterGetUnsignedInteger(id value, NSUInteger defaultValue) {
+    if (value == nil) {
+        return defaultValue;
+    }
     return [value unsignedIntegerValue];
 }
 
-NSDate *MKMConverterGetDate(id value) {
-    if (!value) {
-        return nil;
+NSDate *MKMConverterGetDate(id value, NSDate *defaultValue) {
+    if (value == nil) {
+        return defaultValue;
     } else if ([value isKindOfClass:[NSDate class]]) {
         // exactly
         return value;

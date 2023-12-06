@@ -70,28 +70,28 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Convenient getters
  */
-- (NSString *)stringForKey:(NSString *)aKey;
-- (BOOL)boolForKey:(NSString *)aKey;
+- (nullable NSString *)stringForKey:(NSString *)aKey defaultValue:(nullable NSString *)aValue;
+- (BOOL)                 boolForKey:(NSString *)aKey defaultValue:(BOOL)aValue;
 
-- (int)intForKey:(NSString *)aKey;
-- (long)longForKey:(NSString *)aKey;
-- (char)charForKey:(NSString *)aKey;
-- (short)shortForKey:(NSString *)aKey;
-- (float)floatForKey:(NSString *)aKey;
-- (double)doubleForKey:(NSString *)aKey;
+- (int)                   intForKey:(NSString *)aKey defaultValue:(int)aValue;
+- (long)                 longForKey:(NSString *)aKey defaultValue:(long)aValue;
+- (char)                 charForKey:(NSString *)aKey defaultValue:(char)aValue;
+- (short)               shortForKey:(NSString *)aKey defaultValue:(short)aValue;
+- (float)               floatForKey:(NSString *)aKey defaultValue:(float)aValue;
+- (double)             doubleForKey:(NSString *)aKey defaultValue:(double)aValue;
 
-- (unsigned int)uintForKey:(NSString *)aKey;
-- (unsigned long)ulongForKey:(NSString *)aKey;
-- (unsigned short)ushortForKey:(NSString *)aKey;
+- (unsigned int)         uintForKey:(NSString *)aKey defaultValue:(unsigned int)aValue;
+- (unsigned long)       ulongForKey:(NSString *)aKey defaultValue:(unsigned long)aValue;
+- (unsigned short)     ushortForKey:(NSString *)aKey defaultValue:(unsigned short)aValue;
 
-- (SInt8)int8ForKey:(NSString *)aKey;
-- (UInt8)uint8ForKey:(NSString *)aKey;
-- (SInt16)int16ForKey:(NSString *)aKey;
-- (UInt16)uint16ForKey:(NSString *)aKey;
-- (NSInteger)integerForKey:(NSString *)aKey;
-- (NSUInteger)unsignedIntegerForKey:(NSString *)aKey;
+- (SInt8)                int8ForKey:(NSString *)aKey defaultValue:(SInt8)aValue;
+- (UInt8)               uint8ForKey:(NSString *)aKey defaultValue:(UInt8)aValue;
+- (SInt16)              int16ForKey:(NSString *)aKey defaultValue:(SInt16)aValue;
+- (UInt16)             uint16ForKey:(NSString *)aKey defaultValue:(UInt16)aValue;
+- (NSInteger)         integerForKey:(NSString *)aKey defaultValue:(NSInteger)aValue;
+- (NSUInteger)unsignedIntegerForKey:(NSString *)aKey defaultValue:(NSUInteger)aValue;
 
-- (NSDate *)dateForKey:(NSString *)aKey;
+- (nullable NSDate *)dateForKey:(NSString *)aKey defaultValue:(nullable NSDate *)aValue;
 - (void)setDate:(NSDate *)date forKey:(NSString *)aKey;
 
 - (void)setString:(id<MKMString>)stringer forKey:(NSString *)aKey;

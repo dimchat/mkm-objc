@@ -198,10 +198,11 @@ static MKMFactoryManager *s_manager = nil;
     return [_metaFactories objectForKey:@(version)];
 }
 
-- (MKMMetaType)metaType:(NSDictionary<NSString *,id> *)meta {
+- (MKMMetaType)metaType:(NSDictionary<NSString *,id> *)meta
+           defaultValue:(UInt8)aValue {
     id version = [meta objectForKey:@"type"];
     NSAssert(version, @"meta type not found: %@", meta);
-    return MKMConverterGetUnsignedChar(version);
+    return MKMConverterGetUnsignedChar(version, aValue);
 }
 
 - (nullable id<MKMMeta>)generateMetaWithType:(MKMMetaType)version
@@ -229,7 +230,7 @@ static MKMFactoryManager *s_manager = nil;
     }
     NSDictionary<NSString *, id> *info = MKMGetMap(meta);
     NSAssert([info isKindOfClass:[NSDictionary class]], @"meta info error: %@", meta);
-    MKMMetaType version = [self metaType:info];
+    MKMMetaType version = [self metaType:info defaultValue:0];
     NSAssert(version > 0, @"meta type error: %@", meta);
     
     id<MKMMetaFactory> factory = [self metaFactoryForType:version];
@@ -301,8 +302,10 @@ static MKMFactoryManager *s_manager = nil;
     return [_documentFactories objectForKey:type];
 }
 
-- (nullable NSString *)documentType:(NSDictionary<NSString *,id> *)doc {
-    return [doc objectForKey:@"type"];
+- (nullable NSString *)documentType:(NSDictionary<NSString *,id> *)doc
+                       defaultValue:(nullable NSString *)aValue {
+    NSString *type = [doc objectForKey:@"type"];
+    return MKMConverterGetString(type, aValue);
 }
 
 - (nullable id<MKMDocument>)createDocument:(id<MKMID>)identifier
@@ -329,10 +332,7 @@ static MKMFactoryManager *s_manager = nil;
     }
     NSDictionary<NSString *, id> *info = MKMGetMap(doc);
     NSAssert([info isKindOfClass:[NSDictionary class]], @"doc info error: %@", doc);
-    NSString *docType = [self documentType:info];
-    if (!docType) {
-        docType = @"*";
-    }
+    NSString *docType = [self documentType:info defaultValue:@"*"];
     id<MKMDocumentFactory> factory = [self documentFactoryForType:docType];
     if (!factory && ![docType isEqualToString:@"*"]) {
         factory = [self documentFactoryForType:@"*"]; // unknown

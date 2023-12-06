@@ -56,7 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (id<MKMAddress>)generateAddressWithType:(MKMEntityType)network
                                      meta:(id<MKMMeta>)meta;
 - (nullable id<MKMAddress>)createAddress:(NSString *)address;
-- (nullable id<MKMAddress>)parseAddress:(id)address;
+- (nullable id<MKMAddress>)parseAddress:(nullable id)address;
 
 #pragma mark ID
 
@@ -69,7 +69,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable id<MKMID>)createID:(nullable NSString *)name
                        address:(id<MKMAddress>)main
                       terminal:(nullable NSString *)loc;
-- (nullable id<MKMID>)parseID:(id)identifier;
+- (nullable id<MKMID>)parseID:(nullable id)identifier;
 
 - (NSArray<id<MKMID>> *)convertIDList:(NSArray<id> *)members;
 - (NSArray<NSString *> *)revertIDList:(NSArray<id<MKMID>> *)members;
@@ -80,7 +80,8 @@ NS_ASSUME_NONNULL_BEGIN
                forType:(MKMMetaType)version;
 - (nullable id<MKMMetaFactory>)metaFactoryForType:(MKMMetaType)version;
 
-- (MKMMetaType)metaType:(NSDictionary<NSString *, id> *)meta;
+- (MKMMetaType)metaType:(NSDictionary<NSString *, id> *)meta
+           defaultValue:(UInt8)aValue;
 
 - (nullable id<MKMMeta>)generateMetaWithType:(MKMMetaType)version
                                          key:(id<MKMSignKey>)sKey
@@ -89,7 +90,7 @@ NS_ASSUME_NONNULL_BEGIN
                                key:(id<MKMVerifyKey>)pKey
                               seed:(nullable NSString *)name
                        fingerprint:(nullable NSData *)signature;
-- (nullable id<MKMMeta>)parseMeta:(id)meta;
+- (nullable id<MKMMeta>)parseMeta:(nullable id)meta;
 
 - (BOOL)checkMeta:(id<MKMMeta>)meta;
 - (BOOL)isMeta:(id<MKMMeta>)meta matchID:(id<MKMID>)identifier;
@@ -101,7 +102,8 @@ NS_ASSUME_NONNULL_BEGIN
                    forType:(NSString *)type;
 - (nullable id<MKMDocumentFactory>)documentFactoryForType:(NSString *)type;
 
-- (nullable NSString *)documentType:(NSDictionary<NSString *, id> *)doc;
+- (nullable NSString *)documentType:(NSDictionary<NSString *, id> *)doc
+                       defaultValue:(nullable NSString *)aValue;
 
 - (nullable id<MKMDocument>)createDocument:(id<MKMID>)identifier
                                       type:(NSString *)type;
@@ -109,7 +111,7 @@ NS_ASSUME_NONNULL_BEGIN
                                       type:(NSString *)type
                                       data:(NSString *)json
                                  signature:(NSString *)base64;
-- (nullable id<MKMDocument>)parseDocument:(id)doc;
+- (nullable id<MKMDocument>)parseDocument:(nullable id)doc;
 
 @end
 

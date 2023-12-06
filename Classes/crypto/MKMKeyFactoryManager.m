@@ -35,6 +35,7 @@
 //  Copyright © 2023 DIM Group. All rights reserved.
 //
 
+#import "MKMCopier.h"
 #import "MKMWrapper.h"
 
 #import "MKMKeyFactoryManager.h"
@@ -96,20 +97,23 @@ static inline void prepare(void) {
     return self;
 }
 
-- (nullable NSString *)algorithm:(NSDictionary<NSString *,id> *)keyInfo {
-    return [keyInfo objectForKey:@"algorithm"];
+- (nullable NSString *)algorithm:(NSDictionary<NSString *,id> *)keyInfo
+                    defaultValue:(nullable NSString *)aValue {
+    id algorithm = [keyInfo objectForKey:@"algorithm"];
+    return MKMConverterGetString(algorithm, aValue);
 }
 
-- (BOOL)isSignKey:(id<MKMSignKey>)sKey matchVerifyKey:(id<MKMVerifyKey>)pKey {
+- (BOOL)signKey:(id<MKMSignKey>)sKey matchVerifyKey:(id<MKMVerifyKey>)pKey {
     //prepare();
     NSData *signature = [sKey sign:promise];
     return [pKey verify:promise withSignature:signature];
 }
 
-- (BOOL)isEncryptKey:(id<MKMEncryptKey>)pKey matchDecryptKey:(id<MKMDecryptKey>)sKey {
+- (BOOL)encryptKey:(id<MKMEncryptKey>)pKey matchDecryptKey:(id<MKMDecryptKey>)sKey {
     //prepare();
-    NSData *ciphertext = [pKey encrypt:promise];
-    NSData *plaintext = [sKey decrypt:ciphertext];
+    NSMutableDictionary *extra = [[NSMutableDictionary alloc] init];
+    NSData *ciphertext = [pKey encrypt:promise params:extra];
+    NSData *plaintext = [sKey decrypt:ciphertext params:extra];
     // check result
     return [plaintext isEqualToData:promise];
 }
@@ -139,10 +143,7 @@ static inline void prepare(void) {
     }
     NSDictionary<NSString *, id> *info = MKMGetMap(key);
     NSAssert([info isKindOfClass:[NSDictionary class]], @"key error: %@", key);
-    NSString *algorithm = [self algorithm:info];
-    if (!algorithm) {
-        algorithm = @"*";
-    }
+    NSString *algorithm = [self algorithm:info defaultValue:@"*"];
     id<MKMSymmetricKeyFactory> factory = [self symmetricKeyFactoryForAlgorithm:algorithm];
     if (!factory && ![algorithm isEqualToString:@"*"]) {
         factory = [self symmetricKeyFactoryForAlgorithm:@"*"]; // unknown
@@ -175,10 +176,7 @@ static inline void prepare(void) {
     }
     NSDictionary<NSString *, id> *info = MKMGetMap(key);
     NSAssert([info isKindOfClass:[NSDictionary class]], @"key error: %@", key);
-    NSString *algorithm = [self algorithm:info];
-    if (!algorithm) {
-        algorithm = @"*";
-    }
+    NSString *algorithm = [self algorithm:info defaultValue:@"*"];
     id<MKMPrivateKeyFactory> factory = [self privateKeyFactoryForAlgorithm:algorithm];
     if (!factory && ![algorithm isEqualToString:@"*"]) {
         factory = [self privateKeyFactoryForAlgorithm:@"*"]; // unknown
@@ -205,10 +203,7 @@ static inline void prepare(void) {
     }
     NSDictionary<NSString *, id> *info = MKMGetMap(key);
     NSAssert([info isKindOfClass:[NSDictionary class]], @"key error: %@", key);
-    NSString *algorithm = [self algorithm:info];
-    if (!algorithm) {
-        algorithm = @"*";
-    }
+    NSString *algorithm = [self algorithm:info defaultValue:@"*"];
     id<MKMPublicKeyFactory> factory = [self publicKeyFactoryForAlgorithm:algorithm];
     if (!factory && ![algorithm isEqualToString:@"*"]) {
         factory = [self publicKeyFactoryForAlgorithm:@"*"]; // unknown

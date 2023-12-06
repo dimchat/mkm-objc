@@ -75,34 +75,34 @@ NSMutableArray<id> *MKMDeepCopyList(NSArray<id> *list);
 extern "C" {
 #endif
 
-NSString *MKMConverterGetString(id value);
+NSString * _Nullable MKMConverterGetString(id value, NSString * _Nullable defaultValue);
 
 /**
  *  assume value can be a config string:
  *      'true', 'false', 'yes', 'no', 'on', 'off', '1', '0', ...
  */
-BOOL MKMConverterGetBool(id value);
+BOOL   MKMConverterGetBool(  id value,   BOOL defaultValue);
 
-int MKMConverterGetInt(id value);
-long MKMConverterGetLong(id value);
-short MKMConverterGetShort(id value);
-char MKMConverterGetChar(id value);
+int    MKMConverterGetInt(   id value,    int defaultValue);
+long   MKMConverterGetLong(  id value,   long defaultValue);
+short  MKMConverterGetShort( id value,  short defaultValue);
+char   MKMConverterGetChar(  id value,   char defaultValue);
 
-float MKMConverterGetFloat(id value);
-double MKMConverterGetDouble(id value);
+float  MKMConverterGetFloat( id value,  float defaultValue);
+double MKMConverterGetDouble(id value, double defaultValue);
 
-unsigned int MKMConverterGetUnsignedInt(id value);
-unsigned long MKMConverterGetUnsignedLong(id value);
-unsigned short MKMConverterGetUnsignedShort(id value);
-unsigned char MKMConverterGetUnsignedChar(id value);
+unsigned int   MKMConverterGetUnsignedInt(  id value,   unsigned int defaultValue);
+unsigned long  MKMConverterGetUnsignedLong( id value,  unsigned long defaultValue);
+unsigned short MKMConverterGetUnsignedShort(id value, unsigned short defaultValue);
+unsigned char  MKMConverterGetUnsignedChar( id value,  unsigned char defaultValue);
 
-NSInteger MKMConverterGetInteger(id value);
-NSUInteger MKMConverterGetUnsignedInteger(id value);
+NSInteger  MKMConverterGetInteger(          id value,      NSInteger defaultValue);
+NSUInteger MKMConverterGetUnsignedInteger(  id value,     NSUInteger defaultValue);
 
 /**
  *  assume value can be a timestamp (seconds from 1970-01-01 00:00:00)
  */
-NSDate *MKMConverterGetDate(id value);
+NSDate * _Nullable MKMConverterGetDate(id value, NSDate * _Nullable defaultValue);
 
 #ifdef __cplusplus
 } /* end of extern "C" */

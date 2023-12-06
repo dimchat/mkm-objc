@@ -50,17 +50,18 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Get key algorithm
  */
-- (nullable NSString *)algorithm:(NSDictionary<NSString *, id> *)keyInfo;
+- (nullable NSString *)algorithm:(NSDictionary<NSString *, id> *)keyInfo
+                    defaultValue:(nullable NSString *)aValue;
 
 /**
  * Try to verify with signature
  */
-- (BOOL)isSignKey:(id<MKMSignKey>)sKey matchVerifyKey:(id<MKMVerifyKey>)pKey;
+- (BOOL)signKey:(id<MKMSignKey>)sKey matchVerifyKey:(id<MKMVerifyKey>)pKey;
 
 /**
  * Try to verify with encryption
  */
-- (BOOL)isEncryptKey:(id<MKMEncryptKey>)pKey matchDecryptKey:(id<MKMDecryptKey>)sKey;
+- (BOOL)encryptKey:(id<MKMEncryptKey>)pKey matchDecryptKey:(id<MKMDecryptKey>)sKey;
 
 #pragma mark SymmetricKey
 
@@ -69,7 +70,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable id<MKMSymmetricKeyFactory>)symmetricKeyFactoryForAlgorithm:(NSString *)algorithm;
 
 - (nullable id<MKMSymmetricKey>)generateSymmetricKeyWithAlgorithm:(NSString *)algorithm;
-- (nullable id<MKMSymmetricKey>)parseSymmetricKey:(id)key;
+- (nullable id<MKMSymmetricKey>)parseSymmetricKey:(nullable id)key;
 
 #pragma mark PrivateKey
 
@@ -78,7 +79,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable id<MKMPrivateKeyFactory>)privateKeyFactoryForAlgorithm:(NSString *)algorithm;
 
 - (nullable id<MKMPrivateKey>)generatePrivateKeyWithAlgorithm:(NSString *)algorithm;
-- (nullable id<MKMPrivateKey>)parsePrivateKey:(id)key;
+- (nullable id<MKMPrivateKey>)parsePrivateKey:(nullable id)key;
 
 #pragma mark PublicKey
 
@@ -86,7 +87,7 @@ NS_ASSUME_NONNULL_BEGIN
                forAlgorithm:(NSString *)algorithm;
 - (nullable id<MKMPublicKeyFactory>)publicKeyFactoryForAlgorithm:(NSString *)algorithm;
 
-- (nullable id<MKMPublicKey>)parsePublicKey:(id)key;
+- (nullable id<MKMPublicKey>)parsePublicKey:(nullable id)key;
 
 @end
 

@@ -188,7 +188,7 @@ _Nullable id<MKMMeta> MKMMetaGenerate(MKMMetaType version, id<MKMSignKey> SK,
 _Nullable id<MKMMeta> MKMMetaCreate(MKMMetaType version, id<MKMVerifyKey> PK,
                                     NSString * _Nullable seed,
                                     NSData * _Nullable fingerprint);
-_Nullable id<MKMMeta> MKMMetaParse(id meta);
+_Nullable id<MKMMeta> MKMMetaParse(_Nullable id meta);
 
 BOOL MKMMetaCheck(id<MKMMeta> meta);
 

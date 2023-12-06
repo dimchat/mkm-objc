@@ -89,7 +89,7 @@ _Nullable id<MKMPrivateKeyFactory> MKMPrivateKeyGetFactory(NSString *algorithm);
 void MKMPrivateKeySetFactory(NSString *algorithm, id<MKMPrivateKeyFactory> factory);
 
 _Nullable id<MKMPrivateKey> MKMPrivateKeyGenerate(NSString *algorithm);
-_Nullable id<MKMPrivateKey> MKMPrivateKeyParse(id key);
+_Nullable id<MKMPrivateKey> MKMPrivateKeyParse(_Nullable id key);
 
 #ifdef __cplusplus
 } /* end of extern "C" */

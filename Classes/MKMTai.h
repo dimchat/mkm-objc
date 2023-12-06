@@ -186,7 +186,7 @@ void MKMDocumentSetFactory(NSString *type, id<MKMDocumentFactory> factory);
 _Nullable id<MKMDocument> MKMDocumentNew(NSString *type, id<MKMID> ID);
 _Nullable id<MKMDocument> MKMDocumentCreate(NSString *type, id<MKMID> ID,
                                             NSString *data, NSString *sig);
-_Nullable id<MKMDocument> MKMDocumentParse(id doc);
+_Nullable id<MKMDocument> MKMDocumentParse(_Nullable id doc);
 
 #ifdef __cplusplus
 } /* end of extern "C" */

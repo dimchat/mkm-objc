@@ -86,7 +86,7 @@ _Nullable id<MKMSymmetricKeyFactory> MKMSymmetricKeyGetFactory(NSString *algorit
 void MKMSymmetricKeySetFactory(NSString *algorithm, id<MKMSymmetricKeyFactory> factory);
 
 _Nullable id<MKMSymmetricKey> MKMSymmetricKeyGenerate(NSString *algorithm);
-_Nullable id<MKMSymmetricKey> MKMSymmetricKeyParse(id key);
+_Nullable id<MKMSymmetricKey> MKMSymmetricKeyParse(_Nullable id key);
 
 #ifdef __cplusplus
 } /* end of extern "C" */
