@@ -78,9 +78,9 @@ NS_ASSUME_NONNULL_BEGIN
  * @param location - ID.terminal
  * @return ID
  */
-- (id<MKMID>)generateIDWithMeta:(id<MKMMeta>)meta
-                           type:(MKMEntityType)network
-                       terminal:(nullable NSString *)location;
+- (id<MKMID>)generateIdentifierWithMeta:(id<MKMMeta>)meta
+                                   type:(MKMEntityType)network
+                               terminal:(nullable NSString *)location;
 
 /**
  *  Create ID
@@ -90,9 +90,9 @@ NS_ASSUME_NONNULL_BEGIN
  * @param location - ID.terminal
  * @return ID
  */
-- (id<MKMID>)createID:(nullable NSString *)name
-              address:(id<MKMAddress>)address
-             terminal:(nullable NSString *)location;
+- (id<MKMID>)createIdentifier:(nullable NSString *)name
+                      address:(id<MKMAddress>)address
+                     terminal:(nullable NSString *)location;
 
 /**
  *  Parse string object to ID
@@ -100,7 +100,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param identifier - ID string
  * @return ID
  */
-- (nullable id<MKMID>)parseID:(NSString *)identifier;
+- (nullable id<MKMID>)parseIdentifier:(NSString *)identifier;
 
 @end
 
@@ -111,8 +111,14 @@ extern "C" {
 _Nullable id<MKMIDFactory> MKMIDGetFactory(void);
 void MKMIDSetFactory(id<MKMIDFactory> factory);
 
-id<MKMID> MKMIDGenerate(id<MKMMeta> meta, MKMEntityType network, NSString * _Nullable terminal);
-id<MKMID> MKMIDCreate(NSString * _Nullable name, id<MKMAddress> address, NSString * _Nullable terminal);
+id<MKMID> MKMIDGenerate(id<MKMMeta> meta,
+                        MKMEntityType network,
+                        NSString * _Nullable terminal);
+
+id<MKMID> MKMIDCreate(NSString * _Nullable name,
+                      id<MKMAddress> address,
+                      NSString * _Nullable terminal);
+
 _Nullable id<MKMID> MKMIDParse(_Nullable id identifier);
 
 // Broadcast IDs
@@ -123,7 +129,7 @@ id<MKMID> MKMFounder(void);  // DIM Founder
 /**
  *  Convert ID list from string array
  */
-NSArray<id<MKMID>> *MKMIDConvert(NSArray<NSString *> *members);
+NSArray<id<MKMID>> *MKMIDConvert(NSArray<id> *members);
 
 /**
  *  Revert ID list to string array

@@ -43,17 +43,21 @@
 NSString *MKMGetString(id str) {
     if ([str conformsToProtocol:@protocol(MKMString)]) {
         return [str string];
+    } else if ([str isKindOfClass:[NSString class]]) {
+        return str;
     }
-    assert(!str || [str isKindOfClass:[NSString class]]);
-    return str;
+    assert(false);
+    return [str description];
 }
 
 NSDictionary<NSString *, id> *MKMGetMap(id dict) {
     if ([dict conformsToProtocol:@protocol(MKMDictionary)]) {
         return [dict dictionary];
+    } else if ([dict isKindOfClass:[NSDictionary class]]) {
+        return dict;
     }
-    assert(!dict || [dict isKindOfClass:[NSDictionary class]]);
-    return dict;
+    assert(false);
+    return nil;
 }
 
 id MKMUnwrap(id obj) {

@@ -35,6 +35,7 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
+#import "MKMTransportableData.h"
 #import "MKMFactoryManager.h"
 
 #import "MKMMeta.h"
@@ -49,34 +50,25 @@ void MKMMetaSetFactory(MKMMetaType version, id<MKMMetaFactory> factory) {
     [man.generalFactory setMetaFactory:factory forType:version];
 }
 
-id<MKMMeta> MKMMetaGenerate(MKMMetaType version, id<MKMSignKey> SK, NSString * _Nullable seed) {
+id<MKMMeta> MKMMetaGenerate(MKMMetaType version,
+                            id<MKMSignKey> SK,
+                            NSString * _Nullable seed) {
     MKMFactoryManager *man = [MKMFactoryManager sharedManager];
     return [man.generalFactory generateMetaWithType:version key:SK seed:seed];
 }
 
-id<MKMMeta> MKMMetaCreate(MKMMetaType version, id<MKMVerifyKey> PK, NSString * _Nullable seed, NSData * _Nullable fingerprint) {
+id<MKMMeta> MKMMetaCreate(MKMMetaType version,
+                          id<MKMVerifyKey> PK,
+                          NSString * _Nullable seed,
+                          _Nullable id<MKMTransportableData> fingerprint) {
     MKMFactoryManager *man = [MKMFactoryManager sharedManager];
-    return [man.generalFactory createMeta:version key:PK seed:seed fingerprint:fingerprint];
+    return [man.generalFactory createMetaWithType:version
+                                              key:PK
+                                             seed:seed
+                                      fingerprint:fingerprint];
 }
 
 id<MKMMeta> MKMMetaParse(id meta) {
     MKMFactoryManager *man = [MKMFactoryManager sharedManager];
     return [man.generalFactory parseMeta:meta];
-}
-
-#pragma mark Checking
-
-BOOL MKMMetaCheck(id<MKMMeta> meta) {
-    MKMFactoryManager *man = [MKMFactoryManager sharedManager];
-    return [man.generalFactory checkMeta:meta];
-}
-
-BOOL MKMMetaMatchID(id<MKMID> ID, id<MKMMeta> meta) {
-    MKMFactoryManager *man = [MKMFactoryManager sharedManager];
-    return [man.generalFactory isMeta:meta matchID:ID];
-}
-
-BOOL MKMMetaMatchKey(id<MKMVerifyKey> PK, id<MKMMeta> meta) {
-    MKMFactoryManager *man = [MKMFactoryManager sharedManager];
-    return [man.generalFactory isMeta:meta matchKey:PK];
 }

@@ -78,6 +78,8 @@ typedef UInt8 MKMMetaType;
 
 #define MKMMeta_HasSeed(ver)    ((ver) & MKMMetaType_MKM)
 
+@protocol MKMTransportableData;
+
 @protocol MKMVerifyKey;
 @protocol MKMSignKey;
 
@@ -90,7 +92,7 @@ typedef UInt8 MKMMetaType;
  *  This class is used to generate entity ID
  *
  *      data format: {
- *          version    : 1,      // algorithm version
+ *          type       : 1,      // algorithm version
  *          key        : {...},  // PK = secp256k1(SK);
  *          seed       : "moKy", // user/group name
  *          fingerprint: "..."   // CT = sign(seed, SK);
@@ -118,7 +120,7 @@ typedef UInt8 MKMMetaType;
  *
  *      RSA / ECC
  */
-@property (readonly, strong, nonatomic) id<MKMVerifyKey> key;
+@property (readonly, strong, nonatomic) id<MKMVerifyKey> publicKey;
 
 /**
  *  Seed to generate fingerprint
@@ -143,6 +145,33 @@ typedef UInt8 MKMMetaType;
  */
 - (id<MKMAddress>)generateAddress:(MKMEntityType)network;
 
+#pragma mark Validation
+
+/**
+ *  Check meta valid
+ *  (must call this when received a new meta from network)
+ *
+ * @return NO on fingerprint not matched
+ */
+@property (readonly, nonatomic, getter=isValid) BOOL valid;
+
+/**
+ *  Check whether meta matches with entity ID
+ *  (must call this when received a new meta from network)
+ *
+ * @param ID - entity ID
+ * @return YES on matched
+ */
+- (BOOL)matchIdentifier:(id<MKMID>)ID;
+
+/**
+ *  Check whether meta matches with public key
+ *
+ * @param PK - public key
+ * @return YES on matched
+ */
+- (BOOL)matchPublicKey:(id<MKMVerifyKey>)PK;
+
 @end
 
 @protocol MKMMetaFactory <NSObject>
@@ -150,21 +179,24 @@ typedef UInt8 MKMMetaType;
 /**
  *  Generate meta
  *
- * @param SK - private key
+ * @param SK   - private key
  * @param name - ID.name
  * @return Meta
  */
-- (id<MKMMeta>)generateMetaWithKey:(id<MKMSignKey>)SK seed:(nullable NSString *)name;
+- (id<MKMMeta>)generateMetaWithKey:(id<MKMSignKey>)SK
+                              seed:(nullable NSString *)name;
 
 /**
  *  Create meta
  *
- * @param PK - public key
- * @param name - ID.name
- * @param CT - sKey.sign(seed)
+ * @param PK        - public key
+ * @param name      - ID.name
+ * @param signature - sKey.sign(seed)
  * @return Meta
  */
-- (id<MKMMeta>)createMetaWithKey:(id<MKMVerifyKey>)PK seed:(nullable NSString *)name fingerprint:(nullable NSData *)CT;
+- (id<MKMMeta>)createMetaWithKey:(id<MKMVerifyKey>)PK
+                            seed:(nullable NSString *)name
+                     fingerprint:(nullable id<MKMTransportableData>)signature;
 
 /**
  *  Parse map object to meta
@@ -183,20 +215,14 @@ extern "C" {
 _Nullable id<MKMMetaFactory> MKMMetaGetFactory(MKMMetaType version);
 void MKMMetaSetFactory(MKMMetaType version, id<MKMMetaFactory> factory);
 
-_Nullable id<MKMMeta> MKMMetaGenerate(MKMMetaType version, id<MKMSignKey> SK,
-                                      NSString * _Nullable seed);
-_Nullable id<MKMMeta> MKMMetaCreate(MKMMetaType version, id<MKMVerifyKey> PK,
-                                    NSString * _Nullable seed,
-                                    NSData * _Nullable fingerprint);
+id<MKMMeta> MKMMetaGenerate(MKMMetaType version, id<MKMSignKey> SK,
+                            NSString * _Nullable seed);
+
+id<MKMMeta> MKMMetaCreate(MKMMetaType version, id<MKMVerifyKey> PK,
+                          NSString * _Nullable seed,
+                          _Nullable id<MKMTransportableData> fingerprint);
+
 _Nullable id<MKMMeta> MKMMetaParse(_Nullable id meta);
-
-BOOL MKMMetaCheck(id<MKMMeta> meta);
-
-// Check whether meta match the ID (must call this when received a new meta from network)
-BOOL MKMMetaMatchID(id<MKMID> ID, id<MKMMeta> meta);
-
-// Check whether meta match the public key
-BOOL MKMMetaMatchKey(id<MKMVerifyKey> PK, id<MKMMeta> meta);
 
 #ifdef __cplusplus
 } /* end of extern "C" */

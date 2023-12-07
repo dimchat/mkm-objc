@@ -49,22 +49,34 @@ void MKMIDSetFactory(id<MKMIDFactory> factory) {
     [man.generalFactory setIDFactory:factory];
 }
 
-id<MKMID> MKMIDGenerate(id<MKMMeta> meta, MKMEntityType network,  NSString * _Nullable terminal) {
+id<MKMID> MKMIDGenerate(id<MKMMeta> meta,
+                        MKMEntityType network,
+                        NSString * _Nullable terminal) {
     MKMFactoryManager *man = [MKMFactoryManager sharedManager];
-    return [man.generalFactory generateIDWithType:network meta:meta terminal:terminal];
+    return [man.generalFactory generateIdentifierWithType:network
+                                                     meta:meta
+                                                 terminal:terminal];
 }
 
-id<MKMID> MKMIDCreate(NSString * _Nullable name, id<MKMAddress> address, NSString * _Nullable terminal) {
+id<MKMID> MKMIDCreate(NSString * _Nullable name,
+                      id<MKMAddress> address,
+                      NSString * _Nullable terminal) {
     MKMFactoryManager *man = [MKMFactoryManager sharedManager];
-    return [man.generalFactory createID:name address:address terminal:terminal];
+    return [man.generalFactory createIdentifier:name
+                                        address:address
+                                       terminal:terminal];
 }
 
 id<MKMID> MKMIDParse(id identifier) {
     MKMFactoryManager *man = [MKMFactoryManager sharedManager];
-    return [man.generalFactory parseID:identifier];
+    return [man.generalFactory parseIdentifier:identifier];
 }
 
 #pragma mark Broadcast ID
+
+#define BroadcastIDCreate(S, N, A)                                             \
+                [[MKMID alloc] initWithString:S name:N address:A terminal:nil] \
+                                          /* EOF 'BroadcastIDCreate(S, N, A)' */
 
 static id<MKMID> s_founder = nil;
 
@@ -74,10 +86,8 @@ static id<MKMID> s_everyone = nil;
 id<MKMID> MKMAnyone(void) {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        s_anyone = [[MKMID alloc] initWithString:@"anyone@anywhere"
-                                            name:@"anyone"
-                                         address:MKMAnywhere()
-                                        terminal:nil];
+        s_anyone = BroadcastIDCreate(@"anyone@anywhere", @"anyone",
+                                     MKMAnywhere());
     });
     return s_anyone;
 }
@@ -85,10 +95,8 @@ id<MKMID> MKMAnyone(void) {
 id<MKMID> MKMEveryone(void) {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        s_everyone = [[MKMID alloc] initWithString:@"everyone@everywhere"
-                                              name:@"everyone"
-                                           address:MKMEverywhere()
-                                          terminal:nil];
+        s_everyone = BroadcastIDCreate(@"everyone@everywhere", @"everyone",
+                                       MKMEverywhere());
     });
     return s_everyone;
 }
@@ -96,17 +104,15 @@ id<MKMID> MKMEveryone(void) {
 id<MKMID> MKMFounder(void) {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        s_founder = [[MKMID alloc] initWithString:@"moky@anywhere"
-                                             name:@"moky"
-                                          address:MKMAnywhere()
-                                         terminal:nil];
+        s_founder = BroadcastIDCreate(@"moky@anywhere", @"moky",
+                                      MKMAnywhere());
     });
     return s_founder;
 }
 
 #pragma mark Array
 
-NSArray<id<MKMID>> *MKMIDConvert(NSArray<NSString *> *members) {
+NSArray<id<MKMID>> *MKMIDConvert(NSArray<id> *members) {
     MKMFactoryManager *man = [MKMFactoryManager sharedManager];
     return [man.generalFactory convertIDList:members];
 }

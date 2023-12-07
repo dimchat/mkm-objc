@@ -58,12 +58,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Get encode algorithm
  */
-@property (readonly, strong, nonatomic) NSString *algorithm;
+@property (readonly, strong, nonatomic, nullable) NSString *algorithm;
 
 /**
  *  Get original data
  */
-@property (readonly, strong, nonatomic) NSData *data;
+@property (readonly, strong, nonatomic, nullable) NSData *data;
 
 /**
  *  Get encoded string

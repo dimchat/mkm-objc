@@ -202,7 +202,7 @@ static MKMFormatFactoryManager *s_manager = nil;
                                                password:(id<MKMDecryptKey>)key {
     id<MKMPortableNetworkFileFactory> factory = [self portableNetworkFileFactory];
     NSAssert(factory, @"PNF factory not ready");
-    return [factory createMKMPortableNetworkFile:data filename:name url:locator password:key];
+    return [factory createPortableNetworkFile:data filename:name url:locator password:key];
 }
 
 - (id<MKMPortableNetworkFile>)parsePortableNetworkFile:(id)pnf {
@@ -219,7 +219,7 @@ static MKMFormatFactoryManager *s_manager = nil;
     }
     id<MKMPortableNetworkFileFactory> factory = [self portableNetworkFileFactory];
     NSAssert(factory, @"PNF factory not ready");
-    return [factory parseMKMPortableNetworkFile:info];
+    return [factory parsePortableNetworkFile:info];
 }
 
 @end

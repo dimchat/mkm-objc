@@ -35,12 +35,11 @@
 //  Copyright © 2023 DIM Group. All rights reserved.
 //
 
-#import <MingKeMing/MKMDictionary.h>
+#import <MingKeMing/MKMTransportableData.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol MKMDecryptKey;
-@protocol MKMTransportableData;
 
 /**
  *  Transportable File
@@ -117,10 +116,10 @@ NS_ASSUME_NONNULL_BEGIN
  * @param key      - decrypt key for downloaded data
  * @return PNF object
  */
-- (id<MKMPortableNetworkFile>)createMKMPortableNetworkFile:(nullable id<MKMTransportableData>)data
-                                                  filename:(nullable NSString *)name
-                                                       url:(nullable NSURL *)locator
-                                                  password:(nullable id<MKMDecryptKey>)key;
+- (id<MKMPortableNetworkFile>)createPortableNetworkFile:(nullable id<MKMTransportableData>)data
+                                               filename:(nullable NSString *)name
+                                                    url:(nullable NSURL *)locator
+                                               password:(nullable id<MKMDecryptKey>)key;
 
 /**
  *  Parse map object to PNF
@@ -128,7 +127,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param pnf - PNF info
  * @return PNF object
  */
-- (nullable id<MKMPortableNetworkFile>)parseMKMPortableNetworkFile:(NSDictionary *)pnf;
+- (nullable id<MKMPortableNetworkFile>)parsePortableNetworkFile:(NSDictionary *)pnf;
 
 @end
 

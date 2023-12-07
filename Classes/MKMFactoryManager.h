@@ -55,7 +55,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (id<MKMAddress>)generateAddressWithType:(MKMEntityType)network
                                      meta:(id<MKMMeta>)meta;
+
 - (nullable id<MKMAddress>)createAddress:(NSString *)address;
+
 - (nullable id<MKMAddress>)parseAddress:(nullable id)address;
 
 #pragma mark ID
@@ -63,54 +65,55 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setIDFactory:(id<MKMIDFactory>)factory;
 - (nullable id<MKMIDFactory>)idFactory;
 
-- (nullable id<MKMID>)generateIDWithType:(MKMEntityType)network
-                                    meta:(id<MKMMeta>)meta
-                                terminal:(nullable NSString *)location;
-- (nullable id<MKMID>)createID:(nullable NSString *)name
-                       address:(id<MKMAddress>)main
-                      terminal:(nullable NSString *)loc;
-- (nullable id<MKMID>)parseID:(nullable id)identifier;
+- (id<MKMID>)generateIdentifierWithType:(MKMEntityType)network
+                                   meta:(id<MKMMeta>)meta
+                               terminal:(nullable NSString *)location;
+
+- (id<MKMID>)createIdentifier:(nullable NSString *)name
+                      address:(id<MKMAddress>)main
+                     terminal:(nullable NSString *)loc;
+
+- (nullable id<MKMID>)parseIdentifier:(nullable id)identifier;
 
 - (NSArray<id<MKMID>> *)convertIDList:(NSArray<id> *)members;
 - (NSArray<NSString *> *)revertIDList:(NSArray<id<MKMID>> *)members;
 
 #pragma mark Meta
 
-- (void)setMetaFactory:(id<MKMMetaFactory>)factory
-               forType:(MKMMetaType)version;
+- (void)setMetaFactory:(id<MKMMetaFactory>)factory forType:(MKMMetaType)version;
 - (nullable id<MKMMetaFactory>)metaFactoryForType:(MKMMetaType)version;
 
 - (MKMMetaType)metaType:(NSDictionary<NSString *, id> *)meta
            defaultValue:(UInt8)aValue;
 
-- (nullable id<MKMMeta>)generateMetaWithType:(MKMMetaType)version
-                                         key:(id<MKMSignKey>)sKey
-                                       seed:(nullable NSString *)name;
-- (nullable id<MKMMeta>)createMeta:(MKMMetaType)version
-                               key:(id<MKMVerifyKey>)pKey
-                              seed:(nullable NSString *)name
-                       fingerprint:(nullable NSData *)signature;
+- (id<MKMMeta>)generateMetaWithType:(MKMMetaType)version
+                                key:(id<MKMSignKey>)sKey
+                               seed:(nullable NSString *)name;
+
+- (id<MKMMeta>)createMetaWithType:(MKMMetaType)version
+                              key:(id<MKMVerifyKey>)pKey
+                             seed:(nullable NSString *)name
+                      fingerprint:(nullable id<MKMTransportableData>)signature;
+
 - (nullable id<MKMMeta>)parseMeta:(nullable id)meta;
 
-- (BOOL)checkMeta:(id<MKMMeta>)meta;
-- (BOOL)isMeta:(id<MKMMeta>)meta matchID:(id<MKMID>)identifier;
-- (BOOL)isMeta:(id<MKMMeta>)meta matchKey:(id<MKMVerifyKey>)pKey;
+//- (BOOL)checkMeta:(id<MKMMeta>)meta;
+//- (BOOL)isMeta:(id<MKMMeta>)meta matchID:(id<MKMID>)identifier;
+//- (BOOL)isMeta:(id<MKMMeta>)meta matchKey:(id<MKMVerifyKey>)pKey;
 
 #pragma mark Document
 
-- (void)setDocumentFactory:(id<MKMDocumentFactory>)factory
-                   forType:(NSString *)type;
+- (void)setDocumentFactory:(id<MKMDocumentFactory>)factory forType:(NSString *)type;
 - (nullable id<MKMDocumentFactory>)documentFactoryForType:(NSString *)type;
 
 - (nullable NSString *)documentType:(NSDictionary<NSString *, id> *)doc
                        defaultValue:(nullable NSString *)aValue;
 
-- (nullable id<MKMDocument>)createDocument:(id<MKMID>)identifier
-                                      type:(NSString *)type;
-- (nullable id<MKMDocument>)createDocument:(id<MKMID>)identifier
-                                      type:(NSString *)type
-                                      data:(NSString *)json
-                                 signature:(NSString *)base64;
+- (id<MKMDocument>)createDocument:(id<MKMID>)identifier
+                             type:(NSString *)type
+                             data:(nullable NSString *)json
+                        signature:(nullable id<MKMTransportableData>)base64;
+
 - (nullable id<MKMDocument>)parseDocument:(nullable id)doc;
 
 @end

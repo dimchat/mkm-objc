@@ -35,6 +35,7 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
+#import "MKMTransportableData.h"
 #import "MKMFactoryManager.h"
 
 #import "MKMTai.h"
@@ -49,14 +50,15 @@ void MKMDocumentSetFactory(NSString *type, id<MKMDocumentFactory> factory) {
     [man.generalFactory setDocumentFactory:factory forType:type];
 }
 
-id<MKMDocument> MKMDocumentNew(NSString *type, id<MKMID> ID) {
+id<MKMDocument> MKMDocumentCreate(NSString *type,
+                                  id<MKMID> ID,
+                                  NSString *data,
+                                  id<MKMTransportableData> sig) {
     MKMFactoryManager *man = [MKMFactoryManager sharedManager];
-    return [man.generalFactory createDocument:ID type:type];
-}
-
-id<MKMDocument> MKMDocumentCreate(NSString *type, id<MKMID> ID, NSString *data, NSString *sig) {
-    MKMFactoryManager *man = [MKMFactoryManager sharedManager];
-    return [man.generalFactory createDocument:ID type:type data:data signature:sig];
+    return [man.generalFactory createDocument:ID
+                                         type:type
+                                         data:data
+                                    signature:sig];
 }
 
 id<MKMDocument> MKMDocumentParse(id doc) {

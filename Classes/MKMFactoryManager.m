@@ -38,6 +38,7 @@
 #import "MKMCopier.h"
 #import "MKMWrapper.h"
 #import "MKMDataParser.h"
+#import "MKMTransportableData.h"
 #import "MKMAsymmetricKey.h"
 
 #import "MKMFactoryManager.h"
@@ -135,23 +136,23 @@ static MKMFactoryManager *s_manager = nil;
     return _idFactory;
 }
 
-- (nullable id<MKMID>)generateIDWithType:(MKMEntityType)network
-                                    meta:(id<MKMMeta>)meta
-                                terminal:(nullable NSString *)location {
+- (id<MKMID>)generateIdentifierWithType:(MKMEntityType)network
+                                   meta:(id<MKMMeta>)meta
+                               terminal:(nullable NSString *)location {
     id<MKMIDFactory> factory = [self idFactory];
-    NSAssert(factory, @"id factory not set");
-    return [factory generateIDWithMeta:meta type:network terminal:location];
+    NSAssert(factory, @"ID factory not set");
+    return [factory generateIdentifierWithMeta:meta type:network terminal:location];
 }
 
-- (nullable id<MKMID>)createID:(nullable NSString *)name
-                       address:(id<MKMAddress>)main
-                      terminal:(nullable NSString *)loc {
+- (id<MKMID>)createIdentifier:(nullable NSString *)name
+                      address:(id<MKMAddress>)main
+                     terminal:(nullable NSString *)loc {
     id<MKMIDFactory> factory = [self idFactory];
-    NSAssert(factory, @"id factory not set");
-    return [factory createID:name address:main terminal:loc];
+    NSAssert(factory, @"ID factory not set");
+    return [factory createIdentifier:name address:main terminal:loc];
 }
 
-- (nullable id<MKMID>)parseID:(id)identifier {
+- (nullable id<MKMID>)parseIdentifier:(id)identifier {
     if (!identifier) {
         return nil;
     } else if ([identifier conformsToProtocol:@protocol(MKMID)]) {
@@ -160,14 +161,14 @@ static MKMFactoryManager *s_manager = nil;
     NSString *string = MKMGetString(identifier);
     NSAssert([string isKindOfClass:[NSString class]], @"id error: %@", identifier);
     id<MKMIDFactory> factory = [self idFactory];
-    NSAssert(factory, @"id factory not set");
-    return [factory parseID:string];
+    NSAssert(factory, @"ID factory not set");
+    return [factory parseIdentifier:string];
 }
 
 - (NSArray<id<MKMID>> *)convertIDList:(NSArray<id> *)members {
     NSMutableArray<id<MKMID>> *array = [[NSMutableArray alloc] initWithCapacity:members.count];
     id<MKMID> ID;
-    for (NSString *item in members) {
+    for (id item in members) {
         ID = MKMIDParse(item);
         if (ID) {
             [array addObject:ID];
@@ -205,18 +206,18 @@ static MKMFactoryManager *s_manager = nil;
     return MKMConverterGetUnsignedChar(version, aValue);
 }
 
-- (nullable id<MKMMeta>)generateMetaWithType:(MKMMetaType)version
-                                         key:(id<MKMSignKey>)sKey
-                                        seed:(nullable NSString *)name {
+- (id<MKMMeta>)generateMetaWithType:(MKMMetaType)version
+                                key:(id<MKMSignKey>)sKey
+                               seed:(nullable NSString *)name {
     id<MKMMetaFactory> factory = [self metaFactoryForType:version];
     NSAssert(factory, @"meta type not support: %d", version);
     return [factory generateMetaWithKey:sKey seed:name];
 }
 
-- (nullable id<MKMMeta>)createMeta:(MKMMetaType)version
-                               key:(id<MKMVerifyKey>)pKey
-                              seed:(nullable NSString *)name
-                       fingerprint:(nullable NSData *)signature {
+- (id<MKMMeta>)createMetaWithType:(MKMMetaType)version
+                              key:(id<MKMVerifyKey>)pKey
+                             seed:(nullable NSString *)name
+                      fingerprint:(nullable id<MKMTransportableData>)signature {
     id<MKMMetaFactory> factory = [self metaFactoryForType:version];
     NSAssert(factory, @"meta type not support: %d", version);
     return [factory createMetaWithKey:pKey seed:name fingerprint:signature];
@@ -229,67 +230,18 @@ static MKMFactoryManager *s_manager = nil;
         return (id<MKMMeta>)meta;
     }
     NSDictionary<NSString *, id> *info = MKMGetMap(meta);
-    NSAssert([info isKindOfClass:[NSDictionary class]], @"meta info error: %@", meta);
+    if (!info) {
+        NSAssert(false, @"meta error: %@", meta);
+        return nil;
+    }
     MKMMetaType version = [self metaType:info defaultValue:0];
     NSAssert(version > 0, @"meta type error: %@", meta);
-    
     id<MKMMetaFactory> factory = [self metaFactoryForType:version];
-    if (!factory && version != 0) {
+    if (!factory) {
         factory = [self metaFactoryForType:0];  // unknown
+        NSAssert(factory, @"default meta factory not found");
     }
-    NSAssert(factory, @"cannot parse meta: %@", meta);
     return [factory parseMeta:info];
-}
-
-- (BOOL)checkMeta:(id<MKMMeta>)meta {
-    id<MKMVerifyKey> key = meta.key;
-    // meta.key should not be empty
-    if (key) {
-        if (MKMMeta_HasSeed(meta.type)) {
-            // check seed with signature
-            NSString *seed = meta.seed;
-            NSData *fingerprint = meta.fingerprint;
-            // seed and fingerprint should not be empty
-            if (seed.length > 0 && fingerprint.length > 0) {
-                // verify fingerprint
-                return [key verify:MKMUTF8Encode(seed) withSignature:fingerprint];
-            }
-        } else {
-            // this meta has no seed, so no signature too
-            return YES;
-        }
-    }
-    return NO;
-}
-
-- (BOOL)isMeta:(id<MKMMeta>)meta matchID:(id<MKMID>)ID {
-    // check ID.name
-    NSString *name = ID.name;
-    if (name) {
-        if (![name isEqualToString:meta.seed]) {
-            return NO;
-        }
-    } else if (meta.seed) {
-        return NO;
-    }
-    // check ID.address
-    id<MKMAddress> old = ID.address;
-    id<MKMAddress> gen = MKMAddressGenerate(old.type, meta);
-    return [old isEqual:gen];
-}
-
-- (BOOL)isMeta:(id<MKMMeta>)meta matchKey:(id<MKMVerifyKey>)pKey {
-    if ([meta.key isEqual:pKey]) {
-        // NOTICE: ID with BTC/ETH address has no username, so
-        //         just compare the key.data to check matching
-        return YES;
-    }
-    // check with seed & fingerprint
-    if (MKMMeta_HasSeed(meta.type)) {
-        // check whether keys equal by verifying signature
-        return [pKey verify:MKMUTF8Encode(meta.seed) withSignature:meta.fingerprint];
-    }
-    return NO;
 }
 
 #pragma mark Document
@@ -308,17 +260,10 @@ static MKMFactoryManager *s_manager = nil;
     return MKMConverterGetString(type, aValue);
 }
 
-- (nullable id<MKMDocument>)createDocument:(id<MKMID>)identifier
-                                      type:(NSString *)type {
-    id<MKMDocumentFactory> factory = [self documentFactoryForType:type];
-    NSAssert(factory, @"doc type not support: %@", type);
-    return [factory createDocument:identifier];
-}
-
-- (nullable id<MKMDocument>)createDocument:(id<MKMID>)identifier
-                                      type:(NSString *)type
-                                      data:(NSString *)json
-                                 signature:(NSString *)base64 {
+- (id<MKMDocument>)createDocument:(id<MKMID>)identifier
+                             type:(NSString *)type
+                             data:(NSString *)json
+                        signature:(id<MKMTransportableData>)base64 {
     id<MKMDocumentFactory> factory = [self documentFactoryForType:type];
     NSAssert(factory, @"doc type not support: %@", type);
     return [factory createDocument:identifier data:json signature:base64];
@@ -331,13 +276,17 @@ static MKMFactoryManager *s_manager = nil;
         return (id<MKMDocument>)doc;
     }
     NSDictionary<NSString *, id> *info = MKMGetMap(doc);
-    NSAssert([info isKindOfClass:[NSDictionary class]], @"doc info error: %@", doc);
+    if (!info) {
+        NSAssert(false, @"document error: %@", doc);
+        return nil;
+    }
     NSString *docType = [self documentType:info defaultValue:@"*"];
     id<MKMDocumentFactory> factory = [self documentFactoryForType:docType];
-    if (!factory && ![docType isEqualToString:@"*"]) {
+    if (!factory) {
+        NSAssert(![docType isEqualToString:@"*"], @"document factory not ready: %@", doc);
         factory = [self documentFactoryForType:@"*"]; // unknown
+        NSAssert(factory, @"default document factory not found");
     }
-    NSAssert(factory, @"cannot parse doc: %@", doc);
     return [factory parseDocument:info];
 }
 

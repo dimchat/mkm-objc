@@ -39,6 +39,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol MKMTransportableData;
+
 @protocol MKMVerifyKey;
 @protocol MKMSignKey;
 
@@ -104,9 +106,9 @@ NS_ASSUME_NONNULL_BEGIN
 //
 //  Document types
 //
-#define MKMDocument_Visa     @"visa"      // for login/communication
-#define MKMDocument_Profile  @"profile"   // for user info
-#define MKMDocument_Bulletin @"bulletin"  // for group info
+#define MKMDocumentTypeVisa     @"visa"      // for user info (communicate key)
+#define MKMDocumentTypeProfile  @"profile"   // for user profile (reserved)
+#define MKMDocumentTypeBulletin @"bulletin"  // for group info (owner, assistants)
 
 @protocol MKMID;
 
@@ -150,21 +152,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  *  Create document with data & signature loaded from local storage
+ *  Create a new empty document with entity ID
  *
  * @param ID - entity ID
  * @param json - document data
  * @param sig - document signature
  * @return Document
  */
-- (id<MKMDocument>)createDocument:(id<MKMID>)ID data:(NSString *)json signature:(NSString *)sig;
-
-/**
- *  Create a new empty document with entity ID
- *
- * @param ID - entity ID
- * @return Document
- */
-- (id<MKMDocument>)createDocument:(id<MKMID>)ID;
+- (id<MKMDocument>)createDocument:(id<MKMID>)ID
+                             data:(nullable NSString *)json
+                        signature:(nullable id<MKMTransportableData>)sig;
 
 /**
  *  Parse map object to entity document
@@ -176,6 +173,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+#define MKMDocumentNew(type, ID)                                               \
+                MKMDocumentCreate(type, ID, nil, nil)                          \
+                                            /* EOF 'MKMDocumentNew(type, ID)' */
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -183,44 +184,15 @@ extern "C" {
 _Nullable id<MKMDocumentFactory> MKMDocumentGetFactory(NSString *type);
 void MKMDocumentSetFactory(NSString *type, id<MKMDocumentFactory> factory);
 
-_Nullable id<MKMDocument> MKMDocumentNew(NSString *type, id<MKMID> ID);
-_Nullable id<MKMDocument> MKMDocumentCreate(NSString *type, id<MKMID> ID,
-                                            NSString *data, NSString *sig);
+id<MKMDocument> MKMDocumentCreate(NSString *type,
+                                  id<MKMID> ID,
+                                  NSString * _Nullable data,
+                                  _Nullable id<MKMTransportableData> sig);
+
 _Nullable id<MKMDocument> MKMDocumentParse(_Nullable id doc);
 
 #ifdef __cplusplus
 } /* end of extern "C" */
 #endif
-
-#pragma mark -
-
-@protocol MKMEncryptKey;
-
-/**
- *  User Document
- *  ~~~~~~~~~~~~~
- *  This interface is defined for authorizing other apps to login,
- *  which can generate a temporary asymmetric key pair for messaging.
- */
-@protocol MKMVisa <MKMDocument>
-
-// public key for other user to encrypt message
-@property (strong, nonatomic, nullable) id<MKMEncryptKey> key;
-
-// avatar URL
-@property (strong, nonatomic, nullable) NSString *avatar;
-
-@end
-
-/**
- *  Group Document
- *  ~~~~~~~~~~~~~~
- */
-@protocol MKMBulletin <MKMDocument>
-
-// Bot ID list as group assistants
-@property (strong, nonatomic, nullable) NSArray<id<MKMID>> *assistants;
-
-@end
 
 NS_ASSUME_NONNULL_END

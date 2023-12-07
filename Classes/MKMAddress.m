@@ -135,7 +135,11 @@ NS_DESIGNATED_INITIALIZER;
 
 @end
 
-#define BroadcastAddressCreate(S, T) [[BroadcastAddress alloc] initWithString:(S) type:(T)]
+#pragma mark Broadcast Address
+
+#define BroadcastAddressCreate(S, T)                                           \
+                [[BroadcastAddress alloc] initWithString:(S) type:(T)]         \
+                                        /* EOF 'BroadcastAddressCreate(S, T)' */
 
 static id<MKMAddress> s_anywhere = nil;
 static id<MKMAddress> s_everywhere = nil;

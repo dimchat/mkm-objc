@@ -51,7 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (NSArray<NSString *> *)split:(NSString *)text;
 
-- (NSDictionary *)decode:(id)data defaultKey:(NSString *)aKey;
+- (nullable NSDictionary *)decode:(id)data defaultKey:(NSString *)aKey;
 
 
 #pragma mark TED - Transportable Encoded Data
