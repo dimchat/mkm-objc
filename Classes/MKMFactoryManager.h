@@ -84,7 +84,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable id<MKMMetaFactory>)metaFactoryForType:(MKMMetaType)version;
 
 - (MKMMetaType)metaType:(NSDictionary<NSString *, id> *)meta
-           defaultValue:(UInt8)aValue;
+           defaultValue:(MKMMetaType)aValue;
 
 - (id<MKMMeta>)generateMetaWithType:(MKMMetaType)version
                                 key:(id<MKMSignKey>)sKey

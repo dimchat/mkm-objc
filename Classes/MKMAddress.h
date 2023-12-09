@@ -72,7 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *      (All above are just some advices to help choosing numbers :P)
  */
-typedef NS_ENUM(UInt8, MKMEntityTypes) {
+typedef NS_ENUM(UInt8, MKMNetworkID) {
     
     /**
      *  Main: 0, 1

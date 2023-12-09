@@ -63,6 +63,8 @@ NS_ASSUME_NONNULL_BEGIN
 //- (NSEnumerator *)keyEnumerator;
 //- (NSEnumerator *)objectEnumerator;
 
+- (BOOL)isEmpty;  // count == 0
+
 - (id)objectForKey:(NSString *)aKey;
 - (void)setObject:(id)anObject forKey:(NSString *)aKey;
 - (void)removeObjectForKey:(NSString *)aKey;

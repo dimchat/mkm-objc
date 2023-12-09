@@ -119,6 +119,10 @@
     return [_storeDictionary objectEnumerator];
 }
 
+- (BOOL)isEmpty {
+    return [_storeDictionary count] == 0;
+}
+
 #pragma mark -
 
 - (NSString *)description {
@@ -269,11 +273,19 @@
 }
 
 - (void)setString:(id<MKMString>)stringer forKey:(NSString *)aKey {
-    [self setObject:[stringer string] forKey:aKey];
+    if (stringer) {
+        [self setObject:stringer.string forKey:aKey];
+    } else {
+        [self removeObjectForKey:aKey];
+    }
 }
 
 - (void)setDictionary:(id<MKMDictionary>)mapper forKey:(NSString *)aKey {
-    [self setObject:[mapper dictionary] forKey:aKey];
+    if (mapper) {
+        [self setObject:mapper.dictionary forKey:aKey];
+    } else {
+        [self removeObjectForKey:aKey];
+    }
 }
 
 @end

@@ -35,6 +35,7 @@
 //  Copyright © 2023 DIM Group. All rights reserved.
 //
 
+#import "MKMSymmetricKey.h"
 #import "MKMFormatFactoryManager.h"
 
 #import "MKMPortableNetworkFile.h"

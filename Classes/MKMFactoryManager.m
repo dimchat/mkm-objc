@@ -200,7 +200,7 @@ static MKMFactoryManager *s_manager = nil;
 }
 
 - (MKMMetaType)metaType:(NSDictionary<NSString *,id> *)meta
-           defaultValue:(UInt8)aValue {
+           defaultValue:(MKMMetaType)aValue {
     id version = [meta objectForKey:@"type"];
     NSAssert(version, @"meta type not found: %@", meta);
     return MKMConverterGetUnsignedChar(version, aValue);

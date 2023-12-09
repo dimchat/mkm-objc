@@ -102,6 +102,10 @@
     return [_storeString characterAtIndex:index];
 }
 
+- (BOOL)isEmpty {
+    return [_storeString length] == 0;
+}
+
 #pragma mark -
 
 - (NSString *)description {

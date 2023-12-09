@@ -37,6 +37,7 @@
 
 #import "MKMCopier.h"
 #import "MKMDataParser.h"
+#import "MKMSymmetricKey.h"
 
 #import "MKMFormatFactoryManager.h"
 

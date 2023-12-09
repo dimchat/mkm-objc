@@ -53,6 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly) NSUInteger length;
 //- (unichar)characterAtIndex:(NSUInteger)index;
 
+- (BOOL)isEmpty;  // length == 0
 
 /**
  *  NSStringExtensionMethods

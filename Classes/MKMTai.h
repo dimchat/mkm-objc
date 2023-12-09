@@ -106,9 +106,9 @@ NS_ASSUME_NONNULL_BEGIN
 //
 //  Document types
 //
-#define MKMDocumentTypeVisa     @"visa"      // for user info (communicate key)
-#define MKMDocumentTypeProfile  @"profile"   // for user profile (reserved)
-#define MKMDocumentTypeBulletin @"bulletin"  // for group info (owner, assistants)
+#define MKMDocumentType_Visa     @"visa"      // for user info (communicate key)
+#define MKMDocumentType_Profile  @"profile"   // for user profile (reserved)
+#define MKMDocumentType_Bulletin @"bulletin"  // for group info (owner, assistants)
 
 @protocol MKMID;
 
