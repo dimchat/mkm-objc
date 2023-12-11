@@ -84,10 +84,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-#define MKMAlgorithmTransportableDefault @"base64"
-#define MKMAlgorithmBase64               @"base64"
-#define MKMAlgorithmBase58               @"base58"
-#define MKMAlgorithmHex                  @"hex"
+#define MKMAlgorithm_TransportableDefault @"base64"
+#define MKMAlgorithm_Base64               @"base64"
+#define MKMAlgorithm_Base58               @"base58"
+#define MKMAlgorithm_Hex                  @"hex"
 
 #pragma mark - TED Factory
 

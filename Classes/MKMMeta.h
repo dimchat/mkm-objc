@@ -74,9 +74,9 @@ typedef NS_ENUM(UInt8, MKMMetaVersion) {
     MKMMetaType_ExETH   = 0x05,  // 0000 0101
 };
 typedef UInt8 MKMMetaType;
-#define MKMMetaDefaultType MKMMetaType_MKM
+#define MKMMetaType_Default MKMMetaType_MKM
 
-#define MKMMeta_HasSeed(ver)    ((ver) & MKMMetaType_MKM)
+#define MKMMetaHasSeed(ver)    ((ver) & MKMMetaType_MKM)
 
 @protocol MKMTransportableData;
 

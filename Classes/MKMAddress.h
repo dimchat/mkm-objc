@@ -115,9 +115,9 @@ typedef NS_ENUM(UInt8, MKMNetworkID) {
 };
 typedef UInt8 MKMEntityType;
 
-#define MKMEntity_IsUser(network)      (((network) & MKMEntityType_Group) == MKMEntityType_User)
-#define MKMEntity_IsGroup(network)     (((network) & MKMEntityType_Group) == MKMEntityType_Group)
-#define MKMEntity_IsBroadcast(network) (((network) & MKMEntityType_Any) == MKMEntityType_Any)
+#define MKMEntityTypeIsUser(network)      (((network) & MKMEntityType_Group) == MKMEntityType_User)
+#define MKMEntityTypeIsGroup(network)     (((network) & MKMEntityType_Group) == MKMEntityType_Group)
+#define MKMEntityTypeIsBroadcast(network) (((network) & MKMEntityType_Any) == MKMEntityType_Any)
 
 #pragma mark -
 

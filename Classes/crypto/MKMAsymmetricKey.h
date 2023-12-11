@@ -53,8 +53,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-#define MKMAlgorithmRSA @"RSA"
-#define MKMAlgorithmECC @"ECC"
+#define MKMAlgorithm_RSA @"RSA"
+#define MKMAlgorithm_ECC @"ECC"
 
 #pragma mark -
 

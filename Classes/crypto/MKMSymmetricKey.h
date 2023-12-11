@@ -54,8 +54,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-#define MKMAlgorithmAES @"AES"
-#define MKMAlgorithmDES @"DES"
+#define MKMAlgorithm_AES @"AES"
+#define MKMAlgorithm_DES @"DES"
 
 #pragma mark - Key Factory
 

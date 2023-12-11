@@ -76,7 +76,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Download URL
  */
-@property (strong, nonatomic, nullable) NSURL *url;
+@property (strong, nonatomic, nullable) NSURL *URL;
 
 /**
  *  Password for decrypting the downloaded data from CDN,

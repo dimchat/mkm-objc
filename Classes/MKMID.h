@@ -140,10 +140,6 @@ NSArray<NSString *> *MKMIDRevert(NSArray<id<MKMID>> *members);
 } /* end of extern "C" */
 #endif
 
-#define MKMIDIsUser(ID)      [(ID) isUser]
-#define MKMIDIsGroup(ID)     [(ID) isGroup]
-#define MKMIDIsBroadcast(ID) [(ID) isBroadcast]
-
 #pragma mark - Base Class
 
 @interface MKMID : MKMString <MKMID>
