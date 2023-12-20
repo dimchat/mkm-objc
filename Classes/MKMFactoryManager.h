@@ -69,9 +69,9 @@ NS_ASSUME_NONNULL_BEGIN
                                    meta:(id<MKMMeta>)meta
                                terminal:(nullable NSString *)location;
 
-- (id<MKMID>)createIdentifier:(nullable NSString *)name
-                      address:(id<MKMAddress>)main
-                     terminal:(nullable NSString *)loc;
+- (id<MKMID>)createIdentifierWithName:(nullable NSString *)name
+                              address:(id<MKMAddress>)main
+                             terminal:(nullable NSString *)loc;
 
 - (nullable id<MKMID>)parseIdentifier:(nullable id)identifier;
 
@@ -97,10 +97,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable id<MKMMeta>)parseMeta:(nullable id)meta;
 
-//- (BOOL)checkMeta:(id<MKMMeta>)meta;
-//- (BOOL)isMeta:(id<MKMMeta>)meta matchID:(id<MKMID>)identifier;
-//- (BOOL)isMeta:(id<MKMMeta>)meta matchKey:(id<MKMVerifyKey>)pKey;
-
 #pragma mark Document
 
 - (void)setDocumentFactory:(id<MKMDocumentFactory>)factory forType:(NSString *)type;
@@ -112,7 +108,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (id<MKMDocument>)createDocument:(id<MKMID>)identifier
                              type:(NSString *)type
                              data:(nullable NSString *)json
-                        signature:(nullable id<MKMTransportableData>)base64;
+                        signature:(nullable id<MKMTransportableData>)ted;
 
 - (nullable id<MKMDocument>)parseDocument:(nullable id)doc;
 

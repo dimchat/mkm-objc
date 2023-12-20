@@ -139,7 +139,7 @@ static inline void prepare(void) {
     if (!key) {
         return nil;
     } else if ([key conformsToProtocol:@protocol(MKMSymmetricKey)]) {
-        return (id<MKMSymmetricKey>)key;
+        return key;
     }
     NSDictionary<NSString *, id> *info = MKMGetMap(key);
     NSAssert([info isKindOfClass:[NSDictionary class]], @"key error: %@", key);
@@ -172,7 +172,7 @@ static inline void prepare(void) {
     if (!key) {
         return nil;
     } else if ([key conformsToProtocol:@protocol(MKMPrivateKey)]) {
-        return (id<MKMPrivateKey>)key;
+        return key;
     }
     NSDictionary<NSString *, id> *info = MKMGetMap(key);
     NSAssert([info isKindOfClass:[NSDictionary class]], @"key error: %@", key);
@@ -199,7 +199,7 @@ static inline void prepare(void) {
     if (!key) {
         return nil;
     } else if ([key conformsToProtocol:@protocol(MKMPublicKey)]) {
-        return (id<MKMPublicKey>)key;
+        return key;
     }
     NSDictionary<NSString *, id> *info = MKMGetMap(key);
     NSAssert([info isKindOfClass:[NSDictionary class]], @"key error: %@", key);

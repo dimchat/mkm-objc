@@ -128,13 +128,15 @@ static id<MKMMapCoder> s_json_map = nil;
 }
 
 + (NSString *)encode:(NSDictionary *)object {
-    NSAssert(s_json_map, @"JSON Map coder not set");
-    return [s_json_map encode:object];
+    id<MKMMapCoder> coder = [self getCoder];
+    NSAssert(coder, @"JSON Map coder not set");
+    return [coder encode:object];
 }
 
 + (nullable NSDictionary *)decode:(NSString *)json {
-    NSAssert(s_json_map, @"JSON Map coder not set");
-    return [s_json_map decode:json];
+    id<MKMMapCoder> coder = [self getCoder];
+    NSAssert(coder, @"JSON Map coder not set");
+    return [coder decode:json];
 }
 
 @end

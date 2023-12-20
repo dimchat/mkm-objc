@@ -78,12 +78,12 @@
     return string;
 }
 
-- (NSString *)string {
+- (NSString *)description {
     return _storeString;
 }
 
-- (NSUInteger)hash {
-    return [_storeString hash];
+- (NSString *)debugDescription {
+    return [NSString stringWithFormat:@"<%@: \"%@\">", [self class], _storeString];
 }
 
 - (BOOL)isEqual:(id)object {
@@ -92,6 +92,16 @@
     }
     object = MKMGetString(object);
     return [_storeString isEqualToString:object];
+}
+
+- (NSUInteger)hash {
+    return [_storeString hash];
+}
+
+#pragma mark -
+
+- (NSString *)string {
+    return _storeString;
 }
 
 - (NSUInteger)length {
@@ -104,16 +114,6 @@
 
 - (BOOL)isEmpty {
     return [_storeString length] == 0;
-}
-
-#pragma mark -
-
-- (NSString *)description {
-    return _storeString;
-}
-
-- (NSString *)debugDescription {
-    return [NSString stringWithFormat:@"<%@: \"%@\">", [self class], _storeString];
 }
 
 #pragma mark - NSStringExtensionMethods

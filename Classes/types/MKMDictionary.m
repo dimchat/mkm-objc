@@ -97,34 +97,6 @@
     return dict;
 }
 
-- (BOOL)isEqual:(id)object {
-    if (self == object) {
-        return YES;
-    }
-    if ([object conformsToProtocol:@protocol(MKMDictionary)]) {
-        object = [object dictionary];
-    }
-    return [_storeDictionary isEqualToDictionary:object];
-}
-
-- (NSUInteger)count {
-    return [_storeDictionary count];
-}
-
-- (NSEnumerator *)keyEnumerator {
-    return [_storeDictionary keyEnumerator];
-}
-
-- (NSEnumerator *)objectEnumerator {
-    return [_storeDictionary objectEnumerator];
-}
-
-- (BOOL)isEmpty {
-    return [_storeDictionary count] == 0;
-}
-
-#pragma mark -
-
 - (NSString *)description {
     return [_storeDictionary description];
 }
@@ -137,7 +109,37 @@
     ];
 }
 
+- (BOOL)isEqual:(id)object {
+    if (self == object) {
+        return YES;
+    }
+    if ([object conformsToProtocol:@protocol(MKMDictionary)]) {
+        object = [object dictionary];
+    }
+    return [_storeDictionary isEqualToDictionary:object];
+}
+
+- (NSUInteger)hash {
+    return [_storeDictionary hash];
+}
+
 #pragma mark -
+
+- (NSEnumerator *)keyEnumerator {
+    return [_storeDictionary keyEnumerator];
+}
+
+- (NSEnumerator *)objectEnumerator {
+    return [_storeDictionary objectEnumerator];
+}
+
+- (NSUInteger)count {
+    return [_storeDictionary count];
+}
+
+- (BOOL)isEmpty {
+    return [_storeDictionary count] == 0;
+}
 
 - (NSMutableDictionary *)dictionary {
     return _storeDictionary;

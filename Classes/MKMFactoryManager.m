@@ -117,7 +117,7 @@ static MKMFactoryManager *s_manager = nil;
     if (!address) {
         return nil;
     } else if ([address conformsToProtocol:@protocol(MKMAddress)]) {
-        return (id<MKMAddress>)address;
+        return address;
     }
     NSString *string = MKMGetString(address);
     NSAssert([string isKindOfClass:[NSString class]], @"address error: %@", address);
@@ -144,19 +144,19 @@ static MKMFactoryManager *s_manager = nil;
     return [factory generateIdentifierWithMeta:meta type:network terminal:location];
 }
 
-- (id<MKMID>)createIdentifier:(nullable NSString *)name
-                      address:(id<MKMAddress>)main
-                     terminal:(nullable NSString *)loc {
+- (id<MKMID>)createIdentifierWithName:(nullable NSString *)name
+                              address:(id<MKMAddress>)main
+                             terminal:(nullable NSString *)loc {
     id<MKMIDFactory> factory = [self idFactory];
     NSAssert(factory, @"ID factory not set");
-    return [factory createIdentifier:name address:main terminal:loc];
+    return [factory createIdentifierWithName:name address:main terminal:loc];
 }
 
 - (nullable id<MKMID>)parseIdentifier:(id)identifier {
     if (!identifier) {
         return nil;
     } else if ([identifier conformsToProtocol:@protocol(MKMID)]) {
-        return (id<MKMID>)identifier;
+        return identifier;
     }
     NSString *string = MKMGetString(identifier);
     NSAssert([string isKindOfClass:[NSString class]], @"id error: %@", identifier);
@@ -167,25 +167,23 @@ static MKMFactoryManager *s_manager = nil;
 
 - (NSArray<id<MKMID>> *)convertIDList:(NSArray<id> *)members {
     NSMutableArray<id<MKMID>> *array = [[NSMutableArray alloc] initWithCapacity:members.count];
-    id<MKMID> ID;
-    for (id item in members) {
-        ID = MKMIDParse(item);
+    [members enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        id<MKMID> ID = MKMIDParse(obj);
         if (ID) {
             [array addObject:ID];
         }
-    }
+    }];
     return array;
 }
 
 - (NSArray<NSString *> *)revertIDList:(NSArray<id<MKMID>> *)members {
     NSMutableArray<NSString *> *array = [[NSMutableArray alloc] initWithCapacity:members.count];
-    NSString *str;
-    for (id<MKMID> item in members) {
-        str = [item string];
+    [members enumerateObjectsUsingBlock:^(id<MKMID> obj, NSUInteger idx, BOOL *stop) {
+        NSString *str = [obj string];
         if (str) {
             [array addObject:str];
         }
-    }
+    }];
     return array;
 }
 
@@ -227,7 +225,7 @@ static MKMFactoryManager *s_manager = nil;
     if (!meta) {
         return nil;
     } else if ([meta conformsToProtocol:@protocol(MKMMeta)]) {
-        return (id<MKMMeta>)meta;
+        return meta;
     }
     NSDictionary<NSString *, id> *info = MKMGetMap(meta);
     if (!info) {
@@ -273,7 +271,7 @@ static MKMFactoryManager *s_manager = nil;
     if (!doc) {
         return nil;
     } else if ([doc conformsToProtocol:@protocol(MKMDocument)]) {
-        return (id<MKMDocument>)doc;
+        return doc;
     }
     NSDictionary<NSString *, id> *info = MKMGetMap(doc);
     if (!info) {

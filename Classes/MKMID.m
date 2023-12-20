@@ -62,9 +62,9 @@ id<MKMID> MKMIDCreate(NSString * _Nullable name,
                       id<MKMAddress> address,
                       NSString * _Nullable terminal) {
     MKMFactoryManager *man = [MKMFactoryManager sharedManager];
-    return [man.generalFactory createIdentifier:name
-                                        address:address
-                                       terminal:terminal];
+    return [man.generalFactory createIdentifierWithName:name
+                                                address:address
+                                               terminal:terminal];
 }
 
 id<MKMID> MKMIDParse(id identifier) {

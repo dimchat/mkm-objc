@@ -52,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol MKMID <MKMString>
 
 @property (readonly, strong, nonatomic, nullable) NSString *name;
-@property (readonly, strong, nonatomic) id<MKMAddress> address;
+@property (readonly, strong, nonatomic) __kindof id<MKMAddress> address;
 @property (readonly, strong, nonatomic, nullable) NSString *terminal;
 
 @property (readonly, nonatomic) MKMEntityType type; // Network ID
@@ -90,9 +90,9 @@ NS_ASSUME_NONNULL_BEGIN
  * @param location - ID.terminal
  * @return ID
  */
-- (id<MKMID>)createIdentifier:(nullable NSString *)name
-                      address:(id<MKMAddress>)address
-                     terminal:(nullable NSString *)location;
+- (id<MKMID>)createIdentifierWithName:(nullable NSString *)name
+                              address:(id<MKMAddress>)address
+                             terminal:(nullable NSString *)location;
 
 /**
  *  Parse string object to ID

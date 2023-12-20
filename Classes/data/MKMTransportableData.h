@@ -130,7 +130,8 @@ void MKMTransportableDataSetFactory(NSString *algorithm, id<MKMTransportableData
 
 _Nullable id<MKMTransportableData> MKMTransportableDataParse(_Nullable id ted);
 
-id<MKMTransportableData> MKMTransportableDataCreate(NSData *data, NSString * _Nullable algorithm);
+id<MKMTransportableData> MKMTransportableDataCreate(NSData *data,
+                                                    NSString * _Nullable algorithm);
 
 #ifdef __cplusplus
 } /* end of extern "C" */

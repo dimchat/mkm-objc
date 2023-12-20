@@ -49,7 +49,11 @@ void MKMTransportableDataSetFactory(NSString *algorithm, id<MKMTransportableData
     [man.generalFactory setTransportableDataFactory:factory forAlgorithm:algorithm];
 }
 
-id<MKMTransportableData> MKMTransportableDataCreate(NSData *data, NSString *algorithm) {
+id<MKMTransportableData> MKMTransportableDataCreate(NSData *data,
+                                                    NSString * _Nullable algorithm) {
+    if ([algorithm length] == 0) {
+        algorithm = MKMAlgorithm_TransportableDefault;
+    }
     MKMFormatFactoryManager *man = [MKMFormatFactoryManager sharedManager];
     return [man.generalFactory createTransportableData:data withAlgorithm:algorithm];
 }

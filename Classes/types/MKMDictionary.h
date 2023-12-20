@@ -59,9 +59,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSMutableDictionary<NSString *, id> *)dictionary:(BOOL)deepCopy;
 
 //- (BOOL)isEqual:(id)object;
-//- (NSUInteger)count;
-//- (NSEnumerator *)keyEnumerator;
-//- (NSEnumerator *)objectEnumerator;
+//@property (readonly) NSUInteger hash;
+
+- (NSEnumerator *)keyEnumerator;
+- (NSEnumerator *)objectEnumerator;
+- (NSUInteger)count;
 
 - (BOOL)isEmpty;  // count == 0
 

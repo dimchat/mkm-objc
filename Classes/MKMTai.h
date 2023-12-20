@@ -154,9 +154,9 @@ NS_ASSUME_NONNULL_BEGIN
  *  Create document with data & signature loaded from local storage
  *  Create a new empty document with entity ID
  *
- * @param ID - entity ID
+ * @param ID   - entity ID
  * @param json - document data
- * @param sig - document signature
+ * @param sig  - document signature
  * @return Document
  */
 - (id<MKMDocument>)createDocument:(id<MKMID>)ID
@@ -187,7 +187,7 @@ void MKMDocumentSetFactory(NSString *type, id<MKMDocumentFactory> factory);
 id<MKMDocument> MKMDocumentCreate(NSString *type,
                                   id<MKMID> ID,
                                   NSString * _Nullable data,
-                                  _Nullable id<MKMTransportableData> sig);
+                                  _Nullable id<MKMTransportableData> signature);
 
 _Nullable id<MKMDocument> MKMDocumentParse(_Nullable id doc);
 

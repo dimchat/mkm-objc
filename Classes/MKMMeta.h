@@ -120,7 +120,7 @@ typedef UInt8 MKMMetaType;
  *
  *      RSA / ECC
  */
-@property (readonly, strong, nonatomic) id<MKMVerifyKey> publicKey;
+@property (readonly, strong, nonatomic) __kindof id<MKMVerifyKey> publicKey;
 
 /**
  *  Seed to generate fingerprint
