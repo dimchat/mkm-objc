@@ -163,15 +163,6 @@ static id<MKConverter> s_converter;
 
 #pragma mark - Data Converter
 
-static inline NSString *get_str(id value) {
-    if ([value isKindOfClass:[NSString class]]) {
-        // exactly
-        return value;
-    }
-    // convert to NSString
-    return [NSString stringWithFormat:@"%@", value];
-}
-
 static inline NSNumber *str_to_num(NSString *text) {
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
     formatter.numberStyle = NSNumberFormatterDecimalStyle;
@@ -183,29 +174,41 @@ static inline NSString *trim(NSString *text) {
     return [text stringByTrimmingCharactersInSet:whitespace];
 }
 
+static inline NSString *get_str(id value) {
+    if ([value isKindOfClass:[NSString class]]) {
+        // exactly
+        return value;
+    }
+    // convert to NSString
+    return [NSString stringWithFormat:@"%@", value];
+}
+
+static inline NSNumber *get_num(id value) {
+    if ([value isKindOfClass:[NSNumber class]]) {
+        // exactly
+        return value;
+    }
+    // convert to NSNumber
+    NSString *text = get_str(value);
+    return str_to_num(text);
+}
+
 @implementation MKDataConverter
 
 - (nullable NSString *)getString:(id)value defaultValue:(nullable NSString *)defaultValue {
     if (value == nil) {
         return defaultValue;
-    } else if ([value isKindOfClass:[NSString class]]) {
-        // exactly
-        return value;
     } else {
-        NSAssert(NO, @"not a string value: '%@'", value);
-        return [NSString stringWithFormat:@"%@", value];
+        return get_str(value);
     }
 }
 
 - (nullable NSNumber *)getNumber:(id)value defaultValue:(nullable NSNumber *)defaultValue {
     if (value == nil) {
         return defaultValue;
-    } else if ([value isKindOfClass:[NSNumber class]]) {
-        // exactly
-        return value;
+    } else {
+        return get_num(value);
     }
-    NSString *text = get_str(value);
-    return str_to_num(text);
 }
 
 - (BOOL)getBool:(id)value defaultValue:(BOOL)defaultValue {
@@ -229,151 +232,103 @@ static inline NSString *trim(NSString *text) {
     id booleanStates = [MKConverter getBooleanStates];
     NSNumber *state = [booleanStates objectForKey:text];
     NSAssert(state != nil, @"bool value error: '%@'", value);
-    return state != 0;
+    return [state boolValue];
 }
 
 - (int)getInt:(id)value defaultValue:(int)defaultValue {
     if (value == nil) {
         return defaultValue;
-    } else if ([value isKindOfClass:[NSNumber class]]) {
-        // exactly
-    } else {
-        NSString *text = get_str(value);
-        value = str_to_num(text);
     }
-    return [value intValue];
+    NSNumber *num = get_num(value);
+    return [num intValue];
 }
 
 - (long)getLong:(id)value defaultValue:(long)defaultValue {
     if (value == nil) {
         return defaultValue;
-    } else if ([value isKindOfClass:[NSNumber class]]) {
-        // exactly
-    } else {
-        NSString *text = get_str(value);
-        value = str_to_num(text);
     }
-    return [value longValue];
+    NSNumber *num = get_num(value);
+    return [num longValue];
 }
 
 - (short)getShort:(id)value defaultValue:(short)defaultValue {
     if (value == nil) {
         return defaultValue;
-    } else if ([value isKindOfClass:[NSNumber class]]) {
-        // exactly
-    } else {
-        NSString *text = get_str(value);
-        value = str_to_num(text);
     }
-    return [value shortValue];
+    NSNumber *num = get_num(value);
+    return [num shortValue];
 }
 
 - (char)getChar:(id)value defaultValue:(char)defaultValue {
     if (value == nil) {
         return defaultValue;
-    } else if ([value isKindOfClass:[NSNumber class]]) {
-        // exactly
-    } else {
-        NSString *text = get_str(value);
-        value = str_to_num(text);
     }
-    return [value charValue];
+    NSNumber *num = get_num(value);
+    return [num charValue];
 }
 
 - (float)getFloat:(id)value defaultValue:(float)defaultValue {
     if (value == nil) {
         return defaultValue;
-    } else if ([value isKindOfClass:[NSNumber class]]) {
-        // exactly
-    } else {
-        NSString *text = get_str(value);
-        value = str_to_num(text);
     }
-    return [value floatValue];
+    NSNumber *num = get_num(value);
+    return [num floatValue];
 }
 
 - (double)getDouble:(id)value defaultValue:(double)defaultValue {
     if (value == nil) {
         return defaultValue;
-    } else if ([value isKindOfClass:[NSNumber class]]) {
-        // exactly
-    } else {
-        NSString *text = get_str(value);
-        value = str_to_num(text);
     }
-    return [value doubleValue];
+    NSNumber *num = get_num(value);
+    return [num doubleValue];
 }
 
 - (unsigned int)getUnsignedInt:(id)value defaultValue:(unsigned int)defaultValue {
     if (value == nil) {
         return defaultValue;
-    } else if ([value isKindOfClass:[NSNumber class]]) {
-        // exactly
-    } else {
-        NSString *text = get_str(value);
-        value = str_to_num(text);
     }
-    return [value unsignedIntValue];
+    NSNumber *num = get_num(value);
+    return [num unsignedIntValue];
 }
 
 - (unsigned long)getUnsignedLong:(id)value defaultValue:(unsigned long)defaultValue {
     if (value == nil) {
         return defaultValue;
-    } else if ([value isKindOfClass:[NSNumber class]]) {
-        // exactly
-    } else {
-        NSString *text = get_str(value);
-        value = str_to_num(text);
     }
-    return [value unsignedLongValue];
+    NSNumber *num = get_num(value);
+    return [num unsignedLongValue];
 }
 
 - (unsigned short)getUnsignedShort:(id)value defaultValue:(unsigned short)defaultValue {
     if (value == nil) {
         return defaultValue;
-    } else if ([value isKindOfClass:[NSNumber class]]) {
-        // exactly
-    } else {
-        NSString *text = get_str(value);
-        value = str_to_num(text);
     }
-    return [value unsignedShortValue];
+    NSNumber *num = get_num(value);
+    return [num unsignedShortValue];
 }
 
 - (unsigned char)getUnsignedChar:(id)value defaultValue:(unsigned char)defaultValue {
     if (value == nil) {
         return defaultValue;
-    } else if ([value isKindOfClass:[NSNumber class]]) {
-        // exactly
-    } else {
-        NSString *text = get_str(value);
-        value = str_to_num(text);
     }
-    return [value unsignedCharValue];
+    NSNumber *num = get_num(value);
+    return [num unsignedCharValue];
 }
 
 - (NSInteger)getInteger:(id)value defaultValue:(NSInteger)defaultValue {
     if (value == nil) {
         return defaultValue;
-    } else if ([value isKindOfClass:[NSNumber class]]) {
-        // exactly
-    } else {
-        NSString *text = get_str(value);
-        value = str_to_num(text);
     }
-    return [value integerValue];
+    NSNumber *num = get_num(value);
+    return [num integerValue];
 }
 
 - (NSUInteger)getUnsignedInteger:(id)value defaultValue:(NSUInteger)defaultValue {
     if (value == nil) {
         return defaultValue;
-    } else if ([value isKindOfClass:[NSNumber class]]) {
-        // exactly
-    } else {
-        NSString *text = get_str(value);
-        value = str_to_num(text);
     }
-    return [value unsignedIntegerValue];
+    NSNumber *num = get_num(value);
+    return [num unsignedIntegerValue];
 }
 
 - (nullable NSDate *)getDate:(id)value defaultValue:(nullable NSDate *)defaultValue {
@@ -382,13 +337,9 @@ static inline NSString *trim(NSString *text) {
     } else if ([value isKindOfClass:[NSDate class]]) {
         // exactly
         return value;
-    } else if ([value isKindOfClass:[NSNumber class]]) {
-        // convert to Date
-    } else {
-        NSString *text = get_str(value);
-        value = str_to_num(text);
     }
-    double seconds = [value doubleValue];
+    NSNumber *num = get_num(value);
+    double seconds = [num doubleValue];
     return [NSDate dateWithTimeIntervalSince1970:seconds];
 }
 
