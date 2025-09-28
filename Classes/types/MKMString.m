@@ -90,7 +90,7 @@
     if (self == object || _storeString == object) {
         return YES;
     }
-    object = MKMGetString(object);
+    object = MKGetString(object);
     return [_storeString isEqualToString:object];
 }
 

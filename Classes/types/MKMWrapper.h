@@ -39,29 +39,50 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@interface MKWrapper : NSObject
+
 /**
- *  Get Inner String
+ *  Get inner String
  *  ~~~~~~~~~~~~~~~~
  *  Remove first wrapper
  */
-NSString *MKMGetString(id str);
++ (nullable NSString *)getString:(nullable id)string;
 
 /**
  *  Get inner Map
  *  ~~~~~~~~~~~~~
  *  Remove first wrapper
  */
-NSDictionary<NSString *, id> *MKMGetMap(id dict);
++ (nullable NSDictionary<NSString *, id> *)getMap:(nullable id)dict;
+
+#pragma mark Recursively
 
 /**
  *  Unwrap recursively
  *  ~~~~~~~~~~~~~~~~~~
  *  Remove all wrappers
  */
-id MKMUnwrap(id obj);
++ (nullable id)unwrap:(nullable id)object;
 
-NSDictionary<NSString *, id> *MKMUnwrapMap(NSDictionary<NSString *, id> *dict);
+/**
+ *  Unwrap values for keys in map
+ */
++ (NSMutableDictionary<NSString *, id> *)unwrapMap:(NSDictionary <NSString *, id> *)dict;
 
-NSArray<id> *MKMUnwrapList(NSArray<id> *list);
+/**
+ *  Unwrap values in the array
+ */
++ (NSMutableArray<id> *)unwrapList:(NSArray<id> *)array;
+
+@end
+
+#pragma mark - Conveniences
+
+#define MKGetString(S)          [MKWrapper getString:(S)]
+#define MKGetMap(D)             [MKWrapper getMap:(D)]
+
+#define MKUnwrap(V)             [MKWrapper unwrap:(D)]
+#define MKUnwrapMap(D)          [MKWrapper unwrapMap:(D)]
+#define MKUnwrapList(A)         [MKWrapper unwrapList:(A)]
 
 NS_ASSUME_NONNULL_END

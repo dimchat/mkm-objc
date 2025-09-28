@@ -142,7 +142,7 @@ static inline void prepare(void) {
     } else if ([key conformsToProtocol:@protocol(MKMSymmetricKey)]) {
         return key;
     }
-    NSDictionary<NSString *, id> *info = MKMGetMap(key);
+    NSDictionary<NSString *, id> *info = MKGetMap(key);
     NSAssert([info isKindOfClass:[NSDictionary class]], @"key error: %@", key);
     NSString *algorithm = [self algorithm:info defaultValue:@"*"];
     id<MKMSymmetricKeyFactory> factory = [self symmetricKeyFactoryForAlgorithm:algorithm];
@@ -175,7 +175,7 @@ static inline void prepare(void) {
     } else if ([key conformsToProtocol:@protocol(MKMPrivateKey)]) {
         return key;
     }
-    NSDictionary<NSString *, id> *info = MKMGetMap(key);
+    NSDictionary<NSString *, id> *info = MKGetMap(key);
     NSAssert([info isKindOfClass:[NSDictionary class]], @"key error: %@", key);
     NSString *algorithm = [self algorithm:info defaultValue:@"*"];
     id<MKMPrivateKeyFactory> factory = [self privateKeyFactoryForAlgorithm:algorithm];
@@ -202,7 +202,7 @@ static inline void prepare(void) {
     } else if ([key conformsToProtocol:@protocol(MKMPublicKey)]) {
         return key;
     }
-    NSDictionary<NSString *, id> *info = MKMGetMap(key);
+    NSDictionary<NSString *, id> *info = MKGetMap(key);
     NSAssert([info isKindOfClass:[NSDictionary class]], @"key error: %@", key);
     NSString *algorithm = [self algorithm:info defaultValue:@"*"];
     id<MKMPublicKeyFactory> factory = [self publicKeyFactoryForAlgorithm:algorithm];

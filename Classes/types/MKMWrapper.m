@@ -40,56 +40,66 @@
 
 #import "MKMWrapper.h"
 
-NSString *MKMGetString(id str) {
-    if ([str conformsToProtocol:@protocol(MKMString)]) {
+@implementation MKWrapper
+
++ (nullable NSString *)getString:(nullable id)str {
+    if (str == nil) {
+        return nil;
+    } else if ([str conformsToProtocol:@protocol(MKMString)]) {
         return [str string];
     } else if ([str isKindOfClass:[NSString class]]) {
         return str;
+    } else {
+        NSAssert(NO, @"not a string: '%@'", str);
+        return [NSString stringWithFormat:@"%@", str];
     }
-    assert(false);
-    return [str description];
 }
 
-NSDictionary<NSString *, id> *MKMGetMap(id dict) {
-    if ([dict conformsToProtocol:@protocol(MKMDictionary)]) {
++ (nullable NSDictionary<NSString *, id> *)getMap:(nullable id)dict {
+    if (dict == nil) {
+        return nil;
+    } else if ([dict conformsToProtocol:@protocol(MKMDictionary)]) {
         return [dict dictionary];
     } else if ([dict isKindOfClass:[NSDictionary class]]) {
         return dict;
-    }
-    assert(false);
-    return nil;
-}
-
-id MKMUnwrap(id obj) {
-    if ([obj conformsToProtocol:@protocol(MKMString)]) {
-        return [obj string];
-    } else if ([obj conformsToProtocol:@protocol(MKMDictionary)]) {
-        return MKMUnwrapMap([obj dictionary]);
-    } else if ([obj isKindOfClass:[NSDictionary class]]) {
-        return MKMUnwrapMap(obj);
-    } else if ([obj isKindOfClass:[NSArray class]]) {
-        return MKMUnwrapList(obj);
     } else {
-        return obj;
+        NSAssert(NO, @"not a dictionary: '%@'", dict);
+        return nil;
     }
 }
 
-NSDictionary<NSString *, id> *MKMUnwrapMap(NSDictionary<NSString *, id> *dict) {
++ (nullable id)unwrap:(nullable id)object {
+    if (object == nil) {
+        return nil;
+    } else if ([object conformsToProtocol:@protocol(MKMString)]) {
+        return [object string];
+    } else if ([object conformsToProtocol:@protocol(MKMDictionary)]) {
+        return [self unwrapMap:[object dictionary]];
+    } else if ([object isKindOfClass:[NSDictionary class]]) {
+        return [self unwrapMap:object];
+    } else if ([object isKindOfClass:[NSArray class]]) {
+        return [self unwrapList:object];
+    } else {
+        return object;
+    }
+}
+
++ (NSMutableDictionary<NSString *, id> *)unwrapMap:(NSDictionary <NSString *, id> *)dict {
     NSMutableDictionary<NSString *, id> *mDict;
     mDict = [[NSMutableDictionary alloc] initWithCapacity:[dict count]];
     [dict enumerateKeysAndObjectsUsingBlock:^(NSString *key, id obj, BOOL *stop) {
-        id naked = MKMUnwrap(obj);
-        [mDict setObject:naked forKey:key];
+        [mDict setObject:[self unwrap:obj] forKey:key];
     }];
     return mDict;
 }
 
-NSArray<id> *MKMUnwrapList(NSArray<id> *list) {
++ (NSMutableArray<id> *)unwrapList:(NSArray<id> *)array {
     NSMutableArray<id> *mArray;
-    mArray = [[NSMutableArray alloc] initWithCapacity:[list count]];
-    [list enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        id naked = MKMUnwrap(obj);
-        [mArray addObject:naked];
+    mArray = [[NSMutableArray alloc] initWithCapacity:[array count]];
+    [array enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [mArray addObject:[self unwrap:obj]];
     }];
     return mArray;
 }
+
+@end

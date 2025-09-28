@@ -120,7 +120,7 @@ static MKMFactoryManager *s_manager = nil;
     } else if ([address conformsToProtocol:@protocol(MKMAddress)]) {
         return address;
     }
-    NSString *string = MKMGetString(address);
+    NSString *string = MKGetString(address);
     NSAssert([string isKindOfClass:[NSString class]], @"address error: %@", address);
     id<MKMAddressFactory> factory = [self addressFactory];
     NSAssert(factory, @"address factory not set");
@@ -159,7 +159,7 @@ static MKMFactoryManager *s_manager = nil;
     } else if ([identifier conformsToProtocol:@protocol(MKMID)]) {
         return identifier;
     }
-    NSString *string = MKMGetString(identifier);
+    NSString *string = MKGetString(identifier);
     NSAssert([string isKindOfClass:[NSString class]], @"id error: %@", identifier);
     id<MKMIDFactory> factory = [self idFactory];
     NSAssert(factory, @"ID factory not set");
@@ -228,7 +228,7 @@ static MKMFactoryManager *s_manager = nil;
     } else if ([meta conformsToProtocol:@protocol(MKMMeta)]) {
         return meta;
     }
-    NSDictionary<NSString *, id> *info = MKMGetMap(meta);
+    NSDictionary<NSString *, id> *info = MKGetMap(meta);
     if (!info) {
         NSAssert(false, @"meta error: %@", meta);
         return nil;
@@ -274,7 +274,7 @@ static MKMFactoryManager *s_manager = nil;
     } else if ([doc conformsToProtocol:@protocol(MKMDocument)]) {
         return doc;
     }
-    NSDictionary<NSString *, id> *info = MKMGetMap(doc);
+    NSDictionary<NSString *, id> *info = MKGetMap(doc);
     if (!info) {
         NSAssert(false, @"document error: %@", doc);
         return nil;
