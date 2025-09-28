@@ -35,29 +35,44 @@
 //  Copyright © 2022 DIM Group. All rights reserved.
 //
 
-//#import "MKMString.h"
-//#import "MKMDictionary.h"
+#import "MKMString.h"
+#import "MKMDictionary.h"
 
 #import "MKCopier.h"
 
-id MKMCopy(id obj) {
-    /*
-    if ([obj conformsToProtocol:@protocol(MKMString)]) {
-        return [obj string];
-    } else if ([obj conformsToProtocol:@protocol(MKMDictionary)]) {
-        return MKMCopyMap([obj dictionary]);
-    }
-     */
-    if ([obj isKindOfClass:[NSDictionary class]]) {
-        return MKMCopyMap(obj);
-    } else if ([obj isKindOfClass:[NSArray class]]) {
-        return MKMCopyList(obj);
+@implementation MKCopier
+
++ (id)copy:(id)object {
+    if ([object conformsToProtocol:@protocol(MKMString)]) {
+        return [object string];
+    } else if ([object conformsToProtocol:@protocol(MKMDictionary)]) {
+        object = [object dictionary];
+        return [self copyMap:object];
+    } else if ([object isKindOfClass:[NSDictionary class]]) {
+        return [self copyMap:object];
+    } else if ([object isKindOfClass:[NSArray class]]) {
+        return [self copyList:object];
     } else {
-        return obj;
+        return object;
     }
 }
 
-NSMutableDictionary<NSString *, id> *MKMCopyMap(NSDictionary<NSString *, id> *dict) {
++ (id)deepCopy:(id)object {
+    if ([object conformsToProtocol:@protocol(MKMString)]) {
+        return [object string];
+    } else if ([object conformsToProtocol:@protocol(MKMDictionary)]) {
+        object = [object dictionary];
+        return [self deepCopyMap:object];
+    } else if ([object isKindOfClass:[NSDictionary class]]) {
+        return [self deepCopyMap:object];
+    } else if ([object isKindOfClass:[NSArray class]]) {
+        return [self deepCopyList:object];
+    } else {
+        return object;
+    }
+}
+
++ (NSMutableDictionary<NSString *, id> *)copyMap:(NSDictionary<NSString *, id> *)dict {
     NSMutableDictionary<NSString *, id> *mDict;
     mDict = [[NSMutableDictionary alloc] initWithCapacity:[dict count]];
     [dict enumerateKeysAndObjectsUsingBlock:^(NSString *key, id obj, BOOL *stop) {
@@ -66,46 +81,31 @@ NSMutableDictionary<NSString *, id> *MKMCopyMap(NSDictionary<NSString *, id> *di
     return mDict;
 }
 
-NSMutableArray<id> *MKMCopyList(NSArray<id> *list) {
++ (NSMutableDictionary<NSString *, id> *)deepCopyMap:(NSDictionary<NSString *, id> *)dict {
+    NSMutableDictionary<NSString *, id> *mDict;
+    mDict = [[NSMutableDictionary alloc] initWithCapacity:[dict count]];
+    [dict enumerateKeysAndObjectsUsingBlock:^(NSString *key, id obj, BOOL *stop) {
+        [mDict setObject:[self deepCopy:obj] forKey:key];
+    }];
+    return mDict;
+}
+
++ (NSMutableArray<id> *)copyList:(NSArray<id> *)array {
     NSMutableArray<id> *mArray;
-    mArray = [[NSMutableArray alloc] initWithCapacity:[list count]];
-    [list enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    mArray = [[NSMutableArray alloc] initWithCapacity:[array count]];
+    [array enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         [mArray addObject:obj];
     }];
     return mArray;
 }
 
-id MKMDeepCopy(id obj) {
-    /*
-    if ([obj conformsToProtocol:@protocol(MKMString)]) {
-        return [obj string];
-    } else if ([obj conformsToProtocol:@protocol(MKMDictionary)]) {
-        return MKMDeepCopyMap([obj dictionary]);
-    }
-     */
-    if ([obj isKindOfClass:[NSDictionary class]]) {
-        return MKMDeepCopyMap(obj);
-    } else if ([obj isKindOfClass:[NSArray class]]) {
-        return MKMDeepCopyList(obj);
-    } else {
-        return obj;
-    }
-}
-
-NSMutableDictionary<NSString *, id> *MKMDeepCopyMap(NSDictionary<NSString *, id> *dict) {
-    NSMutableDictionary<NSString *, id> *mDict;
-    mDict = [[NSMutableDictionary alloc] initWithCapacity:[dict count]];
-    [dict enumerateKeysAndObjectsUsingBlock:^(NSString *key, id obj, BOOL *stop) {
-        [mDict setObject:MKMDeepCopy(obj) forKey:key];
-    }];
-    return mDict;
-}
-
-NSMutableArray<id> *MKMDeepCopyList(NSArray<id> *list) {
++ (NSMutableArray<id> *)deepCopyList:(NSArray<id> *)array {
     NSMutableArray<id> *mArray;
-    mArray = [[NSMutableArray alloc] initWithCapacity:[list count]];
-    [list enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        [mArray addObject:MKMDeepCopy(obj)];
+    mArray = [[NSMutableArray alloc] initWithCapacity:[array count]];
+    [array enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [mArray addObject:[self deepCopy:obj]];
     }];
     return mArray;
 }
+
+@end

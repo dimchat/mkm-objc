@@ -39,34 +39,29 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+@interface MKCopier : NSObject
 
-/*
- *  Shallow Copy
- *  ~~~~~~~~~~~~
- */
++ (id)copy:(id)object;
++ (id)deepCopy:(id)object;
 
-id MKMCopy(id obj);
++ (NSMutableDictionary<NSString *, id> *)copyMap:(NSDictionary<NSString *, id> *)dict;
++ (NSMutableDictionary<NSString *, id> *)deepCopyMap:(NSDictionary<NSString *, id> *)dict;
 
-NSMutableDictionary<NSString *, id> *MKMCopyMap(NSDictionary<NSString *, id> *dict);
++ (NSMutableArray<id> *)copyList:(NSArray<id> *)array;
++ (NSMutableArray<id> *)deepCopyList:(NSArray<id> *)array;
 
-NSMutableArray<id> *MKMCopyList(NSArray<id> *list);
+@end
 
-/*
- *  Deep Copy
- *  ~~~~~~~~~
- */
+#pragma mark Shallow Copy
 
-id MKMDeepCopy(id obj);
+#define MKCopy(V)               [MKCopier copy:(V)]
+#define MKCopyMap(D)            [MKCopier copyMap:(D)]
+#define MKCopyList(A)           [MKCopier copyList:(A)]
 
-NSMutableDictionary<NSString *, id> *MKMDeepCopyMap(NSDictionary<NSString *, id> *dict);
+#pragma mark Deep Copy
 
-NSMutableArray<id> *MKMDeepCopyList(NSArray<id> *list);
-
-#ifdef __cplusplus
-} /* end of extern "C" */
-#endif
+#define MKDeepCopy(V)           [MKCopier deepCopy:(V)]
+#define MKDeepCopyMap(D)        [MKCopier deepCopyMap:(D)]
+#define MKDeepCopyList(A)       [MKCopier deepCopyList:(A)]
 
 NS_ASSUME_NONNULL_END

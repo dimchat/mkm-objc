@@ -148,9 +148,9 @@
 
 - (NSMutableDictionary *)dictionary:(BOOL)deepCopy {
     if (deepCopy) {
-        return MKMDeepCopyMap(_storeDictionary);
+        return MKDeepCopyMap(_storeDictionary);
     } else {
-        return MKMCopyMap(_storeDictionary);
+        return MKCopyMap(_storeDictionary);
     }
 }
 
