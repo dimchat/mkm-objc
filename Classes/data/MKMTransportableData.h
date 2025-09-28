@@ -35,7 +35,7 @@
 //  Copyright © 2023 DIM Group. All rights reserved.
 //
 
-#import <MingKeMing/MKMDictionary.h>
+#import <MingKeMing/MKDictionary.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -53,7 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
  *              ...
  *      }
  */
-@protocol MKMTransportableData <MKMDictionary>
+@protocol MKMTransportableData <MKDictionary>
 
 /**
  *  Get encode algorithm

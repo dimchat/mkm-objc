@@ -35,7 +35,7 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import <MingKeMing/MKMDictionary.h>
+#import <MingKeMing/MKDictionary.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -52,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
  *      'TAI' is the variable part(signed by meta.key's private key),
  *          which contains the key for asymmetric encryption.
  */
-@protocol MKMTAI <MKMDictionary>
+@protocol MKMTAI <MKDictionary>
 
 /**
  *  Check if signature matched

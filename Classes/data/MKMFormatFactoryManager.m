@@ -120,7 +120,7 @@ static MKMFormatFactoryManager *s_manager = nil;
 }
 
 - (NSDictionary *)decode:(id)data defaultKey:(NSString *)aKey {
-    if ([data conformsToProtocol:@protocol(MKMDictionary)]) {
+    if ([data conformsToProtocol:@protocol(MKDictionary)]) {
         return [data dictionary];
     } else if ([data isKindOfClass:[NSDictionary class]]) {
         return data;

@@ -35,7 +35,7 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import <MingKeMing/MKMDictionary.h>
+#import <MingKeMing/MKDictionary.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -101,7 +101,7 @@ typedef UInt8 MKMMetaType;
  *      algorithm:
  *          fingerprint = sign(seed, SK);
  */
-@protocol MKMMeta <MKMDictionary>
+@protocol MKMMeta <MKDictionary>
 
 /**
  *  Meta algorithm version

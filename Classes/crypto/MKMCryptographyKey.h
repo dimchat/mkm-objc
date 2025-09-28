@@ -35,7 +35,7 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import <MingKeMing/MKMDictionary.h>
+#import <MingKeMing/MKDictionary.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -50,7 +50,7 @@ NS_ASSUME_NONNULL_BEGIN
  *      ...
  *  }
  */
-@protocol MKMCryptographyKey <MKMDictionary>
+@protocol MKMCryptographyKey <MKDictionary>
 
 @property (readonly, strong, nonatomic) NSString *algorithm;
 @property (readonly, strong, nonatomic) NSData *data;

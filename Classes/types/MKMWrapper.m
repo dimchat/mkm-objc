@@ -36,7 +36,7 @@
 //
 
 #import "MKMString.h"
-#import "MKMDictionary.h"
+#import "MKDictionary.h"
 
 #import "MKMWrapper.h"
 
@@ -58,7 +58,7 @@
 + (nullable NSDictionary<NSString *, id> *)getMap:(nullable id)dict {
     if (dict == nil) {
         return nil;
-    } else if ([dict conformsToProtocol:@protocol(MKMDictionary)]) {
+    } else if ([dict conformsToProtocol:@protocol(MKDictionary)]) {
         return [dict dictionary];
     } else if ([dict isKindOfClass:[NSDictionary class]]) {
         return dict;
@@ -73,7 +73,7 @@
         return nil;
     } else if ([object conformsToProtocol:@protocol(MKMString)]) {
         return [object string];
-    } else if ([object conformsToProtocol:@protocol(MKMDictionary)]) {
+    } else if ([object conformsToProtocol:@protocol(MKDictionary)]) {
         return [self unwrapMap:[object dictionary]];
     } else if ([object isKindOfClass:[NSDictionary class]]) {
         return [self unwrapMap:object];

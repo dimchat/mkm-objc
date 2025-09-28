@@ -28,7 +28,7 @@
 // SOFTWARE.
 // =============================================================================
 //
-//  MKMDictionary.h
+//  MKDictionary.h
 //  MingKeMing
 //
 //  Created by Albert Moky on 2018/9/27.
@@ -46,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  ~~~~~~
  *  Map wrapper
  */
-@protocol MKMDictionary <NSObject, NSCopying>
+@protocol MKDictionary <NSObject, NSCopying>
 
 /**
  * Get inner dictionary
@@ -63,6 +63,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSEnumerator *)keyEnumerator;
 - (NSEnumerator *)objectEnumerator;
+
+- (void)enumerateKeysAndObjectsUsingBlock:(void (NS_NOESCAPE ^)(NSString *key, id obj, BOOL *stop))block;
+
 - (NSUInteger)count;
 
 - (BOOL)isEmpty;  // count == 0
@@ -75,23 +78,32 @@ NS_ASSUME_NONNULL_BEGIN
  *  Convenient getters
  */
 - (nullable NSString *)stringForKey:(NSString *)aKey defaultValue:(nullable NSString *)aValue;
+- (nullable NSNumber *)numberForKey:(NSString *)aKey defaultValue:(nullable NSNumber *)aValue;
+
 - (BOOL)                 boolForKey:(NSString *)aKey defaultValue:(BOOL)aValue;
 
 - (int)                   intForKey:(NSString *)aKey defaultValue:(int)aValue;
 - (long)                 longForKey:(NSString *)aKey defaultValue:(long)aValue;
-- (char)                 charForKey:(NSString *)aKey defaultValue:(char)aValue;
 - (short)               shortForKey:(NSString *)aKey defaultValue:(short)aValue;
+- (char)                 charForKey:(NSString *)aKey defaultValue:(char)aValue;
+
 - (float)               floatForKey:(NSString *)aKey defaultValue:(float)aValue;
 - (double)             doubleForKey:(NSString *)aKey defaultValue:(double)aValue;
 
 - (unsigned int)         uintForKey:(NSString *)aKey defaultValue:(unsigned int)aValue;
 - (unsigned long)       ulongForKey:(NSString *)aKey defaultValue:(unsigned long)aValue;
 - (unsigned short)     ushortForKey:(NSString *)aKey defaultValue:(unsigned short)aValue;
+- (unsigned char)       ucharForKey:(NSString *)aKey defaultValue:(unsigned char)aValue;
 
 - (SInt8)                int8ForKey:(NSString *)aKey defaultValue:(SInt8)aValue;
 - (UInt8)               uint8ForKey:(NSString *)aKey defaultValue:(UInt8)aValue;
 - (SInt16)              int16ForKey:(NSString *)aKey defaultValue:(SInt16)aValue;
 - (UInt16)             uint16ForKey:(NSString *)aKey defaultValue:(UInt16)aValue;
+- (SInt32)              int32ForKey:(NSString *)aKey defaultValue:(SInt32)aValue;
+- (UInt32)             uint32ForKey:(NSString *)aKey defaultValue:(UInt32)aValue;
+- (SInt64)              int64ForKey:(NSString *)aKey defaultValue:(SInt64)aValue;
+- (UInt64)             uint64ForKey:(NSString *)aKey defaultValue:(UInt64)aValue;
+
 - (NSInteger)         integerForKey:(NSString *)aKey defaultValue:(NSInteger)aValue;
 - (NSUInteger)unsignedIntegerForKey:(NSString *)aKey defaultValue:(NSUInteger)aValue;
 
@@ -99,11 +111,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setDate:(NSDate *)date forKey:(NSString *)aKey;
 
 - (void)setString:(id<MKMString>)stringer forKey:(NSString *)aKey;
-- (void)setDictionary:(id<MKMDictionary>)mapper forKey:(NSString *)aKey;
+- (void)setDictionary:(id<MKDictionary>)mapper forKey:(NSString *)aKey;
 
 @end
 
-@interface MKMDictionary : NSDictionary<NSString *, id> <MKMDictionary>
+@interface MKDictionary : NSDictionary<NSString *, id> <MKDictionary>
 
 - (instancetype)initWithDictionary:(NSDictionary<NSString *, id> *)dict
 NS_DESIGNATED_INITIALIZER;

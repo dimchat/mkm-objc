@@ -36,7 +36,7 @@
 //
 
 #import "MKMString.h"
-#import "MKMDictionary.h"
+#import "MKDictionary.h"
 
 #import "MKCopier.h"
 
@@ -45,7 +45,7 @@
 + (id)copy:(id)object {
     if ([object conformsToProtocol:@protocol(MKMString)]) {
         return [object string];
-    } else if ([object conformsToProtocol:@protocol(MKMDictionary)]) {
+    } else if ([object conformsToProtocol:@protocol(MKDictionary)]) {
         object = [object dictionary];
         return [self copyMap:object];
     } else if ([object isKindOfClass:[NSDictionary class]]) {
@@ -60,7 +60,7 @@
 + (id)deepCopy:(id)object {
     if ([object conformsToProtocol:@protocol(MKMString)]) {
         return [object string];
-    } else if ([object conformsToProtocol:@protocol(MKMDictionary)]) {
+    } else if ([object conformsToProtocol:@protocol(MKDictionary)]) {
         object = [object dictionary];
         return [self deepCopyMap:object];
     } else if ([object isKindOfClass:[NSDictionary class]]) {

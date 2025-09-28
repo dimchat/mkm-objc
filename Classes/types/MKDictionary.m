@@ -28,7 +28,7 @@
 // SOFTWARE.
 // =============================================================================
 //
-//  MKMDictionary.m
+//  MKDictionary.m
 //  MingKeMing
 //
 //  Created by Albert Moky on 2018/9/27.
@@ -39,9 +39,9 @@
 #import "MKCopier.h"
 #import "MKMString.h"
 
-#import "MKMDictionary.h"
+#import "MKDictionary.h"
 
-@interface MKMDictionary () {
+@interface MKDictionary () {
     
     // inner dictionary
     NSMutableDictionary<NSString *, id> *_storeDictionary;
@@ -49,7 +49,7 @@
 
 @end
 
-@implementation MKMDictionary
+@implementation MKDictionary
 
 /* designated initializer */
 - (instancetype)initWithDictionary:(NSDictionary *)dict {
@@ -114,7 +114,7 @@
     if (self == object) {
         return YES;
     }
-    if ([object conformsToProtocol:@protocol(MKMDictionary)]) {
+    if ([object conformsToProtocol:@protocol(MKDictionary)]) {
         object = [object dictionary];
     }
     return [_storeDictionary isEqualToDictionary:object];
@@ -132,6 +132,10 @@
 
 - (NSEnumerator *)objectEnumerator {
     return [_storeDictionary objectEnumerator];
+}
+
+- (void)enumerateKeysAndObjectsUsingBlock:(void (NS_NOESCAPE ^)(NSString *key, id obj, BOOL *stop))block {
+    [_storeDictionary enumerateKeysAndObjectsUsingBlock:block];
 }
 
 - (NSUInteger)count {
@@ -181,6 +185,11 @@
     return MKConvertString(value, aValue);
 }
 
+- (NSNumber *)numberForKey:(NSString *)aKey defaultValue:(nullable NSNumber *)aValue {
+    id value = [self objectForKey:aKey];
+    return MKConvertNumber(value, aValue);
+}
+
 - (BOOL)boolForKey:(NSString *)aKey defaultValue:(BOOL)aValue {
     id value = [self objectForKey:aKey];
     return MKConvertBool(value, aValue);
@@ -196,14 +205,14 @@
     return MKConvertLong(value, aValue);
 }
 
-- (char)charForKey:(NSString *)aKey defaultValue:(char)aValue {
-    id value = [self objectForKey:aKey];
-    return MKConvertChar(value, aValue);
-}
-
 - (short)shortForKey:(NSString *)aKey defaultValue:(short)aValue {
     id value = [self objectForKey:aKey];
     return MKConvertShort(value, aValue);
+}
+
+- (char)charForKey:(NSString *)aKey defaultValue:(char)aValue {
+    id value = [self objectForKey:aKey];
+    return MKConvertChar(value, aValue);
 }
 
 - (float)floatForKey:(NSString *)aKey defaultValue:(float)aValue {
@@ -231,24 +240,49 @@
     return MKConvertUnsignedShort(value, aValue);
 }
 
-- (SInt8)int8ForKey:(NSString *)aKey defaultValue:(SInt8)aValue {
-    id value = [self objectForKey:aKey];
-    return MKConvertChar(value, aValue);
-}
-
-- (UInt8)uint8ForKey:(NSString *)aKey defaultValue:(UInt8)aValue {
+- (unsigned char)ucharForKey:(NSString *)aKey defaultValue:(unsigned char)aValue {
     id value = [self objectForKey:aKey];
     return MKConvertUnsignedChar(value, aValue);
 }
 
+- (SInt8)int8ForKey:(NSString *)aKey defaultValue:(SInt8)aValue {
+    id value = [self objectForKey:aKey];
+    return MKConvertInt8(value, aValue);
+}
+
+- (UInt8)uint8ForKey:(NSString *)aKey defaultValue:(UInt8)aValue {
+    id value = [self objectForKey:aKey];
+    return MKConvertUInt8(value, aValue);
+}
+
 - (SInt16)int16ForKey:(NSString *)aKey defaultValue:(SInt16)aValue {
     id value = [self objectForKey:aKey];
-    return MKConvertShort(value, aValue);
+    return MKConvertInt16(value, aValue);
 }
 
 - (UInt16)uint16ForKey:(NSString *)aKey defaultValue:(UInt16)aValue {
     id value = [self objectForKey:aKey];
-    return MKConvertUnsignedShort(value, aValue);
+    return MKConvertUInt16(value, aValue);
+}
+
+- (SInt32)int32ForKey:(NSString *)aKey defaultValue:(SInt32)aValue {
+    id value = [self objectForKey:aKey];
+    return MKConvertInt32(value, aValue);
+}
+
+- (UInt32)uint32ForKey:(NSString *)aKey defaultValue:(UInt32)aValue {
+    id value = [self objectForKey:aKey];
+    return MKConvertUInt32(value, aValue);
+}
+
+- (SInt64)int64ForKey:(NSString *)aKey defaultValue:(SInt64)aValue {
+    id value = [self objectForKey:aKey];
+    return MKConvertInt64(value, aValue);
+}
+
+- (UInt64)uint64ForKey:(NSString *)aKey defaultValue:(UInt64)aValue {
+    id value = [self objectForKey:aKey];
+    return MKConvertUInt64(value, aValue);
 }
 
 - (NSInteger)integerForKey:(NSString *)aKey defaultValue:(NSInteger)aValue {
@@ -283,7 +317,7 @@
     }
 }
 
-- (void)setDictionary:(id<MKMDictionary>)mapper forKey:(NSString *)aKey {
+- (void)setDictionary:(id<MKDictionary>)mapper forKey:(NSString *)aKey {
     if (mapper) {
         [self setObject:mapper.dictionary forKey:aKey];
     } else {

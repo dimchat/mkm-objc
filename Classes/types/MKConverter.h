@@ -39,36 +39,44 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @protocol MKConverter <NSObject>
 
-- (nullable NSString *)getString:(id)value or:(nullable NSString *)defaultValue;
-
-- (nullable NSNumber *)getNumber:(id)value or:(nullable NSNumber *)defaultValue;
+- (nullable NSString *)getString:(nullable id)value or:(nullable NSString *)defaultValue;
+- (nullable NSNumber *)getNumber:(nullable id)value or:(nullable NSNumber *)defaultValue;
 
 /**
  *  assume value can be a config string:
  *      'true', 'false', 'yes', 'no', 'on', 'off', '1', '0', ...
  */
-- (BOOL)                   getBool:(id)value or:(BOOL)defaultValue;
+- (BOOL)                   getBool:(nullable id)value or:(BOOL)defaultValue;
 
-- (int)                     getInt:(id)value or:(int)defaultValue;
-- (long)                   getLong:(id)value or:(long)defaultValue;
-- (short)                 getShort:(id)value or:(short)defaultValue;
-- (char)                   getChar:(id)value or:(char)defaultValue;
+- (int)                     getInt:(nullable id)value or:(int)defaultValue;
+- (long)                   getLong:(nullable id)value or:(long)defaultValue;
+- (short)                 getShort:(nullable id)value or:(short)defaultValue;
+- (char)                   getChar:(nullable id)value or:(char)defaultValue;
 
-- (float)                 getFloat:(id)value or:(float)defaultValue;
-- (double)               getDouble:(id)value or:(double)defaultValue;
+- (float)                 getFloat:(nullable id)value or:(float)defaultValue;
+- (double)               getDouble:(nullable id)value or:(double)defaultValue;
 
-- (unsigned int)    getUnsignedInt:(id)value or:(unsigned int)defaultValue;
-- (unsigned long)  getUnsignedLong:(id)value or:(unsigned long)defaultValue;
-- (unsigned short)getUnsignedShort:(id)value or:(unsigned short)defaultValue;
-- (unsigned char)  getUnsignedChar:(id)value or:(unsigned char)defaultValue;
+- (unsigned int)    getUnsignedInt:(nullable id)value or:(unsigned int)defaultValue;
+- (unsigned long)  getUnsignedLong:(nullable id)value or:(unsigned long)defaultValue;
+- (unsigned short)getUnsignedShort:(nullable id)value or:(unsigned short)defaultValue;
+- (unsigned char)  getUnsignedChar:(nullable id)value or:(unsigned char)defaultValue;
 
-- (NSInteger)           getInteger:(id)value or:(NSInteger)defaultValue;
-- (NSUInteger)  getUnsignedInteger:(id)value or:(NSUInteger)defaultValue;
+- (SInt8)                  getInt8:(nullable id)value or:(SInt8)defaultValue;
+- (UInt8)                 getUInt8:(nullable id)value or:(UInt8)defaultValue;
+- (SInt16)                getInt16:(nullable id)value or:(SInt16)defaultValue;
+- (UInt16)               getUInt16:(nullable id)value or:(UInt16)defaultValue;
+- (SInt32)                getInt32:(nullable id)value or:(SInt32)defaultValue;
+- (UInt32)               getUInt32:(nullable id)value or:(UInt32)defaultValue;
+- (SInt64)                getInt64:(nullable id)value or:(SInt64)defaultValue;
+- (UInt64)               getUInt64:(nullable id)value or:(UInt64)defaultValue;
+
+- (NSInteger)           getInteger:(nullable id)value or:(NSInteger)defaultValue;
+- (NSUInteger)  getUnsignedInteger:(nullable id)value or:(NSUInteger)defaultValue;
 
 /**
  *  assume value can be a timestamp (seconds from 1970-01-01 00:00:00)
  */
-- (nullable NSDate *)getDate:(id)value or:(nullable NSDate *)defaultValue;
+- (nullable NSDate *)getDate:(nullable id)value or:(nullable NSDate *)defaultValue;
 
 @end
 
@@ -88,29 +96,37 @@ NS_ASSUME_NONNULL_BEGIN
 //  Data Convert Interface
 //
 
-+ (nullable NSString *)getString:(id)value or:(nullable NSString *)defaultValue;
++ (nullable NSString *)getString:(nullable id)value or:(nullable NSString *)defaultValue;
++ (nullable NSNumber *)getNumber:(nullable id)value or:(nullable NSNumber *)defaultValue;
 
-+ (nullable NSNumber *)getNumber:(id)value or:(nullable NSNumber *)defaultValue;
++ (BOOL)                   getBool:(nullable id)value or:(BOOL)defaultValue;
 
-+ (BOOL)                   getBool:(id)value or:(BOOL)defaultValue;
++ (int)                     getInt:(nullable id)value or:(int)defaultValue;
++ (long)                   getLong:(nullable id)value or:(long)defaultValue;
++ (short)                 getShort:(nullable id)value or:(short)defaultValue;
++ (char)                   getChar:(nullable id)value or:(char)defaultValue;
 
-+ (int)                     getInt:(id)value or:(int)defaultValue;
-+ (long)                   getLong:(id)value or:(long)defaultValue;
-+ (short)                 getShort:(id)value or:(short)defaultValue;
-+ (char)                   getChar:(id)value or:(char)defaultValue;
++ (float)                 getFloat:(nullable id)value or:(float)defaultValue;
++ (double)               getDouble:(nullable id)value or:(double)defaultValue;
 
-+ (float)                 getFloat:(id)value or:(float)defaultValue;
-+ (double)               getDouble:(id)value or:(double)defaultValue;
++ (unsigned int)    getUnsignedInt:(nullable id)value or:(unsigned int)defaultValue;
++ (unsigned long)  getUnsignedLong:(nullable id)value or:(unsigned long)defaultValue;
++ (unsigned short)getUnsignedShort:(nullable id)value or:(unsigned short)defaultValue;
++ (unsigned char)  getUnsignedChar:(nullable id)value or:(unsigned char)defaultValue;
 
-+ (unsigned int)    getUnsignedInt:(id)value or:(unsigned int)defaultValue;
-+ (unsigned long)  getUnsignedLong:(id)value or:(unsigned long)defaultValue;
-+ (unsigned short)getUnsignedShort:(id)value or:(unsigned short)defaultValue;
-+ (unsigned char)  getUnsignedChar:(id)value or:(unsigned char)defaultValue;
++ (SInt8)                  getInt8:(nullable id)value or:(SInt8)defaultValue;
++ (UInt8)                 getUInt8:(nullable id)value or:(UInt8)defaultValue;
++ (SInt16)                getInt16:(nullable id)value or:(SInt16)defaultValue;
++ (UInt16)               getUInt16:(nullable id)value or:(UInt16)defaultValue;
++ (SInt32)                getInt32:(nullable id)value or:(SInt32)defaultValue;
++ (UInt32)               getUInt32:(nullable id)value or:(UInt32)defaultValue;
++ (SInt64)                getInt64:(nullable id)value or:(SInt64)defaultValue;
++ (UInt64)               getUInt64:(nullable id)value or:(UInt64)defaultValue;
 
-+ (NSInteger)           getInteger:(id)value or:(NSInteger)defaultValue;
-+ (NSUInteger)  getUnsignedInteger:(id)value or:(NSUInteger)defaultValue;
++ (NSInteger)           getInteger:(nullable id)value or:(NSInteger)defaultValue;
++ (NSUInteger)  getUnsignedInteger:(nullable id)value or:(NSUInteger)defaultValue;
 
-+ (nullable NSDate *)getDate:(id)value or:(nullable NSDate *)defaultValue;
++ (nullable NSDate *)getDate:(nullable id)value or:(nullable NSDate *)defaultValue;
 
 @end
 
@@ -142,6 +158,15 @@ NS_ASSUME_NONNULL_BEGIN
 #define MKConvertUnsignedLong(V, D)  [MKConverter  getUnsignedLong:(V) or:(D)]
 #define MKConvertUnsignedShort(V, D) [MKConverter getUnsignedShort:(V) or:(D)]
 #define MKConvertUnsignedChar(V, D)  [MKConverter  getUnsignedChar:(V) or:(D)]
+
+#define MKConvertInt8(V, D)          [MKConverter          getInt8:(V) or:(D)]
+#define MKConvertUInt8(V, D)         [MKConverter         getUInt8:(V) or:(D)]
+#define MKConvertInt16(V, D)         [MKConverter         getInt16:(V) or:(D)]
+#define MKConvertUInt16(V, D)        [MKConverter        getUInt16:(V) or:(D)]
+#define MKConvertInt32(V, D)         [MKConverter         getInt32:(V) or:(D)]
+#define MKConvertUInt32(V, D)        [MKConverter        getUInt32:(V) or:(D)]
+#define MKConvertInt64(V, D)         [MKConverter         getInt64:(V) or:(D)]
+#define MKConvertUInt64(V, D)        [MKConverter        getUInt64:(V) or:(D)]
 
 #define MKConvertInteger(V, D)         [MKConverter         getInteger:(V) or:(D)]
 #define MKConvertUnsignedInteger(V, D) [MKConverter getUnsignedInteger:(V) or:(D)]

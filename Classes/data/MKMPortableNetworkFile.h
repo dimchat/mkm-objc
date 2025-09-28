@@ -63,7 +63,7 @@ NS_ASSUME_NONNULL_BEGIN
  *              }
  *      }
  */
-@protocol MKMPortableNetworkFile <MKMDictionary>
+@protocol MKMPortableNetworkFile <MKDictionary>
 
 /**
  *  When file data is too big, don't set it in this dictionary,
