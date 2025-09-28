@@ -28,7 +28,7 @@
 // SOFTWARE.
 // =============================================================================
 //
-//  MKMCopier.h
+//  MKCopier.h
 //  MingKeMing
 //
 //  Created by Albert Moky on 2022/8/4.
@@ -64,45 +64,6 @@ id MKMDeepCopy(id obj);
 NSMutableDictionary<NSString *, id> *MKMDeepCopyMap(NSDictionary<NSString *, id> *dict);
 
 NSMutableArray<id> *MKMDeepCopyList(NSArray<id> *list);
-
-#ifdef __cplusplus
-} /* end of extern "C" */
-#endif
-
-#pragma mark - Converter
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-NSString * _Nullable MKMConverterGetString(id value, NSString * _Nullable defaultValue);
-
-/**
- *  assume value can be a config string:
- *      'true', 'false', 'yes', 'no', 'on', 'off', '1', '0', ...
- */
-BOOL   MKMConverterGetBool(  id value,   BOOL defaultValue);
-
-int    MKMConverterGetInt(   id value,    int defaultValue);
-long   MKMConverterGetLong(  id value,   long defaultValue);
-short  MKMConverterGetShort( id value,  short defaultValue);
-char   MKMConverterGetChar(  id value,   char defaultValue);
-
-float  MKMConverterGetFloat( id value,  float defaultValue);
-double MKMConverterGetDouble(id value, double defaultValue);
-
-unsigned int   MKMConverterGetUnsignedInt(  id value,   unsigned int defaultValue);
-unsigned long  MKMConverterGetUnsignedLong( id value,  unsigned long defaultValue);
-unsigned short MKMConverterGetUnsignedShort(id value, unsigned short defaultValue);
-unsigned char  MKMConverterGetUnsignedChar( id value,  unsigned char defaultValue);
-
-NSInteger  MKMConverterGetInteger(          id value,      NSInteger defaultValue);
-NSUInteger MKMConverterGetUnsignedInteger(  id value,     NSUInteger defaultValue);
-
-/**
- *  assume value can be a timestamp (seconds from 1970-01-01 00:00:00)
- */
-NSDate * _Nullable MKMConverterGetDate(id value, NSDate * _Nullable defaultValue);
 
 #ifdef __cplusplus
 } /* end of extern "C" */

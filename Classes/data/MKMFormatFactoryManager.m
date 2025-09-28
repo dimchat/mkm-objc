@@ -35,7 +35,8 @@
 //  Copyright © 2023 DIM Group. All rights reserved.
 //
 
-#import "MKMCopier.h"
+#import "MKConverter.h"
+#import "MKCopier.h"
 #import "MKMDataParser.h"
 #import "MKMSymmetricKey.h"
 
@@ -146,7 +147,7 @@ static MKMFormatFactoryManager *s_manager = nil;
 
 - (NSString *)algorithm:(NSDictionary<NSString *,id> *)ted defaultValue:(NSString *)aValue {
     id algorithm = [ted objectForKey:@"algorithm"];
-    return MKMConverterGetString(algorithm, aValue);
+    return MKConvertString(algorithm, aValue);
 }
 
 - (void)setTransportableDataFactory:(id<MKMTransportableDataFactory>)factory

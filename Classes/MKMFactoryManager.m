@@ -35,7 +35,8 @@
 //  Copyright © 2023 DIM Group. All rights reserved.
 //
 
-#import "MKMCopier.h"
+#import "MKConverter.h"
+#import "MKCopier.h"
 #import "MKMWrapper.h"
 #import "MKMDataParser.h"
 #import "MKMTransportableData.h"
@@ -201,7 +202,7 @@ static MKMFactoryManager *s_manager = nil;
            defaultValue:(MKMMetaType)aValue {
     id version = [meta objectForKey:@"type"];
     NSAssert(version, @"meta type not found: %@", meta);
-    return MKMConverterGetUnsignedChar(version, aValue);
+    return MKConvertUnsignedChar(version, aValue);
 }
 
 - (id<MKMMeta>)generateMetaWithType:(MKMMetaType)version
@@ -255,7 +256,7 @@ static MKMFactoryManager *s_manager = nil;
 - (nullable NSString *)documentType:(NSDictionary<NSString *,id> *)doc
                        defaultValue:(nullable NSString *)aValue {
     NSString *type = [doc objectForKey:@"type"];
-    return MKMConverterGetString(type, aValue);
+    return MKConvertString(type, aValue);
 }
 
 - (id<MKMDocument>)createDocument:(id<MKMID>)identifier

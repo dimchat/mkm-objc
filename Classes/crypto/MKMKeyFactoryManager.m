@@ -35,7 +35,8 @@
 //  Copyright © 2023 DIM Group. All rights reserved.
 //
 
-#import "MKMCopier.h"
+#import "MKConverter.h"
+#import "MKCopier.h"
 #import "MKMWrapper.h"
 
 #import "MKMKeyFactoryManager.h"
@@ -100,7 +101,7 @@ static inline void prepare(void) {
 - (nullable NSString *)algorithm:(NSDictionary<NSString *,id> *)keyInfo
                     defaultValue:(nullable NSString *)aValue {
     id algorithm = [keyInfo objectForKey:@"algorithm"];
-    return MKMConverterGetString(algorithm, aValue);
+    return MKConvertString(algorithm, aValue);
 }
 
 - (BOOL)signKey:(id<MKMSignKey>)sKey matchVerifyKey:(id<MKMVerifyKey>)pKey {

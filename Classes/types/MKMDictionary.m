@@ -35,7 +35,8 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import "MKMCopier.h"
+#import "MKConverter.h"
+#import "MKCopier.h"
 #import "MKMString.h"
 
 #import "MKMDictionary.h"
@@ -177,92 +178,92 @@
 
 - (NSString *)stringForKey:(NSString *)aKey defaultValue:(nullable NSString *)aValue{
     id value = [self objectForKey:aKey];
-    return MKMConverterGetString(value, aValue);
+    return MKConvertString(value, aValue);
 }
 
 - (BOOL)boolForKey:(NSString *)aKey defaultValue:(BOOL)aValue {
     id value = [self objectForKey:aKey];
-    return MKMConverterGetBool(value, aValue);
+    return MKConvertBool(value, aValue);
 }
 
 - (int)intForKey:(NSString *)aKey defaultValue:(int)aValue {
     id value = [self objectForKey:aKey];
-    return MKMConverterGetInt(value, aValue);
+    return MKConvertInt(value, aValue);
 }
 
 - (long)longForKey:(NSString *)aKey defaultValue:(long)aValue {
     id value = [self objectForKey:aKey];
-    return MKMConverterGetLong(value, aValue);
+    return MKConvertLong(value, aValue);
 }
 
 - (char)charForKey:(NSString *)aKey defaultValue:(char)aValue {
     id value = [self objectForKey:aKey];
-    return MKMConverterGetChar(value, aValue);
+    return MKConvertChar(value, aValue);
 }
 
 - (short)shortForKey:(NSString *)aKey defaultValue:(short)aValue {
     id value = [self objectForKey:aKey];
-    return MKMConverterGetShort(value, aValue);
+    return MKConvertShort(value, aValue);
 }
 
 - (float)floatForKey:(NSString *)aKey defaultValue:(float)aValue {
     id value = [self objectForKey:aKey];
-    return MKMConverterGetFloat(value, aValue);
+    return MKConvertFloat(value, aValue);
 }
 
 - (double)doubleForKey:(NSString *)aKey defaultValue:(double)aValue {
     id value = [self objectForKey:aKey];
-    return MKMConverterGetDouble(value, aValue);
+    return MKConvertDouble(value, aValue);
 }
 
 - (unsigned int)uintForKey:(NSString *)aKey defaultValue:(unsigned int)aValue {
     id value = [self objectForKey:aKey];
-    return MKMConverterGetUnsignedInt(value, aValue);
+    return MKConvertUnsignedInt(value, aValue);
 }
 
 - (unsigned long)ulongForKey:(NSString *)aKey defaultValue:(unsigned long)aValue {
     id value = [self objectForKey:aKey];
-    return MKMConverterGetUnsignedLong(value, aValue);
+    return MKConvertUnsignedLong(value, aValue);
 }
 
 - (unsigned short)ushortForKey:(NSString *)aKey defaultValue:(unsigned short)aValue {
     id value = [self objectForKey:aKey];
-    return MKMConverterGetUnsignedShort(value, aValue);
+    return MKConvertUnsignedShort(value, aValue);
 }
 
 - (SInt8)int8ForKey:(NSString *)aKey defaultValue:(SInt8)aValue {
     id value = [self objectForKey:aKey];
-    return MKMConverterGetChar(value, aValue);
+    return MKConvertChar(value, aValue);
 }
 
 - (UInt8)uint8ForKey:(NSString *)aKey defaultValue:(UInt8)aValue {
     id value = [self objectForKey:aKey];
-    return MKMConverterGetUnsignedChar(value, aValue);
+    return MKConvertUnsignedChar(value, aValue);
 }
 
 - (SInt16)int16ForKey:(NSString *)aKey defaultValue:(SInt16)aValue {
     id value = [self objectForKey:aKey];
-    return MKMConverterGetShort(value, aValue);
+    return MKConvertShort(value, aValue);
 }
 
 - (UInt16)uint16ForKey:(NSString *)aKey defaultValue:(UInt16)aValue {
     id value = [self objectForKey:aKey];
-    return MKMConverterGetUnsignedShort(value, aValue);
+    return MKConvertUnsignedShort(value, aValue);
 }
 
 - (NSInteger)integerForKey:(NSString *)aKey defaultValue:(NSInteger)aValue {
     id value = [self objectForKey:aKey];
-    return MKMConverterGetInteger(value, aValue);
+    return MKConvertInteger(value, aValue);
 }
 
 - (NSUInteger)unsignedIntegerForKey:(NSString *)aKey defaultValue:(NSUInteger)aValue {
     id value = [self objectForKey:aKey];
-    return MKMConverterGetUnsignedInteger(value, aValue);
+    return MKConvertUnsignedInteger(value, aValue);
 }
 
 - (NSDate *)dateForKey:(NSString *)aKey defaultValue:(NSDate *)aValue {
     id value = [self objectForKey:aKey];
-    return MKMConverterGetDate(value, aValue);
+    return MKConvertDate(value, aValue);
 }
 
 - (void)setDate:(NSDate *)date forKey:(NSString *)aKey {

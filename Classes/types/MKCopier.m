@@ -28,7 +28,7 @@
 // SOFTWARE.
 // =============================================================================
 //
-//  MKMCopier.m
+//  MKCopier.m
 //  MingKeMing
 //
 //  Created by Albert Moky on 2022/8/4.
@@ -38,7 +38,7 @@
 //#import "MKMString.h"
 //#import "MKMDictionary.h"
 
-#import "MKMCopier.h"
+#import "MKCopier.h"
 
 id MKMCopy(id obj) {
     /*
@@ -108,140 +108,4 @@ NSMutableArray<id> *MKMDeepCopyList(NSArray<id> *list) {
         [mArray addObject:MKMDeepCopy(obj)];
     }];
     return mArray;
-}
-
-#pragma mark - Converter
-
-NSString *MKMConverterGetString(id value, NSString *defaultValue) {
-    if (value == nil) {
-        return defaultValue;
-    } else if ([value isKindOfClass:[NSString class]]) {
-        // exactly
-        return value;
-    } else {
-        assert(false);  // not a string value
-        return [value description];
-    }
-}
-
-BOOL MKMConverterGetBool(id value, BOOL defaultValue) {
-    if (value == nil) {
-        return defaultValue;
-    } else if ([value isKindOfClass:[NSNumber class]]) {
-        return value != 0;
-    } else if ([value isKindOfClass:[NSString class]]) {
-        if ([value length] == 0) {
-            return NO;
-        }
-        NSString *lower = [value lowercaseString];
-        if ([lower isEqualToString:@"false"] ||
-            [lower isEqualToString:@"no"] ||
-            [lower isEqualToString:@"off"] ||
-            [lower isEqualToString:@"0"] ||
-            [lower isEqualToString:@"null"] ||
-            [lower isEqualToString:@"undefined"]) {
-            return NO;
-        }
-        assert([lower isEqualToString:@"true"] ||
-               [lower isEqualToString:@"yes"] ||
-               [lower isEqualToString:@"on"] ||
-               [lower isEqualToString:@"1"]);
-        return YES;
-    }
-    return [value boolValue];
-}
-
-int MKMConverterGetInt(id value, int defaultValue) {
-    if (value == nil) {
-        return defaultValue;
-    }
-    return [value intValue];
-}
-
-long MKMConverterGetLong(id value, long defaultValue) {
-    if (value == nil) {
-        return defaultValue;
-    }
-    return [value longValue];
-}
-
-short MKMConverterGetShort(id value, short defaultValue) {
-    if (value == nil) {
-        return defaultValue;
-    }
-    return [value shortValue];
-}
-
-char MKMConverterGetChar(id value, char defaultValue) {
-    if (value == nil) {
-        return defaultValue;
-    }
-    return [value charValue];
-}
-
-float MKMConverterGetFloat(id value, float defaultValue) {
-    if (value == nil) {
-        return defaultValue;
-    }
-    return [value floatValue];
-}
-
-double MKMConverterGetDouble(id value, double defaultValue) {
-    if (value == nil) {
-        return defaultValue;
-    }
-    return [value doubleValue];
-}
-
-unsigned int MKMConverterGetUnsignedInt(id value, unsigned int defaultValue) {
-    if (value == nil) {
-        return defaultValue;
-    }
-    return [value unsignedIntValue];
-}
-
-unsigned long MKMConverterGetUnsignedLong(id value, unsigned long defaultValue) {
-    if (value == nil) {
-        return defaultValue;
-    }
-    return [value unsignedLongValue];
-}
-
-unsigned short MKMConverterGetUnsignedShort(id value, unsigned short defaultValue) {
-    if (value == nil) {
-        return defaultValue;
-    }
-    return [value unsignedShortValue];
-}
-
-unsigned char MKMConverterGetUnsignedChar(id value, unsigned char defaultValue) {
-    if (value == nil) {
-        return defaultValue;
-    }
-    return [value unsignedCharValue];
-}
-
-NSInteger MKMConverterGetInteger(id value, NSInteger defaultValue) {
-    if (value == nil) {
-        return defaultValue;
-    }
-    return [value integerValue];
-}
-
-NSUInteger MKMConverterGetUnsignedInteger(id value, NSUInteger defaultValue) {
-    if (value == nil) {
-        return defaultValue;
-    }
-    return [value unsignedIntegerValue];
-}
-
-NSDate *MKMConverterGetDate(id value, NSDate *defaultValue) {
-    if (value == nil) {
-        return defaultValue;
-    } else if ([value isKindOfClass:[NSDate class]]) {
-        // exactly
-        return value;
-    }
-    double seconds = [value doubleValue];
-    return [[NSDate alloc] initWithTimeIntervalSince1970:seconds];
 }

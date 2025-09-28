@@ -49,7 +49,7 @@ FOUNDATION_EXPORT const unsigned char MingKeMingVersionString[];
 #define __MING_KE_MING__ 1
 
 #import <MingKeMing/MKConverter.h>
-#import <MingKeMing/MKMCopier.h>
+#import <MingKeMing/MKCopier.h>
 #import <MingKeMing/MKMWrapper.h>
 #import <MingKeMing/MKMDictionary.h>
 #import <MingKeMing/MKMString.h>
