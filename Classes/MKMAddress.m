@@ -66,7 +66,7 @@ id<MKMAddress> MKMAddressParse(id address) {
 
 #pragma mark - Broadcast Address
 
-@interface BroadcastAddress : MKMString <MKMAddress> {
+@interface BroadcastAddress : MKString <MKMAddress> {
     
     MKMEntityType _type;
 }

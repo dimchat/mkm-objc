@@ -35,7 +35,7 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import <MingKeMing/MKMString.h>
+#import <MingKeMing/MKString.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -121,7 +121,7 @@ typedef UInt8 MKMEntityType;
 
 #pragma mark -
 
-@protocol MKMAddress <MKMString>
+@protocol MKMAddress <MKString>
 
 @property (readonly, nonatomic) MKMEntityType type; // Network ID
 

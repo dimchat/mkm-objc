@@ -35,7 +35,7 @@
 //  Copyright © 2022 DIM Group. All rights reserved.
 //
 
-#import "MKMString.h"
+#import "MKString.h"
 #import "MKDictionary.h"
 
 #import "MKCopier.h"
@@ -43,7 +43,7 @@
 @implementation MKCopier
 
 + (id)copy:(id)object {
-    if ([object conformsToProtocol:@protocol(MKMString)]) {
+    if ([object conformsToProtocol:@protocol(MKString)]) {
         return [object string];
     } else if ([object conformsToProtocol:@protocol(MKDictionary)]) {
         object = [object dictionary];
@@ -58,7 +58,7 @@
 }
 
 + (id)deepCopy:(id)object {
-    if ([object conformsToProtocol:@protocol(MKMString)]) {
+    if ([object conformsToProtocol:@protocol(MKString)]) {
         return [object string];
     } else if ([object conformsToProtocol:@protocol(MKDictionary)]) {
         object = [object dictionary];

@@ -49,9 +49,9 @@
 		E9F3A95621CBBAF7009690F6 /* MKMPublicKey.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8E721CBBAF6009690F6 /* MKMPublicKey.m */; };
 		E9F3A95721CBBAF7009690F6 /* MKMPrivateKey.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8E821CBBAF6009690F6 /* MKMPrivateKey.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E9F3A96921CBBAF7009690F6 /* MKDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8FC21CBBAF6009690F6 /* MKDictionary.m */; };
-		E9F3A96A21CBBAF7009690F6 /* MKMString.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8FD21CBBAF6009690F6 /* MKMString.m */; };
+		E9F3A96A21CBBAF7009690F6 /* MKString.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A8FD21CBBAF6009690F6 /* MKString.m */; };
 		E9F3A96B21CBBAF7009690F6 /* MKDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8FE21CBBAF6009690F6 /* MKDictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E9F3A96C21CBBAF7009690F6 /* MKMString.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8FF21CBBAF6009690F6 /* MKMString.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E9F3A96C21CBBAF7009690F6 /* MKString.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8FF21CBBAF6009690F6 /* MKString.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -110,9 +110,9 @@
 		E9F3A8E721CBBAF6009690F6 /* MKMPublicKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMPublicKey.m; sourceTree = "<group>"; };
 		E9F3A8E821CBBAF6009690F6 /* MKMPrivateKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMPrivateKey.h; sourceTree = "<group>"; };
 		E9F3A8FC21CBBAF6009690F6 /* MKDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKDictionary.m; sourceTree = "<group>"; };
-		E9F3A8FD21CBBAF6009690F6 /* MKMString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMString.m; sourceTree = "<group>"; };
+		E9F3A8FD21CBBAF6009690F6 /* MKString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKString.m; sourceTree = "<group>"; };
 		E9F3A8FE21CBBAF6009690F6 /* MKDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKDictionary.h; sourceTree = "<group>"; };
-		E9F3A8FF21CBBAF6009690F6 /* MKMString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMString.h; sourceTree = "<group>"; };
+		E9F3A8FF21CBBAF6009690F6 /* MKString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKString.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -234,8 +234,8 @@
 			children = (
 				E9F3A8FE21CBBAF6009690F6 /* MKDictionary.h */,
 				E9F3A8FC21CBBAF6009690F6 /* MKDictionary.m */,
-				E9F3A8FF21CBBAF6009690F6 /* MKMString.h */,
-				E9F3A8FD21CBBAF6009690F6 /* MKMString.m */,
+				E9F3A8FF21CBBAF6009690F6 /* MKString.h */,
+				E9F3A8FD21CBBAF6009690F6 /* MKString.m */,
 				E9429540289834C100433ACD /* MKMWrapper.h */,
 				E9429541289834C100433ACD /* MKMWrapper.m */,
 				E95D49F9289AD3EE00523488 /* MKCopier.h */,
@@ -262,7 +262,7 @@
 			files = (
 				E9C6C4A12B207A840092058A /* MKMTransportableData.h in Headers */,
 				E915CEA0243C978600B98FE3 /* MKMDataDigester.h in Headers */,
-				E9F3A96C21CBBAF7009690F6 /* MKMString.h in Headers */,
+				E9F3A96C21CBBAF7009690F6 /* MKString.h in Headers */,
 				E9F3A96B21CBBAF7009690F6 /* MKDictionary.h in Headers */,
 				E97E138D259B118C0016A68C /* MKMID.h in Headers */,
 				E975593C2B20811400864DAD /* MKMPortableNetworkFile.h in Headers */,
@@ -386,7 +386,7 @@
 				E9ABE29F2E884EDA002008F8 /* MKConverter.m in Sources */,
 				E97E1397259B118C0016A68C /* MKMMeta.m in Sources */,
 				E915CEA1243C978600B98FE3 /* MKMDataDigester.m in Sources */,
-				E9F3A96A21CBBAF7009690F6 /* MKMString.m in Sources */,
+				E9F3A96A21CBBAF7009690F6 /* MKString.m in Sources */,
 				E975593D2B20811400864DAD /* MKMPortableNetworkFile.m in Sources */,
 				E9C6C4A22B207A840092058A /* MKMTransportableData.m in Sources */,
 				E95D49FC289AD3EE00523488 /* MKCopier.m in Sources */,

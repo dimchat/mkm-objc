@@ -47,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  1. encode string to binary data;
  *  2. decode binary data to string.
  */
-@protocol MKMStringCoder <NSObject>
+@protocol MKStringCoder <NSObject>
 
 /**
  *  Encode local string to binary data
@@ -127,8 +127,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MKMUTF8 : NSObject
 
-+ (void)setCoder:(id<MKMStringCoder>)parser;
-+ (nullable id<MKMStringCoder>)getCoder;
++ (void)setCoder:(id<MKStringCoder>)parser;
++ (nullable id<MKStringCoder>)getCoder;
 
 + (NSData *)encode:(NSString *)string;
 + (nullable NSString *)decode:(NSData *)utf8;

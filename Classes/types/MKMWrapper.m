@@ -35,7 +35,7 @@
 //  Copyright © 2022 DIM Group. All rights reserved.
 //
 
-#import "MKMString.h"
+#import "MKString.h"
 #import "MKDictionary.h"
 
 #import "MKMWrapper.h"
@@ -45,7 +45,7 @@
 + (nullable NSString *)getString:(nullable id)str {
     if (str == nil) {
         return nil;
-    } else if ([str conformsToProtocol:@protocol(MKMString)]) {
+    } else if ([str conformsToProtocol:@protocol(MKString)]) {
         return [str string];
     } else if ([str isKindOfClass:[NSString class]]) {
         return str;
@@ -71,7 +71,7 @@
 + (nullable id)unwrap:(nullable id)object {
     if (object == nil) {
         return nil;
-    } else if ([object conformsToProtocol:@protocol(MKMString)]) {
+    } else if ([object conformsToProtocol:@protocol(MKString)]) {
         return [object string];
     } else if ([object conformsToProtocol:@protocol(MKDictionary)]) {
         return [self unwrapMap:[object dictionary]];

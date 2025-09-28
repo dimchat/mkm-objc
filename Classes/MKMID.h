@@ -49,7 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
  *          address  - a string to identify an entity
  *          terminal - entity login resource(device), OPTIONAL
  */
-@protocol MKMID <MKMString>
+@protocol MKMID <MKString>
 
 @property (readonly, strong, nonatomic, nullable) NSString *name;
 @property (readonly, strong, nonatomic) __kindof id<MKMAddress> address;
@@ -142,7 +142,7 @@ NSArray<NSString *> *MKMIDRevert(NSArray<id<MKMID>> *members);
 
 #pragma mark - Base Class
 
-@interface MKMID : MKMString <MKMID>
+@interface MKMID : MKString <MKMID>
 
 /**
  *  Initialize an ID with string form "name@address[/terminal]"

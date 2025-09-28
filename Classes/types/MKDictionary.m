@@ -37,7 +37,7 @@
 
 #import "MKConverter.h"
 #import "MKCopier.h"
-#import "MKMString.h"
+#import "MKString.h"
 
 #import "MKDictionary.h"
 
@@ -126,16 +126,20 @@
 
 #pragma mark -
 
-- (NSEnumerator *)keyEnumerator {
+- (NSEnumerator<NSString *> *)keyEnumerator {
     return [_storeDictionary keyEnumerator];
 }
 
-- (NSEnumerator *)objectEnumerator {
+- (NSEnumerator<id> *)objectEnumerator {
     return [_storeDictionary objectEnumerator];
 }
 
 - (void)enumerateKeysAndObjectsUsingBlock:(void (NS_NOESCAPE ^)(NSString *key, id obj, BOOL *stop))block {
     [_storeDictionary enumerateKeysAndObjectsUsingBlock:block];
+}
+
+- (NSArray<NSString *> *)allKeys {
+    return [_storeDictionary allKeys];
 }
 
 - (NSUInteger)count {
@@ -309,7 +313,7 @@
     }
 }
 
-- (void)setString:(id<MKMString>)stringer forKey:(NSString *)aKey {
+- (void)setString:(id<MKString>)stringer forKey:(NSString *)aKey {
     if (stringer) {
         [self setObject:stringer.string forKey:aKey];
     } else {

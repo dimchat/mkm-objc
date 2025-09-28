@@ -39,13 +39,13 @@
 
 @implementation MKMUTF8
 
-static id<MKMStringCoder> s_utf8 = nil;
+static id<MKStringCoder> s_utf8 = nil;
 
-+ (void)setCoder:(id<MKMStringCoder>)parser {
++ (void)setCoder:(id<MKStringCoder>)parser {
     s_utf8 = parser;
 }
 
-+ (id<MKMStringCoder>)getCoder {
++ (id<MKStringCoder>)getCoder {
     return s_utf8;
 }
 

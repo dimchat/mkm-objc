@@ -28,7 +28,7 @@
 // SOFTWARE.
 // =============================================================================
 //
-//  MKMString.m
+//  MKString.m
 //  MingKeMing
 //
 //  Created by Albert Moky on 2018/9/25.
@@ -37,16 +37,16 @@
 
 #import "MKMWrapper.h"
 
-#import "MKMString.h"
+#import "MKString.h"
 
-@interface MKMString () {
+@interface MKString () {
     
     NSString *_storeString; // inner string
 }
 
 @end
 
-@implementation MKMString
+@implementation MKString
 
 /* designated initializer */
 - (instancetype)initWithString:(NSString *)aString {
@@ -116,7 +116,7 @@
     return [_storeString length] == 0;
 }
 
-#pragma mark - NSStringExtensionMethods
+#pragma mark NSStringExtensionMethods
 
 - (NSComparisonResult)compare:(NSString *)string {
     return [_storeString compare:string];
@@ -157,9 +157,9 @@
     return [_storeString localizedCaseInsensitiveCompare:string];
 }
 
-//- (NSComparisonResult)localizedStandardCompare:(NSString *)string {
-//    return [_storeString localizedStandardCompare:string];
-//}
+- (NSComparisonResult)localizedStandardCompare:(NSString *)string {
+    return [_storeString localizedStandardCompare:string];
+}
 
 - (BOOL)isEqualToString:(NSString *)aString {
     return [_storeString isEqualToString:aString];

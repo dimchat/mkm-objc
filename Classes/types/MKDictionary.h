@@ -39,7 +39,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol MKMString;
+@protocol MKString;
 
 /**
  *  Mapper
@@ -58,19 +58,21 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (NSMutableDictionary<NSString *, id> *)dictionary:(BOOL)deepCopy;
 
-//- (BOOL)isEqual:(id)object;
-//@property (readonly) NSUInteger hash;
+- (BOOL)isEqual:(id)object;
+@property (readonly) NSUInteger hash;
 
-- (NSEnumerator *)keyEnumerator;
-- (NSEnumerator *)objectEnumerator;
+- (NSEnumerator<NSString *> *)keyEnumerator;
+- (NSEnumerator<id> *)objectEnumerator;
 
 - (void)enumerateKeysAndObjectsUsingBlock:(void (NS_NOESCAPE ^)(NSString *key, id obj, BOOL *stop))block;
 
-- (NSUInteger)count;
+@property (readonly, copy) NSArray<NSString *> *allKeys;
+
+@property (readonly) NSUInteger count;
 
 - (BOOL)isEmpty;  // count == 0
 
-- (id)objectForKey:(NSString *)aKey;
+- (nullable id)objectForKey:(NSString *)aKey;
 - (void)setObject:(id)anObject forKey:(NSString *)aKey;
 - (void)removeObjectForKey:(NSString *)aKey;
 
@@ -110,12 +112,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable NSDate *)dateForKey:(NSString *)aKey defaultValue:(nullable NSDate *)aValue;
 - (void)setDate:(NSDate *)date forKey:(NSString *)aKey;
 
-- (void)setString:(id<MKMString>)stringer forKey:(NSString *)aKey;
+- (void)setString:(id<MKString>)stringer forKey:(NSString *)aKey;
 - (void)setDictionary:(id<MKDictionary>)mapper forKey:(NSString *)aKey;
 
 @end
 
-@interface MKDictionary : NSDictionary<NSString *, id> <MKDictionary>
+@interface MKDictionary : NSObject <MKDictionary>
 
 - (instancetype)initWithDictionary:(NSDictionary<NSString *, id> *)dict
 NS_DESIGNATED_INITIALIZER;

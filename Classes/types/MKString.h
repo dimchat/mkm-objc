@@ -28,7 +28,7 @@
 // SOFTWARE.
 // =============================================================================
 //
-//  MKMString.h
+//  MKString.h
 //  MingKeMing
 //
 //  Created by Albert Moky on 2018/9/25.
@@ -44,40 +44,38 @@ NS_ASSUME_NONNULL_BEGIN
  *  ~~~~~~~~
  *  String wrapper
  */
-@protocol MKMString <NSObject, NSCopying>
+@protocol MKString <NSObject, NSCopying>
 
-//- (BOOL)isEqual:(id)object;
-//@property (readonly) NSUInteger hash;
+- (BOOL)isEqual:(id)object;
+@property (readonly) NSUInteger hash;
 @property (readonly, strong, nonatomic) NSString *string;
 
 @property (readonly) NSUInteger length;
-//- (unichar)characterAtIndex:(NSUInteger)index;
+- (unichar)characterAtIndex:(NSUInteger)index;
 
 - (BOOL)isEmpty;  // length == 0
 
-/**
- *  NSStringExtensionMethods
- */
+#pragma mark NSStringExtensionMethods
 
-//- (NSComparisonResult)compare:(NSString *)string;
-//- (NSComparisonResult)compare:(NSString *)string options:(NSStringCompareOptions)mask;
-//- (NSComparisonResult)compare:(NSString *)string options:(NSStringCompareOptions)mask range:(NSRange)rangeOfReceiverToCompare;
-//- (NSComparisonResult)compare:(NSString *)string options:(NSStringCompareOptions)mask range:(NSRange)rangeOfReceiverToCompare locale:(nullable id)locale;
-//- (NSComparisonResult)caseInsensitiveCompare:(NSString *)string;
-//- (NSComparisonResult)localizedCompare:(NSString *)string;
-//- (NSComparisonResult)localizedCaseInsensitiveCompare:(NSString *)string;
+- (NSComparisonResult)compare:(NSString *)string;
+- (NSComparisonResult)compare:(NSString *)string options:(NSStringCompareOptions)mask;
+- (NSComparisonResult)compare:(NSString *)string options:(NSStringCompareOptions)mask range:(NSRange)rangeOfReceiverToCompare;
+- (NSComparisonResult)compare:(NSString *)string options:(NSStringCompareOptions)mask range:(NSRange)rangeOfReceiverToCompare locale:(nullable id)locale;
+- (NSComparisonResult)caseInsensitiveCompare:(NSString *)string;
+- (NSComparisonResult)localizedCompare:(NSString *)string;
+- (NSComparisonResult)localizedCaseInsensitiveCompare:(NSString *)string;
 
-//- (NSComparisonResult)localizedStandardCompare:(NSString *)string API_AVAILABLE(macos(10.6), ios(4.0), watchos(2.0), tvos(9.0));
+- (NSComparisonResult)localizedStandardCompare:(NSString *)string API_AVAILABLE(macos(10.6), ios(4.0), watchos(2.0), tvos(9.0));
 
-//- (BOOL)isEqualToString:(NSString *)aString;
-//
-//- (BOOL)hasPrefix:(NSString *)str;
-//- (BOOL)hasSuffix:(NSString *)str;
-//
-//- (NSRange)rangeOfString:(NSString *)searchString;
-//- (NSRange)rangeOfString:(NSString *)searchString options:(NSStringCompareOptions)mask;
-//- (NSRange)rangeOfString:(NSString *)searchString options:(NSStringCompareOptions)mask range:(NSRange)rangeOfReceiverToSearch;
-//- (NSRange)rangeOfString:(NSString *)searchString options:(NSStringCompareOptions)mask range:(NSRange)rangeOfReceiverToSearch locale:(nullable NSLocale *)locale API_AVAILABLE(macos(10.5), ios(2.0), watchos(2.0), tvos(9.0));
+- (BOOL)isEqualToString:(NSString *)aString;
+
+- (BOOL)hasPrefix:(NSString *)str;
+- (BOOL)hasSuffix:(NSString *)str;
+
+- (NSRange)rangeOfString:(NSString *)searchString;
+- (NSRange)rangeOfString:(NSString *)searchString options:(NSStringCompareOptions)mask;
+- (NSRange)rangeOfString:(NSString *)searchString options:(NSStringCompareOptions)mask range:(NSRange)rangeOfReceiverToSearch;
+- (NSRange)rangeOfString:(NSString *)searchString options:(NSStringCompareOptions)mask range:(NSRange)rangeOfReceiverToSearch locale:(nullable NSLocale *)locale API_AVAILABLE(macos(10.5), ios(2.0), watchos(2.0), tvos(9.0));
 
 @end
 
@@ -85,7 +83,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  Constant String
  *  ~~~~~~~~~~~~~~~
  */
-@interface MKMString : NSString <MKMString>
+@interface MKString : NSObject <MKString>
 
 - (instancetype)initWithString:(NSString *)aString
 NS_DESIGNATED_INITIALIZER;
