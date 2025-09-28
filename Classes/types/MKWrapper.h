@@ -28,7 +28,7 @@
 // SOFTWARE.
 // =============================================================================
 //
-//  MKMWrapper.h
+//  MKWrapper.h
 //  MingKeMing
 //
 //  Created by Albert Moky on 2022/8/2.
@@ -81,7 +81,7 @@ NS_ASSUME_NONNULL_BEGIN
 #define MKGetString(S)          [MKWrapper getString:(S)]
 #define MKGetMap(D)             [MKWrapper getMap:(D)]
 
-#define MKUnwrap(V)             [MKWrapper unwrap:(D)]
+#define MKUnwrap(V)             [MKWrapper unwrap:(V)]
 #define MKUnwrapMap(D)          [MKWrapper unwrapMap:(D)]
 #define MKUnwrapList(A)         [MKWrapper unwrapList:(A)]
 

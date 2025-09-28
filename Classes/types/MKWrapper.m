@@ -28,7 +28,7 @@
 // SOFTWARE.
 // =============================================================================
 //
-//  MKMWrapper.m
+//  MKWrapper.m
 //  MingKeMing
 //
 //  Created by Albert Moky on 2022/8/2.
@@ -38,7 +38,7 @@
 #import "MKString.h"
 #import "MKDictionary.h"
 
-#import "MKMWrapper.h"
+#import "MKWrapper.h"
 
 @implementation MKWrapper
 

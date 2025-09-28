@@ -37,7 +37,7 @@
 
 #import "MKConverter.h"
 #import "MKCopier.h"
-#import "MKMWrapper.h"
+#import "MKWrapper.h"
 #import "MKMDataParser.h"
 #import "MKMTransportableData.h"
 #import "MKMAsymmetricKey.h"
