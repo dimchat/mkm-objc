@@ -30,7 +30,7 @@
 		E97E139D259B118C0016A68C /* MKMTai.h in Headers */ = {isa = PBXBuildFile; fileRef = E97E138B259B118C0016A68C /* MKMTai.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E97E139F259B118C0016A68C /* MKMAddress.h in Headers */ = {isa = PBXBuildFile; fileRef = E97E138C259B118C0016A68C /* MKMAddress.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E9ABE29F2E884EDA002008F8 /* MKConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = E9ABE29E2E884EDA002008F8 /* MKConverter.m */; };
-		E9ABE2A02E884EDA002008F8 /* MKConverter.h in Headers */ = {isa = PBXBuildFile; fileRef = E9ABE29D2E884EDA002008F8 /* MKConverter.h */; };
+		E9ABE2A02E884EDA002008F8 /* MKConverter.h in Headers */ = {isa = PBXBuildFile; fileRef = E9ABE29D2E884EDA002008F8 /* MKConverter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E9B4949B2989585E002C7F34 /* MKMKeyFactoryManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E9B494992989585E002C7F34 /* MKMKeyFactoryManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E9B4949C2989585E002C7F34 /* MKMKeyFactoryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E9B4949A2989585E002C7F34 /* MKMKeyFactoryManager.m */; };
 		E9B4949E29896917002C7F34 /* MKMSymmetricKey.m in Sources */ = {isa = PBXBuildFile; fileRef = E9B4949D29896916002C7F34 /* MKMSymmetricKey.m */; };
@@ -331,7 +331,7 @@
 		E9F3A69121CA4627009690F6 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1230;
+				LastUpgradeCheck = 1630;
 				ORGANIZATIONNAME = "DIM Group";
 				TargetAttributes = {
 					E9F3A69921CA4627009690F6 = {
@@ -479,7 +479,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -537,7 +537,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -560,7 +560,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = MingKeMing/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -586,7 +586,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = MingKeMing/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

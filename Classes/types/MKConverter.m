@@ -79,84 +79,84 @@ static id<MKConverter> s_converter;
 //  Data Convert Interface
 //
 
-+ (nullable NSString *)getString:(id)value defaultValue:(nullable NSString *)defaultValue {
++ (nullable NSString *)getString:(id)value or:(nullable NSString *)defaultValue {
     id<MKConverter> converter = [self getConverter];
-    return [converter getString:value defaultValue:defaultValue];
+    return [converter getString:value or:defaultValue];
 }
 
-+ (nullable NSNumber *)getNumber:(id)value defaultValue:(nullable NSNumber *)defaultValue {
++ (nullable NSNumber *)getNumber:(id)value or:(nullable NSNumber *)defaultValue {
     id<MKConverter> converter = [self getConverter];
-    return [converter getNumber:value defaultValue:defaultValue];
+    return [converter getNumber:value or:defaultValue];
 }
 
-+ (BOOL)getBool:(id)value defaultValue:(BOOL)defaultValue {
++ (BOOL)getBool:(id)value or:(BOOL)defaultValue {
     id<MKConverter> converter = [self getConverter];
-    return [converter getBool:value defaultValue:defaultValue];
+    return [converter getBool:value or:defaultValue];
 }
 
-+ (int)getInt:(id)value defaultValue:(int)defaultValue {
++ (int)getInt:(id)value or:(int)defaultValue {
     id<MKConverter> converter = [self getConverter];
-    return [converter getInt:value defaultValue:defaultValue];
+    return [converter getInt:value or:defaultValue];
 }
 
-+ (long)getLong:(id)value defaultValue:(long)defaultValue {
++ (long)getLong:(id)value or:(long)defaultValue {
     id<MKConverter> converter = [self getConverter];
-    return [converter getLong:value defaultValue:defaultValue];
+    return [converter getLong:value or:defaultValue];
 }
 
-+ (short)getShort:(id)value defaultValue:(short)defaultValue {
++ (short)getShort:(id)value or:(short)defaultValue {
     id<MKConverter> converter = [self getConverter];
-    return [converter getShort:value defaultValue:defaultValue];
+    return [converter getShort:value or:defaultValue];
 }
 
-+ (char)getChar:(id)value defaultValue:(char)defaultValue {
++ (char)getChar:(id)value or:(char)defaultValue {
     id<MKConverter> converter = [self getConverter];
-    return [converter getChar:value defaultValue:defaultValue];
+    return [converter getChar:value or:defaultValue];
 }
 
-+ (float)getFloat:(id)value defaultValue:(float)defaultValue {
++ (float)getFloat:(id)value or:(float)defaultValue {
     id<MKConverter> converter = [self getConverter];
-    return [converter getFloat:value defaultValue:defaultValue];
+    return [converter getFloat:value or:defaultValue];
 }
 
-+ (double)getDouble:(id)value defaultValue:(double)defaultValue {
++ (double)getDouble:(id)value or:(double)defaultValue {
     id<MKConverter> converter = [self getConverter];
-    return [converter getDouble:value defaultValue:defaultValue];
+    return [converter getDouble:value or:defaultValue];
 }
 
-+ (unsigned int)getUnsignedInt:(id)value defaultValue:(unsigned int)defaultValue {
++ (unsigned int)getUnsignedInt:(id)value or:(unsigned int)defaultValue {
     id<MKConverter> converter = [self getConverter];
-    return [converter getUnsignedInt:value defaultValue:defaultValue];
+    return [converter getUnsignedInt:value or:defaultValue];
 }
 
-+ (unsigned long)getUnsignedLong:(id)value defaultValue:(unsigned long)defaultValue {
++ (unsigned long)getUnsignedLong:(id)value or:(unsigned long)defaultValue {
     id<MKConverter> converter = [self getConverter];
-    return [converter getUnsignedLong:value defaultValue:defaultValue];
+    return [converter getUnsignedLong:value or:defaultValue];
 }
 
-+ (unsigned short)getUnsignedShort:(id)value defaultValue:(unsigned short)defaultValue {
++ (unsigned short)getUnsignedShort:(id)value or:(unsigned short)defaultValue {
     id<MKConverter> converter = [self getConverter];
-    return [converter getUnsignedShort:value defaultValue:defaultValue];
+    return [converter getUnsignedShort:value or:defaultValue];
 }
 
-+ (unsigned char)getUnsignedChar:(id)value defaultValue:(unsigned char)defaultValue {
++ (unsigned char)getUnsignedChar:(id)value or:(unsigned char)defaultValue {
     id<MKConverter> converter = [self getConverter];
-    return [converter getUnsignedChar:value defaultValue:defaultValue];
+    return [converter getUnsignedChar:value or:defaultValue];
 }
 
-+ (NSInteger)getInteger:(id)value defaultValue:(NSInteger)defaultValue {
++ (NSInteger)getInteger:(id)value or:(NSInteger)defaultValue {
     id<MKConverter> converter = [self getConverter];
-    return [converter getInteger:value defaultValue:defaultValue];
+    return [converter getInteger:value or:defaultValue];
 }
 
-+ (NSUInteger)getUnsignedInteger:(id)value defaultValue:(NSUInteger)defaultValue {
++ (NSUInteger)getUnsignedInteger:(id)value or:(NSUInteger)defaultValue {
     id<MKConverter> converter = [self getConverter];
-    return [converter getUnsignedInteger:value defaultValue:defaultValue];
+    return [converter getUnsignedInteger:value or:defaultValue];
 }
 
-+ (nullable NSDate *)getDate:(id)value defaultValue:(nullable NSDate *)defaultValue {
++ (nullable NSDate *)getDate:(id)value or:(nullable NSDate *)defaultValue {
     id<MKConverter> converter = [self getConverter];
-    return [converter getDate:value defaultValue:defaultValue];
+    return [converter getDate:value or:defaultValue];
 }
 
 @end
@@ -195,7 +195,7 @@ static inline NSNumber *get_num(id value) {
 
 @implementation MKDataConverter
 
-- (nullable NSString *)getString:(id)value defaultValue:(nullable NSString *)defaultValue {
+- (nullable NSString *)getString:(id)value or:(nullable NSString *)defaultValue {
     if (value == nil) {
         return defaultValue;
     } else {
@@ -203,7 +203,7 @@ static inline NSNumber *get_num(id value) {
     }
 }
 
-- (nullable NSNumber *)getNumber:(id)value defaultValue:(nullable NSNumber *)defaultValue {
+- (nullable NSNumber *)getNumber:(id)value or:(nullable NSNumber *)defaultValue {
     if (value == nil) {
         return defaultValue;
     } else {
@@ -211,7 +211,7 @@ static inline NSNumber *get_num(id value) {
     }
 }
 
-- (BOOL)getBool:(id)value defaultValue:(BOOL)defaultValue {
+- (BOOL)getBool:(id)value or:(BOOL)defaultValue {
     if (value == nil) {
         return defaultValue;
     } else if ([value isKindOfClass:[NSNumber class]]) {
@@ -229,13 +229,13 @@ static inline NSNumber *get_num(id value) {
     } else {
         text = [text lowercaseString];
     }
-    id booleanStates = [MKConverter getBooleanStates];
+    NSDictionary *booleanStates = [MKConverter getBooleanStates];
     NSNumber *state = [booleanStates objectForKey:text];
     NSAssert(state != nil, @"bool value error: '%@'", value);
     return [state boolValue];
 }
 
-- (int)getInt:(id)value defaultValue:(int)defaultValue {
+- (int)getInt:(id)value or:(int)defaultValue {
     if (value == nil) {
         return defaultValue;
     }
@@ -243,7 +243,7 @@ static inline NSNumber *get_num(id value) {
     return [num intValue];
 }
 
-- (long)getLong:(id)value defaultValue:(long)defaultValue {
+- (long)getLong:(id)value or:(long)defaultValue {
     if (value == nil) {
         return defaultValue;
     }
@@ -251,7 +251,7 @@ static inline NSNumber *get_num(id value) {
     return [num longValue];
 }
 
-- (short)getShort:(id)value defaultValue:(short)defaultValue {
+- (short)getShort:(id)value or:(short)defaultValue {
     if (value == nil) {
         return defaultValue;
     }
@@ -259,7 +259,7 @@ static inline NSNumber *get_num(id value) {
     return [num shortValue];
 }
 
-- (char)getChar:(id)value defaultValue:(char)defaultValue {
+- (char)getChar:(id)value or:(char)defaultValue {
     if (value == nil) {
         return defaultValue;
     }
@@ -267,7 +267,7 @@ static inline NSNumber *get_num(id value) {
     return [num charValue];
 }
 
-- (float)getFloat:(id)value defaultValue:(float)defaultValue {
+- (float)getFloat:(id)value or:(float)defaultValue {
     if (value == nil) {
         return defaultValue;
     }
@@ -275,7 +275,7 @@ static inline NSNumber *get_num(id value) {
     return [num floatValue];
 }
 
-- (double)getDouble:(id)value defaultValue:(double)defaultValue {
+- (double)getDouble:(id)value or:(double)defaultValue {
     if (value == nil) {
         return defaultValue;
     }
@@ -283,7 +283,7 @@ static inline NSNumber *get_num(id value) {
     return [num doubleValue];
 }
 
-- (unsigned int)getUnsignedInt:(id)value defaultValue:(unsigned int)defaultValue {
+- (unsigned int)getUnsignedInt:(id)value or:(unsigned int)defaultValue {
     if (value == nil) {
         return defaultValue;
     }
@@ -291,7 +291,7 @@ static inline NSNumber *get_num(id value) {
     return [num unsignedIntValue];
 }
 
-- (unsigned long)getUnsignedLong:(id)value defaultValue:(unsigned long)defaultValue {
+- (unsigned long)getUnsignedLong:(id)value or:(unsigned long)defaultValue {
     if (value == nil) {
         return defaultValue;
     }
@@ -299,7 +299,7 @@ static inline NSNumber *get_num(id value) {
     return [num unsignedLongValue];
 }
 
-- (unsigned short)getUnsignedShort:(id)value defaultValue:(unsigned short)defaultValue {
+- (unsigned short)getUnsignedShort:(id)value or:(unsigned short)defaultValue {
     if (value == nil) {
         return defaultValue;
     }
@@ -307,7 +307,7 @@ static inline NSNumber *get_num(id value) {
     return [num unsignedShortValue];
 }
 
-- (unsigned char)getUnsignedChar:(id)value defaultValue:(unsigned char)defaultValue {
+- (unsigned char)getUnsignedChar:(id)value or:(unsigned char)defaultValue {
     if (value == nil) {
         return defaultValue;
     }
@@ -315,7 +315,7 @@ static inline NSNumber *get_num(id value) {
     return [num unsignedCharValue];
 }
 
-- (NSInteger)getInteger:(id)value defaultValue:(NSInteger)defaultValue {
+- (NSInteger)getInteger:(id)value or:(NSInteger)defaultValue {
     if (value == nil) {
         return defaultValue;
     }
@@ -323,7 +323,7 @@ static inline NSNumber *get_num(id value) {
     return [num integerValue];
 }
 
-- (NSUInteger)getUnsignedInteger:(id)value defaultValue:(NSUInteger)defaultValue {
+- (NSUInteger)getUnsignedInteger:(id)value or:(NSUInteger)defaultValue {
     if (value == nil) {
         return defaultValue;
     }
@@ -331,7 +331,7 @@ static inline NSNumber *get_num(id value) {
     return [num unsignedIntegerValue];
 }
 
-- (nullable NSDate *)getDate:(id)value defaultValue:(nullable NSDate *)defaultValue {
+- (nullable NSDate *)getDate:(id)value or:(nullable NSDate *)defaultValue {
     if (value == nil) {
         return defaultValue;
     } else if ([value isKindOfClass:[NSDate class]]) {
