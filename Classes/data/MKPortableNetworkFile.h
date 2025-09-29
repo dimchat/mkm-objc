@@ -39,7 +39,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol MKMDecryptKey;
+@protocol MKDecryptKey;
 
 /**
  *  Transportable File
@@ -82,7 +82,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  Password for decrypting the downloaded data from CDN,
  *  default is a plain key, which just return the same data when decrypting.
  */
-@property (strong, nonatomic, nullable) id<MKMDecryptKey> password;
+@property (strong, nonatomic, nullable) id<MKDecryptKey> password;
 
 /**
  *  Get encoded string
@@ -119,7 +119,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (id<MKPortableNetworkFile>)createPortableNetworkFile:(nullable id<MKTransportableData>)data
                                               filename:(nullable NSString *)name
                                                    url:(nullable NSURL *)locator
-                                              password:(nullable id<MKMDecryptKey>)key;
+                                              password:(nullable id<MKDecryptKey>)key;
 
 /**
  *  Parse map object to PNF
@@ -155,7 +155,7 @@ void MKPortableNetworkFileSetFactory(id<MKPortableNetworkFileFactory> factory);
 id<MKPortableNetworkFile> MKPortableNetworkFileCreate(_Nullable id<MKTransportableData> data,
                                                       NSString * _Nullable filename,
                                                       NSURL * _Nullable url,
-                                                      _Nullable id<MKMDecryptKey> password);
+                                                      _Nullable id<MKDecryptKey> password);
 
 _Nullable id<MKPortableNetworkFile> MKPortableNetworkFileParse(_Nullable id pnf);
 

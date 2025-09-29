@@ -28,71 +28,70 @@
 // SOFTWARE.
 // =============================================================================
 //
-//  MKMPrivateKey.h
+//  MKCryptographyKey.h
 //  MingKeMing
 //
-//  Created by Albert Moky on 2018/9/25.
+//  Created by Albert Moky on 2018/9/30.
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import <MingKeMing/MKMAsymmetricKey.h>
+#import <MingKeMing/MKDictionary.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol MKMPublicKey;
-
 /*
- *  Asymmetric Cryptography Private Key
- *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ *  Cryptography Key
+ *  ~~~~~~~~~~~~~~~~
+ *  Cryptography key with designated algorithm
  *
- *      key data format: {
- *          algorithm: "RSA", // ECC, ...
- *          data     : "{BASE64_ENCODE}",
- *          ...
- *      }
+ *  key data format: {
+ *      algorithm : "RSA", // ECC, AES, ...
+ *      data      : "{BASE64_ENCODE}",
+ *      ...
+ *  }
  */
-@protocol MKMPrivateKey <MKMSignKey>
+@protocol MKCryptographyKey <MKDictionary>
 
-/**
- * Get public key from private key
- */
-@property (readonly, strong, nonatomic) id<MKMPublicKey> publicKey;
+@property (readonly, strong, nonatomic) NSString *algorithm;
+@property (readonly, strong, nonatomic) NSData *data;
 
 @end
 
-#pragma mark - Key Factory
-
-@protocol MKMPrivateKeyFactory <NSObject>
+@protocol MKEncryptKey <MKCryptographyKey>
 
 /**
- *  Generate key
+ *  1. Symmetric Key:
+ *     ciphertext = encrypt(plaintext, PW)
+ *  2. Asymmetric Public Key:
+ *     ciphertext = encrypt(plaintext, PK)
  *
- * @return PrivateKey
+ * @param plaintext - plain data
+ * @param params    - store extra variables ('IV' for 'AES')
+ * @return ciphertext
  */
-- (id<MKMPrivateKey>)generatePrivateKey;
-
-/**
- *  Parse map object to key
- *
- * @param key - key info
- * @return PrivateKey
- */
-- (nullable id<MKMPrivateKey>)parsePrivateKey:(NSDictionary *)key;
+- (NSData *)encrypt:(NSData *)plaintext extra:(nullable NSMutableDictionary<NSString *, id> *)params;
 
 @end
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+@protocol MKDecryptKey <MKCryptographyKey>
 
-_Nullable id<MKMPrivateKeyFactory> MKMPrivateKeyGetFactory(NSString *algorithm);
-void MKMPrivateKeySetFactory(NSString *algorithm, id<MKMPrivateKeyFactory> factory);
+/**
+ *  1. Symmetric Key:
+ *     plaintext = decrypt(ciphertext, PW);
+ *  2. Asymmetric Private Key:
+ *     plaintext = decrypt(ciphertext, SK);
+ *
+ * @param ciphertext - encrypted data
+ * @param extra      - extra params ('IV' for 'AES')
+ * @return plaintext
+ */
+- (nullable NSData *)decrypt:(NSData *)ciphertext params:(nullable NSDictionary<NSString *, id> *)extra;
 
-_Nullable id<MKMPrivateKey> MKMPrivateKeyGenerate(NSString *algorithm);
-_Nullable id<MKMPrivateKey> MKMPrivateKeyParse(_Nullable id key);
+/**
+ *  OK = decrypt(encrypt(data, SK), PK) == data
+ */
+- (BOOL)matchEncryptKey:(id<MKEncryptKey>)pKey;
 
-#ifdef __cplusplus
-} /* end of extern "C" */
-#endif
+@end
 
 NS_ASSUME_NONNULL_END

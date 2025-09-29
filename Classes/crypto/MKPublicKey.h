@@ -28,28 +28,58 @@
 // SOFTWARE.
 // =============================================================================
 //
-//  MKMPublicKey.m
+//  MKPublicKey.h
 //  MingKeMing
 //
 //  Created by Albert Moky on 2018/9/25.
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import "MKMKeyFactoryManager.h"
+#import <MingKeMing/MKAsymmetricKey.h>
 
-#import "MKMPublicKey.h"
+NS_ASSUME_NONNULL_BEGIN
 
-id<MKMPublicKeyFactory> MKMPublicKeyGetFactory(NSString *algorithm) {
-    MKMKeyFactoryManager *man = [MKMKeyFactoryManager sharedManager];
-    return [man.generalFactory publicKeyFactoryForAlgorithm:algorithm];
-}
+/*
+ *  Asymmetric Cryptography Public Key
+ *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ *
+ *  key data format: {
+ *      algorithm : "RSA", // "ECC", ...
+ *      data      : "{BASE64_ENCODE}",
+ *      ...
+ *  }
+ */
+@protocol MKPublicKey <MKVerifyKey>
 
-void MKMPublicKeySetFactory(NSString *algorithm, id<MKMPublicKeyFactory> factory) {
-    MKMKeyFactoryManager *man = [MKMKeyFactoryManager sharedManager];
-    [man.generalFactory setPublicKeyFactory:factory forAlgorithm:algorithm];
-}
+@end
 
-id<MKMPublicKey> MKMPublicKeyParse(id key) {
-    MKMKeyFactoryManager *man = [MKMKeyFactoryManager sharedManager];
-    return [man.generalFactory parsePublicKey:key];
-}
+#pragma mark - Key Factory
+
+@protocol MKPublicKeyFactory <NSObject>
+
+/**
+ *  Parse map object to key
+ *
+ * @param key - key info
+ * @return PublicKey
+ */
+- (nullable id<MKPublicKey>)parsePublicKey:(NSDictionary *)key;
+
+@end
+
+#pragma mark - Factory methods
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+_Nullable id<MKPublicKeyFactory> MKPublicKeyGetFactory(NSString *algorithm);
+void MKPublicKeySetFactory(NSString *algorithm, id<MKPublicKeyFactory> factory);
+
+_Nullable id<MKPublicKey> MKPublicKeyParse(_Nullable id key);
+
+#ifdef __cplusplus
+} /* end of extern "C" */
+#endif
+
+NS_ASSUME_NONNULL_END

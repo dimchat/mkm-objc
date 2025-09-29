@@ -28,65 +28,70 @@
 // SOFTWARE.
 // =============================================================================
 //
-//  MKMSymmetricKey.h
+//  MKPrivateKey.h
 //  MingKeMing
 //
-//  Created by Albert Moky on 2018/9/30.
+//  Created by Albert Moky on 2018/9/25.
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import <MingKeMing/MKMCryptographyKey.h>
+#import <MingKeMing/MKAsymmetricKey.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol MKPublicKey;
+
 /*
- *  Symmetric Cryptography Key
- *  ~~~~~~~~~~~~~~~~~~~~~~~~~~
- *  This class is used to encrypt or decrypt message data
+ *  Asymmetric Cryptography Private Key
+ *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  *
- *  keyInfo format: {
- *      algorithm: "AES", // DES, ...
- *      data     : "{BASE64_ENCODE}",
- *      ...
- *  }
+ *      key data format: {
+ *          algorithm: "RSA", // ECC, ...
+ *          data     : "{BASE64_ENCODE}",
+ *          ...
+ *      }
  */
-@protocol MKMSymmetricKey <MKMEncryptKey, MKMDecryptKey>
+@protocol MKPrivateKey <MKSignKey>
+
+/**
+ * Get public key from private key
+ */
+@property (readonly, strong, nonatomic) id<MKPublicKey> publicKey;
 
 @end
 
-#define MKMAlgorithm_AES @"AES"
-#define MKMAlgorithm_DES @"DES"
-
 #pragma mark - Key Factory
 
-@protocol MKMSymmetricKeyFactory <NSObject>
+@protocol MKPrivateKeyFactory <NSObject>
 
 /**
  *  Generate key
  *
- * @return SymmetricKey
+ * @return PrivateKey
  */
-- (id<MKMSymmetricKey>)generateSymmetricKey;
+- (id<MKPrivateKey>)generatePrivateKey;
 
 /**
  *  Parse map object to key
  *
  * @param key - key info
- * @return SymmetricKey
+ * @return PrivateKey
  */
-- (nullable id<MKMSymmetricKey>)parseSymmetricKey:(NSDictionary *)key;
+- (nullable id<MKPrivateKey>)parsePrivateKey:(NSDictionary *)key;
 
 @end
+
+#pragma mark - Factory methods
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-_Nullable id<MKMSymmetricKeyFactory> MKMSymmetricKeyGetFactory(NSString *algorithm);
-void MKMSymmetricKeySetFactory(NSString *algorithm, id<MKMSymmetricKeyFactory> factory);
+_Nullable id<MKPrivateKeyFactory> MKPrivateKeyGetFactory(NSString *algorithm);
+void MKPrivateKeySetFactory(NSString *algorithm, id<MKPrivateKeyFactory> factory);
 
-_Nullable id<MKMSymmetricKey> MKMSymmetricKeyGenerate(NSString *algorithm);
-_Nullable id<MKMSymmetricKey> MKMSymmetricKeyParse(_Nullable id key);
+_Nullable id<MKPrivateKey> MKPrivateKeyGenerate(NSString *algorithm);
+_Nullable id<MKPrivateKey> MKPrivateKeyParse(_Nullable id key);
 
 #ifdef __cplusplus
 } /* end of extern "C" */

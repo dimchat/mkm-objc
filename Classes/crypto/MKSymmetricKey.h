@@ -28,33 +28,67 @@
 // SOFTWARE.
 // =============================================================================
 //
-//  MKMSymmetricKey.m
+//  MKSymmetricKey.h
 //  MingKeMing
 //
 //  Created by Albert Moky on 2018/9/30.
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import "MKMKeyFactoryManager.h"
+#import <MingKeMing/MKCryptographyKey.h>
 
-#import "MKMSymmetricKey.h"
+NS_ASSUME_NONNULL_BEGIN
 
-id<MKMSymmetricKeyFactory> MKMSymmetricKeyGetFactory(NSString *algorithm) {
-    MKMKeyFactoryManager *man = [MKMKeyFactoryManager sharedManager];
-    return [man.generalFactory symmetricKeyFactoryForAlgorithm:algorithm];
-}
+/*
+ *  Symmetric Cryptography Key
+ *  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+ *  This class is used to encrypt or decrypt message data
+ *
+ *  keyInfo format: {
+ *      algorithm: "AES", // DES, ...
+ *      data     : "{BASE64_ENCODE}",
+ *      ...
+ *  }
+ */
+@protocol MKSymmetricKey <MKEncryptKey, MKDecryptKey>
 
-void MKMSymmetricKeySetFactory(NSString *algorithm, id<MKMSymmetricKeyFactory> factory) {
-    MKMKeyFactoryManager *man = [MKMKeyFactoryManager sharedManager];
-    [man.generalFactory setSymmetricKeyFactory:factory forAlgorithm:algorithm];
-}
+@end
 
-id<MKMSymmetricKey> MKMSymmetricKeyGenerate(NSString *algorithm) {
-    MKMKeyFactoryManager *man = [MKMKeyFactoryManager sharedManager];
-    return [man.generalFactory generateSymmetricKeyWithAlgorithm:algorithm];
-}
+#pragma mark - Key Factory
 
-id<MKMSymmetricKey> MKMSymmetricKeyParse(id key) {
-    MKMKeyFactoryManager *man = [MKMKeyFactoryManager sharedManager];
-    return [man.generalFactory parseSymmetricKey:key];
-}
+@protocol MKSymmetricKeyFactory <NSObject>
+
+/**
+ *  Generate key
+ *
+ * @return SymmetricKey
+ */
+- (id<MKSymmetricKey>)generateSymmetricKey;
+
+/**
+ *  Parse map object to key
+ *
+ * @param key - key info
+ * @return SymmetricKey
+ */
+- (nullable id<MKSymmetricKey>)parseSymmetricKey:(NSDictionary *)key;
+
+@end
+
+#pragma mark - Factory methods
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+_Nullable id<MKSymmetricKeyFactory> MKSymmetricKeyGetFactory(NSString *algorithm);
+void MKSymmetricKeySetFactory(NSString *algorithm, id<MKSymmetricKeyFactory> factory);
+
+_Nullable id<MKSymmetricKey> MKSymmetricKeyGenerate(NSString *algorithm);
+_Nullable id<MKSymmetricKey> MKSymmetricKeyParse(_Nullable id key);
+
+#ifdef __cplusplus
+} /* end of extern "C" */
+#endif
+
+NS_ASSUME_NONNULL_END

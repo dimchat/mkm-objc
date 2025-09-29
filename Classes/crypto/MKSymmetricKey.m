@@ -28,47 +28,33 @@
 // SOFTWARE.
 // =============================================================================
 //
-//  MKMMeta.m
+//  MKSymmetricKey.m
 //  MingKeMing
 //
-//  Created by Albert Moky on 2018/9/24.
+//  Created by Albert Moky on 2018/9/30.
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import "MKTransportableData.h"
-#import "MKMFactoryManager.h"
+#import "MKCryptoHelpers.h"
 
-#import "MKMMeta.h"
+#import "MKSymmetricKey.h"
 
-id<MKMMetaFactory> MKMMetaGetFactory(MKMMetaType version) {
-    MKMFactoryManager *man = [MKMFactoryManager sharedManager];
-    return [man.generalFactory metaFactoryForType:version];
+id<MKSymmetricKeyFactory> MKSymmetricKeyGetFactory(NSString *algorithm) {
+    MKCryptoExtensions *ext = [MKCryptoExtensions sharedInstance];
+    return [ext.symmetricHelper getSymmetricKeyFactory:algorithm];
 }
 
-void MKMMetaSetFactory(MKMMetaType version, id<MKMMetaFactory> factory) {
-    MKMFactoryManager *man = [MKMFactoryManager sharedManager];
-    [man.generalFactory setMetaFactory:factory forType:version];
+void MKSymmetricKeySetFactory(NSString *algorithm, id<MKSymmetricKeyFactory> factory) {
+    MKCryptoExtensions *ext = [MKCryptoExtensions sharedInstance];
+    [ext.symmetricHelper setSymmetricKeyFactory:factory algorithm:algorithm];
 }
 
-id<MKMMeta> MKMMetaGenerate(MKMMetaType version,
-                            id<MKSignKey> SK,
-                            NSString * _Nullable seed) {
-    MKMFactoryManager *man = [MKMFactoryManager sharedManager];
-    return [man.generalFactory generateMetaWithType:version key:SK seed:seed];
+id<MKSymmetricKey> MKSymmetricKeyGenerate(NSString *algorithm) {
+    MKCryptoExtensions *ext = [MKCryptoExtensions sharedInstance];
+    return [ext.symmetricHelper generateSymmetricKey:algorithm];
 }
 
-id<MKMMeta> MKMMetaCreate(MKMMetaType version,
-                          id<MKVerifyKey> PK,
-                          NSString * _Nullable seed,
-                          _Nullable id<MKTransportableData> fingerprint) {
-    MKMFactoryManager *man = [MKMFactoryManager sharedManager];
-    return [man.generalFactory createMetaWithType:version
-                                              key:PK
-                                             seed:seed
-                                      fingerprint:fingerprint];
-}
-
-id<MKMMeta> MKMMetaParse(id meta) {
-    MKMFactoryManager *man = [MKMFactoryManager sharedManager];
-    return [man.generalFactory parseMeta:meta];
+id<MKSymmetricKey> MKSymmetricKeyParse(id key) {
+    MKCryptoExtensions *ext = [MKCryptoExtensions sharedInstance];
+    return [ext.symmetricHelper parseSymmetricKey:key];
 }

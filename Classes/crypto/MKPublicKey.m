@@ -28,33 +28,28 @@
 // SOFTWARE.
 // =============================================================================
 //
-//  MKMPrivateKey.m
+//  MKPublicKey.m
 //  MingKeMing
 //
 //  Created by Albert Moky on 2018/9/25.
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import "MKMKeyFactoryManager.h"
+#import "MKCryptoHelpers.h"
 
-#import "MKMPrivateKey.h"
+#import "MKPublicKey.h"
 
-id<MKMPrivateKeyFactory> MKMPrivateKeyGetFactory(NSString *algorithm) {
-    MKMKeyFactoryManager *man = [MKMKeyFactoryManager sharedManager];
-    return [man.generalFactory privateKeyFactoryForAlgorithm:algorithm];
+id<MKPublicKeyFactory> MKPublicKeyGetFactory(NSString *algorithm) {
+    MKCryptoExtensions *ext = [MKCryptoExtensions sharedInstance];
+    return [ext.publicHelper getPublicKeyFactory:algorithm];
 }
 
-void MKMPrivateKeySetFactory(NSString *algorithm, id<MKMPrivateKeyFactory> factory) {
-    MKMKeyFactoryManager *man = [MKMKeyFactoryManager sharedManager];
-    [man.generalFactory setPrivateKeyFactory:factory forAlgorithm:algorithm];
+void MKPublicKeySetFactory(NSString *algorithm, id<MKPublicKeyFactory> factory) {
+    MKCryptoExtensions *ext = [MKCryptoExtensions sharedInstance];
+    [ext.publicHelper setPublicKeyFactory:factory algorithm:algorithm];
 }
 
-id<MKMPrivateKey> MKMPrivateKeyGenerate(NSString *algorithm) {
-    MKMKeyFactoryManager *man = [MKMKeyFactoryManager sharedManager];
-    return [man.generalFactory generatePrivateKeyWithAlgorithm:algorithm];
-}
-
-id<MKMPrivateKey> MKMPrivateKeyParse(id key) {
-    MKMKeyFactoryManager *man = [MKMKeyFactoryManager sharedManager];
-    return [man.generalFactory parsePrivateKey:key];
+id<MKPublicKey> MKPublicKeyParse(id key) {
+    MKCryptoExtensions *ext = [MKCryptoExtensions sharedInstance];
+    return [ext.publicHelper parsePublicKey:key];
 }

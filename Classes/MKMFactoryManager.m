@@ -40,7 +40,7 @@
 #import "MKWrapper.h"
 #import "MKDataParser.h"
 #import "MKTransportableData.h"
-#import "MKMAsymmetricKey.h"
+#import "MKAsymmetricKey.h"
 
 #import "MKMFactoryManager.h"
 
@@ -206,7 +206,7 @@ static MKMFactoryManager *s_manager = nil;
 }
 
 - (id<MKMMeta>)generateMetaWithType:(MKMMetaType)version
-                                key:(id<MKMSignKey>)sKey
+                                key:(id<MKSignKey>)sKey
                                seed:(nullable NSString *)name {
     id<MKMMetaFactory> factory = [self metaFactoryForType:version];
     NSAssert(factory, @"meta type not support: %d", version);
@@ -214,7 +214,7 @@ static MKMFactoryManager *s_manager = nil;
 }
 
 - (id<MKMMeta>)createMetaWithType:(MKMMetaType)version
-                              key:(id<MKMVerifyKey>)pKey
+                              key:(id<MKVerifyKey>)pKey
                              seed:(nullable NSString *)name
                       fingerprint:(nullable id<MKTransportableData>)signature {
     id<MKMMetaFactory> factory = [self metaFactoryForType:version];

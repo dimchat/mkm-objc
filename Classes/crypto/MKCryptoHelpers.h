@@ -28,54 +28,63 @@
 // SOFTWARE.
 // =============================================================================
 //
-//  MKFormatHelpers.h
+//  MKCryptoHelpers.h
 //  MingKeMing
 //
-//  Created by Albert Moky on 2023/12/6.
+//  Created by Albert Moky on 2023/1/31.
 //  Copyright © 2023 DIM Group. All rights reserved.
 //
 
-#import <MingKeMing/MKTransportableData.h>
-#import <MingKeMing/MKPortableNetworkFile.h>
+#import <MingKeMing/MKSymmetricKey.h>
+#import <MingKeMing/MKPrivateKey.h>
+#import <MingKeMing/MKPublicKey.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol MKTransportableDataHelper <NSObject>
+@protocol MKSymmetricKeyHelper <NSObject>
 
-- (void)setTransportableDataFactory:(id<MKTransportableDataFactory>)factory algorithm:(NSString *)name;
+- (void)setSymmetricKeyFactory:(id<MKSymmetricKeyFactory>)factory algorithm:(NSString *)name;
 
-- (nullable id<MKTransportableDataFactory>)getTransportableDataFactory:(NSString *)algorithm;
+- (nullable id<MKSymmetricKeyFactory>)getSymmetricKeyFactory:(NSString *)algorithm;
 
-- (id<MKTransportableData>)createTransportableData:(NSData *)data algorithm:(NSString *)name;
+- (nullable id<MKSymmetricKey>)generateSymmetricKey:(NSString *)algorithm;
 
-- (nullable id<MKTransportableData>)parseTransportableData:(nullable id)ted;
-
-@end
-
-@protocol MKPortableNetworkFileHelper <NSObject>
-
-- (void)setPortableNetworkFileFactory:(id<MKPortableNetworkFileFactory>)factory;
-
-- (nullable id<MKPortableNetworkFileFactory>)getPortableNetworkFileFactory;
-
-- (id<MKPortableNetworkFile>)createPortableNetworkFile:(nullable id<MKTransportableData>)data
-                                              filename:(nullable NSString *)name
-                                                   url:(nullable NSURL *)locator
-                                              password:(nullable id<MKDecryptKey>)key;
-
-- (nullable id<MKPortableNetworkFile>)parsePortableNetworkFile:(nullable id)pnf;
+- (nullable id<MKSymmetricKey>)parseSymmetricKey:(nullable id)key;
 
 @end
 
-#pragma mark - Format FactoryManager
+@protocol MKPublicKeyHelper <NSObject>
 
-@interface MKFormatExtensions : NSObject
+- (void)setPublicKeyFactory:(id<MKPublicKeyFactory>)factory algorithm:(NSString *)name;
+
+- (nullable id<MKPublicKeyFactory>)getPublicKeyFactory:(NSString *)algorithm;
+
+- (nullable id<MKPublicKey>)parsePublicKey:(nullable id)key;
+
+@end
+
+@protocol MKPrivateKeyHelper <NSObject>
+
+- (void)setPrivateKeyFactory:(id<MKPrivateKeyFactory>)factorh algorithm:(NSString *)name;
+
+- (nullable id<MKPrivateKeyFactory>)getPrivateKeyFactory:(NSString *)algorithm;
+
+- (nullable id<MKPrivateKey>)generatePrivateKey:(NSString *)algorithm;
+
+- (nullable id<MKPrivateKey>)parsePrivateKey:(nullable id)key;
+
+@end
+
+#pragma mark - CryptographyKey FactoryManager
+
+@interface MKCryptoExtensions : NSObject
 
 + (instancetype)sharedInstance;
 
-@property (strong, nonatomic, nullable) id<MKTransportableDataHelper> tedHelper;
+@property (strong, nonatomic, nullable) id<MKSymmetricKeyHelper> symmetricHelper;
 
-@property (strong, nonatomic, nullable) id<MKPortableNetworkFileHelper> pnfHelper;
+@property (strong, nonatomic, nullable) id<MKPrivateKeyHelper> privateHelper;
+@property (strong, nonatomic, nullable) id<MKPublicKeyHelper> publicHelper;
 
 @end
 

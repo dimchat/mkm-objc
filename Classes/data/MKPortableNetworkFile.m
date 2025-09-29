@@ -35,7 +35,7 @@
 //  Copyright © 2023 DIM Group. All rights reserved.
 //
 
-#import "MKMSymmetricKey.h"
+#import "MKSymmetricKey.h"
 #import "MKFormatHelpers.h"
 
 #import "MKPortableNetworkFile.h"
@@ -58,7 +58,7 @@ id<MKPortableNetworkFile> MKPortableNetworkFileParse(id pnf) {
 id<MKPortableNetworkFile> MKPortableNetworkFileCreate(id<MKTransportableData> data,
                                                       NSString *filename,
                                                       NSURL *url,
-                                                      id<MKMDecryptKey> password) {
+                                                      id<MKDecryptKey> password) {
     MKFormatExtensions *ext = [MKFormatExtensions sharedInstance];
     return [ext.pnfHelper createPortableNetworkFile:data
                                            filename:filename

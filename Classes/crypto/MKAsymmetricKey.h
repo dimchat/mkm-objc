@@ -28,14 +28,14 @@
 // SOFTWARE.
 // =============================================================================
 //
-//  MKMAsymmetricKey.h
+//  MKAsymmetricKey.h
 //  MingKeMing
 //
 //  Created by Albert Moky on 2018/9/25.
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import <MingKeMing/MKMCryptographyKey.h>
+#import <MingKeMing/MKCryptographyKey.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -49,16 +49,11 @@ NS_ASSUME_NONNULL_BEGIN
  *      ...
  *  }
  */
-@protocol MKMAsymmetricKey <MKMCryptographyKey>
+@protocol MKAsymmetricKey <MKCryptographyKey>
 
 @end
 
-#define MKMAlgorithm_RSA @"RSA"
-#define MKMAlgorithm_ECC @"ECC"
-
-#pragma mark -
-
-@protocol MKMSignKey <MKMAsymmetricKey>
+@protocol MKSignKey <MKAsymmetricKey>
 
 /**
  *  signature = sign(data, SK);
@@ -67,7 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@protocol MKMVerifyKey <MKMAsymmetricKey>
+@protocol MKVerifyKey <MKAsymmetricKey>
 
 /**
  *  OK = verify(data, signature, PK)
@@ -77,7 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  OK = verify(data, sign(data, SK), PK)
  */
-- (BOOL)matchSignKey:(id<MKMSignKey>)sKey;
+- (BOOL)matchSignKey:(id<MKSignKey>)sKey;
 
 @end
 

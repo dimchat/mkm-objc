@@ -2,12 +2,12 @@
 //
 //  Ming-Ke-Ming : Decentralized User Identity Authentication
 //
-//                               Written in 2018 by Moky <albert.moky@gmail.com>
+//                               Written in 2023 by Moky <albert.moky@gmail.com>
 //
 // =============================================================================
 // The MIT License (MIT)
 //
-// Copyright (c) 2018 Albert Moky
+// Copyright (c) 2023 Albert Moky
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -28,56 +28,29 @@
 // SOFTWARE.
 // =============================================================================
 //
-//  MKMPublicKey.h
+//  MKCryptoHelpers.m
 //  MingKeMing
 //
-//  Created by Albert Moky on 2018/9/25.
-//  Copyright © 2018 DIM Group. All rights reserved.
+//  Created by Albert Moky on 2023/1/31.
+//  Copyright © 2023 DIM Group. All rights reserved.
 //
 
-#import <MingKeMing/MKMAsymmetricKey.h>
+#import "MKConverter.h"
+#import "MKCopier.h"
+#import "MKWrapper.h"
 
-NS_ASSUME_NONNULL_BEGIN
+#import "MKCryptoHelpers.h"
 
-/*
- *  Asymmetric Cryptography Public Key
- *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- *
- *  key data format: {
- *      algorithm : "RSA", // "ECC", ...
- *      data      : "{BASE64_ENCODE}",
- *      ...
- *  }
- */
-@protocol MKMPublicKey <MKMVerifyKey>
+@implementation MKCryptoExtensions
 
-@end
+static MKCryptoExtensions *s_crypto_ext = nil;
 
-#pragma mark - Key Factory
-
-@protocol MKMPublicKeyFactory <NSObject>
-
-/**
- *  Parse map object to key
- *
- * @param key - key info
- * @return PublicKey
- */
-- (nullable id<MKMPublicKey>)parsePublicKey:(NSDictionary *)key;
++ (nonnull instancetype)sharedInstance {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        s_crypto_ext = [[self alloc] init];
+    });
+    return s_crypto_ext;
+}
 
 @end
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-_Nullable id<MKMPublicKeyFactory> MKMPublicKeyGetFactory(NSString *algorithm);
-void MKMPublicKeySetFactory(NSString *algorithm, id<MKMPublicKeyFactory> factory);
-
-_Nullable id<MKMPublicKey> MKMPublicKeyParse(_Nullable id key);
-
-#ifdef __cplusplus
-} /* end of extern "C" */
-#endif
-
-NS_ASSUME_NONNULL_END

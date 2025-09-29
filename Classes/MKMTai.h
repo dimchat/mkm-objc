@@ -41,8 +41,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol MKTransportableData;
 
-@protocol MKMVerifyKey;
-@protocol MKMSignKey;
+@protocol MKVerifyKey;
+@protocol MKSignKey;
 
 /**
  *  The Additional Information (Profile)
@@ -65,7 +65,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param PK - public key in meta.key
  * @return true on signature matched
  */
-- (BOOL)verify:(id<MKMVerifyKey>)PK;
+- (BOOL)verify:(id<MKVerifyKey>)PK;
 
 /**
  *  Encode properties to 'data' and sign it to 'signature'
@@ -73,7 +73,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param SK - private key match meta.key
  * @return signature, nil on error
  */
-- (nullable NSData *)sign:(id<MKMSignKey>)SK;
+- (nullable NSData *)sign:(id<MKSignKey>)SK;
 
 /**
  *  Get all names for properties

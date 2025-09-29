@@ -38,7 +38,7 @@
 #import "MKConverter.h"
 #import "MKCopier.h"
 #import "MKDataParser.h"
-#import "MKMSymmetricKey.h"
+#import "MKSymmetricKey.h"
 
 #import "MKFormatHelpers.h"
 
@@ -49,7 +49,7 @@ static MKFormatExtensions *s_format_ext = nil;
 + (nonnull instancetype)sharedInstance {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        s_format_ext = [[MKFormatExtensions alloc] init];
+        s_format_ext = [[self alloc] init];
     });
     return s_format_ext;
 }

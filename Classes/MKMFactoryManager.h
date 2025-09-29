@@ -87,11 +87,11 @@ NS_ASSUME_NONNULL_BEGIN
            defaultValue:(MKMMetaType)aValue;
 
 - (id<MKMMeta>)generateMetaWithType:(MKMMetaType)version
-                                key:(id<MKMSignKey>)sKey
+                                key:(id<MKSignKey>)sKey
                                seed:(nullable NSString *)name;
 
 - (id<MKMMeta>)createMetaWithType:(MKMMetaType)version
-                              key:(id<MKMVerifyKey>)pKey
+                              key:(id<MKVerifyKey>)pKey
                              seed:(nullable NSString *)name
                       fingerprint:(nullable id<MKTransportableData>)signature;
 

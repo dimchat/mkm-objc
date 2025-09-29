@@ -28,7 +28,7 @@
 // SOFTWARE.
 // =============================================================================
 //
-//  MKMCryptographyKey.h
+//  MKCryptographyKey.h
 //  MingKeMing
 //
 //  Created by Albert Moky on 2023/12/6.

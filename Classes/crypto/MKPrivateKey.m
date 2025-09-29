@@ -28,70 +28,33 @@
 // SOFTWARE.
 // =============================================================================
 //
-//  MKMCryptographyKey.h
+//  MKPrivateKey.m
 //  MingKeMing
 //
-//  Created by Albert Moky on 2018/9/30.
+//  Created by Albert Moky on 2018/9/25.
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import <MingKeMing/MKDictionary.h>
+#import "MKCryptoHelpers.h"
 
-NS_ASSUME_NONNULL_BEGIN
+#import "MKPrivateKey.h"
 
-/*
- *  Cryptography Key
- *  ~~~~~~~~~~~~~~~~
- *  Cryptography key with designated algorithm
- *
- *  key data format: {
- *      algorithm : "RSA", // ECC, AES, ...
- *      data      : "{BASE64_ENCODE}",
- *      ...
- *  }
- */
-@protocol MKMCryptographyKey <MKDictionary>
+id<MKPrivateKeyFactory> MKPrivateKeyGetFactory(NSString *algorithm) {
+    MKCryptoExtensions *ext = [MKCryptoExtensions sharedInstance];
+    return [ext.privateHelper getPrivateKeyFactory:algorithm];
+}
 
-@property (readonly, strong, nonatomic) NSString *algorithm;
-@property (readonly, strong, nonatomic) NSData *data;
+void MKPrivateKeySetFactory(NSString *algorithm, id<MKPrivateKeyFactory> factory) {
+    MKCryptoExtensions *ext = [MKCryptoExtensions sharedInstance];
+    [ext.privateHelper setPrivateKeyFactory:factory algorithm:algorithm];
+}
 
-@end
+id<MKPrivateKey> MKPrivateKeyGenerate(NSString *algorithm) {
+    MKCryptoExtensions *ext = [MKCryptoExtensions sharedInstance];
+    return [ext.privateHelper generatePrivateKey:algorithm];
+}
 
-@protocol MKMEncryptKey <MKMCryptographyKey>
-
-/**
- *  1. Symmetric Key:
- *     ciphertext = encrypt(plaintext, PW)
- *  2. Asymmetric Public Key:
- *     ciphertext = encrypt(plaintext, PK)
- *
- * @param plaintext - plain data
- * @param extra     - store extra variables ('IV' for 'AES')
- * @return ciphertext
- */
-- (NSData *)encrypt:(NSData *)plaintext params:(nullable NSMutableDictionary<NSString *, id> *)extra;
-
-@end
-
-@protocol MKMDecryptKey <MKMCryptographyKey>
-
-/**
- *  1. Symmetric Key:
- *     plaintext = decrypt(ciphertext, PW);
- *  2. Asymmetric Private Key:
- *     plaintext = decrypt(ciphertext, SK);
- *
- * @param ciphertext - encrypted data
- * @param extra      - extra params ('IV' for 'AES')
- * @return plaintext
- */
-- (nullable NSData *)decrypt:(NSData *)ciphertext params:(nullable NSDictionary<NSString *, id> *)extra;
-
-/**
- *  OK = decrypt(encrypt(data, SK), PK) == data
- */
-- (BOOL)matchEncryptKey:(id<MKMEncryptKey>)pKey;
-
-@end
-
-NS_ASSUME_NONNULL_END
+id<MKPrivateKey> MKPrivateKeyParse(id key) {
+    MKCryptoExtensions *ext = [MKCryptoExtensions sharedInstance];
+    return [ext.privateHelper parsePrivateKey:key];
+}

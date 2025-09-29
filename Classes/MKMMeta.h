@@ -80,8 +80,8 @@ typedef UInt8 MKMMetaType;
 
 @protocol MKTransportableData;
 
-@protocol MKMVerifyKey;
-@protocol MKMSignKey;
+@protocol MKVerifyKey;
+@protocol MKSignKey;
 
 @protocol MKMID;
 @protocol MKMAddress;
@@ -120,7 +120,7 @@ typedef UInt8 MKMMetaType;
  *
  *      RSA / ECC
  */
-@property (readonly, strong, nonatomic) __kindof id<MKMVerifyKey> publicKey;
+@property (readonly, strong, nonatomic) __kindof id<MKVerifyKey> publicKey;
 
 /**
  *  Seed to generate fingerprint
@@ -170,7 +170,7 @@ typedef UInt8 MKMMetaType;
  * @param PK - public key
  * @return YES on matched
  */
-- (BOOL)matchPublicKey:(id<MKMVerifyKey>)PK;
+- (BOOL)matchPublicKey:(id<MKVerifyKey>)PK;
 
 @end
 
@@ -183,7 +183,7 @@ typedef UInt8 MKMMetaType;
  * @param name - ID.name
  * @return Meta
  */
-- (id<MKMMeta>)generateMetaWithKey:(id<MKMSignKey>)SK
+- (id<MKMMeta>)generateMetaWithKey:(id<MKSignKey>)SK
                               seed:(nullable NSString *)name;
 
 /**
@@ -194,7 +194,7 @@ typedef UInt8 MKMMetaType;
  * @param signature - sKey.sign(seed)
  * @return Meta
  */
-- (id<MKMMeta>)createMetaWithKey:(id<MKMVerifyKey>)PK
+- (id<MKMMeta>)createMetaWithKey:(id<MKVerifyKey>)PK
                             seed:(nullable NSString *)name
                      fingerprint:(nullable id<MKTransportableData>)signature;
 
@@ -215,10 +215,10 @@ extern "C" {
 _Nullable id<MKMMetaFactory> MKMMetaGetFactory(MKMMetaType version);
 void MKMMetaSetFactory(MKMMetaType version, id<MKMMetaFactory> factory);
 
-id<MKMMeta> MKMMetaGenerate(MKMMetaType version, id<MKMSignKey> SK,
+id<MKMMeta> MKMMetaGenerate(MKMMetaType version, id<MKSignKey> SK,
                             NSString * _Nullable seed);
 
-id<MKMMeta> MKMMetaCreate(MKMMetaType version, id<MKMVerifyKey> PK,
+id<MKMMeta> MKMMetaCreate(MKMMetaType version, id<MKVerifyKey> PK,
                           NSString * _Nullable seed,
                           _Nullable id<MKTransportableData> fingerprint);
 
