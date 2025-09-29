@@ -28,14 +28,14 @@
 // SOFTWARE.
 // =============================================================================
 //
-//  MKMPortableNetworkFile.h
+//  MKPortableNetworkFile.h
 //  MingKeMing
 //
 //  Created by Albert Moky on 2023/12/6.
 //  Copyright © 2023 DIM Group. All rights reserved.
 //
 
-#import <MingKeMing/MKMTransportableData.h>
+#import <MingKeMing/MKTransportableData.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -63,7 +63,7 @@ NS_ASSUME_NONNULL_BEGIN
  *              }
  *      }
  */
-@protocol MKMPortableNetworkFile <MKDictionary>
+@protocol MKPortableNetworkFile <MKDictionary>
 
 /**
  *  When file data is too big, don't set it in this dictionary,
@@ -105,7 +105,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - PNF Factory
 
-@protocol MKMPortableNetworkFileFactory <NSObject>
+@protocol MKPortableNetworkFileFactory <NSObject>
 
 /**
  *  Create PNF
@@ -116,10 +116,10 @@ NS_ASSUME_NONNULL_BEGIN
  * @param key      - decrypt key for downloaded data
  * @return PNF object
  */
-- (id<MKMPortableNetworkFile>)createPortableNetworkFile:(nullable id<MKMTransportableData>)data
-                                               filename:(nullable NSString *)name
-                                                    url:(nullable NSURL *)locator
-                                               password:(nullable id<MKMDecryptKey>)key;
+- (id<MKPortableNetworkFile>)createPortableNetworkFile:(nullable id<MKTransportableData>)data
+                                              filename:(nullable NSString *)name
+                                                   url:(nullable NSURL *)locator
+                                              password:(nullable id<MKMDecryptKey>)key;
 
 /**
  *  Parse map object to PNF
@@ -127,35 +127,37 @@ NS_ASSUME_NONNULL_BEGIN
  * @param pnf - PNF info
  * @return PNF object
  */
-- (nullable id<MKMPortableNetworkFile>)parsePortableNetworkFile:(NSDictionary *)pnf;
+- (nullable id<MKPortableNetworkFile>)parsePortableNetworkFile:(NSDictionary *)pnf;
 
 @end
 
+#pragma mark - Conveniences
+
 // Create from remote URL
-#define MKMPortableNetworkFileFromURL(url, password)                           \
-                MKMPortableNetworkFileCreate(nil, nil, url, password)          \
-                        /* EOF 'MKMPortableNetworkFileFromURL(url, password)' */
+#define MKPortableNetworkFileFromURL(url, password)                            \
+                MKPortableNetworkFileCreate(nil, nil, url, password)           \
+                         /* EOF 'MKPortableNetworkFileFromURL(url, password)' */
 
 // Create from file data
-#define MKMPortableNetworkFileFromData(data, filename)                         \
-                MKMPortableNetworkFileCreate(                                  \
-                    MKMTransportableDataCreate(data, nil), filename, nil, nil  \
+#define MKPortableNetworkFileFromData(data, filename)                          \
+                MKPortableNetworkFileCreate(                                   \
+                    MKTransportableDataCreate(data, nil), filename, nil, nil   \
                 )                                                              \
-                      /* EOF 'MKMPortableNetworkFileFromData(data, filename)' */
+                       /* EOF 'MKPortableNetworkFileFromData(data, filename)' */
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-_Nullable id<MKMPortableNetworkFileFactory> MKMPortableNetworkFileGetFactory(void);
-void MKMPortableNetworkFileSetFactory(id<MKMPortableNetworkFileFactory> factory);
+_Nullable id<MKPortableNetworkFileFactory> MKPortableNetworkFileGetFactory(void);
+void MKPortableNetworkFileSetFactory(id<MKPortableNetworkFileFactory> factory);
 
-_Nullable id<MKMPortableNetworkFile> MKMPortableNetworkFileParse(_Nullable id pnf);
+id<MKPortableNetworkFile> MKPortableNetworkFileCreate(_Nullable id<MKTransportableData> data,
+                                                      NSString * _Nullable filename,
+                                                      NSURL * _Nullable url,
+                                                      _Nullable id<MKMDecryptKey> password);
 
-id<MKMPortableNetworkFile> MKMPortableNetworkFileCreate(_Nullable id<MKMTransportableData> data,
-                                                        NSString * _Nullable filename,
-                                                        NSURL * _Nullable url,
-                                                        _Nullable id<MKMDecryptKey> password);
+_Nullable id<MKPortableNetworkFile> MKPortableNetworkFileParse(_Nullable id pnf);
 
 #ifdef __cplusplus
 } /* end of extern "C" */

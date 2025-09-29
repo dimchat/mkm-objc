@@ -35,7 +35,7 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import "MKMTransportableData.h"
+#import "MKTransportableData.h"
 #import "MKMFactoryManager.h"
 
 #import "MKMMeta.h"
@@ -60,7 +60,7 @@ id<MKMMeta> MKMMetaGenerate(MKMMetaType version,
 id<MKMMeta> MKMMetaCreate(MKMMetaType version,
                           id<MKMVerifyKey> PK,
                           NSString * _Nullable seed,
-                          _Nullable id<MKMTransportableData> fingerprint) {
+                          _Nullable id<MKTransportableData> fingerprint) {
     MKMFactoryManager *man = [MKMFactoryManager sharedManager];
     return [man.generalFactory createMetaWithType:version
                                               key:PK

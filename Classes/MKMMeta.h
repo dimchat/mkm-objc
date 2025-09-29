@@ -78,7 +78,7 @@ typedef UInt8 MKMMetaType;
 
 #define MKMMetaHasSeed(ver)    ((ver) & MKMMetaType_MKM)
 
-@protocol MKMTransportableData;
+@protocol MKTransportableData;
 
 @protocol MKMVerifyKey;
 @protocol MKMSignKey;
@@ -196,7 +196,7 @@ typedef UInt8 MKMMetaType;
  */
 - (id<MKMMeta>)createMetaWithKey:(id<MKMVerifyKey>)PK
                             seed:(nullable NSString *)name
-                     fingerprint:(nullable id<MKMTransportableData>)signature;
+                     fingerprint:(nullable id<MKTransportableData>)signature;
 
 /**
  *  Parse map object to meta
@@ -220,7 +220,7 @@ id<MKMMeta> MKMMetaGenerate(MKMMetaType version, id<MKMSignKey> SK,
 
 id<MKMMeta> MKMMetaCreate(MKMMetaType version, id<MKMVerifyKey> PK,
                           NSString * _Nullable seed,
-                          _Nullable id<MKMTransportableData> fingerprint);
+                          _Nullable id<MKTransportableData> fingerprint);
 
 _Nullable id<MKMMeta> MKMMetaParse(_Nullable id meta);
 

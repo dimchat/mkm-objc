@@ -2,12 +2,12 @@
 //
 //  Ming-Ke-Ming : Decentralized User Identity Authentication
 //
-//                               Written in 2018 by Moky <albert.moky@gmail.com>
+//                               Written in 2023 by Moky <albert.moky@gmail.com>
 //
 // =============================================================================
 // The MIT License (MIT)
 //
-// Copyright (c) 2018 Albert Moky
+// Copyright (c) 2023 Albert Moky
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -28,40 +28,30 @@
 // SOFTWARE.
 // =============================================================================
 //
-//  MKMTai.m
+//  MKFormatHelpers.m
 //  MingKeMing
 //
-//  Created by Albert Moky on 2018/9/30.
-//  Copyright © 2018 DIM Group. All rights reserved.
+//  Created by Albert Moky on 2023/12/6.
+//  Copyright © 2023 DIM Group. All rights reserved.
 //
 
-#import "MKTransportableData.h"
-#import "MKMFactoryManager.h"
+#import "MKConverter.h"
+#import "MKCopier.h"
+#import "MKDataParser.h"
+#import "MKMSymmetricKey.h"
 
-#import "MKMTai.h"
+#import "MKFormatHelpers.h"
 
-id<MKMDocumentFactory> MKMDocumentGetFactory(NSString *type) {
-    MKMFactoryManager *man = [MKMFactoryManager sharedManager];
-    return [man.generalFactory documentFactoryForType:type];
+@implementation MKFormatExtensions
+
+static MKFormatExtensions *s_format_ext = nil;
+
++ (nonnull instancetype)sharedInstance {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        s_format_ext = [[MKFormatExtensions alloc] init];
+    });
+    return s_format_ext;
 }
 
-void MKMDocumentSetFactory(NSString *type, id<MKMDocumentFactory> factory) {
-    MKMFactoryManager *man = [MKMFactoryManager sharedManager];
-    [man.generalFactory setDocumentFactory:factory forType:type];
-}
-
-id<MKMDocument> MKMDocumentCreate(NSString *type,
-                                  id<MKMID> ID,
-                                  NSString *data,
-                                  id<MKTransportableData> sig) {
-    MKMFactoryManager *man = [MKMFactoryManager sharedManager];
-    return [man.generalFactory createDocument:ID
-                                         type:type
-                                         data:data
-                                    signature:sig];
-}
-
-id<MKMDocument> MKMDocumentParse(id doc) {
-    MKMFactoryManager *man = [MKMFactoryManager sharedManager];
-    return [man.generalFactory parseDocument:doc];
-}
+@end

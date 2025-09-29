@@ -39,7 +39,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol MKMTransportableData;
+@protocol MKTransportableData;
 
 @protocol MKMVerifyKey;
 @protocol MKMSignKey;
@@ -161,7 +161,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (id<MKMDocument>)createDocument:(id<MKMID>)ID
                              data:(nullable NSString *)json
-                        signature:(nullable id<MKMTransportableData>)sig;
+                        signature:(nullable id<MKTransportableData>)sig;
 
 /**
  *  Parse map object to entity document
@@ -187,7 +187,7 @@ void MKMDocumentSetFactory(NSString *type, id<MKMDocumentFactory> factory);
 id<MKMDocument> MKMDocumentCreate(NSString *type,
                                   id<MKMID> ID,
                                   NSString * _Nullable data,
-                                  _Nullable id<MKMTransportableData> signature);
+                                  _Nullable id<MKTransportableData> signature);
 
 _Nullable id<MKMDocument> MKMDocumentParse(_Nullable id doc);
 

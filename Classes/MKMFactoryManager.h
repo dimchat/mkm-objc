@@ -93,7 +93,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (id<MKMMeta>)createMetaWithType:(MKMMetaType)version
                               key:(id<MKMVerifyKey>)pKey
                              seed:(nullable NSString *)name
-                      fingerprint:(nullable id<MKMTransportableData>)signature;
+                      fingerprint:(nullable id<MKTransportableData>)signature;
 
 - (nullable id<MKMMeta>)parseMeta:(nullable id)meta;
 
@@ -108,7 +108,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (id<MKMDocument>)createDocument:(id<MKMID>)identifier
                              type:(NSString *)type
                              data:(nullable NSString *)json
-                        signature:(nullable id<MKMTransportableData>)ted;
+                        signature:(nullable id<MKTransportableData>)ted;
 
 - (nullable id<MKMDocument>)parseDocument:(nullable id)doc;
 

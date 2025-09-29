@@ -53,7 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
  *              ...
  *      }
  */
-@protocol MKMTransportableData <MKDictionary>
+@protocol MKTransportableData <MKDictionary>
 
 /**
  *  Get encode algorithm
@@ -84,14 +84,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-#define MKMAlgorithm_TransportableDefault @"base64"
-#define MKMAlgorithm_Base64               @"base64"
-#define MKMAlgorithm_Base58               @"base58"
-#define MKMAlgorithm_Hex                  @"hex"
-
 #pragma mark - TED Factory
 
-@protocol MKMTransportableDataFactory <NSObject>
+@protocol MKTransportableDataFactory <NSObject>
 
 /**
  *  Create TED
@@ -99,7 +94,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param data - original data
  * @return TED object
  */
-- (id<MKMTransportableData>)createTransportableData:(NSData *)data;
+- (id<MKTransportableData>)createTransportableData:(NSData *)data;
 
 /**
  *  Parse map object to key
@@ -107,31 +102,30 @@ NS_ASSUME_NONNULL_BEGIN
  * @param ted  - TED info
  * @return TED object
  */
-- (nullable id<MKMTransportableData>)parseTransportableData:(NSDictionary *)ted;
+- (nullable id<MKTransportableData>)parseTransportableData:(NSDictionary *)ted;
 
 @end
 
-// Conveniences
+#pragma mark - Conveniences
 
-#define MKMTransportableDataEncode(data)                                       \
-                [MKMTransportableDataCreate(data, nil) object]                 \
-                                    /* EOF 'MKMTransportableDataEncode(data)' */
+#define MKTransportableDataEncode(data)                                        \
+                [MKTransportableDataCreate(data, nil) object]                  \
+                                     /* EOF 'MKTransportableDataEncode(data)' */
 
-#define MKMTransportableDataDecode(encoded)                                    \
-                [MKMTransportableDataParse(encoded) data]                      \
-                                 /* EOF 'MKMTransportableDataDecode(encoded)' */
+#define MKTransportableDataDecode(encoded)                                     \
+                [MKTransportableDataParse(encoded) data]                       \
+                                  /* EOF 'MKTransportableDataDecode(encoded)' */
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-_Nullable id<MKMTransportableDataFactory> MKMTransportableDataGetFactory(NSString *algorithm);
-void MKMTransportableDataSetFactory(NSString *algorithm, id<MKMTransportableDataFactory> factory);
+_Nullable id<MKTransportableDataFactory> MKTransportableDataGetFactory(NSString *algorithm);
+void MKTransportableDataSetFactory(NSString *algorithm, id<MKTransportableDataFactory> factory);
 
-_Nullable id<MKMTransportableData> MKMTransportableDataParse(_Nullable id ted);
+id<MKTransportableData> MKTransportableDataCreate(NSData *data, NSString * _Nullable algorithm);
 
-id<MKMTransportableData> MKMTransportableDataCreate(NSData *data,
-                                                    NSString * _Nullable algorithm);
+_Nullable id<MKTransportableData> MKTransportableDataParse(_Nullable id ted);
 
 #ifdef __cplusplus
 } /* end of extern "C" */

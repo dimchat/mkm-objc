@@ -39,7 +39,7 @@
 #import "MKCopier.h"
 #import "MKWrapper.h"
 #import "MKDataParser.h"
-#import "MKMTransportableData.h"
+#import "MKTransportableData.h"
 #import "MKMAsymmetricKey.h"
 
 #import "MKMFactoryManager.h"
@@ -216,7 +216,7 @@ static MKMFactoryManager *s_manager = nil;
 - (id<MKMMeta>)createMetaWithType:(MKMMetaType)version
                               key:(id<MKMVerifyKey>)pKey
                              seed:(nullable NSString *)name
-                      fingerprint:(nullable id<MKMTransportableData>)signature {
+                      fingerprint:(nullable id<MKTransportableData>)signature {
     id<MKMMetaFactory> factory = [self metaFactoryForType:version];
     NSAssert(factory, @"meta type not support: %d", version);
     return [factory createMetaWithKey:pKey seed:name fingerprint:signature];
@@ -262,7 +262,7 @@ static MKMFactoryManager *s_manager = nil;
 - (id<MKMDocument>)createDocument:(id<MKMID>)identifier
                              type:(NSString *)type
                              data:(NSString *)json
-                        signature:(id<MKMTransportableData>)base64 {
+                        signature:(id<MKTransportableData>)base64 {
     id<MKMDocumentFactory> factory = [self documentFactoryForType:type];
     NSAssert(factory, @"doc type not support: %@", type);
     return [factory createDocument:identifier data:json signature:base64];

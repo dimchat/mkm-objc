@@ -28,37 +28,40 @@
 // SOFTWARE.
 // =============================================================================
 //
-//  MKMTransportableData.m
+//  MKPortableNetworkFile.m
 //  MingKeMing
 //
 //  Created by Albert Moky on 2023/12/6.
 //  Copyright © 2023 DIM Group. All rights reserved.
 //
 
-#import "MKMFormatFactoryManager.h"
+#import "MKMSymmetricKey.h"
+#import "MKFormatHelpers.h"
 
-#import "MKMTransportableData.h"
+#import "MKPortableNetworkFile.h"
 
-id<MKMTransportableDataFactory> MKMTransportableDataGetFactory(NSString *algorithm) {
-    MKMFormatFactoryManager *man = [MKMFormatFactoryManager sharedManager];
-    return [man.generalFactory transportableDataFactoryForAlgorithm:algorithm];
+id<MKPortableNetworkFileFactory> MKPortableNetworkFileGetFactory(void) {
+    MKFormatExtensions *ext = [MKFormatExtensions sharedInstance];
+    return [ext.pnfHelper getPortableNetworkFileFactory];
 }
 
-void MKMTransportableDataSetFactory(NSString *algorithm, id<MKMTransportableDataFactory> factory) {
-    MKMFormatFactoryManager *man = [MKMFormatFactoryManager sharedManager];
-    [man.generalFactory setTransportableDataFactory:factory forAlgorithm:algorithm];
+void MKPortableNetworkFileSetFactory(id<MKPortableNetworkFileFactory> factory) {
+    MKFormatExtensions *ext = [MKFormatExtensions sharedInstance];
+    [ext.pnfHelper setPortableNetworkFileFactory:factory];
 }
 
-id<MKMTransportableData> MKMTransportableDataCreate(NSData *data,
-                                                    NSString * _Nullable algorithm) {
-    if ([algorithm length] == 0) {
-        algorithm = MKMAlgorithm_TransportableDefault;
-    }
-    MKMFormatFactoryManager *man = [MKMFormatFactoryManager sharedManager];
-    return [man.generalFactory createTransportableData:data withAlgorithm:algorithm];
+id<MKPortableNetworkFile> MKPortableNetworkFileParse(id pnf) {
+    MKFormatExtensions *ext = [MKFormatExtensions sharedInstance];
+    return [ext.pnfHelper parsePortableNetworkFile:pnf];
 }
 
-id<MKMTransportableData> MKMTransportableDataParse(id ted) {
-    MKMFormatFactoryManager *man = [MKMFormatFactoryManager sharedManager];
-    return [man.generalFactory parseTransportableData:ted];
+id<MKPortableNetworkFile> MKPortableNetworkFileCreate(id<MKTransportableData> data,
+                                                      NSString *filename,
+                                                      NSURL *url,
+                                                      id<MKMDecryptKey> password) {
+    MKFormatExtensions *ext = [MKFormatExtensions sharedInstance];
+    return [ext.pnfHelper createPortableNetworkFile:data
+                                           filename:filename
+                                                url:url
+                                           password:password];
 }
