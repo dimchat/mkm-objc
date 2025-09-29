@@ -28,7 +28,7 @@
 // SOFTWARE.
 // =============================================================================
 //
-//  MKMDataParser.h
+//  MKDataParser.h
 //  MingKeMing
 //
 //  Created by Albert Moky on 2020/4/7.
@@ -75,7 +75,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  1. encode object to string;
  *  2. decode string to object.
  */
-@protocol MKMObjectCoder <NSObject>
+@protocol MKObjectCoder <NSObject>
 
 /**
  *  Encode Map/List object to String
@@ -98,34 +98,21 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  coder for json <=> map
  */
-@protocol MKMMapCoder <NSObject>
+@protocol MKMapCoder <NSObject>
 
 - (NSString *)encode:(NSDictionary *)object;
+
 - (nullable NSDictionary *)decode:(NSString *)string;
 
 @end
 
-/**
- *  coder for json <=> list
- */
-@protocol MKMListCoder <NSObject>
-
-- (NSString *)encode:(NSArray *)object;
-- (nullable NSArray *)decode:(NSString *)string;
-
-@end
-
-@interface MKMMapCoder : NSObject <MKMMapCoder>
-
-@end
-
-@interface MKMListCoder : NSObject <MKMListCoder>
+@interface MKMapCoder : NSObject <MKMapCoder>
 
 @end
 
 #pragma mark -
 
-@interface MKMUTF8 : NSObject
+@interface MKUTF8 : NSObject
 
 + (void)setCoder:(id<MKStringCoder>)parser;
 + (nullable id<MKStringCoder>)getCoder;
@@ -135,46 +122,33 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface MKMJSON : NSObject
+@interface MKJSON : NSObject
 
-+ (void)setCoder:(id<MKMObjectCoder>)parser;
-+ (nullable id<MKMObjectCoder>)getCoder;
++ (void)setCoder:(id<MKObjectCoder>)parser;
++ (nullable id<MKObjectCoder>)getCoder;
 
 + (NSString *)encode:(id)object;
 + (nullable id)decode:(NSString *)json;
 
 @end
 
-@interface MKMJSONMap : NSObject
+@interface MKJSONMap : NSObject
 
-+ (void)setCoder:(id<MKMMapCoder>)parser;
-+ (nullable id<MKMMapCoder>)getCoder;
++ (void)setCoder:(id<MKMapCoder>)parser;
++ (nullable id<MKMapCoder>)getCoder;
 
 + (NSString *)encode:(NSDictionary *)object;
 + (nullable NSDictionary *)decode:(NSString *)json;
 
 @end
 
-@interface MKMJSONList : NSObject
+#define MKUTF8Encode(string) [MKUTF8 encode:(string)]
+#define MKUTF8Decode(data)   [MKUTF8 decode:(data)]
 
-+ (void)setCoder:(id<MKMListCoder>)parser;
-+ (nullable id<MKMListCoder>)getCoder;
+#define MKJsonEncode(object) [MKJSON encode:(object)]
+#define MKJsonDecode(string) [MKJSON decode:(string)]
 
-+ (NSString *)encode:(NSArray *)object;
-+ (nullable NSArray *)decode:(NSString *)json;
-
-@end
-
-#define MKMUTF8Encode(string) [MKMUTF8 encode:(string)]
-#define MKMUTF8Decode(data)   [MKMUTF8 decode:(data)]
-
-#define MKMJSONEncode(object) [MKMJSON encode:(object)]
-#define MKMJSONDecode(string) [MKMJSON decode:(string)]
-
-#define MKMJSONMapEncode(object) [MKMJSONMap encode:(object)]
-#define MKMJSONMapDecode(string) [MKMJSONMap decode:(string)]
-
-#define MKMJSONListEncode(object) [MKMJSONList encode:(object)]
-#define MKMJSONListDecode(string) [MKMJSONList decode:(string)]
+#define MKJsonMapEncode(object) [MKJSONMap encode:(object)]
+#define MKJsonMapDecode(string) [MKJSONMap decode:(string)]
 
 NS_ASSUME_NONNULL_END

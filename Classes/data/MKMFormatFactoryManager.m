@@ -37,7 +37,7 @@
 
 #import "MKConverter.h"
 #import "MKCopier.h"
-#import "MKMDataParser.h"
+#import "MKDataParser.h"
 #import "MKMSymmetricKey.h"
 
 #import "MKMFormatFactoryManager.h"
@@ -129,7 +129,7 @@ static MKMFormatFactoryManager *s_manager = nil;
     if ([text length] == 0) {
         return nil;
     } else if ([text hasPrefix:@"{"] && [text hasSuffix:@"}"]) {
-        return MKMJSONMapDecode(text);
+        return MKJsonMapDecode(text);
     }
     NSMutableDictionary *info = [[NSMutableDictionary alloc] init];
     NSArray *array = [self split:text];

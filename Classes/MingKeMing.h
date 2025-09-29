@@ -62,8 +62,8 @@ FOUNDATION_EXPORT const unsigned char MingKeMingVersionString[];
 #import <MingKeMing/MKMKeyFactoryManager.h>
 
 #import <MingKeMing/MKDigester.h>
-#import <MingKeMing/MKMDataCoder.h>
-#import <MingKeMing/MKMDataParser.h>
+#import <MingKeMing/MKDataCoder.h>
+#import <MingKeMing/MKDataParser.h>
 #import <MingKeMing/MKMTransportableData.h>
 #import <MingKeMing/MKMPortableNetworkFile.h>
 #import <MingKeMing/MKMFormatFactoryManager.h>

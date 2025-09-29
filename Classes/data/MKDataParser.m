@@ -28,16 +28,16 @@
 // SOFTWARE.
 // =============================================================================
 //
-//  MKMDataParser.m
+//  MKDataParser.m
 //  MingKeMing
 //
 //  Created by Albert Moky on 2020/4/7.
 //  Copyright © 2020 DIM Group. All rights reserved.
 //
 
-#import "MKMDataParser.h"
+#import "MKDataParser.h"
 
-@implementation MKMUTF8
+@implementation MKUTF8
 
 static id<MKStringCoder> s_utf8 = nil;
 
@@ -61,15 +61,15 @@ static id<MKStringCoder> s_utf8 = nil;
 
 @end
 
-@implementation MKMJSON
+@implementation MKJSON
 
-static id<MKMObjectCoder> s_json = nil;
+static id<MKObjectCoder> s_json = nil;
 
-+ (void)setCoder:(id<MKMObjectCoder>)parser {
++ (void)setCoder:(id<MKObjectCoder>)parser {
     s_json = parser;
 }
 
-+ (id<MKMObjectCoder>)getCoder {
++ (id<MKObjectCoder>)getCoder {
     return s_json;
 }
 
@@ -85,88 +85,46 @@ static id<MKMObjectCoder> s_json = nil;
 
 @end
 
-@implementation MKMMapCoder
+@implementation MKMapCoder
 
 - (NSString *)encode:(NSDictionary *)object {
-    return [MKMJSON encode:object];
+    return [MKJSON encode:object];
 }
 
 - (nullable NSDictionary *)decode:(NSString *)string {
-    return [MKMJSON decode:string];
+    return [MKJSON decode:string];
 }
 
 @end
 
-@implementation MKMListCoder
+@implementation MKJSONMap
 
-- (NSString *)encode:(NSArray *)object {
-    return [MKMJSON encode:object];
-}
+static id<MKMapCoder> s_json_map = nil;
 
-- (nullable NSArray *)decode:(NSString *)string {
-    return [MKMJSON decode:string];
-}
-
-@end
-
-@implementation MKMJSONMap
-
-static id<MKMMapCoder> s_json_map = nil;
-
-+ (void)setCoder:(id<MKMMapCoder>)parser {
++ (void)setCoder:(id<MKMapCoder>)parser {
     s_json_map = parser;
 }
 
-+ (id<MKMMapCoder>)getCoder {
++ (id<MKMapCoder>)getCoder {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         if (!s_json_map) {
-            s_json_map = [[MKMMapCoder alloc] init];
+            s_json_map = [[MKMapCoder alloc] init];
         }
     });
     return s_json_map;
 }
 
 + (NSString *)encode:(NSDictionary *)object {
-    id<MKMMapCoder> coder = [self getCoder];
+    id<MKMapCoder> coder = [self getCoder];
     NSAssert(coder, @"JSON Map coder not set");
     return [coder encode:object];
 }
 
 + (nullable NSDictionary *)decode:(NSString *)json {
-    id<MKMMapCoder> coder = [self getCoder];
+    id<MKMapCoder> coder = [self getCoder];
     NSAssert(coder, @"JSON Map coder not set");
     return [coder decode:json];
-}
-
-@end
-
-@implementation MKMJSONList
-
-static id<MKMListCoder> s_json_list = nil;
-
-+ (void)setCoder:(id<MKMListCoder>)parser {
-    s_json_list = parser;
-}
-
-+ (id<MKMListCoder>)getCoder {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        if (!s_json_list) {
-            s_json_list = [[MKMListCoder alloc] init];
-        }
-    });
-    return s_json_list;
-}
-
-+ (NSString *)encode:(NSArray *)object {
-    NSAssert(s_json_list, @"JSON List coder not set");
-    return [s_json_list encode:object];
-}
-
-+ (nullable NSArray *)decode:(NSString *)json {
-    NSAssert(s_json_list, @"JSON List coder not set");
-    return [s_json_list decode:json];
 }
 
 @end

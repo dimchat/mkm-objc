@@ -28,83 +28,84 @@
 // SOFTWARE.
 // =============================================================================
 //
-//  MKMDataCoder.m
+//  MKDataCoder.h
 //  MingKeMing
 //
 //  Created by Albert Moky on 2020/4/7.
 //  Copyright © 2020 DIM Group. All rights reserved.
 //
 
-#import "MKMDataCoder.h"
+#import <Foundation/Foundation.h>
 
-@implementation MKMHex
+NS_ASSUME_NONNULL_BEGIN
 
-static id<MKMDataCoder> s_hex = nil;
+/*
+ *  Data Coder
+ *  ~~~~~~~~~~
+ *  Hex, Base58, Base64, ...
+ *
+ *  1. encode binary data to string;
+ *  2. decode string to binary data.
+ */
+@protocol MKDataCoder <NSObject>
 
-+ (void)setCoder:(id<MKMDataCoder>)coder {
-    s_hex = coder;
-}
+/**
+ *  Encode binary data to text string
+ *
+ * @param data - binary data
+ * @return Base58/64 string
+ */
+- (NSString *)encode:(NSData *)data;
 
-+ (id<MKMDataCoder>)getCoder {
-    return s_hex;
-}
-
-+ (NSString *)encode:(NSData *)data {
-    NSAssert(s_hex, @"Hex coder not set");
-    return [s_hex encode:data];
-}
-
-+ (nullable NSData *)decode:(NSString *)string {
-    NSAssert(s_hex, @"Hex coder not set");
-    return [s_hex decode:string];
-}
-
-@end
-
-@implementation MKMBase58
-
-static id<MKMDataCoder> s_base58 = nil;
-
-+ (void)setCoder:(id<MKMDataCoder>)coder {
-    s_base58 = coder;
-}
-
-+ (id<MKMDataCoder>)getCoder {
-    return s_base58;
-}
-
-+ (NSString *)encode:(NSData *)data {
-    NSAssert(s_base58, @"Base-58 coder not set");
-    return [s_base58 encode:data];
-}
-
-+ (nullable NSData *)decode:(NSString *)string {
-    NSAssert(s_base58, @"Base-58 coder not set");
-    return [s_base58 decode:string];
-}
+/**
+ *  Decode text string to binary data
+ *
+ * @param string - base58/64 string
+ * @return binary data
+ */
+- (nullable NSData *)decode:(NSString *)string;
 
 @end
 
-@implementation MKMBase64
+#pragma mark -
 
-static id<MKMDataCoder> s_base64 = nil;
+@interface MKHex : NSObject
 
-+ (void)setCoder:(id<MKMDataCoder>)coder {
-    s_base64 = coder;
-}
++ (void)setCoder:(id<MKDataCoder>)coder;
++ (nullable id<MKDataCoder>)getCoder;
 
-+ (id<MKMDataCoder>)getCoder {
-    return s_base64;
-}
-
-+ (NSString *)encode:(NSData *)data {
-    NSAssert(s_base64, @"Base-64 coder not set");
-    return [s_base64 encode:data];
-}
-
-+ (nullable NSData *)decode:(NSString *)string {
-    NSAssert(s_base64, @"Base-64 coder not set");
-    return [s_base64 decode:string];
-}
++ (NSString *)encode:(NSData *)data;
++ (nullable NSData *)decode:(NSString *)string;
 
 @end
+
+@interface MKBase58 : NSObject
+
++ (void)setCoder:(id<MKDataCoder>)coder;
++ (nullable id<MKDataCoder>)getCoder;
+
++ (NSString *)encode:(NSData *)data;
++ (nullable NSData *)decode:(NSString *)string;
+
+@end
+
+@interface MKBase64 : NSObject
+
++ (void)setCoder:(id<MKDataCoder>)coder;
++ (nullable id<MKDataCoder>)getCoder;
+
++ (NSString *)encode:(NSData *)data;
++ (nullable NSData *)decode:(NSString *)string;
+
+@end
+
+#define MKHexEncode(data)       [MKHex encode:(data)]
+#define MKHexDecode(string)     [MKHex decode:(string)]
+
+#define MKBase58Encode(data)    [MKBase58 encode:(data)]
+#define MKBase58Decode(string)  [MKBase58 decode:(string)]
+
+#define MKBase64Encode(data)    [MKBase64 encode:(data)]
+#define MKBase64Decode(string)  [MKBase64 decode:(string)]
+
+NS_ASSUME_NONNULL_END
