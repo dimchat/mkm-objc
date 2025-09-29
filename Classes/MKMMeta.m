@@ -36,39 +36,39 @@
 //
 
 #import "MKTransportableData.h"
-#import "MKMFactoryManager.h"
+#import "MKMAccountHelpers.h"
 
 #import "MKMMeta.h"
 
-id<MKMMetaFactory> MKMMetaGetFactory(MKMMetaType version) {
-    MKMFactoryManager *man = [MKMFactoryManager sharedManager];
-    return [man.generalFactory metaFactoryForType:version];
+id<MKMMetaFactory> MKMMetaGetFactory(NSString *type) {
+    MKMAccountExtensions *ext = [MKMAccountExtensions sharedInstance];
+    return [ext.metaHelper getMetaFactoryForType:type];
 }
 
-void MKMMetaSetFactory(MKMMetaType version, id<MKMMetaFactory> factory) {
-    MKMFactoryManager *man = [MKMFactoryManager sharedManager];
-    [man.generalFactory setMetaFactory:factory forType:version];
+void MKMMetaSetFactory(NSString *type, id<MKMMetaFactory> factory) {
+    MKMAccountExtensions *ext = [MKMAccountExtensions sharedInstance];
+    [ext.metaHelper setMetaFactory:factory forType:type];
 }
 
-id<MKMMeta> MKMMetaGenerate(MKMMetaType version,
+id<MKMMeta> MKMMetaGenerate(NSString *type,
                             id<MKSignKey> SK,
                             NSString * _Nullable seed) {
-    MKMFactoryManager *man = [MKMFactoryManager sharedManager];
-    return [man.generalFactory generateMetaWithType:version key:SK seed:seed];
+    MKMAccountExtensions *ext = [MKMAccountExtensions sharedInstance];
+    return [ext.metaHelper generateMetaWithType:type key:SK seed:seed];
 }
 
-id<MKMMeta> MKMMetaCreate(MKMMetaType version,
+id<MKMMeta> MKMMetaCreate(NSString *type,
                           id<MKVerifyKey> PK,
                           NSString * _Nullable seed,
                           _Nullable id<MKTransportableData> fingerprint) {
-    MKMFactoryManager *man = [MKMFactoryManager sharedManager];
-    return [man.generalFactory createMetaWithType:version
-                                              key:PK
-                                             seed:seed
-                                      fingerprint:fingerprint];
+    MKMAccountExtensions *ext = [MKMAccountExtensions sharedInstance];
+    return [ext.metaHelper createMetaWithType:type
+                                          key:PK
+                                         seed:seed
+                                  fingerprint:fingerprint];
 }
 
 id<MKMMeta> MKMMetaParse(id meta) {
-    MKMFactoryManager *man = [MKMFactoryManager sharedManager];
-    return [man.generalFactory parseMeta:meta];
+    MKMAccountExtensions *ext = [MKMAccountExtensions sharedInstance];
+    return [ext.metaHelper parseMeta:meta];
 }

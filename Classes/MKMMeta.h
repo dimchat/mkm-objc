@@ -39,45 +39,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/**
- *  enum MKMMetaType
- *
- *  abstract Defined for algorithm that generating address.
- *
- *  discussion Generate and check ID/Address
- *
- *      MKMMetaType_MKM give a seed string first, and sign this seed to get
- *      fingerprint; after that, use the fingerprint to generate address.
- *      This will get a firmly relationship between (username, address and key).
- *
- *      MKMMetaType_BTC use the key data to generate address directly.
- *      This can build a BTC address for the entity ID (no username).
- *
- *      MKMMetaType_ExBTC use the key data to generate address directly, and
- *      sign the seed to get fingerprint (just for binding username and key).
- *      This can build a BTC address, and bind a username to the entity ID.
- *
- *  Bits:
- *      0000 0001 - this meta contains seed as ID.name
- *      0000 0010 - this meta generate BTC address
- *      0000 0100 - this meta generate ETH address
- *      ...
- */
-typedef NS_ENUM(UInt8, MKMMetaVersion) {
-    
-    MKMMetaType_MKM     = 0x01,  // 0000 0001
-    
-    MKMMetaType_BTC     = 0x02,  // 0000 0010
-    MKMMetaType_ExBTC   = 0x03,  // 0000 0011
-    
-    MKMMetaType_ETH     = 0x04,  // 0000 0100
-    MKMMetaType_ExETH   = 0x05,  // 0000 0101
-};
-typedef UInt8 MKMMetaType;
-#define MKMMetaType_Default MKMMetaType_MKM
-
-#define MKMMetaHasSeed(ver)    ((ver) & MKMMetaType_MKM)
-
 @protocol MKTransportableData;
 
 @protocol MKVerifyKey;
@@ -92,10 +53,10 @@ typedef UInt8 MKMMetaType;
  *  This class is used to generate entity ID
  *
  *      data format: {
- *          type       : 1,      // algorithm version
- *          key        : {...},  // PK = secp256k1(SK);
- *          seed       : "moKy", // user/group name
- *          fingerprint: "..."   // CT = sign(seed, SK);
+ *          type        : 1,              // algorithm version
+ *          key         : "{public key}", // PK = secp256k1(SK);
+ *          seed        : "moKy",         // user/group name
+ *          fingerprint : "..."           // CT = sign(seed, SK);
  *      }
  *
  *      algorithm:
@@ -106,14 +67,12 @@ typedef UInt8 MKMMetaType;
 /**
  *  Meta algorithm version
  *
- *      0x01 - username@address
- *      0x02 - btc_address
- *      0x03 - username@btc_address
- *      0x04 - eth_address
- *      0x05 - username@eth_address
+ *      1 = MKM : username@address (default)
+ *      2 = BTC : btc_address
+ *      4 = ETH : eth_address
  *      ....
  */
-@property (readonly, nonatomic) MKMMetaType type;
+@property (readonly, nonatomic) NSString *type;
 
 /**
  *  Public key
@@ -137,14 +96,6 @@ typedef UInt8 MKMMetaType;
  */
 @property (readonly, strong, nonatomic, nullable) NSData *fingerprint;
 
-/**
- *  Generate address
- *
- * @param network - ID.type
- * @return Address
- */
-- (id<MKMAddress>)generateAddress:(MKMEntityType)network;
-
 #pragma mark Validation
 
 /**
@@ -156,21 +107,12 @@ typedef UInt8 MKMMetaType;
 @property (readonly, nonatomic, getter=isValid) BOOL valid;
 
 /**
- *  Check whether meta matches with entity ID
- *  (must call this when received a new meta from network)
+ *  Generate address
  *
- * @param ID - entity ID
- * @return YES on matched
+ * @param network - address type
+ * @return Address
  */
-- (BOOL)matchIdentifier:(id<MKMID>)ID;
-
-/**
- *  Check whether meta matches with public key
- *
- * @param PK - public key
- * @return YES on matched
- */
-- (BOOL)matchPublicKey:(id<MKVerifyKey>)PK;
+- (id<MKMAddress>)generateAddress:(MKMEntityType)network;
 
 @end
 
@@ -212,13 +154,13 @@ typedef UInt8 MKMMetaType;
 extern "C" {
 #endif
 
-_Nullable id<MKMMetaFactory> MKMMetaGetFactory(MKMMetaType version);
-void MKMMetaSetFactory(MKMMetaType version, id<MKMMetaFactory> factory);
+_Nullable id<MKMMetaFactory> MKMMetaGetFactory(NSString *type);
+void MKMMetaSetFactory(NSString *type, id<MKMMetaFactory> factory);
 
-id<MKMMeta> MKMMetaGenerate(MKMMetaType version, id<MKSignKey> SK,
+id<MKMMeta> MKMMetaGenerate(NSString *type, id<MKSignKey> SK,
                             NSString * _Nullable seed);
 
-id<MKMMeta> MKMMetaCreate(MKMMetaType version, id<MKVerifyKey> PK,
+id<MKMMeta> MKMMetaCreate(NSString *type, id<MKVerifyKey> PK,
                           NSString * _Nullable seed,
                           _Nullable id<MKTransportableData> fingerprint);
 

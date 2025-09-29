@@ -75,12 +75,12 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param meta - meta info
  * @param network - ID.type
- * @param location - ID.terminal
+ * @param locater - ID.terminal
  * @return ID
  */
-- (id<MKMID>)generateIdentifierWithMeta:(id<MKMMeta>)meta
-                                   type:(MKMEntityType)network
-                               terminal:(nullable NSString *)location;
+- (id<MKMID>)generateIdentifier:(MKMEntityType)network
+                       withMeta:(id<MKMMeta>)meta
+                       terminal:(nullable NSString *)locater;
 
 /**
  *  Create ID
@@ -126,15 +126,10 @@ id<MKMID> MKMAnyone(void);
 id<MKMID> MKMEveryone(void);
 id<MKMID> MKMFounder(void);  // DIM Founder
 
-/**
- *  Convert ID list from string array
- */
-NSArray<id<MKMID>> *MKMIDConvert(NSArray<id> *members);
+#pragma mark Conveniences
 
-/**
- *  Revert ID list to string array
- */
-NSArray<NSString *> *MKMIDRevert(NSArray<id<MKMID>> *members);
+NSArray<id<MKMID>> *MKMIDConvert(NSArray<id> *array);
+NSArray<NSString *> *MKMIDRevert(NSArray<id<MKMID>> *identifiers);
 
 #ifdef __cplusplus
 } /* end of extern "C" */

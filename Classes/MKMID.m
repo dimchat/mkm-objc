@@ -35,41 +35,41 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import "MKMFactoryManager.h"
+#import "MKMAccountHelpers.h"
 
 #import "MKMID.h"
 
 id<MKMIDFactory> MKMIDGetFactory(void) {
-    MKMFactoryManager *man = [MKMFactoryManager sharedManager];
-    return [man.generalFactory idFactory];
+    MKMAccountExtensions *ext = [MKMAccountExtensions sharedInstance];
+    return [ext.idHelper getIdentifierFactory];
 }
 
 void MKMIDSetFactory(id<MKMIDFactory> factory) {
-    MKMFactoryManager *man = [MKMFactoryManager sharedManager];
-    [man.generalFactory setIDFactory:factory];
+    MKMAccountExtensions *ext = [MKMAccountExtensions sharedInstance];
+    [ext.idHelper setIdentifierFactory:factory];
 }
 
 id<MKMID> MKMIDGenerate(id<MKMMeta> meta,
                         MKMEntityType network,
                         NSString * _Nullable terminal) {
-    MKMFactoryManager *man = [MKMFactoryManager sharedManager];
-    return [man.generalFactory generateIdentifierWithType:network
-                                                     meta:meta
-                                                 terminal:terminal];
+    MKMAccountExtensions *ext = [MKMAccountExtensions sharedInstance];
+    return [ext.idHelper generateIdentifier:network
+                                   withMeta:meta
+                                   terminal:terminal];
 }
 
 id<MKMID> MKMIDCreate(NSString * _Nullable name,
                       id<MKMAddress> address,
                       NSString * _Nullable terminal) {
-    MKMFactoryManager *man = [MKMFactoryManager sharedManager];
-    return [man.generalFactory createIdentifierWithName:name
-                                                address:address
-                                               terminal:terminal];
+    MKMAccountExtensions *ext = [MKMAccountExtensions sharedInstance];
+    return [ext.idHelper createIdentifierWithName:name
+                                          address:address
+                                         terminal:terminal];
 }
 
 id<MKMID> MKMIDParse(id identifier) {
-    MKMFactoryManager *man = [MKMFactoryManager sharedManager];
-    return [man.generalFactory parseIdentifier:identifier];
+    MKMAccountExtensions *ext = [MKMAccountExtensions sharedInstance];
+    return [ext.idHelper parseIdentifier:identifier];
 }
 
 #pragma mark Broadcast ID
@@ -112,17 +112,29 @@ id<MKMID> MKMFounder(void) {
 
 #pragma mark Array
 
-NSArray<id<MKMID>> *MKMIDConvert(NSArray<id> *members) {
-    MKMFactoryManager *man = [MKMFactoryManager sharedManager];
-    return [man.generalFactory convertIDList:members];
+NSArray<id<MKMID>> *MKMIDConvert(NSArray<id> *array) {
+    NSMutableArray<id<MKMID>> *members = [[NSMutableArray alloc] initWithCapacity:array.count];
+    [array enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        id<MKMID> ID = MKMIDParse(obj);
+        if (ID) {
+            [members addObject:ID];
+        }
+    }];
+    return members;
 }
 
-NSArray<NSString *> *MKMIDRevert(NSArray<id<MKMID>> *members) {
-    MKMFactoryManager *man = [MKMFactoryManager sharedManager];
-    return [man.generalFactory revertIDList:members];
+NSArray<NSString *> *MKMIDRevert(NSArray<id<MKMID>> *identifiers) {
+    NSMutableArray<NSString *> *array = [[NSMutableArray alloc] initWithCapacity:identifiers.count];
+    [identifiers enumerateObjectsUsingBlock:^(id<MKMID> obj, NSUInteger idx, BOOL *stop) {
+        NSString *str = [obj string];
+        if (str) {
+            [array addObject:str];
+        }
+    }];
+    return array;
 }
 
-#pragma mark -
+#pragma mark - Base Class
 
 @interface MKMID ()
 
@@ -178,19 +190,19 @@ NSArray<NSString *> *MKMIDRevert(NSArray<id<MKMID>> *members) {
 }
 
 - (MKMEntityType)type {
-    return [_address type];
+    return [_address network];
 }
 
 - (BOOL)isBroadcast {
-    return [_address isBroadcast];
+    return MKMEntityTypeIsBroadcast(self.type);
 }
 
 - (BOOL)isUser {
-    return [_address isUser];
+    return MKMEntityTypeIsUser(self.type);
 }
 
 - (BOOL)isGroup {
-    return [_address isGroup];
+    return MKMEntityTypeIsGroup(self.type);
 }
 
 @end

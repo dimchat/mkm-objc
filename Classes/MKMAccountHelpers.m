@@ -2,12 +2,12 @@
 //
 //  Ming-Ke-Ming : Decentralized User Identity Authentication
 //
-//                               Written in 2018 by Moky <albert.moky@gmail.com>
+//                               Written in 2023 by Moky <albert.moky@gmail.com>
 //
 // =============================================================================
 // The MIT License (MIT)
 //
-// Copyright (c) 2018 Albert Moky
+// Copyright (c) 2023 Albert Moky
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -28,40 +28,32 @@
 // SOFTWARE.
 // =============================================================================
 //
-//  MKMTai.m
+//  MKMAccountHelpers.m
 //  MingKeMing
 //
-//  Created by Albert Moky on 2018/9/30.
-//  Copyright © 2018 DIM Group. All rights reserved.
+//  Created by Albert Moky on 2023/1/31.
+//  Copyright © 2023 DIM Group. All rights reserved.
 //
 
+#import "MKConverter.h"
+#import "MKCopier.h"
+#import "MKWrapper.h"
+#import "MKDataParser.h"
 #import "MKTransportableData.h"
+#import "MKAsymmetricKey.h"
+
 #import "MKMAccountHelpers.h"
 
-#import "MKMTai.h"
+@implementation MKMAccountExtensions
 
-id<MKMDocumentFactory> MKMDocumentGetFactory(NSString *type) {
-    MKMAccountExtensions *ext = [MKMAccountExtensions sharedInstance];
-    return [ext.docHelper getDocumentFactoryForType:type];
+static MKMAccountExtensions *s_account_ext = nil;
+
++ (nonnull instancetype)sharedInstance {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        s_account_ext = [[self alloc] init];
+    });
+    return s_account_ext;
 }
 
-void MKMDocumentSetFactory(NSString *type, id<MKMDocumentFactory> factory) {
-    MKMAccountExtensions *ext = [MKMAccountExtensions sharedInstance];
-    [ext.docHelper setDocumentFactory:factory forType:type];
-}
-
-id<MKMDocument> MKMDocumentCreate(NSString *type,
-                                  id<MKMID> ID,
-                                  NSString *data,
-                                  id<MKTransportableData> sig) {
-    MKMAccountExtensions *ext = [MKMAccountExtensions sharedInstance];
-    return [ext.docHelper createDocument:ID
-                                    data:data
-                               signature:sig
-                                 forType:type];
-}
-
-id<MKMDocument> MKMDocumentParse(id doc) {
-    MKMAccountExtensions *ext = [MKMAccountExtensions sharedInstance];
-    return [ext.docHelper parseDocument:doc];
-}
+@end

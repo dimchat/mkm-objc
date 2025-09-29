@@ -28,7 +28,7 @@
 // SOFTWARE.
 // =============================================================================
 //
-//  MKMFactoryManager.h
+//  MKMAccountHelpers.h
 //  MingKeMing
 //
 //  Created by Albert Moky on 2023/1/31.
@@ -42,89 +42,84 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/**
- *  General Factory for Accounts
- *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- */
-@protocol MKMGeneralFactory <NSObject>
+@protocol MKMAddressHelper <NSObject>
 
-#pragma mark Address
+- (void)setAddressFactory:(id<MKMAddressFactory>)FACTORY;
 
-- (void)setAddressFactory:(id<MKMAddressFactory>)factory;
-- (nullable id<MKMAddressFactory>)addressFactory;
+- (nullable id<MKMAddressFactory>)getAddressFactory;
 
-- (id<MKMAddress>)generateAddressWithType:(MKMEntityType)network
-                                     meta:(id<MKMMeta>)meta;
-
-- (nullable id<MKMAddress>)createAddress:(NSString *)address;
+- (id<MKMAddress>)generateAddress:(MKMEntityType)network
+                         withMeta:(id<MKMMeta>)meta;
 
 - (nullable id<MKMAddress>)parseAddress:(nullable id)address;
 
-#pragma mark ID
+@end
 
-- (void)setIDFactory:(id<MKMIDFactory>)factory;
-- (nullable id<MKMIDFactory>)idFactory;
+@protocol MKMIdentifierHelper <NSObject>
 
-- (id<MKMID>)generateIdentifierWithType:(MKMEntityType)network
-                                   meta:(id<MKMMeta>)meta
-                               terminal:(nullable NSString *)location;
+- (void)setIdentifierFactory:(id<MKMIDFactory>)factory;
+
+- (nullable id<MKMIDFactory>)getIdentifierFactory;
 
 - (id<MKMID>)createIdentifierWithName:(nullable NSString *)name
-                              address:(id<MKMAddress>)main
-                             terminal:(nullable NSString *)loc;
+                              address:(id<MKMAddress>)address
+                             terminal:(nullable NSString *)location;
+
+- (id<MKMID>)generateIdentifier:(MKMEntityType)network
+                       withMeta:(id<MKMMeta>)meta
+                       terminal:(nullable NSString *)locater;
 
 - (nullable id<MKMID>)parseIdentifier:(nullable id)identifier;
 
-- (NSArray<id<MKMID>> *)convertIDList:(NSArray<id> *)members;
-- (NSArray<NSString *> *)revertIDList:(NSArray<id<MKMID>> *)members;
+@end
 
-#pragma mark Meta
+@protocol MKMMetaHelper <NSObject>
 
-- (void)setMetaFactory:(id<MKMMetaFactory>)factory forType:(MKMMetaType)version;
-- (nullable id<MKMMetaFactory>)metaFactoryForType:(MKMMetaType)version;
+- (void)setMetaFactory:(id<MKMMetaFactory>)factory forType:(NSString *)type;
 
-- (MKMMetaType)metaType:(NSDictionary<NSString *, id> *)meta
-           defaultValue:(MKMMetaType)aValue;
+- (nullable id<MKMMetaFactory>)getMetaFactoryForType:(NSString *)type;
 
-- (id<MKMMeta>)generateMetaWithType:(MKMMetaType)version
-                                key:(id<MKSignKey>)sKey
-                               seed:(nullable NSString *)name;
-
-- (id<MKMMeta>)createMetaWithType:(MKMMetaType)version
-                              key:(id<MKVerifyKey>)pKey
+- (id<MKMMeta>)createMetaWithType:(NSString *)type
+                              key:(id<MKVerifyKey>)PK
                              seed:(nullable NSString *)name
                       fingerprint:(nullable id<MKTransportableData>)signature;
 
+- (id<MKMMeta>)generateMetaWithType:(NSString *)type
+                                key:(id<MKSignKey>)SK
+                               seed:(nullable NSString *)name;
+
 - (nullable id<MKMMeta>)parseMeta:(nullable id)meta;
 
-#pragma mark Document
+@end
+
+@protocol MKMDocumentHelper <NSObject>
 
 - (void)setDocumentFactory:(id<MKMDocumentFactory>)factory forType:(NSString *)type;
-- (nullable id<MKMDocumentFactory>)documentFactoryForType:(NSString *)type;
 
-- (nullable NSString *)documentType:(NSDictionary<NSString *, id> *)doc
-                       defaultValue:(nullable NSString *)aValue;
+- (nullable id<MKMDocumentFactory>)getDocumentFactoryForType:(NSString *)type;
 
-- (id<MKMDocument>)createDocument:(id<MKMID>)identifier
-                             type:(NSString *)type
+- (id<MKMDocument>)createDocument:(id<MKMID>)ID
                              data:(nullable NSString *)json
-                        signature:(nullable id<MKTransportableData>)ted;
+                        signature:(nullable id<MKTransportableData>)sig
+                          forType:(NSString *)type;
 
 - (nullable id<MKMDocument>)parseDocument:(nullable id)doc;
 
 @end
 
-#pragma mark -
+#pragma mark - Account FactoryManager
 
-@interface MKMGeneralFactory : NSObject <MKMGeneralFactory>
+@interface MKMAccountExtensions : NSObject
 
-@end
++ (instancetype)sharedInstance;
 
-@interface MKMFactoryManager : NSObject
+@property (strong, nonatomic, nullable) id<MKMAddressHelper> addressHelper;
 
-@property(strong, nonatomic) id<MKMGeneralFactory> generalFactory;
+@property (strong, nonatomic, nullable) id<MKMIdentifierHelper> idHelper;
 
-+ (instancetype)sharedManager;
+@property (strong, nonatomic, nullable) id<MKMMetaHelper> metaHelper;
+
+@property (strong, nonatomic, nullable) id<MKMDocumentHelper> docHelper;
 
 @end
 

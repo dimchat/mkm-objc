@@ -50,9 +50,9 @@ NS_ASSUME_NONNULL_BEGIN
  *      'Meta' is the information for entity which never changed,
  *          which contains the key for verify signature;
  *      'TAI' is the variable part(signed by meta.key's private key),
- *          which contains the key for asymmetric encryption.
+ *          which could contain a public key for asymmetric encryption.
  */
-@protocol MKMTAI <MKDictionary>
+@protocol MKMTAI
 
 /**
  *  Check if signature matched
@@ -75,12 +75,21 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (nullable NSData *)sign:(id<MKSignKey>)SK;
 
+#pragma mark properties
+
+/**
+ *  Get all properties
+ *
+ * @return properties, null on invalid
+ */
+@property (readonly, strong, nonatomic, nullable) NSMutableDictionary<NSString *, id> *properties;
+
 /**
  *  Get all names for properties
  *
  * @return keys, nil on invalid
  */
-- (nullable NSArray *)propertyKeys;
+@property (readonly, strong, nonatomic, nullable) NSArray<NSString *> *propertyKeys;
 
 /**
  *  Get property data with key
@@ -103,13 +112,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark -
 
-//
-//  Document types
-//
-#define MKMDocumentType_Visa     @"visa"      // for user info (communicate key)
-#define MKMDocumentType_Profile  @"profile"   // for user profile (reserved)
-#define MKMDocumentType_Bulletin @"bulletin"  // for group info (owner, assistants)
-
 @protocol MKMID;
 
 /**
@@ -123,17 +125,12 @@ NS_ASSUME_NONNULL_BEGIN
  *          signature: "..."  // signature = sign(data, SK);
  *      }
  */
-@protocol MKMDocument <MKMTAI>
-
-/**
- *  Get document type
- */
-@property (readonly, strong, nonatomic, nullable) NSString *type;
+@protocol MKMDocument <MKDictionary, MKMTAI>
 
 /**
  *  Get entity ID
  */
-@property (readonly, strong, nonatomic) id<MKMID> ID;
+@property (readonly, strong, nonatomic) id<MKMID> identifier;
 
 /**
  *  Get sign time
@@ -190,6 +187,12 @@ id<MKMDocument> MKMDocumentCreate(NSString *type,
                                   _Nullable id<MKTransportableData> signature);
 
 _Nullable id<MKMDocument> MKMDocumentParse(_Nullable id doc);
+
+#pragma mark Conveniences
+
+NSArray<id<MKMDocument>> *MKMDocumentConvert(NSArray<id> *array);
+
+NSArray<NSString *> *MKMDocumentRevert(NSArray<id<MKMDocument>> *documents);
 
 #ifdef __cplusplus
 } /* end of extern "C" */

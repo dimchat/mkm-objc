@@ -97,8 +97,8 @@ typedef NS_ENUM(UInt8, MKMNetworkID) {
     /**
      *  Management: 6, 7, 8
      */
-    MKMEntityType_Supervisor     = 0x06, // 0000 0110 (Company President)
-    MKMEntityType_Company        = 0x07, // 0000 0111 (Super Group for ISP/ICP)
+    //MKMEntityType_Supervisor   = 0x06, // 0000 0110 (Company President)
+    //MKMEntityType_Company      = 0x07, // 0000 0111 (Super Group for ISP/ICP)
     //MKMEntityType_CA           = 0x08, // 0000 1000 (Certification Authority)
 
     /*
@@ -123,12 +123,7 @@ typedef UInt8 MKMEntityType;
 
 @protocol MKMAddress <MKString>
 
-@property (readonly, nonatomic) MKMEntityType type; // Network ID
-
-- (BOOL)isBroadcast;
-
-- (BOOL)isUser;
-- (BOOL)isGroup;
+@property (readonly, nonatomic) MKMEntityType network; // Network ID
 
 @end
 
@@ -145,16 +140,8 @@ typedef UInt8 MKMEntityType;
  * @param meta - meta info
  * @return Address
  */
-- (id<MKMAddress>)generateAddressWithMeta:(id<MKMMeta>)meta
-                                     type:(MKMEntityType)network;
-
-/**
- *  Create address from string
- *
- * @param address - address string
- * @return Address
- */
-- (nullable id<MKMAddress>)createAddress:(NSString *)address;
+- (id<MKMAddress>)generateAddress:(MKMEntityType)network
+                         withMeta:(id<MKMMeta>)meta;
 
 /**
  *  Parse string object to address
@@ -174,8 +161,6 @@ _Nullable id<MKMAddressFactory> MKMAddressGetFactory(void);
 void MKMAddressSetFactory(id<MKMAddressFactory> factory);
 
 id<MKMAddress> MKMAddressGenerate(MKMEntityType network, id<MKMMeta> meta);
-
-_Nullable id<MKMAddress> MKMAddressCreate(NSString *address);
 
 _Nullable id<MKMAddress> MKMAddressParse(_Nullable id address);
 

@@ -35,33 +35,28 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import "MKMFactoryManager.h"
+#import "MKMAccountHelpers.h"
 
 #import "MKMAddress.h"
 
 id<MKMAddressFactory> MKMAddressGetFactory(void) {
-    MKMFactoryManager *man = [MKMFactoryManager sharedManager];
-    return [man.generalFactory addressFactory];
+    MKMAccountExtensions *ext = [MKMAccountExtensions sharedInstance];
+    return [ext.addressHelper getAddressFactory];
 }
 
 void MKMAddressSetFactory(id<MKMAddressFactory> factory) {
-    MKMFactoryManager *man = [MKMFactoryManager sharedManager];
-    [man.generalFactory setAddressFactory:factory];
+    MKMAccountExtensions *ext = [MKMAccountExtensions sharedInstance];
+    [ext.addressHelper setAddressFactory:factory];
 }
 
 id<MKMAddress> MKMAddressGenerate(MKMEntityType network, id<MKMMeta> meta) {
-    MKMFactoryManager *man = [MKMFactoryManager sharedManager];
-    return [man.generalFactory generateAddressWithType:network meta:meta];
-}
-
-id<MKMAddress> MKMAddressCreate(NSString *address) {
-    MKMFactoryManager *man = [MKMFactoryManager sharedManager];
-    return [man.generalFactory createAddress:address];
+    MKMAccountExtensions *ext = [MKMAccountExtensions sharedInstance];
+    return [ext.addressHelper generateAddress:network withMeta:meta];
 }
 
 id<MKMAddress> MKMAddressParse(id address) {
-    MKMFactoryManager *man = [MKMFactoryManager sharedManager];
-    return [man.generalFactory parseAddress:address];
+    MKMAccountExtensions *ext = [MKMAccountExtensions sharedInstance];
+    return [ext.addressHelper parseAddress:address];
 }
 
 #pragma mark - Broadcast Address
@@ -106,31 +101,17 @@ NS_DESIGNATED_INITIALIZER;
 - (id)copyWithZone:(nullable NSZone *)zone {
     BroadcastAddress *address = [super copyWithZone:zone];
     if (address) {
-        address.type = _type;
+        address.network = _type;
     }
     return address;
 }
 
-- (MKMEntityType)type {
+- (MKMEntityType)network {
     return _type;
 }
 
-- (void)setType:(MKMEntityType)network {
+- (void)setNetwork:(MKMEntityType)network {
     _type = network;
-}
-
-- (BOOL)isBroadcast {
-    return YES;
-}
-
-- (BOOL)isUser {
-    //return MKMEntity_IsUser(self.type);
-    return _type == MKMEntityType_Any;
-}
-
-- (BOOL)isGroup {
-    //return MKMEntity_IsGroup(self.type);
-    return _type == MKMEntityType_Every;
 }
 
 @end
