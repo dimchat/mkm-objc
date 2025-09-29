@@ -54,14 +54,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Shallow Copy
 
-#define MKCopy(V)               [MKCopier copy:(V)]
-#define MKCopyMap(D)            [MKCopier copyMap:(D)]
-#define MKCopyList(A)           [MKCopier copyList:(A)]
+#define MKCopy(object)          [MKCopier copy:(object)]
+#define MKCopyMap(dict)         [MKCopier copyMap:(dict)]
+#define MKCopyList(array)       [MKCopier copyList:(array)]
 
 #pragma mark Deep Copy
 
-#define MKDeepCopy(V)           [MKCopier deepCopy:(V)]
-#define MKDeepCopyMap(D)        [MKCopier deepCopyMap:(D)]
-#define MKDeepCopyList(A)       [MKCopier deepCopyList:(A)]
+#define MKDeepCopy(object)      [MKCopier deepCopy:(object)]
+#define MKDeepCopyMap(dict)     [MKCopier deepCopyMap:(dict)]
+#define MKDeepCopyList(array)   [MKCopier deepCopyList:(array)]
 
 NS_ASSUME_NONNULL_END

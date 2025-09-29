@@ -28,81 +28,24 @@
 // SOFTWARE.
 // =============================================================================
 //
-//  MKMDataDigester.m
+//  MKDigester.m
 //  MingKeMing
 //
 //  Created by Albert Moky on 2020/4/7.
 //  Copyright © 2020 DIM Group. All rights reserved.
 //
 
-#import "MKMDataDigester.h"
+#import "MKDigester.h"
 
-@implementation MKMMD5
+@implementation MKSHA256
 
-static id<MKMDataDigester> s_md5 = nil;
+static id<MKMessageDigester> s_sha256 = nil;
 
-+ (void)setDigester:(id<MKMDataDigester>)hasher {
-    s_md5 = hasher;
-}
-
-+ (id<MKMDataDigester>)getDigester {
-    return s_md5;
-}
-
-+ (NSData *)digest:(NSData *)data {
-    NSAssert(s_md5, @"MD5 digester not set");
-    return [s_md5 digest:data];
-}
-
-@end
-
-@implementation MKMRIPEMD160
-
-static id<MKMDataDigester> s_ripemd160 = nil;
-
-+ (void)setDigester:(id<MKMDataDigester>)hasher {
-    s_ripemd160 = hasher;
-}
-
-+ (id<MKMDataDigester>)getDigester {
-    return s_ripemd160;
-}
-
-+ (NSData *)digest:(NSData *)data {
-    NSAssert(s_ripemd160, @"RipeMD-160 digester not set");
-    return [s_ripemd160 digest:data];
-}
-
-@end
-
-@implementation MKMSHA1
-
-static id<MKMDataDigester> s_sha1 = nil;
-
-+ (void)setDigester:(id<MKMDataDigester>)hasher {
-    s_sha1 = hasher;
-}
-
-+ (id<MKMDataDigester>)getDigester {
-    return s_sha1;
-}
-
-+ (NSData *)digest:(NSData *)data {
-    NSAssert(s_sha1, @"SHA-1 digester not set");
-    return [s_sha1 digest:data];
-}
-
-@end
-
-@implementation MKMSHA256
-
-static id<MKMDataDigester> s_sha256 = nil;
-
-+ (void)setDigester:(id<MKMDataDigester>)hasher {
++ (void)setDigester:(id<MKMessageDigester>)hasher {
     s_sha256 = hasher;
 }
 
-+ (id<MKMDataDigester>)getDigester {
++ (id<MKMessageDigester>)getDigester {
     return s_sha256;
 }
 
@@ -113,21 +56,40 @@ static id<MKMDataDigester> s_sha256 = nil;
 
 @end
 
-@implementation MKMKECCAK256
+@implementation MKKECCAK256
 
-static id<MKMDataDigester> s_keccak256 = nil;
+static id<MKMessageDigester> s_keccak256 = nil;
 
-+ (void)setDigester:(id<MKMDataDigester>)hasher {
++ (void)setDigester:(id<MKMessageDigester>)hasher {
     s_keccak256 = hasher;
 }
 
-+ (id<MKMDataDigester>)getDigester {
++ (id<MKMessageDigester>)getDigester {
     return s_keccak256;
 }
 
 + (NSData *)digest:(NSData *)data {
     NSAssert(s_keccak256, @"Keccak-256 digester not set");
     return [s_keccak256 digest:data];
+}
+
+@end
+
+@implementation MKRIPEMD160
+
+static id<MKMessageDigester> s_ripemd160 = nil;
+
++ (void)setDigester:(id<MKMessageDigester>)hasher {
+    s_ripemd160 = hasher;
+}
+
++ (id<MKMessageDigester>)getDigester {
+    return s_ripemd160;
+}
+
++ (NSData *)digest:(NSData *)data {
+    NSAssert(s_ripemd160, @"RipeMD-160 digester not set");
+    return [s_ripemd160 digest:data];
 }
 
 @end

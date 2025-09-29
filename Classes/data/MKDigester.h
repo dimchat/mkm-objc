@@ -28,7 +28,7 @@
 // SOFTWARE.
 // =============================================================================
 //
-//  MKMDataDigester.h
+//  MKDigester.h
 //  MingKeMing
 //
 //  Created by Albert Moky on 2020/4/7.
@@ -39,12 +39,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/*
- *  Data Digest
- *  ~~~~~~~~~~~
+/**
+ *  Message Digest
+ *  ~~~~~~~~~~~~~~
  *  MD5, SHA1, SHA256, Keccak256, RipeMD160, ...
  */
-@protocol MKMDataDigester <NSObject>
+@protocol MKMessageDigester <NSObject>
 
 - (NSData *)digest:(NSData *)data;
 
@@ -52,55 +52,37 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark -
 
-@interface MKMMD5 : NSObject
+@interface MKSHA256 : NSObject
 
-+ (void)setDigester:(id<MKMDataDigester>)hasher;
-+ (nullable id<MKMDataDigester>)getDigester;
-
-+ (NSData *)digest:(NSData *)data;
-
-@end
-
-@interface MKMRIPEMD160 : NSObject
-
-+ (void)setDigester:(id<MKMDataDigester>)hasher;
-+ (nullable id<MKMDataDigester>)getDigester;
++ (void)setDigester:(id<MKMessageDigester>)hasher;
++ (nullable id<MKMessageDigester>)getDigester;
 
 + (NSData *)digest:(NSData *)data;
 
 @end
 
-@interface MKMSHA1 : NSObject
+@interface MKKECCAK256 : NSObject
 
-+ (void)setDigester:(id<MKMDataDigester>)hasher;
-+ (nullable id<MKMDataDigester>)getDigester;
-
-+ (NSData *)digest:(NSData *)data;
-
-@end
-
-@interface MKMSHA256 : NSObject
-
-+ (void)setDigester:(id<MKMDataDigester>)hasher;
-+ (nullable id<MKMDataDigester>)getDigester;
++ (void)setDigester:(id<MKMessageDigester>)hasher;
++ (nullable id<MKMessageDigester>)getDigester;
 
 + (NSData *)digest:(NSData *)data;
 
 @end
 
-@interface MKMKECCAK256 : NSObject
+@interface MKRIPEMD160 : NSObject
 
-+ (void)setDigester:(id<MKMDataDigester>)hasher;
-+ (nullable id<MKMDataDigester>)getDigester;
++ (void)setDigester:(id<MKMessageDigester>)hasher;
++ (nullable id<MKMessageDigester>)getDigester;
 
 + (NSData *)digest:(NSData *)data;
 
 @end
 
-#define MKMMD5Digest(data)       [MKMMD5 digest:(data)]
-#define MKMRIPEMD160Digest(data) [MKMRIPEMD160 digest:(data)]
-#define MKMSHA1Digest(data)      [MKMSHA1 digest:(data)]
-#define MKMSHA256Digest(data)    [MKMSHA256 digest:(data)]
-#define MKMKECCAK256Digest(data) [MKMKECCAK256 digest:(data)]
+#pragma mark - Conveniences
+
+#define MKSHA256Digest(data)           [MKSHA256    digest:(data)]
+#define MKKeccak256Digest(data)        [MKKECCAK256 digest:(data)]
+#define MKRipeMD160Digest(data)        [MKRIPEMD160 digest:(data)]
 
 NS_ASSUME_NONNULL_END

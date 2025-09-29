@@ -81,8 +81,8 @@ NS_ASSUME_NONNULL_BEGIN
 #define MKGetString(S)          [MKWrapper getString:(S)]
 #define MKGetMap(D)             [MKWrapper getMap:(D)]
 
-#define MKUnwrap(V)             [MKWrapper unwrap:(V)]
-#define MKUnwrapMap(D)          [MKWrapper unwrapMap:(D)]
-#define MKUnwrapList(A)         [MKWrapper unwrapList:(A)]
+#define MKUnwrap(object)        [MKWrapper unwrap:(object)]
+#define MKUnwrapMap(dict)       [MKWrapper unwrapMap:(dict)]
+#define MKUnwrapList(array)     [MKWrapper unwrapList:(array)]
 
 NS_ASSUME_NONNULL_END
