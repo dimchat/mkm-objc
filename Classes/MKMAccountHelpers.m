@@ -48,7 +48,7 @@
 
 static MKMAccountExtensions *s_account_ext = nil;
 
-+ (nonnull instancetype)sharedInstance {
++ (instancetype)sharedInstance {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         s_account_ext = [[self alloc] init];

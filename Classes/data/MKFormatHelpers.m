@@ -46,7 +46,7 @@
 
 static MKFormatExtensions *s_format_ext = nil;
 
-+ (nonnull instancetype)sharedInstance {
++ (instancetype)sharedInstance {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         s_format_ext = [[self alloc] init];

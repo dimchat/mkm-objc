@@ -45,7 +45,7 @@
 
 static MKCryptoExtensions *s_crypto_ext = nil;
 
-+ (nonnull instancetype)sharedInstance {
++ (instancetype)sharedInstance {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         s_crypto_ext = [[self alloc] init];
