@@ -35,15 +35,22 @@
 //  Copyright © 2023 DIM Group. All rights reserved.
 //
 
-#import <MingKeMing/MKTransportableData.h>
-#import <MingKeMing/MKPortableNetworkFile.h>
+#import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol MKDecryptKey;
+
+@protocol MKTransportableData;
+@protocol MKTransportableDataFactory;
+
+@protocol MKPortableNetworkFile;
+@protocol MKPortableNetworkFileFactory;
+
 @protocol MKTransportableDataHelper <NSObject>
 
-- (void)setTransportableDataFactory:(id<MKTransportableDataFactory>)factory algorithm:(NSString *)name;
-
+- (void)setTransportableDataFactory:(id<MKTransportableDataFactory>)factory
+                          algorithm:(NSString *)name;
 - (nullable id<MKTransportableDataFactory>)getTransportableDataFactory:(NSString *)algorithm;
 
 - (id<MKTransportableData>)createTransportableData:(NSData *)data algorithm:(NSString *)name;
@@ -55,7 +62,6 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol MKPortableNetworkFileHelper <NSObject>
 
 - (void)setPortableNetworkFileFactory:(id<MKPortableNetworkFileFactory>)factory;
-
 - (nullable id<MKPortableNetworkFileFactory>)getPortableNetworkFileFactory;
 
 - (id<MKPortableNetworkFile>)createPortableNetworkFile:(nullable id<MKTransportableData>)data

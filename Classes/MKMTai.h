@@ -170,10 +170,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-#define MKMDocumentNew(type, ID)                                               \
-                MKMDocumentCreate(type, ID, nil, nil)                          \
-                                            /* EOF 'MKMDocumentNew(type, ID)' */
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -181,18 +177,19 @@ extern "C" {
 _Nullable id<MKMDocumentFactory> MKMDocumentGetFactory(NSString *type);
 void MKMDocumentSetFactory(NSString *type, id<MKMDocumentFactory> factory);
 
-__kindof id<MKMDocument> MKMDocumentCreate(NSString *type,
-                                           id<MKMID> ID,
-                                           NSString * _Nullable data,
-                                           _Nullable id<MKTransportableData> signature);
+__kindof id<MKMDocument> MKMDocumentNew(NSString *type, id<MKMID> ID);
+
+__kindof id<MKMDocument> MKMDocumentCreate(NSString *type, id<MKMID> ID,
+                                           NSString * data,
+                                           id<MKTransportableData> signature);
 
 _Nullable __kindof id<MKMDocument> MKMDocumentParse(_Nullable id doc);
 
 #pragma mark Conveniences
 
-NSArray<id<MKMDocument>> *MKMDocumentConvert(NSArray<id> *array);
+NSMutableArray<id<MKMDocument>> *MKMDocumentConvert(NSArray<id> *array);
 
-NSArray<NSString *> *MKMDocumentRevert(NSArray<id<MKMDocument>> *documents);
+NSMutableArray<NSDictionary *> *MKMDocumentRevert(NSArray<id<MKMDocument>> *documents);
 
 #ifdef __cplusplus
 } /* end of extern "C" */

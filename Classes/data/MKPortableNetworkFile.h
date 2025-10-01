@@ -35,11 +35,12 @@
 //  Copyright © 2023 DIM Group. All rights reserved.
 //
 
-#import <MingKeMing/MKTransportableData.h>
+#import <MingKeMing/MKDictionary.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol MKDecryptKey;
+@protocol MKTransportableData;
 
 /**
  *  Transportable File

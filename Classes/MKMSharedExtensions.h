@@ -35,12 +35,26 @@
 //  Copyright © 2025 DIM Group. All rights reserved.
 //
 
-#import <MingKeMing/MKAsymmetricKey.h>
-#import <MingKeMing/MKCryptoHelpers.h>
-#import <MingKeMing/MKFormatHelpers.h>
-#import <MingKeMing/MKMAccountHelpers.h>
+#import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
+
+@protocol MKSignKey;
+@protocol MKVerifyKey;
+@protocol MKEncryptKey;
+@protocol MKDecryptKey;
+
+@protocol MKSymmetricKeyHelper;
+@protocol MKPrivateKeyHelper;
+@protocol MKPublicKeyHelper;
+
+@protocol MKTransportableDataHelper;
+@protocol MKPortableNetworkFileHelper;
+
+@protocol MKMAddressHelper;
+@protocol MKMIdentifierHelper;
+@protocol MKMMetaHelper;
+@protocol MKMDocumentHelper;
 
 #ifdef __cplusplus
 extern "C" {

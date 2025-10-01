@@ -35,6 +35,11 @@
 //  Copyright © 2025 DIM Group. All rights reserved.
 //
 
+#import "MKAsymmetricKey.h"
+#import "MKCryptoHelpers.h"
+#import "MKFormatHelpers.h"
+#import "MKMAccountHelpers.h"
+
 #import "MKMSharedExtensions.h"
 
 static NSData *promise = nil;
@@ -156,6 +161,8 @@ static MKMSharedAccountExtensions *s_account_extension = nil;
     return s_account_extension;
 }
 
+#pragma mark Address Helper
+
 - (id<MKMAddressHelper>)addressHelper {
     MKMAccountExtensions *ext = [MKMAccountExtensions sharedInstance];
     return [ext addressHelper];
@@ -165,6 +172,8 @@ static MKMSharedAccountExtensions *s_account_extension = nil;
     MKMAccountExtensions *ext = [MKMAccountExtensions sharedInstance];
     [ext setAddressHelper:addressHelper];
 }
+
+#pragma mark ID Helper
 
 - (id<MKMIdentifierHelper>)idHelper {
     MKMAccountExtensions *ext = [MKMAccountExtensions sharedInstance];
@@ -176,6 +185,8 @@ static MKMSharedAccountExtensions *s_account_extension = nil;
     [ext setIdHelper:idHelper];
 }
 
+#pragma mark Meta Helper
+
 - (id<MKMMetaHelper>)metaHelper {
     MKMAccountExtensions *ext = [MKMAccountExtensions sharedInstance];
     return [ext metaHelper];
@@ -185,6 +196,8 @@ static MKMSharedAccountExtensions *s_account_extension = nil;
     MKMAccountExtensions *ext = [MKMAccountExtensions sharedInstance];
     [ext setMetaHelper:metaHelper];
 }
+
+#pragma mark Document Helper
 
 - (id<MKMDocumentHelper>)docHelper {
     MKMAccountExtensions *ext = [MKMAccountExtensions sharedInstance];

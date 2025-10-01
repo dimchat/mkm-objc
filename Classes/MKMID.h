@@ -35,9 +35,11 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import <MingKeMing/MKMAddress.h>
+#import <MingKeMing/MKString.h>
 
 NS_ASSUME_NONNULL_BEGIN
+
+@protocol MKMAddress;
 
 /*
  *  ID for entity (User/Group)
@@ -128,8 +130,9 @@ id<MKMID> MKMFounder(void);  // DIM Founder
 
 #pragma mark Conveniences
 
-NSArray<id<MKMID>> *MKMIDConvert(NSArray<id> *array);
-NSArray<NSString *> *MKMIDRevert(NSArray<id<MKMID>> *identifiers);
+NSMutableArray<id<MKMID>> *MKMIDConvert(NSArray<id> *array);
+
+NSMutableArray<NSString *> *MKMIDRevert(NSArray<id<MKMID>> *identifiers);
 
 #ifdef __cplusplus
 } /* end of extern "C" */

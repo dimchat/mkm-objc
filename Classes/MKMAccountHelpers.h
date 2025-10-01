@@ -36,16 +36,26 @@
 //
 
 #import <MingKeMing/MKMAddress.h>
-#import <MingKeMing/MKMID.h>
-#import <MingKeMing/MKMMeta.h>
-#import <MingKeMing/MKMTai.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol MKTransportableData;
+
+@protocol MKSignKey;
+@protocol MKVerifyKey;
+
+@protocol MKMID;
+@protocol MKMIDFactory;
+
+@protocol MKMMeta;
+@protocol MKMMetaFactory;
+
+@protocol MKMDocument;
+@protocol MKMDocumentFactory;
+
 @protocol MKMAddressHelper <NSObject>
 
-- (void)setAddressFactory:(id<MKMAddressFactory>)FACTORY;
-
+- (void)setAddressFactory:(id<MKMAddressFactory>)factory;
 - (nullable id<MKMAddressFactory>)getAddressFactory;
 
 - (__kindof id<MKMAddress>)generateAddress:(MKMEntityType)network
@@ -58,7 +68,6 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol MKMIdentifierHelper <NSObject>
 
 - (void)setIdentifierFactory:(id<MKMIDFactory>)factory;
-
 - (nullable id<MKMIDFactory>)getIdentifierFactory;
 
 - (id<MKMID>)createIdentifierWithName:(nullable NSString *)name
@@ -75,18 +84,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol MKMMetaHelper <NSObject>
 
-- (void)setMetaFactory:(id<MKMMetaFactory>)factory forType:(NSString *)type;
+- (void)setMetaFactory:(id<MKMMetaFactory>)factory
+               forType:(NSString *)type;
+- (nullable id<MKMMetaFactory>)getMetaFactory:(NSString *)type;
 
-- (nullable id<MKMMetaFactory>)getMetaFactoryForType:(NSString *)type;
+- (__kindof id<MKMMeta>)generateMetaWithKey:(id<MKSignKey>)SK
+                                       seed:(nullable NSString *)name
+                                    forType:(NSString *)type;
 
-- (__kindof id<MKMMeta>)createMetaWithType:(NSString *)type
-                                       key:(id<MKVerifyKey>)PK
-                                      seed:(nullable NSString *)name
-                               fingerprint:(nullable id<MKTransportableData>)sig;
-
-- (__kindof id<MKMMeta>)generateMetaWithType:(NSString *)type
-                                         key:(id<MKSignKey>)SK
-                                        seed:(nullable NSString *)name;
+- (__kindof id<MKMMeta>)createMetaWithKey:(id<MKVerifyKey>)PK
+                                     seed:(nullable NSString *)name
+                              fingerprint:(nullable id<MKTransportableData>)sig
+                                  forType:(NSString *)type;
 
 - (nullable __kindof id<MKMMeta>)parseMeta:(nullable id)meta;
 
@@ -94,9 +103,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol MKMDocumentHelper <NSObject>
 
-- (void)setDocumentFactory:(id<MKMDocumentFactory>)factory forType:(NSString *)type;
-
-- (nullable id<MKMDocumentFactory>)getDocumentFactoryForType:(NSString *)type;
+- (void)setDocumentFactory:(id<MKMDocumentFactory>)factory
+                   forType:(NSString *)type;
+- (nullable id<MKMDocumentFactory>)getDocumentFactory:(NSString *)type;
 
 - (__kindof id<MKMDocument>)createDocument:(id<MKMID>)ID
                                       data:(nullable NSString *)json

@@ -35,16 +35,23 @@
 //  Copyright © 2023 DIM Group. All rights reserved.
 //
 
-#import <MingKeMing/MKSymmetricKey.h>
-#import <MingKeMing/MKPrivateKey.h>
-#import <MingKeMing/MKPublicKey.h>
+#import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol MKSymmetricKey;
+@protocol MKSymmetricKeyFactory;
+
+@protocol MKPublicKey;
+@protocol MKPublicKeyFactory;
+
+@protocol MKPrivateKey;
+@protocol MKPrivateKeyFactory;
+
 @protocol MKSymmetricKeyHelper <NSObject>
 
-- (void)setSymmetricKeyFactory:(id<MKSymmetricKeyFactory>)factory algorithm:(NSString *)name;
-
+- (void)setSymmetricKeyFactory:(id<MKSymmetricKeyFactory>)factory
+                     algorithm:(NSString *)name;
 - (nullable id<MKSymmetricKeyFactory>)getSymmetricKeyFactory:(NSString *)algorithm;
 
 - (nullable id<MKSymmetricKey>)generateSymmetricKey:(NSString *)algorithm;
@@ -55,8 +62,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol MKPublicKeyHelper <NSObject>
 
-- (void)setPublicKeyFactory:(id<MKPublicKeyFactory>)factory algorithm:(NSString *)name;
-
+- (void)setPublicKeyFactory:(id<MKPublicKeyFactory>)factory
+                  algorithm:(NSString *)name;
 - (nullable id<MKPublicKeyFactory>)getPublicKeyFactory:(NSString *)algorithm;
 
 - (nullable id<MKPublicKey>)parsePublicKey:(nullable id)key;
@@ -65,8 +72,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol MKPrivateKeyHelper <NSObject>
 
-- (void)setPrivateKeyFactory:(id<MKPrivateKeyFactory>)factorh algorithm:(NSString *)name;
-
+- (void)setPrivateKeyFactory:(id<MKPrivateKeyFactory>)factorh
+                   algorithm:(NSString *)name;
 - (nullable id<MKPrivateKeyFactory>)getPrivateKeyFactory:(NSString *)algorithm;
 
 - (nullable id<MKPrivateKey>)generatePrivateKey:(NSString *)algorithm;

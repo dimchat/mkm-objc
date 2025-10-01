@@ -91,6 +91,7 @@ _Nullable id<MKPrivateKeyFactory> MKPrivateKeyGetFactory(NSString *algorithm);
 void MKPrivateKeySetFactory(NSString *algorithm, id<MKPrivateKeyFactory> factory);
 
 _Nullable id<MKPrivateKey> MKPrivateKeyGenerate(NSString *algorithm);
+
 _Nullable id<MKPrivateKey> MKPrivateKeyParse(_Nullable id key);
 
 #ifdef __cplusplus

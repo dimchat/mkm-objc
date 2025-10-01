@@ -35,6 +35,7 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
+#import "MKMAddress.h"
 #import "MKMAccountHelpers.h"
 
 #import "MKMID.h"
@@ -110,10 +111,11 @@ id<MKMID> MKMFounder(void) {
     return s_founder;
 }
 
-#pragma mark Array
+#pragma mark Conveniences
 
-NSArray<id<MKMID>> *MKMIDConvert(NSArray<id> *array) {
-    NSMutableArray<id<MKMID>> *members = [[NSMutableArray alloc] initWithCapacity:array.count];
+NSMutableArray<id<MKMID>> *MKMIDConvert(NSArray<id> *array) {
+    NSMutableArray<id<MKMID>> *members;
+    members = [[NSMutableArray alloc] initWithCapacity:array.count];
     [array enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         id<MKMID> ID = MKMIDParse(obj);
         if (ID) {
@@ -123,8 +125,9 @@ NSArray<id<MKMID>> *MKMIDConvert(NSArray<id> *array) {
     return members;
 }
 
-NSArray<NSString *> *MKMIDRevert(NSArray<id<MKMID>> *identifiers) {
-    NSMutableArray<NSString *> *array = [[NSMutableArray alloc] initWithCapacity:identifiers.count];
+NSMutableArray<NSString *> *MKMIDRevert(NSArray<id<MKMID>> *identifiers) {
+    NSMutableArray<NSString *> *array;
+    array = [[NSMutableArray alloc] initWithCapacity:identifiers.count];
     [identifiers enumerateObjectsUsingBlock:^(id<MKMID> obj, NSUInteger idx, BOOL *stop) {
         NSString *str = [obj string];
         if (str) {

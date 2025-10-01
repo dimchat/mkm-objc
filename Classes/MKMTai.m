@@ -42,7 +42,7 @@
 
 id<MKMDocumentFactory> MKMDocumentGetFactory(NSString *type) {
     MKMAccountExtensions *ext = [MKMAccountExtensions sharedInstance];
-    return [ext.docHelper getDocumentFactoryForType:type];
+    return [ext.docHelper getDocumentFactory:type];
 }
 
 void MKMDocumentSetFactory(NSString *type, id<MKMDocumentFactory> factory) {
@@ -50,8 +50,15 @@ void MKMDocumentSetFactory(NSString *type, id<MKMDocumentFactory> factory) {
     [ext.docHelper setDocumentFactory:factory forType:type];
 }
 
-id<MKMDocument> MKMDocumentCreate(NSString *type,
-                                  id<MKMID> ID,
+id<MKMDocument> MKMDocumentNew(NSString *type, id<MKMID> ID) {
+    MKMAccountExtensions *ext = [MKMAccountExtensions sharedInstance];
+    return [ext.docHelper createDocument:ID
+                                    data:nil
+                               signature:nil
+                                 forType:type];
+}
+
+id<MKMDocument> MKMDocumentCreate(NSString *type, id<MKMID> ID,
                                   NSString *data,
                                   id<MKTransportableData> sig) {
     MKMAccountExtensions *ext = [MKMAccountExtensions sharedInstance];
@@ -64,4 +71,30 @@ id<MKMDocument> MKMDocumentCreate(NSString *type,
 id<MKMDocument> MKMDocumentParse(id doc) {
     MKMAccountExtensions *ext = [MKMAccountExtensions sharedInstance];
     return [ext.docHelper parseDocument:doc];
+}
+
+#pragma mark Conveniences
+
+NSMutableArray<id<MKMDocument>> *MKMDocumentConvert(NSArray<id> *array) {
+    NSMutableArray<id<MKMDocument>> *documents;
+    documents = [[NSMutableArray alloc] initWithCapacity:array.count];
+    [array enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        id<MKMDocument> doc = MKMDocumentParse(obj);
+        if (doc) {
+            [documents addObject:doc];
+        }
+    }];
+    return documents;
+}
+
+NSMutableArray<NSDictionary *> *MKMDocumentRevert(NSArray<id<MKMDocument>> *documents) {
+    NSMutableArray<NSDictionary *> *array;
+    array = [[NSMutableArray alloc] initWithCapacity:documents.count];
+    [documents enumerateObjectsUsingBlock:^(id<MKMDocument> obj, NSUInteger idx, BOOL *stop) {
+        NSDictionary *dict = [obj dictionary];
+        if (dict) {
+            [array addObject:dict];
+        }
+    }];
+    return array;
 }

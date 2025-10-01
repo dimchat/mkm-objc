@@ -42,7 +42,7 @@
 
 id<MKMMetaFactory> MKMMetaGetFactory(NSString *type) {
     MKMAccountExtensions *ext = [MKMAccountExtensions sharedInstance];
-    return [ext.metaHelper getMetaFactoryForType:type];
+    return [ext.metaHelper getMetaFactory:type];
 }
 
 void MKMMetaSetFactory(NSString *type, id<MKMMetaFactory> factory) {
@@ -50,22 +50,20 @@ void MKMMetaSetFactory(NSString *type, id<MKMMetaFactory> factory) {
     [ext.metaHelper setMetaFactory:factory forType:type];
 }
 
-id<MKMMeta> MKMMetaGenerate(NSString *type,
-                            id<MKSignKey> SK,
+id<MKMMeta> MKMMetaGenerate(NSString *type, id<MKSignKey> SK,
                             NSString * _Nullable seed) {
     MKMAccountExtensions *ext = [MKMAccountExtensions sharedInstance];
-    return [ext.metaHelper generateMetaWithType:type key:SK seed:seed];
+    return [ext.metaHelper generateMetaWithKey:SK seed:seed forType:type];
 }
 
-id<MKMMeta> MKMMetaCreate(NSString *type,
-                          id<MKVerifyKey> PK,
+id<MKMMeta> MKMMetaCreate(NSString *type, id<MKVerifyKey> PK,
                           NSString * _Nullable seed,
                           _Nullable id<MKTransportableData> fingerprint) {
     MKMAccountExtensions *ext = [MKMAccountExtensions sharedInstance];
-    return [ext.metaHelper createMetaWithType:type
-                                          key:PK
-                                         seed:seed
-                                  fingerprint:fingerprint];
+    return [ext.metaHelper createMetaWithKey:PK
+                                        seed:seed
+                                 fingerprint:fingerprint
+                                     forType:type];
 }
 
 id<MKMMeta> MKMMetaParse(id meta) {
