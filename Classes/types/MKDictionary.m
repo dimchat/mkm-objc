@@ -56,8 +56,11 @@
     if (self = [super init]) {
         if ([dict isKindOfClass:[NSMutableDictionary class]]) {
             _storeDictionary = (NSMutableDictionary *)dict;
-        } else {
+        } else if ([dict isKindOfClass:[NSDictionary class]]) {
             _storeDictionary = [dict mutableCopy];
+        } else {
+            NSAssert(dict == nil, @"dictionary errlr: %@", dict);
+            _storeDictionary = [[NSMutableDictionary alloc] init];
         }
     }
     return self;
@@ -72,8 +75,9 @@
 }
 
 - (instancetype)initWithCapacity:(NSUInteger)numItems {
-    if (self = [self init]) {
-        _storeDictionary = [[NSMutableDictionary alloc] initWithCapacity:numItems];
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithCapacity:numItems];
+    if (self = [self initWithDictionary:dict]) {
+        // ...
     }
     return self;
 }

@@ -140,8 +140,8 @@ typedef UInt8 MKMEntityType;
  * @param meta - meta info
  * @return Address
  */
-- (id<MKMAddress>)generateAddress:(MKMEntityType)network
-                         withMeta:(id<MKMMeta>)meta;
+- (__kindof id<MKMAddress>)generateAddress:(MKMEntityType)network
+                                  withMeta:(id<MKMMeta>)meta;
 
 /**
  *  Parse string object to address
@@ -149,7 +149,7 @@ typedef UInt8 MKMEntityType;
  * @param address - address string
  * @return Address
  */
-- (nullable id<MKMAddress>)parseAddress:(NSString *)address;
+- (nullable __kindof id<MKMAddress>)parseAddress:(NSString *)address;
 
 @end
 
@@ -160,9 +160,9 @@ extern "C" {
 _Nullable id<MKMAddressFactory> MKMAddressGetFactory(void);
 void MKMAddressSetFactory(id<MKMAddressFactory> factory);
 
-id<MKMAddress> MKMAddressGenerate(MKMEntityType network, id<MKMMeta> meta);
+__kindof id<MKMAddress> MKMAddressGenerate(MKMEntityType network, id<MKMMeta> meta);
 
-_Nullable id<MKMAddress> MKMAddressParse(_Nullable id address);
+_Nullable __kindof id<MKMAddress> MKMAddressParse(_Nullable id address);
 
 // Broadcast Addresses
 id<MKMAddress> MKMAnywhere(void);

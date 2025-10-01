@@ -37,17 +37,30 @@
 
 #import "MKMSharedExtensions.h"
 
-//// sample data for checking keys
-//static NSData *promise = nil;
-//
-//static NSData *make_promise(void) {
-//    static dispatch_once_t onceToken;
-//    dispatch_once(&onceToken, ^{
-//        NSString *words = @"Moky loves May Lee forever!";
-//        promise = [words dataUsingEncoding:NSUTF8StringEncoding];
-//    });
-//    return promise;
-//}
+static NSData *promise = nil;
+
+NSData *MKMakePromise(void) {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSString *words = @"Moky loves May Lee forever!";
+        promise = [words dataUsingEncoding:NSUTF8StringEncoding];
+    });
+    return promise;
+}
+
+BOOL MKMatchAsymmetricKeys(id<MKSignKey> sKey, id<MKVerifyKey> pKey) {
+    NSData *data = MKMakePromise();
+    NSData *signature = [sKey sign:data];
+    return [pKey verify:data withSignature:signature];
+}
+
+BOOL MKMatchSymmetricKeys(id<MKEncryptKey> encKey, id<MKDecryptKey> decKey) {
+    NSMutableDictionary<NSString *, id> *extra = [[NSMutableDictionary alloc] init];
+    NSData *data = MKMakePromise();
+    NSData *ciphertext = [encKey encrypt:data extra:extra];
+    NSData *plaintext = [decKey decrypt:ciphertext params:extra];
+    return [data isEqualToData:plaintext];
+}
 
 @implementation MKSharedCryptoExtensions
 

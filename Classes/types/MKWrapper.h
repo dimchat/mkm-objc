@@ -53,7 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  ~~~~~~~~~~~~~
  *  Remove first wrapper
  */
-+ (nullable NSDictionary<NSString *, id> *)getMap:(nullable id)dict;
++ (nullable __kindof NSDictionary *)getMap:(nullable id)dict;
 
 #pragma mark Recursively
 

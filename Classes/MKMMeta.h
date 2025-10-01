@@ -112,7 +112,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param network - address type
  * @return Address
  */
-- (id<MKMAddress>)generateAddress:(MKMEntityType)network;
+- (__kindof id<MKMAddress>)generateAddress:(MKMEntityType)network;
 
 @end
 
@@ -125,20 +125,20 @@ NS_ASSUME_NONNULL_BEGIN
  * @param name - ID.name
  * @return Meta
  */
-- (id<MKMMeta>)generateMetaWithKey:(id<MKSignKey>)SK
-                              seed:(nullable NSString *)name;
+- (__kindof id<MKMMeta>)generateMetaWithKey:(id<MKSignKey>)SK
+                                       seed:(nullable NSString *)name;
 
 /**
  *  Create meta
  *
- * @param PK        - public key
- * @param name      - ID.name
- * @param signature - sKey.sign(seed)
+ * @param PK   - public key
+ * @param name - ID.name
+ * @param sig  - sKey.sign(seed)
  * @return Meta
  */
-- (id<MKMMeta>)createMetaWithKey:(id<MKVerifyKey>)PK
-                            seed:(nullable NSString *)name
-                     fingerprint:(nullable id<MKTransportableData>)signature;
+- (__kindof id<MKMMeta>)createMetaWithKey:(id<MKVerifyKey>)PK
+                                     seed:(nullable NSString *)name
+                              fingerprint:(nullable id<MKTransportableData>)sig;
 
 /**
  *  Parse map object to meta
@@ -146,7 +146,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param meta - meta info
  * @return Meta
  */
-- (nullable id<MKMMeta>)parseMeta:(NSDictionary *)meta;
+- (nullable __kindof id<MKMMeta>)parseMeta:(NSDictionary *)meta;
 
 @end
 
@@ -157,14 +157,14 @@ extern "C" {
 _Nullable id<MKMMetaFactory> MKMMetaGetFactory(NSString *type);
 void MKMMetaSetFactory(NSString *type, id<MKMMetaFactory> factory);
 
-id<MKMMeta> MKMMetaGenerate(NSString *type, id<MKSignKey> SK,
-                            NSString * _Nullable seed);
+__kindof id<MKMMeta> MKMMetaGenerate(NSString *type, id<MKSignKey> SK,
+                                     NSString * _Nullable seed);
 
-id<MKMMeta> MKMMetaCreate(NSString *type, id<MKVerifyKey> PK,
-                          NSString * _Nullable seed,
-                          _Nullable id<MKTransportableData> fingerprint);
+__kindof id<MKMMeta> MKMMetaCreate(NSString *type, id<MKVerifyKey> PK,
+                                   NSString * _Nullable seed,
+                                   _Nullable id<MKTransportableData> fingerprint);
 
-_Nullable id<MKMMeta> MKMMetaParse(_Nullable id meta);
+_Nullable __kindof id<MKMMeta> MKMMetaParse(_Nullable id meta);
 
 #ifdef __cplusplus
 } /* end of extern "C" */

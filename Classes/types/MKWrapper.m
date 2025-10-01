@@ -55,7 +55,7 @@
     }
 }
 
-+ (nullable NSDictionary<NSString *, id> *)getMap:(nullable id)dict {
++ (nullable NSDictionary *)getMap:(nullable id)dict {
     if (dict == nil) {
         return nil;
     } else if ([dict conformsToProtocol:@protocol(MKDictionary)]) {

@@ -46,8 +46,13 @@ NS_ASSUME_NONNULL_BEGIN
 extern "C" {
 #endif
 
+// sample data for checking keys
+NSData *MKMakePromise(void); // 'Moky loves May Lee forever!'
+
+// verify with signature
 BOOL MKMatchAsymmetricKeys(id<MKSignKey> sKey, id<MKVerifyKey> pKey);
 
+// check by encryption
 BOOL MKMatchSymmetricKeys(id<MKEncryptKey> encKey, id<MKDecryptKey> decKey);
 
 #ifdef __cplusplus

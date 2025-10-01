@@ -48,10 +48,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable id<MKMAddressFactory>)getAddressFactory;
 
-- (id<MKMAddress>)generateAddress:(MKMEntityType)network
-                         withMeta:(id<MKMMeta>)meta;
+- (__kindof id<MKMAddress>)generateAddress:(MKMEntityType)network
+                                  withMeta:(id<MKMMeta>)meta;
 
-- (nullable id<MKMAddress>)parseAddress:(nullable id)address;
+- (nullable __kindof id<MKMAddress>)parseAddress:(nullable id)address;
 
 @end
 
@@ -79,16 +79,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable id<MKMMetaFactory>)getMetaFactoryForType:(NSString *)type;
 
-- (id<MKMMeta>)createMetaWithType:(NSString *)type
-                              key:(id<MKVerifyKey>)PK
-                             seed:(nullable NSString *)name
-                      fingerprint:(nullable id<MKTransportableData>)signature;
+- (__kindof id<MKMMeta>)createMetaWithType:(NSString *)type
+                                       key:(id<MKVerifyKey>)PK
+                                      seed:(nullable NSString *)name
+                               fingerprint:(nullable id<MKTransportableData>)sig;
 
-- (id<MKMMeta>)generateMetaWithType:(NSString *)type
-                                key:(id<MKSignKey>)SK
-                               seed:(nullable NSString *)name;
+- (__kindof id<MKMMeta>)generateMetaWithType:(NSString *)type
+                                         key:(id<MKSignKey>)SK
+                                        seed:(nullable NSString *)name;
 
-- (nullable id<MKMMeta>)parseMeta:(nullable id)meta;
+- (nullable __kindof id<MKMMeta>)parseMeta:(nullable id)meta;
 
 @end
 
@@ -98,12 +98,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable id<MKMDocumentFactory>)getDocumentFactoryForType:(NSString *)type;
 
-- (id<MKMDocument>)createDocument:(id<MKMID>)ID
-                             data:(nullable NSString *)json
-                        signature:(nullable id<MKTransportableData>)sig
-                          forType:(NSString *)type;
+- (__kindof id<MKMDocument>)createDocument:(id<MKMID>)ID
+                                      data:(nullable NSString *)json
+                                 signature:(nullable id<MKTransportableData>)sig
+                                   forType:(NSString *)type;
 
-- (nullable id<MKMDocument>)parseDocument:(nullable id)doc;
+- (nullable __kindof id<MKMDocument>)parseDocument:(nullable id)doc;
 
 @end
 

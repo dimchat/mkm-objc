@@ -82,7 +82,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  Password for decrypting the downloaded data from CDN,
  *  default is a plain key, which just return the same data when decrypting.
  */
-@property (strong, nonatomic, nullable) id<MKDecryptKey> password;
+@property (strong, nonatomic, nullable) __kindof id<MKDecryptKey> password;
 
 /**
  *  Get encoded string

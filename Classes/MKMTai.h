@@ -82,7 +82,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return properties, null on invalid
  */
-@property (readonly, strong, nonatomic, nullable) NSMutableDictionary<NSString *, id> *properties;
+@property (readonly, strong, nonatomic, nullable) __kindof NSDictionary *properties;
 
 /**
  *  Get all names for properties
@@ -156,9 +156,9 @@ NS_ASSUME_NONNULL_BEGIN
  * @param sig  - document signature
  * @return Document
  */
-- (id<MKMDocument>)createDocument:(id<MKMID>)ID
-                             data:(nullable NSString *)json
-                        signature:(nullable id<MKTransportableData>)sig;
+- (__kindof id<MKMDocument>)createDocument:(id<MKMID>)ID
+                                      data:(nullable NSString *)json
+                                 signature:(nullable id<MKTransportableData>)sig;
 
 /**
  *  Parse map object to entity document
@@ -166,7 +166,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param doc - info
  * @return Document
  */
-- (nullable id<MKMDocument>)parseDocument:(NSDictionary *)doc;
+- (nullable __kindof id<MKMDocument>)parseDocument:(NSDictionary *)doc;
 
 @end
 
@@ -181,12 +181,12 @@ extern "C" {
 _Nullable id<MKMDocumentFactory> MKMDocumentGetFactory(NSString *type);
 void MKMDocumentSetFactory(NSString *type, id<MKMDocumentFactory> factory);
 
-id<MKMDocument> MKMDocumentCreate(NSString *type,
-                                  id<MKMID> ID,
-                                  NSString * _Nullable data,
-                                  _Nullable id<MKTransportableData> signature);
+__kindof id<MKMDocument> MKMDocumentCreate(NSString *type,
+                                           id<MKMID> ID,
+                                           NSString * _Nullable data,
+                                           _Nullable id<MKTransportableData> signature);
 
-_Nullable id<MKMDocument> MKMDocumentParse(_Nullable id doc);
+_Nullable __kindof id<MKMDocument> MKMDocumentParse(_Nullable id doc);
 
 #pragma mark Conveniences
 
