@@ -50,7 +50,7 @@
     } else if ([str isKindOfClass:[NSString class]]) {
         return str;
     } else {
-        NSAssert(NO, @"not a string: '%@'", str);
+        NSAssert(false, @"not a string: '%@'", str);
         return [NSString stringWithFormat:@"%@", str];
     }
 }
@@ -63,7 +63,7 @@
     } else if ([dict isKindOfClass:[NSDictionary class]]) {
         return dict;
     } else {
-        NSAssert(NO, @"not a dictionary: '%@'", dict);
+        NSAssert(false, @"not a dictionary: '%@'", dict);
         return nil;
     }
 }

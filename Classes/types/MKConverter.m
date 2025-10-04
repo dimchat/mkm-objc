@@ -264,7 +264,7 @@ static inline NSNumber *get_num(id value) {
     if (size == 0) {
         return NO;
     } else if (size > [MKConverter getMaxBooleanLength]) {
-        NSAssert(NO, @"bool value error: '%@'", value);
+        NSAssert(false, @"bool value error: '%@'", value);
         return NO;
     } else {
         text = [text lowercaseString];
