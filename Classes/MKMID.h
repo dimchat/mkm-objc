@@ -157,6 +157,18 @@ NSMutableArray<NSString *> *MKMIDRevert(NSArray<id<MKMID>> *identifiers);
                       terminal:(nullable NSString *)location
 NS_DESIGNATED_INITIALIZER;
 
+//
+//  Factory
+//
+
++ (id<MKMID>)create:(nullable NSString *)name
+            address:(id<MKMAddress>)address
+           terminal:(nullable NSString *)location;
+
++ (NSString *)concat:(nullable NSString *)name
+             address:(id<MKMAddress>)address
+            terminal:(nullable NSString *)location;
+
 @end
 
 NS_ASSUME_NONNULL_END

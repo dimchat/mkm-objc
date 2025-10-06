@@ -75,9 +75,9 @@ id<MKMID> MKMIDParse(id identifier) {
 
 #pragma mark Broadcast ID
 
-#define BroadcastIDCreate(S, N, A)                                             \
-                [[MKMID alloc] initWithString:S name:N address:A terminal:nil] \
-                                          /* EOF 'BroadcastIDCreate(S, N, A)' */
+#define BroadcastIDCreate(N, A)                                                \
+                [MKMID create:(N) address:(A) terminal:nil]                    \
+                                             /* EOF 'BroadcastIDCreate(N, A)' */
 
 static id<MKMID> s_founder = nil;
 
@@ -87,8 +87,7 @@ static id<MKMID> s_everyone = nil;
 id<MKMID> MKMAnyone(void) {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        s_anyone = BroadcastIDCreate(@"anyone@anywhere", @"anyone",
-                                     MKMAnywhere());
+        s_anyone = BroadcastIDCreate(@"anyone", MKMAnywhere());
     });
     return s_anyone;
 }
@@ -96,8 +95,7 @@ id<MKMID> MKMAnyone(void) {
 id<MKMID> MKMEveryone(void) {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        s_everyone = BroadcastIDCreate(@"everyone@everywhere", @"everyone",
-                                       MKMEverywhere());
+        s_everyone = BroadcastIDCreate(@"everyone", MKMEverywhere());
     });
     return s_everyone;
 }
@@ -105,8 +103,7 @@ id<MKMID> MKMEveryone(void) {
 id<MKMID> MKMFounder(void) {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        s_founder = BroadcastIDCreate(@"moky@anywhere", @"moky",
-                                      MKMAnywhere());
+        s_founder = BroadcastIDCreate(@"moky", MKMAnywhere());
     });
     return s_founder;
 }
@@ -192,20 +189,59 @@ NSMutableArray<NSString *> *MKMIDRevert(NSArray<id<MKMID>> *identifiers) {
     return identifier;
 }
 
+// Override
 - (MKMEntityType)type {
     return [_address network];
 }
 
+// Override
 - (BOOL)isBroadcast {
     return MKMEntityTypeIsBroadcast(self.type);
 }
 
+// Override
 - (BOOL)isUser {
     return MKMEntityTypeIsUser(self.type);
 }
 
+// Override
 - (BOOL)isGroup {
     return MKMEntityTypeIsGroup(self.type);
+}
+
+//
+//  Factory
+//
+
++ (id<MKMID>)create:(nullable NSString *)name
+            address:(id<MKMAddress>)address
+           terminal:(nullable NSString *)location {
+    NSString *string = [self concat:name address:address terminal:location];
+    return [[MKMID alloc] initWithString:string
+                                    name:name
+                                 address:address
+                                terminal:location];
+}
+
++ (NSString *)concat:(nullable NSString *)name
+             address:(id<MKMAddress>)address
+            terminal:(nullable NSString *)terminal {
+    NSUInteger len1 = [name length];
+    NSUInteger len2 = [terminal length];
+    NSString *addr = [address string];
+    if (len1 == 0) {
+        if (len2 == 0) {
+            // address only
+            return addr;
+        }
+        // address + terminal
+        return [NSString stringWithFormat:@"%@/%@", addr, terminal];
+    } else if (len2 == 0) {
+        // name + address
+        return [NSString stringWithFormat:@"%@@%@", name, addr];
+    }
+    // name + address + terminal
+    return [NSString stringWithFormat:@"%@@%@/%@", name, addr, terminal];
 }
 
 @end
