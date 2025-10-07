@@ -70,6 +70,7 @@ FOUNDATION_EXPORT const unsigned char MingKeMingVersionString[];
 
 #import <MingKeMing/MKMAddress.h>
 #import <MingKeMing/MKMID.h>
+#import <MingKeMing/MKMBroadcast.h>
 #import <MingKeMing/MKMMeta.h>
 #import <MingKeMing/MKMTai.h>
 #import <MingKeMing/MKMAccountHelpers.h>

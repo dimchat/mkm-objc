@@ -164,10 +164,6 @@ __kindof id<MKMAddress> MKMAddressGenerate(MKMEntityType network, id<MKMMeta> me
 
 _Nullable __kindof id<MKMAddress> MKMAddressParse(_Nullable id address);
 
-// Broadcast Addresses
-id<MKMAddress> MKMAnywhere(void);
-id<MKMAddress> MKMEverywhere(void);
-
 #ifdef __cplusplus
 } /* end of extern "C" */
 #endif

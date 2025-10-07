@@ -123,11 +123,6 @@ id<MKMID> MKMIDCreate(NSString * _Nullable name,
 
 _Nullable id<MKMID> MKMIDParse(_Nullable id identifier);
 
-// Broadcast IDs
-id<MKMID> MKMAnyone(void);
-id<MKMID> MKMEveryone(void);
-id<MKMID> MKMFounder(void);  // DIM Founder
-
 #pragma mark Conveniences
 
 NSMutableArray<id<MKMID>> *MKMIDConvert(NSArray<id> *array);
@@ -137,38 +132,5 @@ NSMutableArray<NSString *> *MKMIDRevert(NSArray<id<MKMID>> *identifiers);
 #ifdef __cplusplus
 } /* end of extern "C" */
 #endif
-
-#pragma mark - Base Class
-
-@interface MKMID : MKString <MKMID>
-
-/**
- *  Initialize an ID with string form "name@address[/terminal]"
- *
- * @param string - ID string
- * @param seed - username
- * @param address - hash(fingerprint)
- * @param location - login point (optional)
- * @return ID object
- */
-- (instancetype)initWithString:(NSString *)string
-                          name:(nullable NSString *)seed
-                       address:(id<MKMAddress>)address
-                      terminal:(nullable NSString *)location
-NS_DESIGNATED_INITIALIZER;
-
-//
-//  Factory
-//
-
-+ (id<MKMID>)create:(nullable NSString *)name
-            address:(id<MKMAddress>)address
-           terminal:(nullable NSString *)location;
-
-+ (NSString *)concat:(nullable NSString *)name
-             address:(id<MKMAddress>)address
-            terminal:(nullable NSString *)location;
-
-@end
 
 NS_ASSUME_NONNULL_END

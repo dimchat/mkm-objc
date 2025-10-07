@@ -29,6 +29,8 @@
 		E97E1397259B118C0016A68C /* MKMMeta.m in Sources */ = {isa = PBXBuildFile; fileRef = E97E1388259B118B0016A68C /* MKMMeta.m */; };
 		E97E139D259B118C0016A68C /* MKMTai.h in Headers */ = {isa = PBXBuildFile; fileRef = E97E138B259B118C0016A68C /* MKMTai.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E97E139F259B118C0016A68C /* MKMAddress.h in Headers */ = {isa = PBXBuildFile; fileRef = E97E138C259B118C0016A68C /* MKMAddress.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E9A18C872E95085E0047111C /* MKMBroadcast.h in Headers */ = {isa = PBXBuildFile; fileRef = E9A18C852E95085E0047111C /* MKMBroadcast.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E9A18C882E95085E0047111C /* MKMBroadcast.m in Sources */ = {isa = PBXBuildFile; fileRef = E9A18C862E95085E0047111C /* MKMBroadcast.m */; };
 		E9A935D22E8C571200DF39B4 /* MKMSharedExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = E9A935D12E8C571200DF39B4 /* MKMSharedExtensions.m */; };
 		E9A935D32E8C571200DF39B4 /* MKMSharedExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = E9A935D02E8C571200DF39B4 /* MKMSharedExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E9ABE29F2E884EDA002008F8 /* MKConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = E9ABE29E2E884EDA002008F8 /* MKConverter.m */; };
@@ -89,6 +91,8 @@
 		E97E1388259B118B0016A68C /* MKMMeta.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMMeta.m; sourceTree = "<group>"; };
 		E97E138B259B118C0016A68C /* MKMTai.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMTai.h; sourceTree = "<group>"; };
 		E97E138C259B118C0016A68C /* MKMAddress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMAddress.h; sourceTree = "<group>"; };
+		E9A18C852E95085E0047111C /* MKMBroadcast.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MKMBroadcast.h; sourceTree = "<group>"; };
+		E9A18C862E95085E0047111C /* MKMBroadcast.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MKMBroadcast.m; sourceTree = "<group>"; };
 		E9A935D02E8C571200DF39B4 /* MKMSharedExtensions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MKMSharedExtensions.h; sourceTree = "<group>"; };
 		E9A935D12E8C571200DF39B4 /* MKMSharedExtensions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MKMSharedExtensions.m; sourceTree = "<group>"; };
 		E9ABE29D2E884EDA002008F8 /* MKConverter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MKConverter.h; sourceTree = "<group>"; };
@@ -204,6 +208,8 @@
 				E97E1387259B118B0016A68C /* MKMAddress.m */,
 				E97E1383259B118B0016A68C /* MKMID.h */,
 				E97E1384259B118B0016A68C /* MKMID.m */,
+				E9A18C852E95085E0047111C /* MKMBroadcast.h */,
+				E9A18C862E95085E0047111C /* MKMBroadcast.m */,
 				E97E1386259B118B0016A68C /* MKMMeta.h */,
 				E97E1388259B118B0016A68C /* MKMMeta.m */,
 				E97E138B259B118C0016A68C /* MKMTai.h */,
@@ -287,6 +293,7 @@
 				E97E1393259B118C0016A68C /* MKMMeta.h in Headers */,
 				E9B4949B2989585E002C7F34 /* MKCryptoHelpers.h in Headers */,
 				E9029F2E2B2089D1003F3FF0 /* MKFormatHelpers.h in Headers */,
+				E9A18C872E95085E0047111C /* MKMBroadcast.h in Headers */,
 				E9B494A129896B7F002C7F34 /* MKMAccountHelpers.h in Headers */,
 				E9429542289834C100433ACD /* MKWrapper.h in Headers */,
 				E915CE99243C96C200B98FE3 /* MKDataCoder.h in Headers */,
@@ -405,6 +412,7 @@
 				E97E1391259B118C0016A68C /* MKMTai.m in Sources */,
 				E915CE97243C96C200B98FE3 /* MKDataCoder.m in Sources */,
 				E9F3A94B21CBBAF7009690F6 /* MKPrivateKey.m in Sources */,
+				E9A18C882E95085E0047111C /* MKMBroadcast.m in Sources */,
 				E9B494A229896B7F002C7F34 /* MKMAccountHelpers.m in Sources */,
 				E9B4949C2989585E002C7F34 /* MKCryptoHelpers.m in Sources */,
 				E97E1395259B118C0016A68C /* MKMAddress.m in Sources */,
