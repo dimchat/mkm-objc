@@ -1,13 +1,13 @@
 // license: https://mit-license.org
 //
-//  Ming-Ke-Ming : Decentralized User Identity Authentication
+//  Crypto Keys: SymmetricKey, PrivateKey, PublicKey
 //
 //                               Written in 2018 by Moky <albert.moky@gmail.com>
 //
 // =============================================================================
 // The MIT License (MIT)
 //
-// Copyright (c) 2018 Albert Moky
+// Copyright (c) 2019 Albert Moky
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -28,74 +28,23 @@
 // SOFTWARE.
 // =============================================================================
 //
-//  MKPrivateKey.h
+//  Crypto.h
 //  MingKeMing
 //
-//  Created by Albert Moky on 2018/9/25.
+//  Created by Albert Moky on 2018/9/30.
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
+
+#if !defined(__MKM_CRYPTO__)
+#define __MKM_CRYPTO__ 1
+
+#import <MingKeMing/MKCryptographyKey.h>
+#import <MingKeMing/MKSymmetricKey.h>
 #import <MingKeMing/MKAsymmetricKey.h>
+#import <MingKeMing/MKPublicKey.h>
+#import <MingKeMing/MKPrivateKey.h>
+//#import <MingKeMing/MKCryptoHelpers.h>  // -> "Ext.h"
 
-NS_ASSUME_NONNULL_BEGIN
-
-@protocol MKPublicKey;
-
-/*
- *  Asymmetric Cryptography Private Key
- *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- *
- *      key data format: {
- *          algorithm: "RSA", // ECC, ...
- *          data     : "{BASE64_ENCODE}",
- *          ...
- *      }
- */
-@protocol MKPrivateKey <MKSignKey>
-
-/**
- * Get public key from private key
- */
-@property (readonly, strong, nonatomic) __kindof id<MKPublicKey> publicKey;
-
-@end
-
-#pragma mark - Key Factory
-
-@protocol MKPrivateKeyFactory <NSObject>
-
-/**
- *  Generate key
- *
- * @return PrivateKey
- */
-- (id<MKPrivateKey>)generatePrivateKey;
-
-/**
- *  Parse map object to key
- *
- * @param key - key info
- * @return PrivateKey
- */
-- (nullable id<MKPrivateKey>)parsePrivateKey:(NSDictionary *)key;
-
-@end
-
-#pragma mark - Factory methods
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-_Nullable id<MKPrivateKeyFactory> MKPrivateKeyGetFactory(NSString *algorithm);
-void MKPrivateKeySetFactory(NSString *algorithm, id<MKPrivateKeyFactory> factory);
-
-_Nullable id<MKPrivateKey> MKPrivateKeyGenerate(NSString *algorithm);
-
-_Nullable id<MKPrivateKey> MKPrivateKeyParse(_Nullable id key);
-
-#ifdef __cplusplus
-} /* end of extern "C" */
-#endif
-
-NS_ASSUME_NONNULL_END
+#endif /* ! __MKM_CRYPTO__ */

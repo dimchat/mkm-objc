@@ -1,9 +1,4 @@
 // license: https://mit-license.org
-//
-//  Ming-Ke-Ming : Decentralized User Identity Authentication
-//
-//                               Written in 2018 by Moky <albert.moky@gmail.com>
-//
 // =============================================================================
 // The MIT License (MIT)
 //
@@ -28,7 +23,7 @@
 // SOFTWARE.
 // =============================================================================
 //
-//  MingKeMing.h
+//  Format.h
 //  MingKeMing
 //
 //  Created by Albert Moky on 2018/9/30.
@@ -37,44 +32,14 @@
 
 #import <Foundation/Foundation.h>
 
-//! Project version number for MingKeMing.
-FOUNDATION_EXPORT double MingKeMingVersionNumber;
+#if !defined(__MKM_FORMAT__)
+#define __MKM_FORMAT__ 1
 
-//! Project version string for MingKeMing.
-FOUNDATION_EXPORT const unsigned char MingKeMingVersionString[];
-
-// In this header, you should import all the public headers of your framework using statements like #import <MingKeMing/PublicHeader.h>
-
-#if !defined(__MING_KE_MING__)
-#define __MING_KE_MING__ 1
-
-#import <MingKeMing/MKConverter.h>
-#import <MingKeMing/MKCopier.h>
-#import <MingKeMing/MKWrapper.h>
-#import <MingKeMing/MKDictionary.h>
-#import <MingKeMing/MKString.h>
-
-#import <MingKeMing/MKDigester.h>
+//#import <MingKeMing/MKDigester.h>       // -> "Digest.h"
 #import <MingKeMing/MKDataCoder.h>
 #import <MingKeMing/MKDataParser.h>
 #import <MingKeMing/MKTransportableData.h>
 #import <MingKeMing/MKPortableNetworkFile.h>
-#import <MingKeMing/MKFormatHelpers.h>
+//#import <MingKeMing/MKFormatHelpers.h>  // -> "Ext.h"
 
-#import <MingKeMing/MKCryptographyKey.h>
-#import <MingKeMing/MKSymmetricKey.h>
-#import <MingKeMing/MKAsymmetricKey.h>
-#import <MingKeMing/MKPublicKey.h>
-#import <MingKeMing/MKPrivateKey.h>
-#import <MingKeMing/MKCryptoHelpers.h>
-
-#import <MingKeMing/MKMAddress.h>
-#import <MingKeMing/MKMID.h>
-#import <MingKeMing/MKMBroadcast.h>
-#import <MingKeMing/MKMMeta.h>
-#import <MingKeMing/MKMTai.h>
-#import <MingKeMing/MKMAccountHelpers.h>
-
-#import <MingKeMing/MKMSharedExtensions.h>
-
-#endif /* ! __MING_KE_MING__ */
+#endif /* ! __MKM_FORMAT__ */

@@ -72,7 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol MKPrivateKeyHelper <NSObject>
 
-- (void)setPrivateKeyFactory:(id<MKPrivateKeyFactory>)factorh
+- (void)setPrivateKeyFactory:(id<MKPrivateKeyFactory>)factory
                    algorithm:(NSString *)name;
 - (nullable id<MKPrivateKeyFactory>)getPrivateKeyFactory:(NSString *)algorithm;
 

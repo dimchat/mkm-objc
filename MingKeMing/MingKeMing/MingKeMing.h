@@ -7,7 +7,7 @@
 // =============================================================================
 // The MIT License (MIT)
 //
-// Copyright (c) 2018 Albert Moky
+// Copyright (c) 2019 Albert Moky
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -28,74 +28,22 @@
 // SOFTWARE.
 // =============================================================================
 //
-//  MKPrivateKey.h
+//  MingKeMing.h
 //  MingKeMing
 //
-//  Created by Albert Moky on 2018/9/25.
+//  Created by Albert Moky on 2018/9/30.
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import <MingKeMing/MKAsymmetricKey.h>
+#import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
+#if !defined(__MING_KE_MING__)
+#define __MING_KE_MING__ 1
 
-@protocol MKPublicKey;
+#import <MingKeMing/MKMAddress.h>
+#import <MingKeMing/MKMID.h>
+#import <MingKeMing/MKMBroadcast.h>
+#import <MingKeMing/MKMMeta.h>
+#import <MingKeMing/MKMTai.h>
 
-/*
- *  Asymmetric Cryptography Private Key
- *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- *
- *      key data format: {
- *          algorithm: "RSA", // ECC, ...
- *          data     : "{BASE64_ENCODE}",
- *          ...
- *      }
- */
-@protocol MKPrivateKey <MKSignKey>
-
-/**
- * Get public key from private key
- */
-@property (readonly, strong, nonatomic) __kindof id<MKPublicKey> publicKey;
-
-@end
-
-#pragma mark - Key Factory
-
-@protocol MKPrivateKeyFactory <NSObject>
-
-/**
- *  Generate key
- *
- * @return PrivateKey
- */
-- (id<MKPrivateKey>)generatePrivateKey;
-
-/**
- *  Parse map object to key
- *
- * @param key - key info
- * @return PrivateKey
- */
-- (nullable id<MKPrivateKey>)parsePrivateKey:(NSDictionary *)key;
-
-@end
-
-#pragma mark - Factory methods
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-_Nullable id<MKPrivateKeyFactory> MKPrivateKeyGetFactory(NSString *algorithm);
-void MKPrivateKeySetFactory(NSString *algorithm, id<MKPrivateKeyFactory> factory);
-
-_Nullable id<MKPrivateKey> MKPrivateKeyGenerate(NSString *algorithm);
-
-_Nullable id<MKPrivateKey> MKPrivateKeyParse(_Nullable id key);
-
-#ifdef __cplusplus
-} /* end of extern "C" */
-#endif
-
-NS_ASSUME_NONNULL_END
+#endif /* ! __MING_KE_MING__ */

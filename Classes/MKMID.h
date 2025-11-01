@@ -77,12 +77,12 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param meta - meta info
  * @param network - ID.type
- * @param locater - ID.terminal
+ * @param location - ID.terminal
  * @return ID
  */
 - (id<MKMID>)generateIdentifier:(MKMEntityType)network
                        withMeta:(id<MKMMeta>)meta
-                       terminal:(nullable NSString *)locater;
+                       terminal:(nullable NSString *)location;
 
 /**
  *  Create ID

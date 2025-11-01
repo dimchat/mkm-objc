@@ -76,7 +76,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (id<MKMID>)generateIdentifier:(MKMEntityType)network
                        withMeta:(id<MKMMeta>)meta
-                       terminal:(nullable NSString *)locater;
+                       terminal:(nullable NSString *)location;
 
 - (nullable id<MKMID>)parseIdentifier:(nullable id)identifier;
 

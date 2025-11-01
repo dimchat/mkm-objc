@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
     s.name                  = 'MingKeMing'
-    s.version               = '1.0.5'
+    s.version               = '1.0.6'
     s.summary               = 'Decentralized User Identity Authentication'
     s.description           = <<-DESC
         A Common Account Module For Decentralized User Identity Authentication
@@ -20,9 +20,9 @@ Pod::Spec.new do |s|
     # s.platform            = :ios, "12.0"
     s.ios.deployment_target = '12.0'
 
-    s.source_files          = 'Classes', 'Classes/**/*.{h,m}'
+    s.source_files          = 'Classes', 'Classes/**/*.{h,m}', 'MingKeMing/MingKeMing/*.h'
     # s.exclude_files       = 'Classes/Exclude'
-    s.public_header_files   = 'Classes/**/*.h'
+    s.public_header_files   = 'Classes/**/*.h', 'MingKeMing/MingKeMing/*.h'
   
     # s.frameworks          = 'Security'
     # s.requires_arc        = true

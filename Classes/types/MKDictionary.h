@@ -56,7 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Copy inner dictionary
  */
-- (NSMutableDictionary<NSString *, id> *)dictionary:(BOOL)deepCopy;
+- (NSMutableDictionary<NSString *, id> *)copyDictionary:(BOOL)deepCopy;
 
 - (BOOL)isEqual:(id)object;
 @property (readonly) NSUInteger hash;

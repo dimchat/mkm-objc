@@ -42,7 +42,7 @@
 		E9B494A229896B7F002C7F34 /* MKMAccountHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = E9B494A029896B7F002C7F34 /* MKMAccountHelpers.m */; };
 		E9C6C4A12B207A840092058A /* MKTransportableData.h in Headers */ = {isa = PBXBuildFile; fileRef = E9C6C49F2B207A840092058A /* MKTransportableData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E9C6C4A22B207A840092058A /* MKTransportableData.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C6C4A02B207A840092058A /* MKTransportableData.m */; };
-		E9D71E9E25BB26EE00773ED1 /* MingKeMing.h in Headers */ = {isa = PBXBuildFile; fileRef = E9D71E9D25BB26EE00773ED1 /* MingKeMing.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E9E193EB2EB6666100C59A5E /* MingKeMing.h in Headers */ = {isa = PBXBuildFile; fileRef = E9E193EA2EB6666100C59A5E /* MingKeMing.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E9F3A6A421CA4627009690F6 /* MingKeMing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9F3A69A21CA4627009690F6 /* MingKeMing.framework */; };
 		E9F3A6A921CA4627009690F6 /* MingKeMingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3A6A821CA4627009690F6 /* MingKeMingTests.m */; };
 		E9F3A94321CBBAF7009690F6 /* MKAsymmetricKey.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F3A8D421CBBAF6009690F6 /* MKAsymmetricKey.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -104,7 +104,12 @@
 		E9B494A029896B7F002C7F34 /* MKMAccountHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMAccountHelpers.m; sourceTree = "<group>"; };
 		E9C6C49F2B207A840092058A /* MKTransportableData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKTransportableData.h; sourceTree = "<group>"; };
 		E9C6C4A02B207A840092058A /* MKTransportableData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKTransportableData.m; sourceTree = "<group>"; };
-		E9D71E9D25BB26EE00773ED1 /* MingKeMing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MingKeMing.h; sourceTree = "<group>"; };
+		E9E193EA2EB6666100C59A5E /* MingKeMing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MingKeMing.h; sourceTree = "<group>"; };
+		E9E193EC2EB6672100C59A5E /* Crypto.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Crypto.h; sourceTree = "<group>"; };
+		E9E193ED2EB6678100C59A5E /* Type.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Type.h; sourceTree = "<group>"; };
+		E9E193EE2EB6683F00C59A5E /* Format.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Format.h; sourceTree = "<group>"; };
+		E9E193EF2EB669B300C59A5E /* Digest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Digest.h; sourceTree = "<group>"; };
+		E9E193F02EB66B0100C59A5E /* Ext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Ext.h; sourceTree = "<group>"; };
 		E9F3A69A21CA4627009690F6 /* MingKeMing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MingKeMing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9F3A69E21CA4627009690F6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E9F3A6A321CA4627009690F6 /* MingKeMingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MingKeMingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -184,6 +189,12 @@
 		E9F3A69C21CA4627009690F6 /* MingKeMing */ = {
 			isa = PBXGroup;
 			children = (
+				E9E193ED2EB6678100C59A5E /* Type.h */,
+				E9E193EE2EB6683F00C59A5E /* Format.h */,
+				E9E193EF2EB669B300C59A5E /* Digest.h */,
+				E9E193EC2EB6672100C59A5E /* Crypto.h */,
+				E9E193F02EB66B0100C59A5E /* Ext.h */,
+				E9E193EA2EB6666100C59A5E /* MingKeMing.h */,
 				E9F3A69E21CA4627009690F6 /* Info.plist */,
 			);
 			path = MingKeMing;
@@ -218,7 +229,6 @@
 				E9B494A029896B7F002C7F34 /* MKMAccountHelpers.m */,
 				E9A935D02E8C571200DF39B4 /* MKMSharedExtensions.h */,
 				E9A935D12E8C571200DF39B4 /* MKMSharedExtensions.m */,
-				E9D71E9D25BB26EE00773ED1 /* MingKeMing.h */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -280,10 +290,10 @@
 				E975593C2B20811400864DAD /* MKPortableNetworkFile.h in Headers */,
 				E9ABE2A02E884EDA002008F8 /* MKConverter.h in Headers */,
 				E9F3A94F21CBBAF7009690F6 /* MKSymmetricKey.h in Headers */,
+				E9E193EB2EB6666100C59A5E /* MingKeMing.h in Headers */,
 				E9F3A94C21CBBAF7009690F6 /* MKPublicKey.h in Headers */,
 				E9F3A94A21CBBAF7009690F6 /* MKCryptographyKey.h in Headers */,
 				E9F3A95721CBBAF7009690F6 /* MKPrivateKey.h in Headers */,
-				E9D71E9E25BB26EE00773ED1 /* MingKeMing.h in Headers */,
 				E97E139D259B118C0016A68C /* MKMTai.h in Headers */,
 				E95D49FB289AD3EE00523488 /* MKCopier.h in Headers */,
 				E9F3A94321CBBAF7009690F6 /* MKAsymmetricKey.h in Headers */,

@@ -53,7 +53,8 @@ NS_ASSUME_NONNULL_BEGIN
                           algorithm:(NSString *)name;
 - (nullable id<MKTransportableDataFactory>)getTransportableDataFactory:(NSString *)algorithm;
 
-- (id<MKTransportableData>)createTransportableData:(NSData *)data algorithm:(NSString *)name;
+- (id<MKTransportableData>)createTransportableData:(NSData *)data
+                                         algorithm:(nullable NSString *)name;
 
 - (nullable id<MKTransportableData>)parseTransportableData:(nullable id)ted;
 
