@@ -35,15 +35,16 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-
 #if !defined(__MING_KE_MING__)
 #define __MING_KE_MING__ 1
 
+#import <MingKeMing/MKMEntityType.h>
 #import <MingKeMing/MKMAddress.h>
 #import <MingKeMing/MKMID.h>
 #import <MingKeMing/MKMBroadcast.h>
 #import <MingKeMing/MKMMeta.h>
 #import <MingKeMing/MKMTai.h>
+//#import <MingKeMing/MKMAccountHelpers.h>    // -> "Ext.h"
+//#import <MingKeMing/MKMSharedExtensions.h>  // -> "Ext.h"
 
 #endif /* ! __MING_KE_MING__ */

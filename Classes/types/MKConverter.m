@@ -235,6 +235,7 @@ static inline NSNumber *get_num(id value) {
 
 @implementation MKDataConverter
 
+// Override
 - (nullable NSString *)getString:(nullable id)value or:(nullable NSString *)defaultValue {
     if (value == nil) {
         return defaultValue;
@@ -243,6 +244,7 @@ static inline NSNumber *get_num(id value) {
     }
 }
 
+// Override
 - (nullable NSNumber *)getNumber:(nullable id)value or:(nullable NSNumber *)defaultValue {
     if (value == nil) {
         return defaultValue;
@@ -251,6 +253,7 @@ static inline NSNumber *get_num(id value) {
     }
 }
 
+// Override
 - (BOOL)getBool:(nullable id)value or:(BOOL)defaultValue {
     if (value == nil) {
         return defaultValue;
@@ -275,6 +278,7 @@ static inline NSNumber *get_num(id value) {
     return [state boolValue];
 }
 
+// Override
 - (int)getInt:(nullable id)value or:(int)defaultValue {
     if (value == nil) {
         return defaultValue;
@@ -283,6 +287,7 @@ static inline NSNumber *get_num(id value) {
     return [num intValue];
 }
 
+// Override
 - (long)getLong:(nullable id)value or:(long)defaultValue {
     if (value == nil) {
         return defaultValue;
@@ -291,6 +296,7 @@ static inline NSNumber *get_num(id value) {
     return [num longValue];
 }
 
+// Override
 - (short)getShort:(nullable id)value or:(short)defaultValue {
     if (value == nil) {
         return defaultValue;
@@ -299,6 +305,7 @@ static inline NSNumber *get_num(id value) {
     return [num shortValue];
 }
 
+// Override
 - (char)getChar:(nullable id)value or:(char)defaultValue {
     if (value == nil) {
         return defaultValue;
@@ -307,6 +314,7 @@ static inline NSNumber *get_num(id value) {
     return [num charValue];
 }
 
+// Override
 - (float)getFloat:(nullable id)value or:(float)defaultValue {
     if (value == nil) {
         return defaultValue;
@@ -315,6 +323,7 @@ static inline NSNumber *get_num(id value) {
     return [num floatValue];
 }
 
+// Override
 - (double)getDouble:(nullable id)value or:(double)defaultValue {
     if (value == nil) {
         return defaultValue;
@@ -323,6 +332,7 @@ static inline NSNumber *get_num(id value) {
     return [num doubleValue];
 }
 
+// Override
 - (unsigned int)getUnsignedInt:(nullable id)value or:(unsigned int)defaultValue {
     if (value == nil) {
         return defaultValue;
@@ -331,6 +341,7 @@ static inline NSNumber *get_num(id value) {
     return [num unsignedIntValue];
 }
 
+// Override
 - (unsigned long)getUnsignedLong:(nullable id)value or:(unsigned long)defaultValue {
     if (value == nil) {
         return defaultValue;
@@ -339,6 +350,7 @@ static inline NSNumber *get_num(id value) {
     return [num unsignedLongValue];
 }
 
+// Override
 - (unsigned short)getUnsignedShort:(nullable id)value or:(unsigned short)defaultValue {
     if (value == nil) {
         return defaultValue;
@@ -347,6 +359,7 @@ static inline NSNumber *get_num(id value) {
     return [num unsignedShortValue];
 }
 
+// Override
 - (unsigned char)getUnsignedChar:(nullable id)value or:(unsigned char)defaultValue {
     if (value == nil) {
         return defaultValue;
@@ -355,6 +368,7 @@ static inline NSNumber *get_num(id value) {
     return [num unsignedCharValue];
 }
 
+// Override
 - (SInt8)getInt8:(nullable id)value or:(SInt8)defaultValue {
     if (value == nil) {
         return defaultValue;
@@ -363,6 +377,7 @@ static inline NSNumber *get_num(id value) {
     return [num charValue];
 }
 
+// Override
 - (UInt8)getUInt8:(nullable id)value or:(UInt8)defaultValue {
     if (value == nil) {
         return defaultValue;
@@ -371,6 +386,7 @@ static inline NSNumber *get_num(id value) {
     return [num unsignedCharValue];
 }
 
+// Override
 - (SInt16)getInt16:(nullable id)value or:(SInt16)defaultValue {
     if (value == nil) {
         return defaultValue;
@@ -379,6 +395,7 @@ static inline NSNumber *get_num(id value) {
     return [num shortValue];
 }
 
+// Override
 - (UInt16)getUInt16:(nullable id)value or:(UInt16)defaultValue {
     if (value == nil) {
         return defaultValue;
@@ -387,6 +404,7 @@ static inline NSNumber *get_num(id value) {
     return [num unsignedShortValue];
 }
 
+// Override
 - (SInt32)getInt32:(nullable id)value or:(SInt32)defaultValue {
     if (value == nil) {
         return defaultValue;
@@ -399,6 +417,7 @@ static inline NSNumber *get_num(id value) {
 #endif
 }
 
+// Override
 - (UInt32)getUInt32:(nullable id)value or:(UInt32)defaultValue {
     if (value == nil) {
         return defaultValue;
@@ -411,6 +430,7 @@ static inline NSNumber *get_num(id value) {
 #endif
 }
 
+// Override
 - (SInt64)getInt64:(nullable id)value or:(SInt64)defaultValue {
     if (value == nil) {
         return defaultValue;
@@ -419,6 +439,7 @@ static inline NSNumber *get_num(id value) {
     return [num longLongValue];
 }
 
+// Override
 - (UInt64)getUInt64:(nullable id)value or:(UInt64)defaultValue {
     if (value == nil) {
         return defaultValue;
@@ -427,6 +448,7 @@ static inline NSNumber *get_num(id value) {
     return [num unsignedLongLongValue];
 }
 
+// Override
 - (NSInteger)getInteger:(nullable id)value or:(NSInteger)defaultValue {
     if (value == nil) {
         return defaultValue;
@@ -435,6 +457,7 @@ static inline NSNumber *get_num(id value) {
     return [num integerValue];
 }
 
+// Override
 - (NSUInteger)getUnsignedInteger:(nullable id)value or:(NSUInteger)defaultValue {
     if (value == nil) {
         return defaultValue;
@@ -443,6 +466,7 @@ static inline NSNumber *get_num(id value) {
     return [num unsignedIntegerValue];
 }
 
+// Override
 - (nullable NSDate *)getDate:(nullable id)value or:(nullable NSDate *)defaultValue {
     if (value == nil) {
         return defaultValue;

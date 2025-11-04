@@ -44,7 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol MKVerifyKey;
 @protocol MKSignKey;
 
-@protocol MKMID;
+//@protocol MKMID;
 @protocol MKMAddress;
 
 /*
@@ -72,7 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
  *      4 = ETH : eth_address
  *      ....
  */
-@property (readonly, nonatomic) NSString *type;
+@property (readonly, strong, nonatomic) NSString *type;
 
 /**
  *  Public key

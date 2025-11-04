@@ -126,6 +126,7 @@ static void autoInitializeBroadcasts(void) {
     return address;
 }
 
+// Override
 - (MKMEntityType)network {
     return _type;
 }

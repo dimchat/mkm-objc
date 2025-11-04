@@ -86,6 +86,7 @@
     return [NSString stringWithFormat:@"<%@: \"%@\">", [self class], _storeString];
 }
 
+// Override
 - (BOOL)isEqual:(id)object {
     if (self == object || _storeString == object) {
         return YES;
@@ -94,39 +95,47 @@
     return [_storeString isEqualToString:object];
 }
 
+// Override
 - (NSUInteger)hash {
     return [_storeString hash];
 }
 
 #pragma mark -
 
+// Override
 - (NSString *)string {
     return _storeString;
 }
 
+// Override
 - (NSUInteger)length {
     return [_storeString length];
 }
 
+// Override
 - (unichar)characterAtIndex:(NSUInteger)index {
     return [_storeString characterAtIndex:index];
 }
 
+// Override
 - (BOOL)isEmpty {
     return [_storeString length] == 0;
 }
 
 #pragma mark NSStringExtensionMethods
 
+// Override
 - (NSComparisonResult)compare:(NSString *)string {
     return [_storeString compare:string];
 }
 
+// Override
 - (NSComparisonResult)compare:(NSString *)string
                       options:(NSStringCompareOptions)mask {
     return [_storeString compare:string options:mask];
 }
 
+// Override
 - (NSComparisonResult)compare:(NSString *)string
                       options:(NSStringCompareOptions)mask
                         range:(NSRange)rangeOfReceiverToCompare {
@@ -135,6 +144,7 @@
                            range:rangeOfReceiverToCompare];
 }
 
+// Override
 - (NSComparisonResult)compare:(NSString *)string
                       options:(NSStringCompareOptions)mask
                         range:(NSRange)rangeOfReceiverToCompare
@@ -145,44 +155,54 @@
                           locale:locale];
 }
 
+// Override
 - (NSComparisonResult)caseInsensitiveCompare:(NSString *)string {
     return [_storeString caseInsensitiveCompare:string];
 }
 
+// Override
 - (NSComparisonResult)localizedCompare:(NSString *)string {
     return [_storeString localizedCompare:string];
 }
 
+// Override
 - (NSComparisonResult)localizedCaseInsensitiveCompare:(NSString *)string {
     return [_storeString localizedCaseInsensitiveCompare:string];
 }
 
+// Override
 - (NSComparisonResult)localizedStandardCompare:(NSString *)string {
     return [_storeString localizedStandardCompare:string];
 }
 
+// Override
 - (BOOL)isEqualToString:(NSString *)aString {
     return [_storeString isEqualToString:aString];
 }
 
+// Override
 - (BOOL)hasPrefix:(NSString *)str {
     return [_storeString hasPrefix:str];
 }
 
+// Override
 - (BOOL)hasSuffix:(NSString *)str {
     return [_storeString hasSuffix:str];
 }
 
+// Override
 - (NSRange)rangeOfString:(NSString *)searchString {
     return [_storeString rangeOfString:searchString];
 }
 
+// Override
 - (NSRange)rangeOfString:(NSString *)searchString
                  options:(NSStringCompareOptions)mask {
     return [_storeString rangeOfString:searchString
                                options:mask];
 }
 
+// Override
 - (NSRange)rangeOfString:(NSString *)searchString
                  options:(NSStringCompareOptions)mask
                    range:(NSRange)rangeOfReceiverToSearch {
@@ -191,6 +211,7 @@
                                  range:rangeOfReceiverToSearch];
 }
 
+// Override
 - (NSRange)rangeOfString:(NSString *)searchString
                  options:(NSStringCompareOptions)mask
                    range:(NSRange)rangeOfReceiverToSearch

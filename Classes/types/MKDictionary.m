@@ -114,6 +114,7 @@
     ];
 }
 
+// Override
 - (BOOL)isEqual:(id)object {
     if (self == object) {
         return YES;
@@ -124,40 +125,49 @@
     return [_storeDictionary isEqualToDictionary:object];
 }
 
+// Override
 - (NSUInteger)hash {
     return [_storeDictionary hash];
 }
 
 #pragma mark -
 
+// Override
 - (NSEnumerator<NSString *> *)keyEnumerator {
     return [_storeDictionary keyEnumerator];
 }
 
+// Override
 - (NSEnumerator<id> *)objectEnumerator {
     return [_storeDictionary objectEnumerator];
 }
 
+// Override
 - (void)enumerateKeysAndObjectsUsingBlock:(void (NS_NOESCAPE ^)(NSString *key, id obj, BOOL *stop))block {
     [_storeDictionary enumerateKeysAndObjectsUsingBlock:block];
 }
 
+// Override
 - (NSArray<NSString *> *)allKeys {
     return [_storeDictionary allKeys];
 }
 
+// Override
 - (NSUInteger)count {
     return [_storeDictionary count];
 }
 
+// Override
 - (BOOL)isEmpty {
     return [_storeDictionary count] == 0;
 }
 
+// Override
 - (NSMutableDictionary *)dictionary {
     return _storeDictionary;
 }
 
+// Override
 - (NSMutableDictionary *)copyDictionary:(BOOL)deepCopy {
     if (deepCopy) {
         return MKDeepCopyMap(_storeDictionary);
@@ -166,6 +176,7 @@
     }
 }
 
+// Override
 - (id)objectForKey:(NSString *)aKey {
     id object = [_storeDictionary objectForKey:aKey];
     if (object == [NSNull null]) {
@@ -174,10 +185,12 @@
     return object;
 }
 
+// Override
 - (void)removeObjectForKey:(NSString *)aKey {
     [_storeDictionary removeObjectForKey:aKey];
 }
 
+// Override
 - (void)setObject:(id)anObject forKey:(NSString *)aKey {
     if (anObject) {
         [_storeDictionary setObject:anObject forKey:aKey];
@@ -188,126 +201,151 @@
 
 #pragma mark - Convenient getters
 
+// Override
 - (NSString *)stringForKey:(NSString *)aKey defaultValue:(nullable NSString *)aValue{
     id value = [self objectForKey:aKey];
     return MKConvertString(value, aValue);
 }
 
+// Override
 - (NSNumber *)numberForKey:(NSString *)aKey defaultValue:(nullable NSNumber *)aValue {
     id value = [self objectForKey:aKey];
     return MKConvertNumber(value, aValue);
 }
 
+// Override
 - (BOOL)boolForKey:(NSString *)aKey defaultValue:(BOOL)aValue {
     id value = [self objectForKey:aKey];
     return MKConvertBool(value, aValue);
 }
 
+// Override
 - (int)intForKey:(NSString *)aKey defaultValue:(int)aValue {
     id value = [self objectForKey:aKey];
     return MKConvertInt(value, aValue);
 }
 
+// Override
 - (long)longForKey:(NSString *)aKey defaultValue:(long)aValue {
     id value = [self objectForKey:aKey];
     return MKConvertLong(value, aValue);
 }
 
+// Override
 - (short)shortForKey:(NSString *)aKey defaultValue:(short)aValue {
     id value = [self objectForKey:aKey];
     return MKConvertShort(value, aValue);
 }
 
+// Override
 - (char)charForKey:(NSString *)aKey defaultValue:(char)aValue {
     id value = [self objectForKey:aKey];
     return MKConvertChar(value, aValue);
 }
 
+// Override
 - (float)floatForKey:(NSString *)aKey defaultValue:(float)aValue {
     id value = [self objectForKey:aKey];
     return MKConvertFloat(value, aValue);
 }
 
+// Override
 - (double)doubleForKey:(NSString *)aKey defaultValue:(double)aValue {
     id value = [self objectForKey:aKey];
     return MKConvertDouble(value, aValue);
 }
 
+// Override
 - (unsigned int)uintForKey:(NSString *)aKey defaultValue:(unsigned int)aValue {
     id value = [self objectForKey:aKey];
     return MKConvertUnsignedInt(value, aValue);
 }
 
+// Override
 - (unsigned long)ulongForKey:(NSString *)aKey defaultValue:(unsigned long)aValue {
     id value = [self objectForKey:aKey];
     return MKConvertUnsignedLong(value, aValue);
 }
 
+// Override
 - (unsigned short)ushortForKey:(NSString *)aKey defaultValue:(unsigned short)aValue {
     id value = [self objectForKey:aKey];
     return MKConvertUnsignedShort(value, aValue);
 }
 
+// Override
 - (unsigned char)ucharForKey:(NSString *)aKey defaultValue:(unsigned char)aValue {
     id value = [self objectForKey:aKey];
     return MKConvertUnsignedChar(value, aValue);
 }
 
+// Override
 - (SInt8)int8ForKey:(NSString *)aKey defaultValue:(SInt8)aValue {
     id value = [self objectForKey:aKey];
     return MKConvertInt8(value, aValue);
 }
 
+// Override
 - (UInt8)uint8ForKey:(NSString *)aKey defaultValue:(UInt8)aValue {
     id value = [self objectForKey:aKey];
     return MKConvertUInt8(value, aValue);
 }
 
+// Override
 - (SInt16)int16ForKey:(NSString *)aKey defaultValue:(SInt16)aValue {
     id value = [self objectForKey:aKey];
     return MKConvertInt16(value, aValue);
 }
 
+// Override
 - (UInt16)uint16ForKey:(NSString *)aKey defaultValue:(UInt16)aValue {
     id value = [self objectForKey:aKey];
     return MKConvertUInt16(value, aValue);
 }
 
+// Override
 - (SInt32)int32ForKey:(NSString *)aKey defaultValue:(SInt32)aValue {
     id value = [self objectForKey:aKey];
     return MKConvertInt32(value, aValue);
 }
 
+// Override
 - (UInt32)uint32ForKey:(NSString *)aKey defaultValue:(UInt32)aValue {
     id value = [self objectForKey:aKey];
     return MKConvertUInt32(value, aValue);
 }
 
+// Override
 - (SInt64)int64ForKey:(NSString *)aKey defaultValue:(SInt64)aValue {
     id value = [self objectForKey:aKey];
     return MKConvertInt64(value, aValue);
 }
 
+// Override
 - (UInt64)uint64ForKey:(NSString *)aKey defaultValue:(UInt64)aValue {
     id value = [self objectForKey:aKey];
     return MKConvertUInt64(value, aValue);
 }
 
+// Override
 - (NSInteger)integerForKey:(NSString *)aKey defaultValue:(NSInteger)aValue {
     id value = [self objectForKey:aKey];
     return MKConvertInteger(value, aValue);
 }
 
+// Override
 - (NSUInteger)unsignedIntegerForKey:(NSString *)aKey defaultValue:(NSUInteger)aValue {
     id value = [self objectForKey:aKey];
     return MKConvertUnsignedInteger(value, aValue);
 }
 
+// Override
 - (NSDate *)dateForKey:(NSString *)aKey defaultValue:(NSDate *)aValue {
     id value = [self objectForKey:aKey];
     return MKConvertDate(value, aValue);
 }
 
+// Override
 - (void)setDate:(NSDate *)date forKey:(NSString *)aKey {
     if (date) {
         NSTimeInterval timestamp = [date timeIntervalSince1970];
@@ -317,6 +355,7 @@
     }
 }
 
+// Override
 - (void)setString:(id<MKString>)stringer forKey:(NSString *)aKey {
     if (stringer) {
         [self setObject:stringer.string forKey:aKey];
@@ -325,6 +364,7 @@
     }
 }
 
+// Override
 - (void)setDictionary:(id<MKDictionary>)mapper forKey:(NSString *)aKey {
     if (mapper) {
         [self setObject:mapper.dictionary forKey:aKey];

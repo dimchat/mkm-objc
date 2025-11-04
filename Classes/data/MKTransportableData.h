@@ -73,14 +73,14 @@ NS_ASSUME_NONNULL_BEGIN
  *         "data:image/png;base64,{BASE64_ENCODE}", or
  *         "{...}"
  */
-@property (readonly, strong, nonatomic) NSString *string;
+@property (readonly, copy, nonatomic) NSString *string;
 
 /**
  *  toJson()
  *
  * @return String, or Map
  */
-@property (readonly, strong, nonatomic) NSObject *object;
+@property (readonly, copy, nonatomic) NSObject *object;
 
 @end
 

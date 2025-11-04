@@ -30,8 +30,6 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-
 #if !defined(__MKM_TYPES__)
 #define __MKM_TYPES__ 1
 

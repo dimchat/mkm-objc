@@ -35,7 +35,7 @@
 //  Copyright © 2023 DIM Group. All rights reserved.
 //
 
-#import <MingKeMing/MKMAddress.h>
+#import <MingKeMing/MKMEntityType.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -43,6 +43,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol MKSignKey;
 @protocol MKVerifyKey;
+
+@protocol MKMAddress;
+@protocol MKMAddressFactory;
 
 @protocol MKMID;
 @protocol MKMIDFactory;
