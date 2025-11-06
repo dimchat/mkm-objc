@@ -36,6 +36,7 @@
 //
 
 #import <MingKeMing/MKDictionary.h>
+#import <MingKeMing/MKMEntityType.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
