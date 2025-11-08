@@ -80,9 +80,9 @@ NSMutableArray<id<MKMID>> *MKMIDConvert(NSArray<id> *array) {
     NSMutableArray<id<MKMID>> *members;
     members = [[NSMutableArray alloc] initWithCapacity:array.count];
     [array enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        id<MKMID> ID = MKMIDParse(obj);
-        if (ID) {
-            [members addObject:ID];
+        id<MKMID> did = MKMIDParse(obj);
+        if (did) {
+            [members addObject:did];
         }
     }];
     return members;

@@ -458,7 +458,7 @@ Meta Example (JsON) for ```hulk@4YeVEN3aUnvC1DNUufCq1bs9zoBSJTzVEj```
 
 ```javascript
 {
-    "type"        : '1',
+    "type"        : "1",
     "key"         : {
         "algorithm" : "RSA",
         "data"      : "-----BEGIN PUBLIC KEY-----\nMIGJAoGBALB+vbUK48UU9rjlgnohQowME+3JtTb2hLPqtatVOW364/EKFq0/PSdnZVE9V2Zq+pbX7dj3nCS4pWnYf40ELH8wuDm0Tc4jQ70v4LgAcdy3JGTnWUGiCsY+0Z8kNzRkm3FJid592FL7ryzfvIzB9bjg8U2JqlyCVAyUYEnKv4lDAgMBAAE=\n-----END PUBLIC KEY-----",

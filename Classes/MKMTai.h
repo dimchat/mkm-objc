@@ -120,9 +120,9 @@ NS_ASSUME_NONNULL_BEGIN
  *  This class is used to generate entity profile
  *
  *      data format: {
- *          ID: "EntityID",   // entity ID
- *          data: "{JSON}",   // data = json_encode(info)
- *          signature: "..."  // signature = sign(data, SK);
+ *          did       : "EntityID",  // entity ID
+ *          data      : "{JSON}",    // data = json_encode(info)
+ *          signature : "..."        // signature = sign(data, SK);
  *      }
  */
 @protocol MKMDocument <MKDictionary, MKMTAI>
@@ -151,12 +151,12 @@ NS_ASSUME_NONNULL_BEGIN
  *  Create document with data & signature loaded from local storage
  *  Create a new empty document with entity ID
  *
- * @param ID   - entity ID
+ * @param did  - entity ID
  * @param json - document data
  * @param sig  - document signature
  * @return Document
  */
-- (__kindof id<MKMDocument>)createDocument:(id<MKMID>)ID
+- (__kindof id<MKMDocument>)createDocument:(id<MKMID>)did
                                       data:(nullable NSString *)json
                                  signature:(nullable id<MKTransportableData>)sig;
 
@@ -177,9 +177,9 @@ extern "C" {
 _Nullable id<MKMDocumentFactory> MKMDocumentGetFactory(NSString *type);
 void MKMDocumentSetFactory(NSString *type, id<MKMDocumentFactory> factory);
 
-__kindof id<MKMDocument> MKMDocumentNew(NSString *type, id<MKMID> ID);
+__kindof id<MKMDocument> MKMDocumentNew(NSString *type, id<MKMID> did);
 
-__kindof id<MKMDocument> MKMDocumentCreate(NSString *type, id<MKMID> ID,
+__kindof id<MKMDocument> MKMDocumentCreate(NSString *type, id<MKMID> did,
                                            NSString * data,
                                            id<MKTransportableData> signature);
 
