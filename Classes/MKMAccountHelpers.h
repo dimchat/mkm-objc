@@ -61,34 +61,33 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setAddressFactory:(id<MKMAddressFactory>)factory;
 - (nullable id<MKMAddressFactory>)getAddressFactory;
 
-- (__kindof id<MKMAddress>)generateAddress:(MKMEntityType)network
-                                  withMeta:(id<MKMMeta>)meta;
+- (__kindof id<MKMAddress>)generateAddressWithMeta:(id<MKMMeta>)meta
+                                              type:(MKMEntityType)network;
 
 - (nullable __kindof id<MKMAddress>)parseAddress:(nullable id)address;
 
 @end
 
-@protocol MKMIdentifierHelper <NSObject>
+@protocol MKMIDHelper <NSObject>
 
-- (void)setIdentifierFactory:(id<MKMIDFactory>)factory;
-- (nullable id<MKMIDFactory>)getIdentifierFactory;
+- (void)setIDFactory:(id<MKMIDFactory>)factory;
+- (nullable id<MKMIDFactory>)getIDFactory;
 
-- (id<MKMID>)createIdentifierWithName:(nullable NSString *)name
-                              address:(id<MKMAddress>)address
-                             terminal:(nullable NSString *)location;
+- (id<MKMID>)createIDWithAddress:(id<MKMAddress>)address
+                            name:(nullable NSString *)seed
+                        terminal:(nullable NSString *)location;
 
-- (id<MKMID>)generateIdentifier:(MKMEntityType)network
-                       withMeta:(id<MKMMeta>)meta
+- (id<MKMID>)generateIDWithMeta:(id<MKMMeta>)meta
+                           type:(MKMEntityType)network
                        terminal:(nullable NSString *)location;
 
-- (nullable id<MKMID>)parseIdentifier:(nullable id)identifier;
+- (nullable id<MKMID>)parseID:(nullable id)identifier;
 
 @end
 
 @protocol MKMMetaHelper <NSObject>
 
-- (void)setMetaFactory:(id<MKMMetaFactory>)factory
-               forType:(NSString *)type;
+- (void)setMetaFactory:(id<MKMMetaFactory>)factory forType:(NSString *)type;
 - (nullable id<MKMMetaFactory>)getMetaFactory:(NSString *)type;
 
 - (__kindof id<MKMMeta>)generateMetaWithKey:(id<MKSignKey>)SK
@@ -106,8 +105,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol MKMDocumentHelper <NSObject>
 
-- (void)setDocumentFactory:(id<MKMDocumentFactory>)factory
-                   forType:(NSString *)type;
+- (void)setDocumentFactory:(id<MKMDocumentFactory>)factory forType:(NSString *)type;
 - (nullable id<MKMDocumentFactory>)getDocumentFactory:(NSString *)type;
 
 - (__kindof id<MKMDocument>)createDocument:(id<MKMID>)did
@@ -127,7 +125,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic, nullable) id<MKMAddressHelper> addressHelper;
 
-@property (strong, nonatomic, nullable) id<MKMIdentifierHelper> idHelper;
+@property (strong, nonatomic, nullable) id<MKMIDHelper> idHelper;
 
 @property (strong, nonatomic, nullable) id<MKMMetaHelper> metaHelper;
 

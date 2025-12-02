@@ -175,12 +175,12 @@ static MKMSharedAccountExtensions *s_account_extension = nil;
 
 #pragma mark ID Helper
 
-- (id<MKMIdentifierHelper>)idHelper {
+- (id<MKMIDHelper>)idHelper {
     MKMAccountExtensions *ext = [MKMAccountExtensions sharedInstance];
     return [ext idHelper];
 }
 
-- (void)setIdHelper:(id<MKMIdentifierHelper>)idHelper {
+- (void)setIdHelper:(id<MKMIDHelper>)idHelper {
     MKMAccountExtensions *ext = [MKMAccountExtensions sharedInstance];
     [ext setIdHelper:idHelper];
 }

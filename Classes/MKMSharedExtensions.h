@@ -52,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol MKPortableNetworkFileHelper;
 
 @protocol MKMAddressHelper;
-@protocol MKMIdentifierHelper;
+@protocol MKMIDHelper;
 @protocol MKMMetaHelper;
 @protocol MKMDocumentHelper;
 
@@ -136,7 +136,7 @@ BOOL MKMatchSymmetricKeys(id<MKEncryptKey> encKey, id<MKDecryptKey> decKey);
 
 @protocol MKMGeneralAccountHelper <NSObject/*,
                                             MKMAddressHelper,
-                                            MKMIdentifierHelper,
+                                            MKMIDHelper,
                                             MKMMetaHelper,
                                             MKMDocumentHelper
                                             */>
@@ -159,7 +159,7 @@ BOOL MKMatchSymmetricKeys(id<MKEncryptKey> encKey, id<MKDecryptKey> decKey);
 + (instancetype)sharedInstance;
 
 @property (strong, nonatomic, nullable) id<MKMAddressHelper> addressHelper;
-@property (strong, nonatomic, nullable) id<MKMIdentifierHelper> idHelper;
+@property (strong, nonatomic, nullable) id<MKMIDHelper> idHelper;
 @property (strong, nonatomic, nullable) id<MKMMetaHelper> metaHelper;
 @property (strong, nonatomic, nullable) id<MKMDocumentHelper> docHelper;
 

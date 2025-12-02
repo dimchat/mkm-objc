@@ -49,9 +49,9 @@ void MKMAddressSetFactory(id<MKMAddressFactory> factory) {
     [ext.addressHelper setAddressFactory:factory];
 }
 
-id<MKMAddress> MKMAddressGenerate(MKMEntityType network, id<MKMMeta> meta) {
+id<MKMAddress> MKMAddressGenerate(id<MKMMeta> meta, MKMEntityType network) {
     MKMAccountExtensions *ext = [MKMAccountExtensions sharedInstance];
-    return [ext.addressHelper generateAddress:network withMeta:meta];
+    return [ext.addressHelper generateAddressWithMeta:meta type:network];
 }
 
 id<MKMAddress> MKMAddressParse(id address) {

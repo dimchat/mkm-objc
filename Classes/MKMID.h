@@ -81,21 +81,21 @@ NS_ASSUME_NONNULL_BEGIN
  * @param location - ID.terminal
  * @return ID
  */
-- (id<MKMID>)generateIdentifier:(MKMEntityType)network
-                       withMeta:(id<MKMMeta>)meta
+- (id<MKMID>)generateIDWithMeta:(id<MKMMeta>)meta
+                           type:(MKMEntityType)network
                        terminal:(nullable NSString *)location;
 
 /**
  *  Create ID
  *
- * @param name     - ID.name
+ * @param seed     - ID.name
  * @param address  - ID.address
  * @param location - ID.terminal
  * @return ID
  */
-- (id<MKMID>)createIdentifierWithName:(nullable NSString *)name
-                              address:(id<MKMAddress>)address
-                             terminal:(nullable NSString *)location;
+- (id<MKMID>)createIDWithAddress:(id<MKMAddress>)address
+                            name:(nullable NSString *)seed
+                        terminal:(nullable NSString *)location;
 
 /**
  *  Parse string object to ID
@@ -103,7 +103,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param identifier - ID string
  * @return ID
  */
-- (nullable id<MKMID>)parseIdentifier:(NSString *)identifier;
+- (nullable id<MKMID>)parseID:(NSString *)identifier;
 
 @end
 

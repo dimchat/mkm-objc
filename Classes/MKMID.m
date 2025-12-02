@@ -43,35 +43,31 @@
 
 id<MKMIDFactory> MKMIDGetFactory(void) {
     MKMAccountExtensions *ext = [MKMAccountExtensions sharedInstance];
-    return [ext.idHelper getIdentifierFactory];
+    return [ext.idHelper getIDFactory];
 }
 
 void MKMIDSetFactory(id<MKMIDFactory> factory) {
     MKMAccountExtensions *ext = [MKMAccountExtensions sharedInstance];
-    [ext.idHelper setIdentifierFactory:factory];
+    [ext.idHelper setIDFactory:factory];
 }
 
 id<MKMID> MKMIDGenerate(id<MKMMeta> meta,
                         MKMEntityType network,
                         NSString * _Nullable terminal) {
     MKMAccountExtensions *ext = [MKMAccountExtensions sharedInstance];
-    return [ext.idHelper generateIdentifier:network
-                                   withMeta:meta
-                                   terminal:terminal];
+    return [ext.idHelper generateIDWithMeta:meta type:network terminal:terminal];
 }
 
 id<MKMID> MKMIDCreate(NSString * _Nullable name,
                       id<MKMAddress> address,
                       NSString * _Nullable terminal) {
     MKMAccountExtensions *ext = [MKMAccountExtensions sharedInstance];
-    return [ext.idHelper createIdentifierWithName:name
-                                          address:address
-                                         terminal:terminal];
+    return [ext.idHelper createIDWithAddress:address name:name terminal:terminal];
 }
 
 id<MKMID> MKMIDParse(id identifier) {
     MKMAccountExtensions *ext = [MKMAccountExtensions sharedInstance];
-    return [ext.idHelper parseIdentifier:identifier];
+    return [ext.idHelper parseID:identifier];
 }
 
 #pragma mark Conveniences

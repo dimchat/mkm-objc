@@ -59,8 +59,8 @@ NS_ASSUME_NONNULL_BEGIN
  * @param meta - meta info
  * @return Address
  */
-- (__kindof id<MKMAddress>)generateAddress:(MKMEntityType)network
-                                  withMeta:(id<MKMMeta>)meta;
+- (__kindof id<MKMAddress>)generateAddressWithMeta:(id<MKMMeta>)meta
+                                              type:(MKMEntityType)network;
 
 /**
  *  Parse string object to address
@@ -79,7 +79,7 @@ extern "C" {
 _Nullable id<MKMAddressFactory> MKMAddressGetFactory(void);
 void MKMAddressSetFactory(id<MKMAddressFactory> factory);
 
-__kindof id<MKMAddress> MKMAddressGenerate(MKMEntityType network, id<MKMMeta> meta);
+__kindof id<MKMAddress> MKMAddressGenerate(id<MKMMeta> meta, MKMEntityType network);
 
 _Nullable __kindof id<MKMAddress> MKMAddressParse(_Nullable id address);
 
