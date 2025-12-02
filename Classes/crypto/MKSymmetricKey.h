@@ -45,8 +45,8 @@ NS_ASSUME_NONNULL_BEGIN
  *  This class is used to encrypt or decrypt message data
  *
  *  keyInfo format: {
- *      algorithm: "AES", // DES, ...
- *      data     : "{BASE64_ENCODE}",
+ *      "algorithm" : "AES", // DES, ...
+ *      "data"      : "{BASE64_ENCODE}",
  *      ...
  *  }
  */

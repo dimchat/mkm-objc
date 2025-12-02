@@ -45,8 +45,8 @@ NS_ASSUME_NONNULL_BEGIN
  *  Cryptography key with designated algorithm
  *
  *  key data format: {
- *      algorithm : "RSA", // ECC, AES, ...
- *      data      : "{BASE64_ENCODE}",
+ *      "algorithm" : "RSA", // ECC, AES, ...
+ *      "data"      : "{BASE64_ENCODE}",
  *      ...
  *  }
  */

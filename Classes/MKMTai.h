@@ -85,13 +85,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly, strong, nonatomic, nullable) __kindof NSDictionary *properties;
 
 /**
- *  Get all names for properties
- *
- * @return keys, nil on invalid
- */
-@property (readonly, strong, nonatomic, nullable) NSArray<NSString *> *propertyKeys;
-
-/**
  *  Get property data with key
  *
  * @param key - property name
@@ -120,9 +113,9 @@ NS_ASSUME_NONNULL_BEGIN
  *  This class is used to generate entity profile
  *
  *      data format: {
- *          did       : "EntityID",  // entity ID
- *          data      : "{JSON}",    // data = json_encode(info)
- *          signature : "..."        // signature = sign(data, SK);
+ *          "did"       : "EntityID",  // entity ID
+ *          "data"      : "{JSON}",    // data = json_encode(info)
+ *          "signature" : "..."        // signature = sign(data, SK);
  *      }
  */
 @protocol MKMDocument <MKDictionary, MKMTAI>
@@ -132,6 +125,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (readonly, strong, nonatomic) id<MKMID> identifier;
 
+#pragma mark Properties getter/setter
+
 /**
  *  Get sign time
  */
@@ -140,7 +135,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Get/set entity name
  */
-@property (strong, nonatomic, nullable) NSString *name;  // properties getter/setter
+//@property (strong, nonatomic, nullable) NSString *name;
 
 
 @end
