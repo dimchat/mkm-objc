@@ -108,10 +108,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setDocumentFactory:(id<MKMDocumentFactory>)factory forType:(NSString *)type;
 - (nullable id<MKMDocumentFactory>)getDocumentFactory:(NSString *)type;
 
-- (__kindof id<MKMDocument>)createDocument:(id<MKMID>)did
-                                      data:(nullable NSString *)json
-                                 signature:(nullable id<MKTransportableData>)sig
-                                   forType:(NSString *)type;
+- (__kindof id<MKMDocument>)createDocumentWithData:(nullable NSString *)json
+                                         signature:(nullable id<MKTransportableData>)sig
+                                           forType:(NSString *)type;
 
 - (nullable __kindof id<MKMDocument>)parseDocument:(nullable id)doc;
 

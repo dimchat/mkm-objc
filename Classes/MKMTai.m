@@ -50,22 +50,20 @@ void MKMDocumentSetFactory(NSString *type, id<MKMDocumentFactory> factory) {
     [ext.docHelper setDocumentFactory:factory forType:type];
 }
 
-id<MKMDocument> MKMDocumentNew(NSString *type, id<MKMID> did) {
+id<MKMDocument> MKMDocumentNew(NSString *type) {
     MKMAccountExtensions *ext = [MKMAccountExtensions sharedInstance];
-    return [ext.docHelper createDocument:did
-                                    data:nil
-                               signature:nil
-                                 forType:type];
+    return [ext.docHelper createDocumentWithData:nil
+                                       signature:nil
+                                         forType:type];
 }
 
-id<MKMDocument> MKMDocumentCreate(NSString *type, id<MKMID> did,
+id<MKMDocument> MKMDocumentCreate(NSString *type,
                                   NSString *data,
                                   id<MKTransportableData> sig) {
     MKMAccountExtensions *ext = [MKMAccountExtensions sharedInstance];
-    return [ext.docHelper createDocument:did
-                                    data:data
-                               signature:sig
-                                 forType:type];
+    return [ext.docHelper createDocumentWithData:data
+                                       signature:sig
+                                         forType:type];
 }
 
 id<MKMDocument> MKMDocumentParse(id doc) {

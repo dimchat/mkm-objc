@@ -49,7 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *      'Meta' is the information for entity which never changed,
  *          which contains the key for verify signature;
- *      'TAI' is the variable part(signed by meta.key's private key),
+ *      'TAI' is the variable part (signed by meta.key's private key),
  *          which could contain a public key for asymmetric encryption.
  */
 @protocol MKMTAI
@@ -58,6 +58,8 @@ NS_ASSUME_NONNULL_BEGIN
  *  Check if signature matched
  */
 @property (readonly, nonatomic, getter=isValid) BOOL valid;
+
+#pragma mark signature
 
 /**
  *  Verify 'data' and 'signature', if OK, refresh properties from 'data'
@@ -113,17 +115,18 @@ NS_ASSUME_NONNULL_BEGIN
  *  This class is used to generate entity profile
  *
  *      data format: {
- *          "did"       : "EntityID",  // entity ID
- *          "data"      : "{JSON}",    // data = json_encode(info)
- *          "signature" : "..."        // signature = sign(data, SK);
+ *          "did"       : "EntityID",        // entity ID
+ *          "type"      : "visa",            // "bulletin", ...
+ *          "data"      : "{JSON}",          // data = json_encode(info)
+ *          "signature" : "{BASE64_ENCODE}"  // signature = sign(data, SK);
  *      }
  */
 @protocol MKMDocument <MKDictionary, MKMTAI>
 
-/**
+/*
  *  Get entity ID
  */
-@property (readonly, strong, nonatomic) id<MKMID> identifier;
+//@property (readonly, strong, nonatomic) id<MKMID> identifier;
 
 #pragma mark Properties getter/setter
 
@@ -132,7 +135,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (readonly, strong, nonatomic, nullable) NSDate *time;
 
-/**
+/*
  *  Get/set entity name
  */
 //@property (strong, nonatomic, nullable) NSString *name;
@@ -143,17 +146,15 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol MKMDocumentFactory <NSObject>
 
 /**
- *  Create document with data & signature loaded from local storage
- *  Create a new empty document with entity ID
+ *  1. Create document with data & signature loaded from local storage
+ *  2. Create a new empty document with type
  *
- * @param did  - entity ID
  * @param json - document data
  * @param sig  - document signature
  * @return Document
  */
-- (__kindof id<MKMDocument>)createDocument:(id<MKMID>)did
-                                      data:(nullable NSString *)json
-                                 signature:(nullable id<MKTransportableData>)sig;
+- (__kindof id<MKMDocument>)createDocumentWithData:(nullable NSString *)json
+                                         signature:(nullable id<MKTransportableData>)sig;
 
 /**
  *  Parse map object to entity document
@@ -172,9 +173,11 @@ extern "C" {
 _Nullable id<MKMDocumentFactory> MKMDocumentGetFactory(NSString *type);
 void MKMDocumentSetFactory(NSString *type, id<MKMDocumentFactory> factory);
 
-__kindof id<MKMDocument> MKMDocumentNew(NSString *type, id<MKMID> did);
+// Create new empty dpcument
+__kindof id<MKMDocument> MKMDocumentNew(NSString *type);
 
-__kindof id<MKMDocument> MKMDocumentCreate(NSString *type, id<MKMID> did,
+// Create from stored info
+__kindof id<MKMDocument> MKMDocumentCreate(NSString *type,
                                            NSString * data,
                                            id<MKTransportableData> signature);
 
