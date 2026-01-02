@@ -48,8 +48,8 @@ NS_ASSUME_NONNULL_BEGIN
  *      1. "base64,{BASE64_ENCODE}"
  *      2. "data:image/png;base64,{BASE64_ENCODE}"
  *      3. {
- *              algorithm : "base65",
- *              data      : "...",     // base64_encode(data)
+ *              "algorithm" : "base65",
+ *              "data"      : "...",     // base64_encode(data)
  *              ...
  *      }
  */

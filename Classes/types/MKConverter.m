@@ -37,8 +37,6 @@
 static NSMutableDictionary<NSString *, NSNumber *> *s_boolean_states = nil;
 static NSUInteger s_max_boolean_length = 9; // [@"undefined" length];
 
-static id<MKConverter> s_converter;
-
 + (NSMutableDictionary<NSString *, NSNumber *> *)getBooleanStates {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -60,6 +58,8 @@ static id<MKConverter> s_converter;
 + (void)setMaxBooleanLength:(NSUInteger)maxLength {
     s_max_boolean_length = maxLength;
 }
+
+static id<MKConverter> s_converter = nil;
 
 + (id<MKConverter>)getConverter {
     static dispatch_once_t onceToken;
@@ -201,7 +201,7 @@ static id<MKConverter> s_converter;
 
 @end
 
-#pragma mark - Data Converter
+#pragma mark - Base Converter
 
 static inline NSNumber *str_to_num(NSString *text) {
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];

@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
     s.name                  = 'MingKeMing'
-    s.version               = '1.2.0'
+    s.version               = '1.2.3'
     s.summary               = 'Decentralized User Identity Authentication'
     s.description           = <<-DESC
         A Common Account Module For Decentralized User Identity Authentication

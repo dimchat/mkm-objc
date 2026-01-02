@@ -42,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol MKMAddress;
 
-/*
+/**
  *  ID for entity (User/Group)
  *
  *      data format: "name@address[/terminal]"

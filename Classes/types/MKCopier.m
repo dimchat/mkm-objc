@@ -42,7 +42,7 @@
 
 @implementation MKCopier
 
-static id<MKCopier> s_copier;
+static id<MKCopier> s_copier = nil;
 
 + (id<MKCopier>)getCopier {
     static dispatch_once_t onceToken;
@@ -98,6 +98,7 @@ static id<MKCopier> s_copier;
 
 @implementation MKDataCopier
 
+// Override
 - (id)copy:(id)object {
     if ([object conformsToProtocol:@protocol(MKString)]) {
         return [object string];
@@ -113,6 +114,7 @@ static id<MKCopier> s_copier;
     }
 }
 
+// Override
 - (id)deepCopy:(id)object {
     if ([object conformsToProtocol:@protocol(MKString)]) {
         return [object string];
@@ -128,6 +130,7 @@ static id<MKCopier> s_copier;
     }
 }
 
+// Override
 - (NSMutableDictionary<NSString *, id> *)copyMap:(NSDictionary<NSString *, id> *)dict {
     NSMutableDictionary<NSString *, id> *mDict;
     mDict = [[NSMutableDictionary alloc] initWithCapacity:[dict count]];
@@ -137,6 +140,7 @@ static id<MKCopier> s_copier;
     return mDict;
 }
 
+// Override
 - (NSMutableDictionary<NSString *, id> *)deepCopyMap:(NSDictionary<NSString *, id> *)dict {
     NSMutableDictionary<NSString *, id> *mDict;
     mDict = [[NSMutableDictionary alloc] initWithCapacity:[dict count]];
@@ -146,6 +150,7 @@ static id<MKCopier> s_copier;
     return mDict;
 }
 
+// Override
 - (NSMutableArray<id> *)copyList:(NSArray<id> *)array {
     NSMutableArray<id> *mArray;
     mArray = [[NSMutableArray alloc] initWithCapacity:[array count]];
@@ -155,6 +160,7 @@ static id<MKCopier> s_copier;
     return mArray;
 }
 
+// Override
 - (NSMutableArray<id> *)deepCopyList:(NSArray<id> *)array {
     NSMutableArray<id> *mArray;
     mArray = [[NSMutableArray alloc] initWithCapacity:[array count]];

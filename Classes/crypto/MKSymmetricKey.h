@@ -39,12 +39,13 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/*
+/**
  *  Symmetric Cryptography Key
  *  ~~~~~~~~~~~~~~~~~~~~~~~~~~
  *  This class is used to encrypt or decrypt message data
  *
  *  keyInfo format: {
+ *
  *      "algorithm" : "AES", // DES, ...
  *      "data"      : "{BASE64_ENCODE}",
  *      ...

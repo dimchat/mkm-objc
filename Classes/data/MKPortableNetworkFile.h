@@ -51,15 +51,15 @@ NS_ASSUME_NONNULL_BEGIN
  *      1. "base64,{BASE64_ENCODE}"
  *      2. "data:image/png;base64,{BASE64_ENCODE}"
  *      3. {
- *              data     : "...",        // base64_encode(fileContent)
- *              filename : "avatar.png",
+ *              "data"     : "...",        // base64_encode(fileContent)
+ *              "filename" : "avatar.png",
  *
- *              URL      : "http://...", // download from CDN
+ *              "URL"      : "http://...", // download from CDN
  *              // before fileContent uploaded to a public CDN,
  *              // it can be encrypted by a symmetric key
- *              key      : {             // symmetric key to decrypt file content
- *                  algorithm : "AES",   // "DES", ...
- *                  data      : "{BASE64_ENCODE}",
+ *              "key"      : {             // symmetric key to decrypt file content
+ *                  "algorithm" : "AES",   // "DES", ...
+ *                  "data"      : "{BASE64_ENCODE}",
  *                  ...
  *              }
  *      }

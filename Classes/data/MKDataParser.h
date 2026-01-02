@@ -39,7 +39,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/*
+/**
  *  String Coder
  *  ~~~~~~~~~~~~
  *  UTF-8, UTF-16, GBK, GB2312, ...
@@ -67,7 +67,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-/*
+/**
  *  Object Coder
  *  ~~~~~~~~~~~~
  *  JsON, XML, ...

@@ -80,7 +80,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-#pragma mark - Interface
+#pragma mark - Data Convert Interface
 
 @interface MKConverter : NSObject
 
@@ -135,11 +135,11 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Base Converter
  */
-@interface MKDataConverter : NSObject<MKConverter>
+@interface MKDataConverter : NSObject <MKConverter>
 
 @end
 
-#pragma mark - Convert data with default value
+#pragma mark Convert data with default value
 
 #define MKConvertString(V, D)        [MKConverter getString:(V) or:(D)]
 #define MKConvertNumber(V, D)        [MKConverter getNumber:(V) or:(D)]

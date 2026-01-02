@@ -41,15 +41,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol MKPublicKey;
 
-/*
+/**
  *  Asymmetric Cryptography Private Key
  *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  *
- *      key data format: {
- *          "algorithm" : "RSA", // ECC, ...
- *          "data"      : "{BASE64_ENCODE}",
- *          ...
- *      }
+ *  keyInfo format: {
+ *
+ *      "algorithm" : "RSA", // ECC, ...
+ *      "data"      : "{BASE64_ENCODE}",
+ *      ...
+ *  }
  */
 @protocol MKPrivateKey <MKSignKey>
 

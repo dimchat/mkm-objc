@@ -39,7 +39,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/*
+/**
  *  Data Coder
  *  ~~~~~~~~~~
  *  Hex, Base58, Base64, ...

@@ -39,7 +39,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/*
+/**
  *  @enum MKMEntityType
  *
  *  @abstract A network ID to indicate what kind the entity is.
