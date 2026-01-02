@@ -39,7 +39,32 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ *  Data Copier
+ */
+@protocol MKCopier <NSObject>
+
+- (id)copy:(id)object;
+- (id)deepCopy:(id)object;
+
+- (NSMutableDictionary<NSString *, id> *)copyMap:(NSDictionary<NSString *, id> *)dict;
+- (NSMutableDictionary<NSString *, id> *)deepCopyMap:(NSDictionary<NSString *, id> *)dict;
+
+- (NSMutableArray<id> *)copyList:(NSArray<id> *)array;
+- (NSMutableArray<id> *)deepCopyList:(NSArray<id> *)array;
+
+@end
+
+#pragma mark - Data Copy Interface
+
 @interface MKCopier : NSObject
+
++ (id<MKCopier>)getCopier;
++ (void)setCopier:(id<MKCopier>)copier;
+
+//
+//  Data Copy Interface
+//
 
 + (id)copy:(id)object;
 + (id)deepCopy:(id)object;
@@ -49,6 +74,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSMutableArray<id> *)copyList:(NSArray<id> *)array;
 + (NSMutableArray<id> *)deepCopyList:(NSArray<id> *)array;
+
+@end
+
+#pragma mark - Data Copier
+
+/**
+ *  Base Copier
+ */
+@interface MKDataCopier : NSObject <MKCopier>
 
 @end
 

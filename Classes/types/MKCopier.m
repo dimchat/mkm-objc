@@ -42,7 +42,63 @@
 
 @implementation MKCopier
 
+static id<MKCopier> s_copier;
+
++ (id<MKCopier>)getCopier {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        if (!s_copier) {
+            s_copier = [[MKDataCopier alloc] init];
+        }
+    });
+    return s_copier;
+}
+
++ (void)setCopier:(id<MKCopier>)copier {
+    s_copier = copier;
+}
+
+//
+//  Data Copy Interface
+//
+
 + (id)copy:(id)object {
+    id<MKCopier> copier = [self getCopier];
+    return [copier copy:object];
+}
+
++ (id)deepCopy:(id)object {
+    id<MKCopier> copier = [self getCopier];
+    return [copier deepCopy:object];
+}
+
++ (NSMutableDictionary<NSString *, id> *)copyMap:(NSDictionary<NSString *, id> *)dict {
+    id<MKCopier> copier = [self getCopier];
+    return [copier copyMap:dict];
+}
+
++ (NSMutableDictionary<NSString *, id> *)deepCopyMap:(NSDictionary<NSString *, id> *)dict {
+    id<MKCopier> copier = [self getCopier];
+    return [copier deepCopyMap:dict];
+}
+
++ (NSMutableArray<id> *)copyList:(NSArray<id> *)array {
+    id<MKCopier> copier = [self getCopier];
+    return [copier copyList:array];
+}
+
++ (NSMutableArray<id> *)deepCopyList:(NSArray<id> *)array {
+    id<MKCopier> copier = [self getCopier];
+    return [copier deepCopyList:array];
+}
+
+@end
+
+#pragma mark - Base Copier
+
+@implementation MKDataCopier
+
+- (id)copy:(id)object {
     if ([object conformsToProtocol:@protocol(MKString)]) {
         return [object string];
     } else if ([object conformsToProtocol:@protocol(MKDictionary)]) {
@@ -57,7 +113,7 @@
     }
 }
 
-+ (id)deepCopy:(id)object {
+- (id)deepCopy:(id)object {
     if ([object conformsToProtocol:@protocol(MKString)]) {
         return [object string];
     } else if ([object conformsToProtocol:@protocol(MKDictionary)]) {
@@ -72,7 +128,7 @@
     }
 }
 
-+ (NSMutableDictionary<NSString *, id> *)copyMap:(NSDictionary<NSString *, id> *)dict {
+- (NSMutableDictionary<NSString *, id> *)copyMap:(NSDictionary<NSString *, id> *)dict {
     NSMutableDictionary<NSString *, id> *mDict;
     mDict = [[NSMutableDictionary alloc] initWithCapacity:[dict count]];
     [dict enumerateKeysAndObjectsUsingBlock:^(NSString *key, id obj, BOOL *stop) {
@@ -81,7 +137,7 @@
     return mDict;
 }
 
-+ (NSMutableDictionary<NSString *, id> *)deepCopyMap:(NSDictionary<NSString *, id> *)dict {
+- (NSMutableDictionary<NSString *, id> *)deepCopyMap:(NSDictionary<NSString *, id> *)dict {
     NSMutableDictionary<NSString *, id> *mDict;
     mDict = [[NSMutableDictionary alloc] initWithCapacity:[dict count]];
     [dict enumerateKeysAndObjectsUsingBlock:^(NSString *key, id obj, BOOL *stop) {
@@ -90,7 +146,7 @@
     return mDict;
 }
 
-+ (NSMutableArray<id> *)copyList:(NSArray<id> *)array {
+- (NSMutableArray<id> *)copyList:(NSArray<id> *)array {
     NSMutableArray<id> *mArray;
     mArray = [[NSMutableArray alloc] initWithCapacity:[array count]];
     [array enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
@@ -99,7 +155,7 @@
     return mArray;
 }
 
-+ (NSMutableArray<id> *)deepCopyList:(NSArray<id> *)array {
+- (NSMutableArray<id> *)deepCopyList:(NSArray<id> *)array {
     NSMutableArray<id> *mArray;
     mArray = [[NSMutableArray alloc] initWithCapacity:[array count]];
     [array enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
