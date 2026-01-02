@@ -39,7 +39,33 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ *  Data Wrapper
+ */
+@protocol MKWrapper <NSObject>
+
+- (nullable NSString *)getString:(nullable id)string;
+
+- (nullable __kindof NSDictionary *)getMap:(nullable id)dict;
+
+- (nullable id)unwrap:(nullable id)object;
+
+- (NSMutableDictionary<NSString *, id> *)unwrapMap:(NSDictionary <NSString *, id> *)dict;
+
+- (NSMutableArray<id> *)unwrapList:(NSArray<id> *)array;
+
+@end
+
+#pragma mark - Data Wrap Interface
+
 @interface MKWrapper : NSObject
+
++ (id<MKWrapper>)getWrapper;
++ (void)setWrapper:(id<MKWrapper>)wrapper;
+
+//
+//  Data Wrap Interface
+//
 
 /**
  *  Get inner String
@@ -76,7 +102,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-#pragma mark - Conveniences
+#pragma mark - Base Wrapper
+
+@interface MKDataWrapper : NSObject <MKWrapper>
+
+@end
+
+#pragma mark Conveniences
 
 #define MKGetString(S)          [MKWrapper getString:(S)]
 #define MKGetMap(D)             [MKWrapper getMap:(D)]

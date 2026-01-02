@@ -42,7 +42,59 @@
 
 @implementation MKWrapper
 
+static id<MKWrapper> s_wrapper = nil;
+
++ (id<MKWrapper>)getWrapper {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        if (!s_wrapper) {
+            s_wrapper = [[MKDataWrapper alloc] init];
+        }
+    });
+    return s_wrapper;
+}
+
++ (void)setWrapper:(id<MKWrapper>)wrapper {
+    s_wrapper = wrapper;
+}
+
+//
+//  Data Wrap Interface
+//
+
 + (nullable NSString *)getString:(nullable id)str {
+    id<MKWrapper> wrapper = [self getWrapper];
+    return [wrapper getString:str];
+}
+
++ (nullable NSDictionary *)getMap:(nullable id)dict {
+    id<MKWrapper> wrapper = [self getWrapper];
+    return [wrapper getMap:dict];
+}
+
++ (nullable id)unwrap:(nullable id)object {
+    id<MKWrapper> wrapper = [self getWrapper];
+    return [wrapper unwrap:object];
+}
+
++ (NSMutableDictionary<NSString *, id> *)unwrapMap:(NSDictionary <NSString *, id> *)dict {
+    id<MKWrapper> wrapper = [self getWrapper];
+    return [wrapper unwrapMap:dict];
+}
+
++ (NSMutableArray<id> *)unwrapList:(NSArray<id> *)array {
+    id<MKWrapper> wrapper = [self getWrapper];
+    return [wrapper unwrapList:array];
+}
+
+@end
+
+#pragma mark - Base Wrapper
+
+@implementation MKDataWrapper
+
+// Override
+- (nullable NSString *)getString:(nullable id)str {
     if (str == nil) {
         return nil;
     } else if ([str conformsToProtocol:@protocol(MKString)]) {
@@ -55,7 +107,8 @@
     }
 }
 
-+ (nullable NSDictionary *)getMap:(nullable id)dict {
+// Override
+- (nullable __kindof NSDictionary *)getMap:(nullable id)dict {
     if (dict == nil) {
         return nil;
     } else if ([dict conformsToProtocol:@protocol(MKDictionary)]) {
@@ -68,7 +121,8 @@
     }
 }
 
-+ (nullable id)unwrap:(nullable id)object {
+// Override
+- (nullable id)unwrap:(nullable id)object {
     if (object == nil) {
         return nil;
     } else if ([object conformsToProtocol:@protocol(MKString)]) {
@@ -84,7 +138,8 @@
     }
 }
 
-+ (NSMutableDictionary<NSString *, id> *)unwrapMap:(NSDictionary <NSString *, id> *)dict {
+// Override
+- (NSMutableDictionary<NSString *, id> *)unwrapMap:(NSDictionary <NSString *, id> *)dict {
     NSMutableDictionary<NSString *, id> *mDict;
     mDict = [[NSMutableDictionary alloc] initWithCapacity:[dict count]];
     [dict enumerateKeysAndObjectsUsingBlock:^(NSString *key, id obj, BOOL *stop) {
@@ -93,7 +148,8 @@
     return mDict;
 }
 
-+ (NSMutableArray<id> *)unwrapList:(NSArray<id> *)array {
+// Override
+- (NSMutableArray<id> *)unwrapList:(NSArray<id> *)array {
     NSMutableArray<id> *mArray;
     mArray = [[NSMutableArray alloc] initWithCapacity:[array count]];
     [array enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
